@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import './style.css'
-import store from './store'
+import store from './store/store.js'
 import ToastPlugin from 'vue-toast-notification'
 const app = createApp(App)
 

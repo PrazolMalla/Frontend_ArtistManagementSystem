@@ -1,12 +1,8 @@
 <template>
-<<<<<<< HEAD
   <div>
 
   </div>
 
-=======
-  <Sidebar/>
->>>>>>> 5c81ede (SideBar)
   <RouterView />
 </template>
 

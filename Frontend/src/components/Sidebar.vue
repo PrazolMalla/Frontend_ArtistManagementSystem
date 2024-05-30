@@ -1,8 +1,7 @@
 <template>
     <div class="flex h-screen">
         <div class="flex flex-col w-64 bg-light-primary">
-            <div></div>
-            <nav class="px-12 py-24 text-white">
+            <nav class="px-12 py-12 text-white">
                 <div  class="flex flex-col justify-center py-8">
                         <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary2">
                             <IconHamBurger class="mr-2"/>
@@ -32,6 +31,8 @@
                 
             </nav>
         </div>
+        
+
     </div>
 
 </template>

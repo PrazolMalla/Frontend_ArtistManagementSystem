@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <h1>Hello</h1>s
-  </div>
-
+  <Sidebar/>
   <RouterView />
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Sidebar from './components/Sidebar.vue';
 </script>
 
 

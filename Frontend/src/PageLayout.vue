@@ -1,5 +1,5 @@
 <script setup>
-import Navbar from './components/Navbar.vue';
+import Navbar from './components/NavBar.vue';
 import Sidebar from './components/Sidebar.vue';
 import MobileMenuBar from './components/MobileMenuBar.vue'
 

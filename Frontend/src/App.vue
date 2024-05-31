@@ -1,13 +1,13 @@
 <template>
-  <Sidebar/>
-  <MobileMenuBar/>
+  <div>
+
+  </div>
+
   <RouterView />
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Sidebar from './components/Sidebar.vue';
-import MobileMenuBar from './components/MobileMenuBar.vue';
 </script>
 
 

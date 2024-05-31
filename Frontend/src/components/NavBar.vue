@@ -15,14 +15,20 @@
 
             
             <div class="relative flex gap-2 cursor-pointer">
-				<img src="https://source.unsplash.com/50x50/?portrait" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color">
-                <h2 class=" font-medium text-slate-300 text-md mt-6 sm:flex hidden">Lorem Ipsum</h2>
+				<img :src="user.profileImg" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color">
+                <h2 class=" font-medium text-slate-300 text-md mt-6 sm:flex hidden">{{user.username}}</h2>
 			</div>
         </RouterLink>
         </div>
     </div>
 </template>
 <script setup>
+    import { ref } from 'vue';
+    const user = ref({
+        profileImg:"https://source.unsplash.com/50x50/?portrait",
+        username:"Prazol"
+    })
+    
 
 </script>
 <style lang="">

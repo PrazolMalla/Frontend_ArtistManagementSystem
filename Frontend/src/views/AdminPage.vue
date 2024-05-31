@@ -8,6 +8,7 @@
   <script>
   import AdminData from '@/components/AdminData.vue';
   import AdminStats from '@/components/AdminStats.vue';
+//   import NewAlbum  from '@/components/NewAlbum.vue';
   
   export default {
     name: 'AdminPage',

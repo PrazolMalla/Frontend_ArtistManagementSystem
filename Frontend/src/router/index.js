@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AdminData from '@/components/AdminData.vue';
-import AdminStats from '@/components/AdminStats.vue';
+
 import AdminPage from '@/views/AdminPage.vue';
+import Dashboard from '@/views/Dashboard.vue';
 
 const routes = [
   
@@ -17,16 +17,20 @@ const routes = [
     name:'AdminPage',
     component:AdminPage
   },
+  {
+    path:'/dashboard',
+    name:'Dashboard',
+    component:Dashboard
+  }
   // {
   //   path:'/AdminStats',
   //   name:'/AdminStats',
   //   component:AdminStats
   // }
 ];
-
 const router = createRouter({
   history: createWebHistory(),
   routes
 });
 
-export default router;
+export default router

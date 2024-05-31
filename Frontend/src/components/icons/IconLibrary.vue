@@ -1,0 +1,3 @@
+<template>
+    <svg width="24px" height="24px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="var(--ci-primary-color, #ffffff)" d="M472,16H168a24,24,0,0,0-24,24V344a24,24,0,0,0,24,24H472a24,24,0,0,0,24-24V40A24,24,0,0,0,472,16Zm-8,320H176V48H464Z" class="ci-primary"></path> <path fill="var(--ci-primary-color, #ffffff)" d="M112,400V80H80V408a24,24,0,0,0,24,24H432V400Z" class="ci-primary"></path> <path fill="var(--ci-primary-color, #ffffff)" d="M48,464V144H16V472a24,24,0,0,0,24,24H368V464Z" class="ci-primary"></path> </g></svg>
+</template>

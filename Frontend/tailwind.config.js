@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors:{
-        'button-color':'#FF516D  ',
-        'primary-color':'#080727  ',
-        'secondary-color':'#0B0A30',
+        'secondary-color':'#FF516D  ',
+        'dark-primary-color':'#080727  ',
+        'light-primary-color':'#0B0A30',
       }
     },
   },

@@ -1,31 +1,31 @@
 <template>
   <div class="flex flex-row items-center h-screen w-full">
-    <div class="form-container w-full h-full bg-white flex flex-row">
+    <div class="form-container w-full h-full bg-dark-primary-color flex flex-row">
       <div class="flex justify-center items-center">
         <div class="flex justify-center items-center h-[90%] form-img hidden sm:block w-4/5 my-8 ml-24 rounded-lg">
         </div>
       </div>
-      <div class="w-[55vw] h-full sm:mx-12 mx-auto sm:mr-24 bg-white flex items-center justify-center">
+      <div class="w-[55vw] h-full sm:mx-12 mx-auto sm:mr-24 bg-light-primary-color flex items-center justify-center mt-5">
         <form
           id="form"
           class="w-full h-full flex flex-col justify-center"
           @submit.prevent="addUser">
-          <h1 class="text-4xl font-bold text-center mb-5 font-helvetica">SignUp Now</h1>
+          <h1 class="text-4xl font-bold text-center mb-5  font-helvetica text-white">SignUp Now</h1>
           <div class="mt-2 md:flex md:flex-wrap md:justify-between">
-            <div v-for="item in userInputField" :key="item.id" class="w-full md:w-96 mt-4">
-              <label :for="item.name" class="text-md font-helvetica text-black">
+            <div v-for="item in userInputField" :key="item.id" class="w-full md:w-96 mt-4 text-white">
+              <label :for="item.name" class="text-md font-helvetica text-white">
                 {{ item.label }}
               </label>
-              <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50" >
-              <span v-if="formErrors[item.name]" class="text-red-500">{{ formErrors[item.name] }}</span>
+              <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-white" >
+              <span v-if="formErrors[item.name]" class="text-orange-500">{{ formErrors[item.name] }}</span>
             </div>
 
             <div class="w-full md:w-96 mt-4">
-              <label for="profile" class="text-md font-helvetica text-black">
+              <label for="profile" class="text-md font-helvetica text-white">
                 Profile Picture
               </label>
               <input type="file" name="profile" @change="handleFileChange" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
-              <span v-if="formErrors.profile" class="text-red-500">{{ formErrors.profile }}</span>
+              <span v-if="formErrors.profile" class="text-orange-500">{{ formErrors.profile }}</span>
             </div>
 
             <div class="mt-4 w-full md:w-96">
@@ -37,11 +37,11 @@
                 <option value="F">Female</option>
                 <option value="O">Other</option>
               </select>
-              <span v-if="formErrors.gender" class="text-red-500">{{ formErrors.gender }}</span>
+              <span v-if="formErrors.gender" class="text-orange-500">{{ formErrors.gender }}</span>
             </div>
           </div>
           <div class="mt-4">
-            <label for="bio" class="text-md font-helvetica text-black">Bio</label>
+            <label for="bio" class="text-md font-helvetica text-white">Bio</label>
             <textarea
               class="p-2 mt-2 w-full focus:outline-none h-24 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
               v-model="user.bio"></textarea>
@@ -50,19 +50,19 @@
           <div v-if="asArtist">
             <div class="mt-2 md:flex md:flex-wrap md:justify-between">
               <div class="mt-4 w-full md:w-96" v-for="item in artistInputField" :key="item.id">
-                <label :for="item.name" class="text-md font-helvetica text-black">
+                <label :for="item.name" class="text-md font-helvetica text-white">
                   {{ item.label }}
                 </label>
                 <input :type="item.type" :name="item.name" v-model="artist[item.name]" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50" >
-                <span v-if="formErrors[item.name]" class="text-red-500">{{ formErrors[item.name] }}</span>
+                <span v-if="formErrors[item.name]" class="text-orange-500">{{ formErrors[item.name] }}</span>
               </div>
 
               <div class="w-full md:w-96 mt-4">
-                <label for="img_cover" class="text-md font-helvetica text-black">
+                <label for="img_cover" class="text-md font-helvetica text-white">
                   Image Cover
                 </label>
                 <input type="file" name="img_cover" @change="handleCoverChange" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
-                <span v-if="formErrors.img_cover" class="text-red-500">{{ formErrors.img_cover }}</span>
+                <span v-if="formErrors.img_cover" class="text-orange-500">{{ formErrors.img_cover }}</span>
               </div>
             </div>
             <div class="mt-6">

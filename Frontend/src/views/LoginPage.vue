@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col sm:flex-row items-center h-screen w-full px-5 bg-primary-color" >
-      <div class="form-container w-full h-full bg-primary-color flex sm:flex-row flex-col">
-        <div class="w-full sm:w-[55vw] h-full bg-primary-color flex items-center justify-center">
+    <div class="flex flex-col sm:flex-row items-center h-screen w-full  bg-dark-primary-color " >
+      <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
+        <div class="w-full sm:w-[50vw] h-full bg-dark-primary-color flex items-center justify-center">
           <form
             id="form"
             class="w-full sm:w-[400px] h-[500px] flex flex-col justify-center"
@@ -31,7 +31,7 @@
             <div class="mt-6">
                 
               <button
-                class="bg-button-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
+                class="bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
                 type="submit"
               >
                 Login
@@ -42,7 +42,7 @@
             </div>
               <router-link to="/signup">
                 <button
-                  class="mt-4 bg-button-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
+                  class="mt-4 bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
                   type="button"
                 >
                   Sign Up
@@ -51,10 +51,10 @@
             </div>
           </form>
         </div>
-        <div class="md:flex justify-center items-center hidden">
-          <div class="flex justify-center items-center form-img h-5/6 w-full sm:w-4/5 m-10 rounded-lg">
+        <div class="md:flex justify-center items-center hidden p-16">
+          <div class="flex justify-center items-center form-img h-screen w-full sm:w-full  rounded-lg">
             <div class="relative w-full h-full flex justify-center items-center">
-              <div class="absolute w-full h-full z-10 flex justify-center items-center">
+              <div class="absolute w-[70%] h-[60%] z-10 flex justify-center items-center">
                 <h1 class="font-helvetica text-4xl text-white p-10 font-bold">
                   Artistry Amplified
                   <br />
@@ -62,7 +62,7 @@
                   <span class="text-white text-4xl font-helvetica font-normal">Revolutionizing the Industry with Our Artist Management System</span>
                 </h1>
               </div>
-              <div class="absolute w-full h-[25rem] sm:h-[30rem] bg-purple-900 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"></div>
+              <div class="absolute w-[80%] h-[10rem] sm:h-[20rem] bg-button-color rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"></div>
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@
   
   .form-img {
     width: 45vw;
-  
+    height: 95%;
     background-image: url('../assets/background.jpeg');
     background-position: center;
     background-size: cover;

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import SignUp from '../vue/SignUp.vue'
+import Sidebar from '../components/Sidebar.vue'
 
 import AdminData from '@/components/AdminData.vue';
 

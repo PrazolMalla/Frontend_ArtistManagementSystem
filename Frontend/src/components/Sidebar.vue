@@ -1,29 +1,29 @@
 <template>
     <div class="flex h-screen">
-        <div class="flex flex-col w-64 bg-light-primary">
+        <div class="flex flex-col w-64 bg-secondary-color">
             <nav class="px-12 py-12 text-white">
                 <div  class="flex flex-col justify-center py-8">
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconHamBurger class="mr-2"/>
                             Dashboard
                         </router-link>
 
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconSupport  class="mr-2"/>
                             Staff</router-link>
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconAlbum class="mr-2"/>
                             Album
                         </router-link>
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconArtist class="mr-2"/>
                             Artist
                         </router-link>
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconMusic class="mr-2"/>
                             Music
                         </router-link>
-                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">
+                        <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-button-color">
                             <IconBand class="mr-2"/>
                             Band
                         </router-link>

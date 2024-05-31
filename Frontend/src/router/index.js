@@ -1,24 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SignUp from '../vue/SignUp.vue'
 import Sidebar from '../components/Sidebar.vue'
-import NewArtist from '../components/NewArtist.vue'
 import Dashboard from '../view/Dashboard.vue'
 
-import AdminData from '@/components/AdminData.vue';
-
-const routes = [
+import AdminData from '@/components/AdminData.vue'
   
  
-  {
-    path:'/AdminData',
-    name:'AdminData',
-    component:AdminData
-  },
-];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path:'/AdminData',
+      name:'AdminData',
+      component:AdminData
+    },
+    {
+      path: '/sidebar',
+      name: 'SideBar',
+      component: Sidebar,
+    },
+    {
+      path: '/dashboard',
+      name: 'DashBoard',
+      component: Dashboard,
+    },
+  ]
+})
 
 export default router;

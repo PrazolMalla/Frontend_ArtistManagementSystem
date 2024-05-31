@@ -21,11 +21,11 @@ const newAlbums = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/photos?albumId=1');
-    newAlbums.value = response.data.map(album => ({
-      title: album.title,
-      artist: album.title,
-      albumCover: album.url
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+    newAlbums.value = response.data.map(user => ({
+      title: user.name,
+      artist: user.username,
+      albumCover: `https://i.pravatar.cc/150?u=${user.id}`
     }));
   } catch (error) {
     console.error('Error fetching data:', error);

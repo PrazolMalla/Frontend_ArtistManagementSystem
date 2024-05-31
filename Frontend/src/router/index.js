@@ -1,10 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Sidebar from '../components/Sidebar.vue'
-import Dashboard from '../view/Dashboard.vue'
-
-import AdminData from '@/components/AdminData.vue'
-  
- 
+import Dashboard from '../views/Dashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -6,7 +6,6 @@
         <img :src="band.bandPhoto" :alt="band.bandName" class="w-12 h-12 rounded-full mr-2">
         <div>
           <div>{{ band.bandName }}</div>
-          <div class="text-sm text-gray-500">{{ band.genre }}</div>
         </div>
       </div>
     </div>
@@ -24,7 +23,6 @@ onMounted(async () => {
     const response = await axios.get('https://jsonplaceholder.typicode.com/users');
     newBands.value = response.data.map(user => ({
       bandName: user.name,
-      genre: user.company.catchPhrase,
       bandPhoto: `https://i.pravatar.cc/150?u=${user.id}`
     }));
   } catch (error) {

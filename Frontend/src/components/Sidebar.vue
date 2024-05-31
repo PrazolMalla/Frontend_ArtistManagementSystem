@@ -1,5 +1,5 @@
 <template>
-       
+    <div class="hidden fixed sm:flex h-screen justify-start flex-col bg-light-primary-color p-10 lg:w-[15vw] w-[25vw] text-white">
     <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary-color">
         <IconHamBurger class="mr-2"/>
         Dashboard
@@ -24,7 +24,7 @@
         <IconBand class="mr-2"/>
         Band
     </router-link>
-
+</div>
 </template>
 <script setup>
    import IconHamBurger from  './icons/IconHamBurger.vue'

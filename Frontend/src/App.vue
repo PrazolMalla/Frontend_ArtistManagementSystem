@@ -1,9 +1,9 @@
 <template>
-  <div>
-
+  <div class="w-full bg-dark-primary-color">
+    <RouterView />
   </div>
 
-  <RouterView />
+ 
 </template>
 
 <script setup>

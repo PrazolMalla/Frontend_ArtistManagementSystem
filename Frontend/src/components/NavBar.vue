@@ -1,5 +1,5 @@
 <template lang="">
-    <div class=" sm:w-[85vw] sm:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between">
+    <div class=" fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between">
         <div class="flex gap-4 sm:gap-8">
             <RouterLink to="/home">
             <h1 class=" text-slate-300 font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer">MUSICA</h1>

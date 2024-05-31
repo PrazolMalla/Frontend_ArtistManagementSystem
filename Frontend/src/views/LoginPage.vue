@@ -9,22 +9,22 @@
           >
             <h1 class="text-4xl font-bold text-center mb-5 font-helvetica text-white">Welcome Back</h1>
             <div class="mt-4">
-              <label for="email" class="mt-4 text-xl font-bold font-helvetica text-slate-400">Email</label>
+              <label for="email" class="mt-4  text-xl font-bold font-helvetica text-white">Email</label>
               <br />
               <input
                 type="email"
-                class="mt-2 p-2 focus:outline-none w-full h-14 mb rounded-3xl border-2"
+                class="mt-2 p-2 focus:outline-none  w-full h-[3rem]  mb rounded-3xl border-2"
                 id="email"
                 v-model="user.email"
                 required
               />
             </div>
             <div class="mt-4">
-              <label for="password" class="text-xl font-bold font-helvetica text-slate-400">Password</label>
+              <label for="password" class="text-xl font-bold font-helvetica text-white">Password</label>
               <br />
               <input
                 type="password"
-                class="p-2 mt-2 focus:outline-none w-full h-14 mb rounded-3xl border-2"
+                class="p-2 mt-2 focus:outline-none w-full h-[3rem] mb rounded-3xl border-2"
                 v-model="user.password"
               />
             </div>

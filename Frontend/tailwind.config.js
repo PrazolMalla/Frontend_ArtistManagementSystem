@@ -4,12 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        'btn-yellow': '#ca994d',
-        'hover-yellow':'#b68945',
         'dark-primary': '#080727',
         'light-primary':'#0B0A30',
-        'secondary':'#2aed91 ',
-        'secondary2':'#FF516D',
+        'secondary':'#FF516D',
 
       }
     }

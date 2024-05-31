@@ -1,6 +1,6 @@
 <template>
-    <div class="flex h-screen">
-        <div class="flex flex-col w-64 bg-light-primary">
+    <div class="hidden sm:flex h-screen">
+        <div class="flex flex-col w-64 bg-primary-color">
             <nav class="px-12 py-12 text-white">
                 <div  class="flex flex-col justify-center py-8">
                         <router-link to="" class="flex flex-row items-center text-xl mb-5 hover:text-secondary">

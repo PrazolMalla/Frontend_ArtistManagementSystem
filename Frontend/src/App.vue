@@ -1,16 +1,13 @@
 <template>
-  <div class="flex flex-row">
-    <Sidebar/>
-    <!-- <Navbar/> -->
-  </div>
-  
+  <Sidebar/>
+  <MobileMenuBar/>
   <RouterView />
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Sidebar from './components/Sidebar.vue';
-import Navbar from './components/Navbar.vue';
+import MobileMenuBar from './components/MobileMenuBar.vue';
 </script>
 
 

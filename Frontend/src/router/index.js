@@ -7,11 +7,6 @@ const routes = [
     path: '/login',
     name: 'LoginPage',
     component: LoginPage
-  },
-  {
-    path: '/navbar',
-    name: 'navbar',
-    component: NavBar
   }
 ]
 

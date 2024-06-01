@@ -3,34 +3,25 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import AdminPage from '@/views/AdminPage.vue';
 import Dashboard from '@/views/Dashboard.vue';
+import LoginPage from '../views/LoginPage.vue'
+import HomePage from '../views/HomePage.vue'
 
 const routes = [
-  
- 
-  // {
-  //   path:'/AdminData',
-  //   name:'AdminData',
-  //   component:AdminData
-  // },
   {
-    path:'/',
-    name:'AdminPage',
-    component:AdminPage
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage
   },
   {
-    path:'/dashboard',
-    name:'Dashboard',
-    component:Dashboard
+    path: '/',
+    name: 'HomePage',
+    component: HomePage
   }
-  // {
-  //   path:'/AdminStats',
-  //   name:'/AdminStats',
-  //   component:AdminStats
-  // }
-];
+]
+
 const router = createRouter({
   history: createWebHistory(),
   routes
-});
+})
 
 export default router

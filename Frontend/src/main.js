@@ -4,18 +4,21 @@ import router from './router'
 import './style.css'
 import store from './store/store.js'
 import ToastPlugin from 'vue-toast-notification'
-// import { OhVueIcon, addIcons } from "oh-vue-icons";
-// import * as FaIcons from "oh-vue-icons/icons/fa";
-// import { GiHamburgerMenu } from "oh-vue-icons/icons";
 
+import PageLayout from './PageLayout.vue'
 
-// const Fa = Object.values({ ...FaIcons });
-// addIcons(GiHamburgerMenu);
+import * as MdIcons from 'oh-vue-icons/icons/md'
+import { OhVueIcon, addIcons } from 'oh-vue-icons'
+
+const Fa = Object.values({ ...MdIcons })
+addIcons(...Fa)
 
 const app = createApp(App)
 
+app.use()
 app.use(router)
 app.use(store)
 app.use(ToastPlugin)
-// app.component("v-icon", OhVueIcon);
+app.component("PageLayout", PageLayout)
+app.component('v-icon', OhVueIcon)
 app.mount('#app')

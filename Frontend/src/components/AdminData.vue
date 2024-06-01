@@ -9,17 +9,17 @@
           <p class="text-2xl">{{ totalArtists }}</p>
         </div>
 
-        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color mb-8 text-center">
+        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Users</h2>
           <p class="text-2xl">{{ totalUsers }}</p>
         </div>
 
-        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color  mb-8 text-center">
+        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Albums</h2>
           <p class="text-2xl">{{ totalAlbums }}</p>
         </div>
 
-        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color  mb-8 text-center">
+        <div class="card bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Songs</h2>
           <p class="text-2xl">{{ totalSongs }}</p>
         </div>

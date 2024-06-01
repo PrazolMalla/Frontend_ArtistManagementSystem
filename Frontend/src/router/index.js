@@ -5,6 +5,7 @@ import AdminPage from '@/views/AdminPage.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
+import NewSong from '@/components/NewSong.vue';
 
 const routes = [
   {
@@ -22,6 +23,7 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard
   },
+  
 
 
 

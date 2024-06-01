@@ -67,24 +67,24 @@ export default {
         y: {
           beginAtZero: true,
           ticks: {
-            color: 'white', // Set y-axis text color to white
+            color: 'white', 
           },
         },
         x: {
           ticks: {
-            color: 'white', // Set x-axis text color to white
+            color: 'white', 
           },
         },
       },
       plugins: {
         legend: {
           labels: {
-            color: 'white', // Set legend text color to white
+            color: 'white', 
           },
         },
         tooltip: {
-          titleColor: 'white', // Set tooltip title color to white
-          bodyColor: 'white', // Set tooltip body color to white
+          titleColor: 'white', 
+          bodyColor: 'white', 
         },
       },
     });

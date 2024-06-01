@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 md:p-8 flex justify-end bg-dark-primary-color">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- New Albums Card -->
+  
       <div class="card bg-light-primary-color w-[30rem] h-[20rem]">
         <h2 class="text-xl font-bold mb-4 text-center text-white">New Albums</h2>
         <div class="max-h-40 overflow-y-auto custom-scrollbar">
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <!-- New Bands Card -->
+      
       <div class="card bg-light-primary-color w-[30rem] h-[20rem]">
         <h2 class="text-xl font-bold mb-4 text-center text-white">New Bands</h2>
         <div class="max-h-40 overflow-y-auto custom-scrollbar">

@@ -16,7 +16,18 @@ const routes = [
     path: '/',
     name: 'HomePage',
     component: HomePage
-  }
+  },
+  
+    {
+      path: '/adminpage',
+      name: 'AdminPage',
+      component: AdminPage
+    },
+  
+
+
+
+
 ]
 
 const router = createRouter({

@@ -17,6 +17,14 @@ const routes = [
     name: 'HomePage',
     component: HomePage
   },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard
+  },
+
+
+
   
     {
       path: '/adminpage',

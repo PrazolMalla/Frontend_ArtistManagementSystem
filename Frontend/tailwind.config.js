@@ -3,12 +3,12 @@ export default {
   content: ['./index.html', './src/*/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      colors:{
-        'secondary-color':'#FF516D  ',
-        'dark-primary-color':'#0B0A30 ',
-        'light-primary-color':'#080727',
+      colors: {
+        'secondary-color': '#FF516D  ',
+        'dark-primary-color': '#080727',
+        'light-primary-color': '#0B0A30 '
       }
-    }, 
+    }
   },
   plugins: []
 }

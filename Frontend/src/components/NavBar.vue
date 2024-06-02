@@ -13,11 +13,16 @@
                     <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class=" cursor-pointer hover:text-gray-950 m-2 " />
                 
             </div>
-
              <div
                 v-if="is_showSearchPopUp"
-                class="z-30 searchField absolute  z-2 lg:ml-28 md:ml-20  w-4/6 h-20 top-20 border border-slate-700  rounded-lg  bg-light-primary-color  shadow-sm shadow-slate-500"
+                class="z-30 searchField absolute  z-2 sm:ml-50 w-5/6 h-20 top-20 border border-slate-700  rounded-lg  bg-light-primary-color  shadow-sm shadow-slate-500"
                 ></div>
+                <div
+                v-if="is_showNotificationPopUp"
+                class="z-30 searchField absolute  z-2 w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 border border-slate-700  rounded-lg  bg-light-primary-color  shadow-sm shadow-slate-500"
+                ></div>
+
+
         </div>
         <div class="flex gap-4">
 
@@ -26,7 +31,12 @@
 
             </div>
                 
-            <v-icon name="md-notifications-outlined" fill="#cbd5e1" scale="1.5" class=" cursor-pointer mt-5"/>
+            <v-icon name="md-notifications-outlined" fill="#cbd5e1" scale="1.5" class=" cursor-pointer mt-5"
+                @click = "toggleNotification"
+            />
+            
+
+
             <RouterLink to="/login">
 
             
@@ -37,31 +47,47 @@
         </RouterLink>
         </div>
     </div>
-   
 </template>
-<script setup>
-    import {ref, watch} from 'vue'
-    const is_showSearchPopUp = ref(false);
-    
-    const searchName = ref("");
-    const offFocusSearchBar = () => {
-    is_showSearchPopUp.value = ref(false);
-    };
+<script>
+export default{
+    data(){
+        return {
+            is_showNotificationPopUp : false,
+            searchName :"",          
+            is_showSearchPopUp: false,
+        }
+    },
+    watch: {
+            getData(newVal){
+                this.userData = newVal.resData
+            },
+            searchName(newVal) {
+            if (newVal == "") {
+                this.is_showSearchPopUp = false;
+            } else {
+                this.is_showSearchPopUp = true;
+                console.log(newVal);
+            }
+        },
+    },
+    methods:{
+        offFocusSearchBar() {
+        this.is_showSearchPopUp = false;
+        },
+        onFocusSearchBar() {
+        this.is_showNotificationPopUp = false;
+        if (this.searchName != "") {
+            this.is_showSearchPopUp = true;
+        }
+        },
+        toggleNotification(){
+            this.is_showSearchPopUp = false;
+            this.is_showNotificationPopUp = !this.is_showNotificationPopUp;
+        }
+    }
 
 
-    watch(searchName, (newVal) => {
-    if (newVal === "") {
-        is_showSearchPopUp.value = false;
-    } else {
-        is_showSearchPopUp.value = true;
-        console.log(newVal);
-    }
-    });
-    const onFocusSearchBar = () => {
-    if (searchName.value !== "") {
-        is_showSearchPopUp.value = ref(true);
-    }
-    };
+}
 </script>
 <style lang="">
     

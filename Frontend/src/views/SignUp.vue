@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex justify-evenly items-center min-h-screen w-full bg-dark-primary-color p-5">
       <div class="form-container  w-full p-10 h-full bg-dark-primary-color  flex flex-wrap justify-start gap-5  align-middle">
                 <div v-for="item in userInputField" :key="item.id" class="w-full sm:w-5/12   text-white">
@@ -63,8 +62,8 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 const user = ref({
-  first_name: '',
-  last_name: '',
+  firstname: '',
+  lastname: '',
   username: '',
   email: '',
   dob: '',
@@ -73,7 +72,7 @@ const user = ref({
   country: '',
   bio: '',
   gender: '',
-  profile: null,
+  img_profile: null,
 });
 
 const artist = ref({
@@ -92,7 +91,6 @@ const userInputField = ref([
   { id: '8', name: 'country', type: 'text', label: 'Country' },
 ]);
 
-const asArtist = ref(false);
 const formErrors = ref({});
 
 const validateField = (fieldName) => {
@@ -114,6 +112,7 @@ const handleCoverChange = (event) => {
 };
 
 const addUser = () => {
+
   formErrors.value = {};
 
   if (user.value.password.length < 8) {
@@ -141,17 +140,29 @@ const addUser = () => {
   }
 
   if (Object.keys(formErrors.value).length === 0) {
-    axios.post('http://127.0.0.1:8000/', {
-      // User data
-    })
-      .then(response => {
-        console.log("Registered successfully");
-      })
-      .catch(error => {
-        console.error(error);
+     const RegisterSubmit = ()  => {
+      axios({
+        method: "post",
+        url: `http://127.0.0.1:8000/api/user/post/`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          "email": user.email, "username":  user.username, "password": user.password, "firstname":  user.firstname, "lastname":  user.lastname, "dob": user.dob, "gender":  user.gender, "country": user.country, "img_profile": user.img_profile, "is_artist": user.is_artist
+            },
+      }).then(response => {
+        console.log(response)
+        if(response.status == 200){
+                      localStorage.setItem("refresh_token",response.data.refreshJWT);
+                      localStorage.setItem("access_token",response.data.accessJWT);
+                      this.$router.push('/dashboard')
+        }
+      }).catch(err => {
+        console.log(err.response.data)
       });
-  }
-};
+    }
+}
+}
 </script>
 
 <style scoped>

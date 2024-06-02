@@ -2,12 +2,12 @@
   <PageLayout>
     <template #content>
       <div class="w-full h-screen bg-dark-primary-color flex flex-col">
-        
+        <!-- Main stats and data section -->
         <div class="flex flex-grow">
           <AdminStats class="w-3/4" />
           <AdminData class="w-1/4" />
         </div>
-        
+        <!-- NewSong section -->
         <div class="flex-shrink-0">
           <NewSong />
         </div>

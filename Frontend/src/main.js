@@ -6,6 +6,9 @@ import store from './store/store.js'
 import ToastPlugin from 'vue-toast-notification'
 
 import PageLayout from './views/PageLayout.vue'
+// import { OhVueIcon, addIcons } from "oh-vue-icons";
+// import * as FaIcons from "oh-vue-icons/icons/fa";
+// import { GiHamburgerMenu } from "oh-vue-icons/icons";
 
 import * as MdIcons from 'oh-vue-icons/icons/md'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'

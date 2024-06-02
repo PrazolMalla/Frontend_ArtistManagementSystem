@@ -12,7 +12,12 @@ const routes = [
       path: '/',
     name: 'HomePage',
     component: HomePage
-  }
+  },
+  {
+      path:'/SignUp',
+      name:'SignUp',
+      component:SignUp
+    },
 
 ];
 

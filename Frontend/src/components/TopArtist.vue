@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-row items-center p-8 overflow-x-auto">
-      <h2 class="text-3xl font-bold mr-4 text-white">Top Artists</h2>
+    <div class="flex flex-col items-center p-8 overflow-x-auto">
+      <h2 class="text-3xl font-bold mb-4 text-white">Top Artists</h2>
       <div class="flex space-x-4">
         <div
           v-for="artist in artists"

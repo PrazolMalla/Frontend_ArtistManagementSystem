@@ -1,6 +1,6 @@
 <template>
     <div class="flex gap-4 flex-wrap flex-grow justify-center ">
-    <AlbumTile v-for="x in albumData" class="p-5" :albumDetail="x"/>
+    <AlbumTile v-for="x in bandData" class="p-5" :bandDetail="x"/>
 
     </div>
 
@@ -8,18 +8,18 @@
 
 
 <script>
-import AlbumTile from '../Tile/AlbumTile.vue'
+import BandTile from '../Tile/BandTile.vue'
 import { mapState } from 'vuex';
 export default{
     components:{
-        AlbumTile
+        BandTile
     },
         computed:{
-            ...mapState(['albumData']),
+            ...mapState(['bandData']),
             
         },
         mounted(){
-            this.$store.dispatch('setAlbumData')
+            this.$store.dispatch('setBandData')
         },
 }
 

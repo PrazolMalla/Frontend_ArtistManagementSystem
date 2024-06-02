@@ -15,7 +15,7 @@ import MusicPlayerBar from '../components/MusicPlayerBar.vue'
                 <NavBar/>
             
             </div>
-            <div class="">
+      <div class="sm:ml-[25vw] lg:ml-[15vw] px-16  mt-20 text-slate-300 flex flex-col mb-32">
                 <slot name="content" >
 
                 </slot>

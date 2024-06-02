@@ -1,7 +1,6 @@
 <template>
-    <PageLayout>
+    <PageLayoutWithPlayer>
       <template #content >
-        <div class="sm:ml-[25vw] lg:ml-[15vw] sm:px-16 px-8 mt-20 text-slate-300 flex flex-col">
           <BannerComponent/>
           <ProfilePicComponent/>
           <ProfileNav/>
@@ -14,9 +13,8 @@
             <CardsCarousel/>
           </div>
          
-        </div>
     </template>
-    </PageLayout>
+    </PageLayoutWithPlayer>
   </template>
   
   <script setup>
@@ -27,7 +25,7 @@
   import PostForm from '../components/PostForm.vue'
   import CardsCarousel from '../components/CardsCarousel.vue'
   import TopChartComponent from '../components/TopChartComponent.vue'
-  // import MusicCard from '../components/MusicCard.vue'
+  import PageLayoutWithPlayer from './PageLayoutWithPlayer.vue'
   </script>
   
   <script>

@@ -1,16 +1,16 @@
 <template lang="">
     <div class=" fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between sm:px-16 z-40">
         <div class="flex gap-4 sm:gap-8">
-            <RouterLink to="/home">
+            <RouterLink to="/">
             <h1 class=" text-slate-300 font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer">MUSICA</h1>
 
             </RouterLink>
             <div class="hidden md:flex lg:w-[40vw] my-4  justify-between border border-slate-500 rounded-full">
-                <input type="text" class="border-none w-full p-4 bg-transparent focus:outline-none text-xsm  text-slate-300 hidden sm:flex" placeholder="Search Music, Artist, Album, Band ..."
+                <input type="text" class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm  text-slate-300 hidden sm:flex" placeholder="Search Music, Artist, Album, Band ..."
                       v-model="searchName"      
                     @blur="offFocusSearchBar"
                     @focus="onFocusSearchBar" />
-                    <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class=" cursor-pointer hover:text-gray-950 m-2 " />
+                    <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class=" cursor-pointer hover:text-gray-950 p-1" />
                 
             </div>
              <div
@@ -37,7 +37,7 @@
             
 
 
-            <RouterLink to="/login">
+            <RouterLink to="/user-profile">
 
             
             <div class="relative flex gap-2 cursor-pointer">

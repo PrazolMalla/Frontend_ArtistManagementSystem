@@ -1,13 +1,14 @@
 <template>
-  <PageLayout id="display-flex">
+  <PageLayoutWithPlayer id="display-flex">
     <template #content>
        <AlbumTiles/>
     </template>
-  </PageLayout>
+  </PageLayoutWithPlayer>
 </template>
 
 <script>
 import  AlbumTiles from '../components/Tiles/AlbumTiles.vue'
+import PageLayoutWithPlayer from './PageLayoutWithPlayer.vue';
 export default{
 
   components:{

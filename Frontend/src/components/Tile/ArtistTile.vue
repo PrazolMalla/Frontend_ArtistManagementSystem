@@ -1,8 +1,8 @@
 <template>
 
-  <RouterLink :to="'/artist/'+ artistDetail.id" class="tile-container max-w-56 p-0 overflow-hidden rounded-lg border hover:border-blue-200   shadow-md shadow-blue-300 hover:shadow-blue-400  cursor-pointer">
-        <img src="../../assets/default_artist.jpg"  alt="" srcset="">
-    <div class="p-3"> {{ artistDetail.name }}</div>
+  <RouterLink :to="'/artist/'+ artistDetail.id" class="tile-container  max-w-56 p-0 overflow-hidden rounded-full   gap-2 shadow-sm shadow-slate-500 hover:shadow-md hover:shadow-slate-600  cursor-pointer">
+            <img src="https://source.unsplash.com/800x800/?portrait" alt="" class="w-full rounded-full hover:cursor-pointer ">
+            <div class="p-3 text-center"> {{ artistDetail.username }}</div>
 
   </RouterLink>
 </template>

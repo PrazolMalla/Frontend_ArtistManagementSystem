@@ -10,19 +10,19 @@
     <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
         <IconSupport  class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Staffs</p></router-link>
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/album" class="flex flex-row items-center text-xl mb-5 ">
         <IconAlbum class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Albums</p>
     </router-link>
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/artist" class="flex flex-row items-center text-xl mb-5 ">
         <IconArtist class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Artists</p>
     </router-link>
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/music" class="flex flex-row items-center text-xl mb-5 ">
         <IconMusic class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Musics</p>
     </router-link>
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/band" class="flex flex-row items-center text-xl mb-5 ">
         <IconBand class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Bands</p>
     </router-link>

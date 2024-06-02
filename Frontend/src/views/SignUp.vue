@@ -1,25 +1,25 @@
 <template>
 
-  <div class="flex flex-row items-center lg:h-screen h-full w-full bg-dark-primary-color p-5">
-      <div class="form-container md:w-5/6 w-full p-10 h-full bg-dark-primary-color  flex flex-wrap justify-start gap-5  align-middle">
+  <div class="flex justify-evenly items-center min-h-screen w-full bg-dark-primary-color p-5">
+      <div class="form-container  w-full p-10 h-full bg-dark-primary-color  flex flex-wrap justify-start gap-5  align-middle">
                 <div v-for="item in userInputField" :key="item.id" class="w-full sm:w-5/12   text-white">
-                  <label :for="item.name" class="text-md font-helvetica text-white">
+                  <label :for="item.name" class="text-sm  font-helvetica text-slate-300 pl-3">
                         {{ item.label }}
                       </label>
                     <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]"  class="p-2  focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" >
-                    <span v-if="formErrors[item.name]" class="text-orange-500">{{ formErrors[item.name] }}</span>
+                    <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{ formErrors[item.name] }}</span>
                 </div>
                    <div class="w-full sm:w-3/12  text-white flex flex-col mt-2">
                       <label for="img" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Profile Pic</label>
                       <input type="file" id="img" name="profile" @change="handleFileChange"  class="hidden " >
 
-                      <span v-if="formErrors.profile" class="text-orange-500 mt-1 block">{{ formErrors.profile }}</span>
+                      <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
                     </div>
                 <div class="w-full sm:w-3/12   text-white flex flex-col  mt-2">
                       <label for="img" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Cover Pic</label>
                       <input type="file" id="img" name="profile" @change="handleFileChange"  class="hidden " >
 
-                      <span v-if="formErrors.profile" class="text-orange-500 mt-1 block">{{ formErrors.profile }}</span>
+                      <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
                     </div>
 
                 <div class="flex flex-col">
@@ -30,21 +30,21 @@
                     <option value="F">Female</option>
                     <option value="O">Other</option>
                   </select>
-                  <span v-if="formErrors.gender" class="text-orange-500">{{ formErrors.gender }}</span>
+                  <span v-if="formErrors.gender" class="text-orange-300">{{ formErrors.gender }}</span>
                 </div>
                 <div class="w-full text-center">
                   <input type="checkbox" class="w-5" v-model="isArtist" @change="updateIsArtist">
-                  <label for="isArtist"  class=" p-2 text-slate-100" >Are you signing  as an Artist?</label>
+                  <label for="isArtist"  class=" p-2 text-slate-100 hover:text-secondary-color" >Are you signing  as an Artist?</label>
                 </div>
                 <div class="w-full flex justify-center gap-2 align-middle">
                       <button
-                      class="bg-btn-yellow h-10 w-2/6 text-white text-md rounded-full border border-slate-color"
-                      type="submit">
+                      class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
+                      type="submit" @click="addUser">
                         Sign Up
                     </button>
                       <div class="text-slate-300 mt-2 ">
-                       <span class="px-2 text-slate-500"> or </span>
-                    <RouterLink to="/">
+                       <span class="px-2 text-slate-500 "> or </span>
+                    <RouterLink to="/" class="hover:text-secondary-color">
                         Login
                     </RouterLink>
                   </div>
@@ -53,7 +53,7 @@
       </div>
 
 
-      <div class="form-img hidden md:flex"></div>
+      <div class="form-img hidden md:flex rounded-lg"></div>
   </div>
 </template>
 
@@ -92,10 +92,6 @@ const userInputField = ref([
   { id: '8', name: 'country', type: 'text', label: 'Country' },
 ]);
 
-const artistInputField = ref([
-  { id: '1', name: 'stage_name', type: 'text', label: 'Stage Name' },
-]);
-
 const asArtist = ref(false);
 const formErrors = ref({});
 
@@ -115,14 +111,6 @@ const handleFileChange = (event) => {
 
 const handleCoverChange = (event) => {
   artist.value.img_cover = event.target.files[0];
-};
-
-const signAsArtist = () => {
-  asArtist.value = true;
-};
-
-const signAsUser = () => {
-  asArtist.value = false;
 };
 
 const addUser = () => {

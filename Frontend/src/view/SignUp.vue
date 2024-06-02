@@ -1,35 +1,42 @@
 <template>
-  <div class="flex flex-row items-center h-screen w-full">
-    <div class="form-container w-full h-full bg-dark-primary-color flex flex-row">
+  <div class="flex flex-row items-center min-h-screen w-full bg-dark-primary-color">
+    <div class="form-container w-full min-h-screen bg-dark-primary-color flex flex-row">
       <div class="flex justify-center items-center">
-        <div class="flex justify-center items-center h-[90%] form-img hidden sm:block w-4/5 my-8 ml-24 rounded-lg">
+        <div class="flex justify-center items-center h-[90%] form-img hidden sm:block w-4/5 my-8 ml-24 rounded-lg bg-transparent">
         </div>
       </div>
-      <div class="w-[55vw] h-full sm:mx-12 mx-auto sm:mr-24 bg-light-primary-color flex items-center justify-center mt-5">
+      <div class="w-[55vw] h-full sm:mx-12 mx-auto sm:mr-24 bg-dark-primary-color flex items-center justify-center mt-5">
         <form
           id="form"
           class="w-full h-full flex flex-col justify-center"
           @submit.prevent="addUser">
-          <h1 class="text-4xl font-bold text-center mb-5  font-helvetica text-white">SignUp Now</h1>
+          <h1 class="text-4xl font-bold text-center mb-5 font-helvetica text-white">SignUp Now</h1>
           <div class="mt-2 md:flex md:flex-wrap md:justify-between">
             <div v-for="item in userInputField" :key="item.id" class="w-full md:w-96 mt-4 text-white">
               <label :for="item.name" class="text-md font-helvetica text-white">
                 {{ item.label }}
               </label>
-              <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-white" >
+              <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" >
               <span v-if="formErrors[item.name]" class="text-orange-500">{{ formErrors[item.name] }}</span>
             </div>
-
+             
             <div class="w-full md:w-96 mt-4">
-              <label for="profile" class="text-md font-helvetica text-white">
-                Profile Picture
-              </label>
-              <input type="file" name="profile" @change="handleFileChange" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
-              <span v-if="formErrors.profile" class="text-orange-500">{{ formErrors.profile }}</span>
-            </div>
+                  <label for="profile" class="text-md font-helvetica text-white block mb-2">
+                    Profile Picture
+                  </label>
+                  <div class="relative">
+                    <input type="file" name="profile" @change="handleFileChange" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="flex items-center p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">
+                      <span class="text-black">Choose file</span>
+                    </div>
+                  </div>
+                  <span v-if="formErrors.profile" class="text-orange-500 mt-1 block">{{ formErrors.profile }}</span>
+              </div>
+
+
 
             <div class="mt-4 w-full md:w-96">
-              <label for="gender" class="text-md font-helvetica text-black">Gender</label>
+              <label for="gender" class="text-md font-helvetica text-white">Gender</label>
               <select v-model="user.gender" id="gender" name="gender"
                 class="rounded-3xl w-full px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
                 <option value="" disabled>Select your gender</option>
@@ -43,7 +50,7 @@
           <div class="mt-4">
             <label for="bio" class="text-md font-helvetica text-white">Bio</label>
             <textarea
-              class="p-2 mt-2 w-full focus:outline-none h-24 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
+              class="p-2 mt-2 w-full focus:outline-none h-14 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
               v-model="user.bio"></textarea>
             <span v-if="formErrors.bio" class="text-red-500">{{ formErrors.bio }}</span>
           </div>
@@ -58,12 +65,18 @@
               </div>
 
               <div class="w-full md:w-96 mt-4">
-                <label for="img_cover" class="text-md font-helvetica text-white">
-                  Image Cover
-                </label>
-                <input type="file" name="img_cover" @change="handleCoverChange" class="p-2 mt-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
-                <span v-if="formErrors.img_cover" class="text-orange-500">{{ formErrors.img_cover }}</span>
+                  <label for="img_cover" class="text-md font-helvetica text-white block mb-2">
+                    Image Cover
+                  </label>
+                  <div class="relative">
+                    <input type="file" name="img_cover" @change="handleCoverChange" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="flex items-center p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">
+                      <span class="text-black">Choose file</span>
+                    </div>
+                  </div>
+                  <span v-if="formErrors.img_cover" class="text-orange-500 mt-1 block">{{ formErrors.img_cover }}</span>
               </div>
+
             </div>
             <div class="mt-6">
               <button
@@ -184,21 +197,22 @@ const addUser = () => {
   if (user.value.password !== user.value.Repassword) {
     formErrors.value.Repassword = "Passwords do not match.";
   }
- if(user.value.username.length <5){
-  formErrors.value.username= "Username should be atleast 5 character long.";
- }
-if(user.value.first_name.length<5){
-  formErrors.value.first_name="firstname shoudl be atleast 5 character long.";
-}
-if(user.value.last_name.length<5){
-  formErrors.value.last_name="lastname should be atleast 5 character long.";
-}
-if (!user.value.email) {
-      formErrors.value.email = "Please provide an email.";
-    }
-if (!user.value.country){
-  formErrors.value.country="Please provide country also.";
-}
+  if(user.value.username.length <5){
+    formErrors.value.username= "Username should be atleast 5 character long.";
+  }
+  if(user.value.first_name.length<5){
+    formErrors.value.first_name="Firstname should be atleast 5 characters long.";
+  }
+  if(user.value.last_name.length<5){
+    formErrors.value.last_name="Lastname should be atleast 5 characters long.";
+  }
+  if (!user.value.email) {
+    formErrors.value.email = "Please provide an email.";
+  }
+  if (!user.value.country){
+    formErrors.value.country="Please provide your country.";
+  }
+
   if (Object.keys(formErrors.value).length === 0) {
     axios.post('http://127.0.0.1:8000/', {
       // User data
@@ -220,7 +234,7 @@ if (!user.value.country){
 
 .form-img {
   width: 45vw;
-  background-image: url('../assets/images/pexels-eric-esma-302047-894156.jpg');
+  background-image: url('../assets/images/bobmarley.webp');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

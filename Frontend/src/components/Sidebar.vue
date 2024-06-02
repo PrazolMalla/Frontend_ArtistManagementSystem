@@ -1,6 +1,6 @@
 <template>
     
-    <div class="hidden fixed sm:flex h-screen justify-start flex-col bg-light-primary-color p-10 lg:w-[15vw] w-[25vw] text-white pt-20">
+    <div class="hidden fixed sm:flex h-[100%] justify-start flex-col bg-light-primary-color sm: p-10  lg:w-[15vw] w-[25vw] text-white pt-10 sm:pt-20">
     <p class="text-gray-text-color mb-4 text-sm">MENU</p>
     <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
         <IconHamBurger class="mr-2"/>

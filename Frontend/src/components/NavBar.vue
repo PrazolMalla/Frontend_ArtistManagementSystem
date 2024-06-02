@@ -1,9 +1,9 @@
 <template lang="">
-    <div class=" fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-20 bg-dark-primary-color h-16 w-full flex px-8 justify-between">
-        <div class="flex align-bottom gap-4 sm:gap-8"  
-        >
-            <RouterLink to="/">
-            <h1 class=" text-slate-300 font-semibold text-2xl mt-6 hover:text-secondary-color cursor-pointer align-middle">MUSICA</h1>
+    <div class=" fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between sm:px-16 z-40">
+        <div class="flex gap-4 sm:gap-8">
+            <RouterLink to="/home">
+            <h1 class=" text-slate-300 font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer">MUSICA</h1>
+
             </RouterLink>
             <div class="hidden md:flex lg:w-[40vw] my-4  justify-between border border-slate-500 rounded-full">
                 <input type="text" class="border-none w-full p-4 bg-transparent focus:outline-none text-xsm  text-slate-300 hidden sm:flex" placeholder="Search Music, Artist, Album, Band ..."
@@ -41,8 +41,9 @@
 
             
             <div class="relative flex gap-2 cursor-pointer">
-				<img src="https://source.unsplash.com/50x50/?portrait" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color">
-                <h2 class=" font-medium text-slate-300 text-md mt-6  hidden">Lorem Ipsum</h2>
+				<img :src="user.profileImg" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color">
+                <h2 class=" font-medium text-slate-300 text-md mt-6 sm:flex hidden">{{user.username}}</h2>
+
 			</div>
         </RouterLink>
         </div>
@@ -52,6 +53,10 @@
 export default{
     data(){
         return {
+            user: {
+                profileImg:"https://source.unsplash.com/50x50/?portrait",
+                username:"Prazol"
+            },
             is_showNotificationPopUp : false,
             searchName :"",          
             is_showSearchPopUp: false,
@@ -85,7 +90,6 @@ export default{
             this.is_showNotificationPopUp = !this.is_showNotificationPopUp;
         }
     }
-
 
 }
 </script>

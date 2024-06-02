@@ -16,12 +16,14 @@
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
     "oh-vue-icons": "^1.0.0-rc3",
+    "swiper": "^11.1.4",
     "three": "^0.164.1",
     "three-globe": "^2.31.0",
     "vue": "^3.4.21",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.0",
     "vue-toast-notification": "^3.1.2",
+    "vue3-carousel": "^0.3.3",
     "vuex": "^4.1.0"
   },
   "devDependencies": {

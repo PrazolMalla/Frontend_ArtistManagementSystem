@@ -70,16 +70,19 @@
     </div>
   </template>
   
-  <script setup>
+  <script>
   import { ref } from 'vue';
-  import axios from 'axios'; 
-  const user = ref({
-                email: '',
-                password: ''
-              });
+  import axios from 'axios';
+  
+  export default {
+    setup() {
+      const user = ref({
+        email: '',
+        password: ''
+      });
   
       const login = () => {
-        axios.post('http://127.0.0.1:8000/api/token/', user.value)
+        axios.post('http://127.0.0.1:8000/api/v1/login/', user.value)
           .then(response => {
             const accessToken = response.data.access;
             const isAdmin = response.data.user.is_superuser;
@@ -105,7 +108,7 @@
               // this.$router.push('/artist');
             } else {
               alert('User role not recognized. Redirecting to login.');
-              this.$router.push('/login');
+              // this.$router.push('/login');
             }
           })
           .catch(error => {
@@ -114,10 +117,12 @@
           });
       };
   
-      export  {
+      return {
         user,
         login
       };
+    }
+  };
   </script>
   
   <style scoped>

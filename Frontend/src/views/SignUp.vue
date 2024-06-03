@@ -43,7 +43,7 @@
                     </button>
                       <div class="text-slate-300 mt-2 ">
                        <span class="px-2 text-slate-500 "> or </span>
-                    <RouterLink to="/" class="hover:text-secondary-color">
+                    <RouterLink to="/login" class="hover:text-secondary-color">
                         Login
                     </RouterLink>
                   </div>

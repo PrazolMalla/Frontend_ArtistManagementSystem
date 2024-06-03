@@ -6,7 +6,13 @@ import SignUp from '@/views/SignUp.vue';
 import Artist from '@/views/Artist.vue';
 import Album from '@/views/Album.vue';
 import Music from '@/views/Music.vue';
-import Band from '@/views/Band.vue'
+import Band from '@/views/Band.vue';
+import AddMusic from '@/views/AddMusic.vue';
+import AddAlbum from '@/views/AddAlbum.vue';
+import AddGenre from '@/views/AddGenre.vue';
+import AlbumDetail from '@/views/Detail/AlbumDetail.vue'
+import ArtistDetail from '@/views/Detail/ArtistDetail.vue'
+import MusicDetail from '@/views/Detail/MusicDetail.vue'
 
 const routes = [
   {
@@ -53,7 +59,37 @@ const routes = [
       name:'Band',
       component:Band
     },
-
+    {
+      path:'/music/add/',
+      name:'AddMusic',
+      component:AddMusic
+    },
+    {
+      path:'/album/add/',
+      name:'AddAlbum',
+      component:AddAlbum
+    },
+ {
+      path:'/genre/add/',
+      name:'AddGenre',
+      component:AddGenre
+    },
+    ,{
+      path: '/album/:id',
+      name: 'albumDetail',
+      component: AlbumDetail,
+      meta: {auth:true}
+    },{
+      path: '/music/:id',
+      name: 'musicDetail',
+      component:  MusicDetail,
+      meta: {auth:true}
+    },{
+      path: '/artist/:id',
+      name: 'artistDetail',
+      component: ArtistDetail,
+      meta: {auth:true}
+    },
 ];
 
 

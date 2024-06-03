@@ -19,7 +19,8 @@ export default{
             
         },
         mounted(){
-            this.$store.dispatch('setBandData')
+            this.$store.dispatch('setBandData'),
+            console.log(bandData)
         },
 }
 

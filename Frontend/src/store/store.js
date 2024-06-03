@@ -10,11 +10,15 @@ export default createStore({
     albumData: Object,
     artistData: Object,
     bandData: Object,
-    playerData: Object
+    playerData: Object,
+    genreData: Object,
   },
   mutations:{
     SET_USER_DATA(state, userData) {
       state.userData =  userData;
+    },
+    SET_GENRE_DATA(state, genreData) {
+      state.genreData =  genreData;
     },
     SET_USER_ALBUM(state, userAlbum) {
         state.userAlbum =  userAlbum;
@@ -57,6 +61,17 @@ export default createStore({
           // }
         }).then((response) =>{
                 commit('SET_USER_DATA', response.data)
+            }
+        )
+      },
+      setGenreData({commit} ){
+        axios.get(`${URL}api/genre/get/`, {
+          // headers:{
+          //   Authorization: "Bearer "+localStorage.getItem('access_token'),
+          //   'Content-Type': 'application/json'
+          // }
+        }).then((response) =>{
+                commit('SET_GENRE_DATA', response.data)
             }
         )
       },
@@ -135,6 +150,7 @@ export default createStore({
           //   Authorization: "Bearer "+localStorage.getItem('access_token')
           // }
         }).then((response) =>{
+          console.log(response.data)
                 commit('SET_BAND_DATA', response.data)
             }
         )

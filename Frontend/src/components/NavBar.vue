@@ -15,11 +15,11 @@
             </div>
              <div
                 v-if="is_showSearchPopUp"
-                class="z-30 searchField absolute  z-2 sm:ml-50 w-5/6 h-20 top-20 border border-slate-700  rounded-lg  bg-light-primary-color  shadow-sm shadow-slate-500"
+                class="bggradient z-30 searchField absolute  z-2 sm:ml-50 w-5/6 h-20 top-20  rounded-lg"
                 ></div>
                 <div
                 v-if="is_showNotificationPopUp"
-                class="z-30 searchField absolute  z-2 w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 border border-slate-700  rounded-lg  bg-light-primary-color  shadow-sm shadow-slate-500"
+                class="bggradient z-30 searchField absolute  z-2 w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 rounded-lg"
                 ></div>
 
 
@@ -93,6 +93,13 @@ export default{
 
 }
 </script>
-<style lang="">
+<style>
+
+.bggradient {
+        background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));    backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+}
     
 </style>

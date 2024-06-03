@@ -26,6 +26,19 @@
         <IconBand class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Bands</p>
     </router-link>
+    <p class="text-gray-text-color mb-4 text-sm">Actions:</p>
+    <router-link to="/music/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Music</p>
+    </router-link>
+    <router-link to="/album/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Album</p>
+    </router-link>
+    <router-link to="/genre/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Genre</p>
+    </router-link>
 </div>
 </template>
 <script setup>
@@ -35,4 +48,5 @@
    import IconMusic from  './icons/IconMusic.vue'
    import IconBand from  './icons/IconBand.vue'
    import IconAlbum from  './icons/IconAlbum.vue'
+   import IconAdd from './icons/IconAdd.vue'
 </script>

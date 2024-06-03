@@ -114,18 +114,17 @@ export default {
           name: 'Manage',
           icon: 'md-manageaccounts-round',
           actions: [
-            { to: '/', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' },
+            { to: '/manage/staff', icon: 'fa-user-shield', text: 'Staff' },
           ],
         },
         {
           name: 'Library',
           icon: 'md-librarymusic',
           actions: [
-            { to: '/', icon: 'fa-heart', text: 'Liked' },
-            { to: '/', icon: 'fa-user-check', text: 'Followed' },
-            { to: '/', icon: 'fa-user-clock', text: 'History' },
-            { to: '/', icon: 'fa-comment-alt', text: 'Commented' },
+            { to: '/library/like', icon: 'fa-heart', text: 'Liked' },
+            { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
+            { to: '/library/history', icon: 'fa-user-clock', text: 'History' },
           ],
         },
         {
@@ -143,9 +142,9 @@ export default {
           name: 'Stats',
           icon: 'fa-chart-line',
           actions: [
-            { to: '/', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/', icon: 'fa-user-shield', text: 'Staff' },
-            { to: '/', icon: 'fa-user-alt', text: 'User' },
+            { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
+            { to: '/stats/admin', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/stats/user', icon: 'fa-user-alt', text: 'User' },
           ],
         },
       ],

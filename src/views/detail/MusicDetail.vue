@@ -1,9 +1,9 @@
 <template>
-  <PageLayout id="display-flex">
+  <PageLayoutWithPlayer id="display-flex">
     <template #content>
        <DetailCard  info="Music" :id="id"/>
     </template>
-  </PageLayout>
+  </PageLayoutWithPlayer>
 </template>
 
 <script>

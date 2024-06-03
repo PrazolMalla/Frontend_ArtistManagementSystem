@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-            User Staff
+            Like
     </template>
   </PageLayoutWithPlayer>
 </template>

@@ -123,12 +123,6 @@ const addUser = () => {
   if(user.value.username.length <5){
     formErrors.value.username= "Username should be atleast 5 character long.";
   }
-  // if(user.value.firstname.length<5){
-  //   formErrors.value.first_name="Firstname should be atleast 5 characters long.";
-  // }
-  // if(user.value.lastname.length<5){
-  //   formErrors.value.last_name="Lastname should be atleast 5 characters long.";
-  // }
   if (!user.value.email) {
     formErrors.value.email = "Please provide an email.";
   }

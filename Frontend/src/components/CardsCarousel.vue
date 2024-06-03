@@ -6,6 +6,10 @@
     :slidesPerView="3"
     :centeredSlides="false"
     :spaceBetween="5"
+    :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false,
+    }"
     :grabCursor="true"
     :pagination="{
       clickable: true,
@@ -71,7 +75,7 @@
 
   import 'swiper/css/pagination';
 
-  import { Pagination } from 'swiper/modules';
+  import { Autoplay,Pagination } from 'swiper/modules';
   import MusicCard from './MusicCard.vue';
 
   export default {
@@ -82,7 +86,7 @@
     },
     setup() {
       return {
-        modules: [Pagination],
+        modules: [Pagination,Autoplay],
       };
     },
   };

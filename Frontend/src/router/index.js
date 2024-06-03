@@ -13,7 +13,9 @@ import AddGenre from '@/views/AddGenre.vue';
 import AlbumDetail from '@/views/Detail/AlbumDetail.vue'
 import ArtistDetail from '@/views/Detail/ArtistDetail.vue'
 import MusicDetail from '@/views/Detail/MusicDetail.vue'
-
+import AdminPage from '@/views/AdminPage.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import NewSong from '@/components/NewSong.vue';
 const routes = [
   {
     path: '/login',
@@ -89,6 +91,18 @@ const routes = [
       name: 'artistDetail',
       component: ArtistDetail,
       meta: {auth:true}
+    },
+
+    {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard
+  },
+  
+    {
+      path: '/adminpage',
+      name: 'AdminPage',
+      component: AdminPage
     },
 ];
 

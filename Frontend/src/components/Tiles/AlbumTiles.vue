@@ -1,6 +1,6 @@
 <template>
     <div class="flex gap-4 flex-wrap flex-grow justify-center ">
-    <AlbumTile v-for="x in albumData" class="p-5" :albumDetail="x"/>
+    <AlbumTile v-for="x in albumData" class="p-5" :cardDetail="x" linkto="album"/>
 
     </div>
 
@@ -8,7 +8,7 @@
 
 
 <script>
-import AlbumTile from '../Tile/AlbumTile.vue'
+import AlbumTile from '../Tile/AlbumCard.vue'
 import { mapState } from 'vuex';
 export default{
     components:{

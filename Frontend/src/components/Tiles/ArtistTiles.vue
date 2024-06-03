@@ -8,7 +8,7 @@
 
 
 <script>
-import ArtistTile from '../Tile/ArtistTile.vue'
+import ArtistTile from '../Tile/ArtistCard.vue'
 import { mapState } from 'vuex';
 export default{
     components:{

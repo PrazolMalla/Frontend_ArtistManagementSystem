@@ -8,7 +8,7 @@
 
 
 <script>
-import MusicTile from '../Tile/MusicTile.vue'
+import MusicTile from '../Tile/MusicCard-2.vue'
 import { mapState } from 'vuex';
 export default{
     components:{

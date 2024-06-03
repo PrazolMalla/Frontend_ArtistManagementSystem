@@ -8,7 +8,7 @@
 
 
 <script>
-import BandTile from '../Tile/BandTile.vue'
+import BandTile from '../Tile/BandCard.vue'
 import { mapState } from 'vuex';
 export default{
     components:{

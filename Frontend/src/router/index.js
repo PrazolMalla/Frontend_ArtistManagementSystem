@@ -1,21 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UserProfile from '../views/UserProfile.vue'
-import LoginPage from '../views/LoginPage.vue';
-import HomePage from '../views/HomePage.vue';
-import SignUp from '@/views/SignUp.vue';
-import Artist from '@/views/Artist.vue';
-import Album from '@/views/Album.vue';
-import Music from '@/views/Music.vue';
-import Band from '@/views/Band.vue';
-import AddMusic from '@/views/AddMusic.vue';
-import AddAlbum from '@/views/AddAlbum.vue';
-import AddGenre from '@/views/AddGenre.vue';
-import AlbumDetail from '@/views/Detail/AlbumDetail.vue'
-import ArtistDetail from '@/views/Detail/ArtistDetail.vue'
-import MusicDetail from '@/views/Detail/MusicDetail.vue'
-import AdminPage from '@/views/AdminPage.vue';
-import Dashboard from '@/views/Dashboard.vue';
-import NewSong from '@/components/NewSong.vue';
+import UserProfile from '@/views/UserProfilePage.vue'
+import LoginPage from '@/views/LoginPage.vue';
+import HomePage from '@/views/HomePage.vue';
+import SignUp from '@/views/SignUpPage.vue';
+import Artist from '@/views/explore/Artist.vue';
+import Album from '@/views/explore/Album.vue';
+import Music from '@/views/explore/Music.vue';
+import Band from '@/views/explore/Band.vue';
+import AddMusic from '@/views/manage/artist/AddMusic.vue';
+import AddAlbum from '@/views/manage/artist/AddAlbum.vue';
+import AddGenre from '@/views/manage/staff/AddGenre.vue';
+import AlbumDetail from '@/views/detail/AlbumDetail.vue'
+import ArtistDetail from '@/views/detail/ArtistDetail.vue'
+import MusicDetail from '@/views/detail/MusicDetail.vue'
+import AdminPage from '@/views/stats/AdminStats.vue';
 const routes = [
   {
     path: '/login',
@@ -92,12 +90,6 @@ const routes = [
       component: ArtistDetail,
       meta: {auth:true}
     },
-
-    {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard
-  },
   
     {
       path: '/adminpage',

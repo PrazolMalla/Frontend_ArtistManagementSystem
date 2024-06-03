@@ -18,14 +18,14 @@
   </template>
   
   <script setup>
-  import BannerComponent from '../components/BannerComponent.vue'
-  import ProfilePicComponent from '../components/ProfilePicComponent.vue'
-  import ProfileNav from '../components/ProfileNav.vue'
-  import InformationCard from '../components/IntroductionCard.vue'
-  import PostForm from '../components/PostForm.vue'
-  import CardsCarousel from '../components/CardsCarousel.vue'
-  import TopChartComponent from '../components/TopChartComponent.vue'
-  import PageLayoutWithPlayer from './PageLayoutWithPlayer.vue'
+  import BannerComponent from       '@/components/user_profile_component/BannerComponent.vue'
+  import ProfilePicComponent from   '@/components/user_profile_component/ProfilePicComponent.vue'
+  import ProfileNav from            '@/components/user_profile_component/ProfileNav.vue'
+  import InformationCard from       '@/components/user_profile_component/IntroductionCard.vue'
+  import PostForm from              '@/components/user_profile_component/PostForm.vue'
+import CardsCarousel from           '@/components/user_profile_component/CardsCarousel.vue'
+  import TopChartComponent from     '@/components/user_profile_component/TopChartComponent.vue'
+
   </script>
   
   <script>

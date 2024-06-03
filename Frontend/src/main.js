@@ -5,8 +5,8 @@ import './style.css'
 import store from './store/store.js'
 import ToastPlugin from 'vue-toast-notification'
 
-import PageLayout from './views/PageLayout.vue'
-import PageLayoutWithPlayer from './views/PageLayoutWithPlayer.vue'
+import PageLayout from '@/components/page_layout/PageLayout.vue'
+import PageLayoutWithPlayer from '@/components/page_layout/PageLayout.vue'
 // import { OhVueIcon, addIcons } from "oh-vue-icons";
 // import * as FaIcons from "oh-vue-icons/icons/fa";
 // import { GiHamburgerMenu } from "oh-vue-icons/icons";

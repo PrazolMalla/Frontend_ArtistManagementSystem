@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-       <AlbumTiles/>
+       <!-- <BandTiles/> -->
     </template>
   </PageLayoutWithPlayer>
 </template>

@@ -27,17 +27,21 @@
         <div class="flex gap-4">
 
             <div class="flex md:hidden">
-                <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class="cursor-pointer mt-5" />
+                <v-icon name="fa-search"  fill="#cbd5e1" scale="1.5" class="cursor-pointer mt-5" />
 
             </div>
                 
             <v-icon name="md-notifications-outlined" fill="#cbd5e1" scale="1.5" class=" cursor-pointer mt-5"
                 @click = "toggleNotification"
             />
+
+            <v-icon name="md-darkmode-round" fill="#cbd5e1" scale="1.5" class=" cursor-pointer mt-5"
+               
+            />
             
 
 
-            <RouterLink to="/user-profile">
+            <!-- <RouterLink to="/user-profile">
 
             
             <div class="relative flex gap-2 cursor-pointer">
@@ -45,7 +49,7 @@
                 <h2 class=" font-medium text-slate-300 text-md mt-6 sm:flex hidden">{{user.username}}</h2>
 
 			</div>
-        </RouterLink>
+        </RouterLink> -->
         </div>
     </div>
 </template>

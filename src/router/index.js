@@ -7,6 +7,7 @@ import Artist from '@/views/explore/Artist.vue';
 import Album from '@/views/explore/Album.vue';
 import Music from '@/views/explore/Music.vue';
 import Band from '@/views/explore/Band.vue';
+import Genre from '@/views/explore/Genre.vue';
 import AddMusic from '@/views/manage/artist/AddMusic.vue';
 import AddAlbum from '@/views/manage/artist/AddAlbum.vue';
 import AddGenre from '@/views/manage/staff/AddGenre.vue';
@@ -58,6 +59,11 @@ const routes = [
       path:'/band',
       name:'Band',
       component:Band
+    },
+    {
+      path:'/genre',
+      name:'Genre',
+      component:Genre
     },
     {
       path:'/music/add/',

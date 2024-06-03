@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center p-8 overflow-x-auto">
+  <div class="flex flex-col items-center p-8 overflow-x-hidden">
     <h2 class="text-3xl font-bold mb-4 text-white">Top Artists</h2>
     <div class="flex space-x-4">
       <div
@@ -7,8 +7,12 @@
         :key="artist.id"
         class="artist-card w-[18rem] bg-light-primary-color rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
       >
-        <div class="flex flex-col items-center p-4">
-          <img :src="artistImage" alt="Artist Image" class="w-56 h-56 rounded-full object-cover mb-4 border-8   bg-gradient-to-r from-light-primary-color to-secondary-color" />
+        <div class="flex flex-col items-center p-4 overflow-x-hidden">
+          
+          <div class="w-52 h-52 rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+            <img :src="artistImage" alt="Artist Image" class=" w-48 h-48 rounded-full object-cover border-none   bg-secondary-color z-10" />
+          </div>
+          
 
           <h3 class="text-xl font-semibold text-center">{{ artist.name }}</h3>
         </div>

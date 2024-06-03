@@ -70,60 +70,42 @@
     </div>
   </template>
   
-  <script>
+  <script setup>
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
   import axios from 'axios';
-  
-  export default {
-    setup() {
-      const user = ref({
-        email: '',
-        password: ''
+  import { useToast } from 'vue-toast-notification';
+
+  const router = useRouter();
+  const $toast=useToast();
+  const user = ref({
+    email: '',
+    password: ''
+  });
+
+  const login = () => {
+    axios.post('http://127.0.0.1:8000/api/login/', user.value)
+      .then(response => {
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        
+        router.push('/');
+        
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        alert('Invalid credentials. Please try again.');
+        // this.$toast.error('Invalid Username or password', {
+        //     position: 'top'
+        //   });
       });
-  
-      const login = () => {
-        axios.post('http://127.0.0.1:8000/api/v1/login/', user.value)
-          .then(response => {
-            const accessToken = response.data.access;
-            const isAdmin = response.data.user.is_superuser;
-            const isArtist = response.data.user.is_artist;
-            const userName = response.data.user.first_name;
-            localStorage.setItem('access_token', accessToken);
-            localStorage.setItem('refresh_token', accessToken);
-            localStorage.setItem('isAdmin', isAdmin);
-            localStorage.setItem('isArtist', isArtist);
-            localStorage.setItem('userName', userName);
-            // Assuming that $store is already set up
-            // this.$store.commit('setAdmin', isAdmin);
-            // this.$store.commit('setArtist', isArtist);
-            // this.$store.commit('setToken', accessToken);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  
-            if (isAdmin) {
-              // this.$toast.success('Login Successful', {
-              //   position: 'top'
-              // });
-              // this.$router.push('/admin');
-            } else if (isArtist) {
-              // this.$router.push('/artist');
-            } else {
-              alert('User role not recognized. Redirecting to login.');
-              // this.$router.push('/login');
-            }
-          })
-          .catch(error => {
-            console.error('Error logging in:', error);
-            alert('Invalid credentials. Please try again.');
-          });
-      };
-  
-      return {
-        user,
-        login
-      };
-    }
   };
-  </script>
+</script>
+
   
   <style scoped>
   .body {

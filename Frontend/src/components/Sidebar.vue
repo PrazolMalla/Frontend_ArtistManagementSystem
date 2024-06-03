@@ -2,12 +2,12 @@
     
     <div class="hidden fixed sm:flex h-[100%] justify-start flex-col bg-light-primary-color sm: p-10  lg:w-[15vw] w-[25vw] text-white pt-10 sm:pt-20">
     <p class="text-gray-text-color mb-4 text-sm">MENU</p>
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/dashboard" class="flex flex-row items-center text-xl mb-5 ">
         <IconHamBurger class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color ">Dashboard</p>
     </router-link>
 
-    <router-link to="" class="flex flex-row items-center text-xl mb-5 ">
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
         <IconSupport  class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Staffs</p></router-link>
     <router-link to="/album" class="flex flex-row items-center text-xl mb-5 ">

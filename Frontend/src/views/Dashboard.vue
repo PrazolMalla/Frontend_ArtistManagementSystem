@@ -1,4 +1,6 @@
 <template>
+  <PageLayoutWithPlayer id="display-flex">
+    <template #content>
  <div class="flex flex-row bg-dark-primary-color">
     <div class="flex flex-col">
         
@@ -11,6 +13,8 @@
     </div>
     
   </div>
+  </template>
+  </PageLayoutWithPlayer>
     
 </template>
 <script setup>

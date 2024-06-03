@@ -8,6 +8,7 @@
 
 <script setup>
 import {RouterView } from 'vue-router'
+import MusicPlayerBar from './components/page_layout/MusicPlayerBar.vue';
 
 </script>
 

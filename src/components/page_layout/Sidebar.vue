@@ -1,22 +1,26 @@
 <template>
     
     <div class="hidden fixed sm:flex h-[100%] justify-start flex-col bg-light-primary-color sm: p-10  lg:w-[15vw] w-[25vw] text-white pt-10 sm:pt-20">
-    <p class="text-gray-text-color mb-4 text-sm">MENU</p>
-    <router-link to="/dashboard" class="flex flex-row items-center text-xl mb-5 ">
-        <IconHamBurger class="mr-2"/>
-        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color ">Dashboard</p>
-    </router-link>
-
+<!-- 
     <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
         <IconSupport  class="mr-2"/>
-        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Staffs</p></router-link>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Home</p>
+    </router-link>
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
+        <IconSupport  class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Explore</p>
+    </router-link>
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
+        <IconSupport  class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Manage</p>
+    </router-link>
     <router-link to="/album" class="flex flex-row items-center text-xl mb-5 ">
         <IconAlbum class="mr-2"/>
-        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Albums</p>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Library</p>
     </router-link>
     <router-link to="/artist" class="flex flex-row items-center text-xl mb-5 ">
         <IconArtist class="mr-2"/>
-        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Artists</p>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Stats</p>
     </router-link>
     <router-link to="/music" class="flex flex-row items-center text-xl mb-5 ">
         <IconMusic class="mr-2"/>
@@ -38,11 +42,7 @@
     <router-link to="/genre/add" class="flex flex-row items-center text-xl mb-5 ">
         <IconAdd class="mr-2"/>
         <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Genre</p>
-    </router-link>
-
-
-
-
+    </router-link> -->
 
 
     

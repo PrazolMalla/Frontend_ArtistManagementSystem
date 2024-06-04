@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-            Genre
+          ry  Histo
     </template>
   </PageLayoutWithPlayer>
 </template>

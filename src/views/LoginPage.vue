@@ -1,54 +1,48 @@
 <template>
-    <div class="flex flex-col sm:flex-row items-center h-screen w-full  bg-dark-primary-color " >
+    <div class="flex flex-col sm:flex-row items-center h-screen w-full p-10   bg-dark-primary-color " >
       <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
-        <div class="w-full sm:w-[50vw] h-full bg-dark-primary-color flex items-center justify-center">
+        <div class="w-[90vw] m-auto sm:w-[50vw] h-full bg-dark-primary-color flex items-center justify-center">
           <form
             id="form"
-            class="w-full sm:w-[400px] h-[500px] flex flex-col justify-center"
+            class="w-full sm:w-[400px] h-[500px] flex flex-col gap-4 justify-center"
             @submit.prevent="login"
           >
             <h1 class="text-4xl font-bold text-center mb-5 font-helvetica text-white">Welcome Back</h1>
-            <div class="mt-4">
-              <label for="email" class="mt-4  text-xl font-bold font-helvetica text-white">Email</label>
-              <br />
-              <input
-                type="email"
-                class="mt-2 p-2 focus:outline-none  w-full h-[3rem]  mb rounded-3xl border-2"
-                id="email"
-                v-model="user.email"
-                required
-              />
-            </div>
-            <div class="mt-4">
-              <label for="password" class="text-xl font-bold font-helvetica text-white">Password</label>
-              <br />
-              <input
-                type="password"
-                class="p-2 mt-2 focus:outline-none w-full h-[3rem] mb rounded-3xl border-2"
-                v-model="user.password"
-              />
-            </div>
-            <div class="mt-6">
+            
+              <div>
+                    <label for="email" class="text-sm  font-helvetica text-slate-300 pl-3"> Email</label>
+                  <input
+                    type="email"
+                    class="p-2  focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+                    id="email"
+                    v-model="user.email"
+                    required
+                  />
+              </div>
+              <div>
+                    <label for="password" class="text-sm  font-helvetica text-slate-300 pl-3"> Password</label>
+                  <input
+                    type="password"
+                    class="p-2  focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+                    id="email"
+                    v-model="user.password"
+                    required
+                  />
+              </div>
+              <div class="w-full flex justify-center gap-2 align-middle">
+                  <button
+                      class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
+                      type="submit">
+                        Login
+                    </button>
+                    <div class="text-slate-300 mt-2 ">
+                       <span class="px-2 text-slate-500 "> or </span>
+                    <RouterLink to="/signup" class="hover:text-secondary-color">
+                        SignUp
+                    </RouterLink>
+                  </div>
+              </div>
                 
-              <button
-                class="bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
-                type="submit"
-              >
-                Login
-              </button>
-              <div class="relative flex items-center justify-center mt-8 mb-4">
-              <hr class="w-full border-transparent">
-              <span class="absolute px-3 bg-whites font-medium text-white">Or Create an Account</span>
-            </div>
-              <router-link to="/signup">
-                <button
-                  class="mt-4 bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
-                  type="button"
-                >
-                  Sign Up
-                </button>
-              </router-link>
-            </div>
           </form>
         </div>
         <div class="md:flex justify-center items-center hidden p-16">
@@ -70,60 +64,84 @@
     </div>
   </template>
   
-  <script>
-  import { ref } from 'vue';
-  import axios from 'axios';
-  
-  export default {
-    setup() {
+  <script setup>
+      import { ref } from 'vue';
+      import { useRouter } from 'vue-router';
+      import axios from 'axios';
+      import { useToast } from 'vue-toast-notification';
+      import { onMounted } from 'vue';
+      import { jwtDecode } from 'jwt-decode';
+
+      // const access_token =localStorage.getItem("access_token");
+      const refresh_token =localStorage.getItem("refresh_token");
+      const router = useRouter();
+      const $toast=useToast();
       const user = ref({
         email: '',
         password: ''
       });
-  
-      const login = () => {
-        axios.post('http://127.0.0.1:8000/api/v1/login/', user.value)
-          .then(response => {
-            const accessToken = response.data.access;
-            const isAdmin = response.data.user.is_superuser;
-            const isArtist = response.data.user.is_artist;
-            const userName = response.data.user.first_name;
-            localStorage.setItem('access_token', accessToken);
-            localStorage.setItem('refresh_token', accessToken);
-            localStorage.setItem('isAdmin', isAdmin);
-            localStorage.setItem('isArtist', isArtist);
-            localStorage.setItem('userName', userName);
-            // Assuming that $store is already set up
-            // this.$store.commit('setAdmin', isAdmin);
-            // this.$store.commit('setArtist', isArtist);
-            // this.$store.commit('setToken', accessToken);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  
-            if (isAdmin) {
-              // this.$toast.success('Login Successful', {
-              //   position: 'top'
-              // });
-              // this.$router.push('/admin');
-            } else if (isArtist) {
-              // this.$router.push('/artist');
-            } else {
-              alert('User role not recognized. Redirecting to login.');
-              // this.$router.push('/login');
-            }
-          })
-          .catch(error => {
-            console.error('Error logging in:', error);
-            alert('Invalid credentials. Please try again.');
-          });
-      };
-  
-      return {
-        user,
-        login
-      };
-    }
+
+    const login = () => {
+
+          //  if(user.value.email && user.value.password){
+          //       axios
+          //         .post(`http://127.0.0.1:8000/api/token/`, user.value, {
+          //           headers: {
+          //           "content-Type": "application/json",
+          //           },
+          //         })
+          //         .then((response) => {
+          //         if(response.status == 200){
+          //             localStorage.setItem("refresh_token",response.data.refresh);
+          //             localStorage.setItem("access_token",response.data.access);
+          //             let data = jwtDecode(response.data.access)
+          //             localStorage.setItem("userId", data.user_id)
+          //             console.log(data.user_id)
+          //             this.$store.dispatch('setUserData')
+          //            router.push('/');
+          //         }
+          //         else if(response.status == 401){
+          //           this.$toast.error(response.detail, {
+          //               position: 'top'
+          //             });
+          //         }
+          //         })
+          //         .catch(error => {
+          //           console.error('Error logging in:', error);
+          //           alert('Invalid credentials. Please try again.');
+          //           this.$toast.error('Invalid Username or password', {
+          //               position: 'top'
+          //             });
+          //         });
+          //       }
+          //       else{
+          //           this.$toast.error('Invalid Username or password', {
+          //               position: 'top'
+          //             });
+          //       }
+
+    axios.post('http://127.0.0.1:8000/api/login/', user.value)
+      .then(response => {
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        
+        router.push('/');
+        
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        alert('Invalid credentials. Please try again.');
+        // this.$toast.error('Invalid Username or password', {
+        //     position: 'top'
+        //   });
+      });
   };
-  </script>
+</script>
+
   
   <style scoped>
   .body {

@@ -1,7 +1,7 @@
 <template lang="">
 
     
-    <div v-if="is_radioMode" class="absolute bggradientradio w-screen h-screen z-50 flex flex-col justify-center gap-10 items-center">
+    <div v-if="is_radioMode" class="fixed top-0 bggradientradio w-screen h-screen z-50 flex flex-col justify-center gap-10 items-center">
         <img src="https://source.unsplash.com/800x800/?portrait" alt="" class="w-32 rounded-md hover:cursor-pointer select-none">
         <div class="flex justify-center gap-10 items-center">
             <v-icon name="fa-times" fill="#cbd5e1" scale="1.5" @click="closeRadioMode" class="absolute top-5 right-5 cursor-pointer" />   

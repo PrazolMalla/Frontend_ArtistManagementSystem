@@ -91,14 +91,15 @@
 
 
     <div class="absolute bottom-0 p-3  w-full  flex justify-between left-0">
-        <RouterLink to="/user-profile" class="relative flex gap-2 cursor-pointer">
+        <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
           
 				<img src="https://source.unsplash.com/800x800/?portrait" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 hover:cursor-pointer hover:border-secondary-color">
                 <h2 class=" font-medium text-slate-300 text-md mt-2 sm:flex hidden">Prazwol</h2>
               
         </RouterLink>
-        <v-icon name="md-settings-round"  fill="#cbd5e1" scale="1" class="mt-2 cursor-pointer" /> 
-
+        <RouterLink to="/user/settings">
+          <v-icon  name="md-settings-round"  fill="#cbd5e1" scale="1" class="mt-2 cursor-pointer" /> 
+        </RouterLink>
     </div>
   </div>
 </template>
@@ -114,18 +115,17 @@ export default {
           name: 'Manage',
           icon: 'md-manageaccounts-round',
           actions: [
-            { to: '/', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' },
+            { to: '/manage/staff', icon: 'fa-user-shield', text: 'Staff' },
           ],
         },
         {
           name: 'Library',
           icon: 'md-librarymusic',
           actions: [
-            { to: '/', icon: 'fa-heart', text: 'Liked' },
-            { to: '/', icon: 'fa-user-check', text: 'Followed' },
-            { to: '/', icon: 'fa-user-clock', text: 'History' },
-            { to: '/', icon: 'fa-comment-alt', text: 'Commented' },
+            { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
+            { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
+            { to: '/library/history', icon: 'fa-user-clock', text: 'History' },
           ],
         },
         {
@@ -143,9 +143,9 @@ export default {
           name: 'Stats',
           icon: 'fa-chart-line',
           actions: [
-            { to: '/', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/', icon: 'fa-user-shield', text: 'Staff' },
-            { to: '/', icon: 'fa-user-alt', text: 'User' },
+            { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
+            { to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/stats/user', icon: 'fa-user-alt', text: 'User' },
           ],
         },
       ],

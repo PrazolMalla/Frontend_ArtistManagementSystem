@@ -1,12 +1,12 @@
 <template>
-  <PageLayout id="display-flex">
+  <PageLayoutWithPlayer id="display-flex">
     <template #content>
        <DetailCard  info="Album" :id="id"/>
 
 
        <MusicTiles/>
     </template>
-  </PageLayout>
+  </PageLayoutWithPlayer>
 </template>
 
 <script>

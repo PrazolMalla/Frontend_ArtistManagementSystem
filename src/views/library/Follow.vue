@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-            Genre
+            Follow
     </template>
   </PageLayoutWithPlayer>
 </template>

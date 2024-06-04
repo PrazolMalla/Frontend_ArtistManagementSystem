@@ -1,7 +1,5 @@
 <template>
 
-    <PageLayoutWithPlayer>
-    <template #content >
         <fieldset class="border border-slate-700 rounded-md">
             <legend class="ml-10">Add Music</legend>  
             <div class="form-container  w-full p-10 h-full bg-dark-primary-color  flex flex-wrap justify-start gap-5  align-middle">
@@ -67,8 +65,6 @@
 
       </div>
      </fieldset>
-   </template>
-  </PageLayoutWithPlayer>
 </template>
 
 <script>

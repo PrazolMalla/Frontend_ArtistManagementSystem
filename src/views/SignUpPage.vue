@@ -9,30 +9,30 @@
                     <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{ formErrors[item.name] }}</span>
                 </div>
                    <div class="w-full sm:w-3/12  text-white flex flex-col mt-2">
-                      <label for="img" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Profile Pic</label>
-                      <input type="file" id="img" name="profile" @change="handleFileChange"  class="hidden " >
+                      <label for="profile" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Profile Pic</label>
+                      <input type="file" id="profile" name="profile" @change="handleProfileChange" class="hidden">
 
                       <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
                     </div>
                 <div class="w-full sm:w-3/12   text-white flex flex-col  mt-2">
-                      <label for="img" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Cover Pic</label>
-                      <input type="file" id="img" name="profile" @change="handleFileChange"  class="hidden " >
+                      <label for="cover" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Cover Pic</label>
+                      <input type="file" id="cover" name="cover" @change="handleCoverChange"  class="hidden">
 
-                      <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
+                      <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
                     </div>
 
                 <div class="flex flex-col">
                   <select v-model="user.gender" id="gender" name="gender"
                     class="rounded-3xl  px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
                     <option value="" disabled>Gender</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="O">Other</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                    <option value="2">Other</option>
                   </select>
                   <span v-if="formErrors.gender" class="text-orange-300">{{ formErrors.gender }}</span>
                 </div>
                 <div class="w-full text-center">
-                  <input type="checkbox" class="w-5" v-model="isArtist" @change="updateIsArtist">
+                  <input type="checkbox" class="w-5" v-model="isArtist">
                   <label for="isArtist"  class=" p-2 text-slate-100 hover:text-secondary-color" >Are you signing  as an Artist?</label>
                 </div>
                 <div class="w-full flex justify-center gap-2 align-middle">
@@ -60,7 +60,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-
+import { useRouter } from 'vue-router';
+const router=useRouter();
+const isArtist=ref(false);
 const user = ref({
   firstname: '',
   lastname: '',
@@ -72,17 +74,11 @@ const user = ref({
   country: '',
   bio: '',
   gender: '',
-  img_profile: null,
-});
-
-const artist = ref({
-  stage_name: '',
-  img_cover: null,
 });
 
 const userInputField = ref([
-  { id: '1', name: 'first_name', type: 'text', label: 'First Name' },
-  { id: '2', name: 'last_name', type: 'text', label: 'Last Name' },
+  { id: '1', name: 'firstname', type: 'text', label: 'First Name' },
+  { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
   { id: '3', name: 'username', type: 'text', label: 'Username' },
   { id: '4', name: 'email', type: 'email', label: 'Email' },
   { id: '5', name: 'password', type: 'password', label: 'Password' },
@@ -102,13 +98,14 @@ const validateField = (fieldName) => {
     formErrors.value.Repassword = "Passwords do not match.";
   }
 };
-
-const handleFileChange = (event) => {
-  user.value.profile = event.target.files[0];
+const profileFile = ref(null)
+const coverFile = ref(null)
+const handleProfileChange = (event) => {
+  profileFile.value = event.target.files[0];
 };
 
 const handleCoverChange = (event) => {
-  artist.value.img_cover = event.target.files[0];
+  coverFile.value = event.target.files[0];
 };
 
 const addUser = () => {
@@ -126,12 +123,6 @@ const addUser = () => {
   if(user.value.username.length <5){
     formErrors.value.username= "Username should be atleast 5 character long.";
   }
-  if(user.value.first_name.length<5){
-    formErrors.value.first_name="Firstname should be atleast 5 characters long.";
-  }
-  if(user.value.last_name.length<5){
-    formErrors.value.last_name="Lastname should be atleast 5 characters long.";
-  }
   if (!user.value.email) {
     formErrors.value.email = "Please provide an email.";
   }
@@ -140,28 +131,34 @@ const addUser = () => {
   }
 
   if (Object.keys(formErrors.value).length === 0) {
-     const RegisterSubmit = ()  => {
-      axios({
-        method: "post",
-        url: `http://127.0.0.1:8000/api/user/post/`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          "email": user.email, "username":  user.username, "password": user.password, "firstname":  user.firstname, "lastname":  user.lastname, "dob": user.dob, "gender":  user.gender, "country": user.country, "img_profile": user.img_profile, "is_artist": user.is_artist
-            },
-      }).then(response => {
-        console.log(response)
-        if(response.status == 200){
-                      localStorage.setItem("refresh_token",response.data.refreshJWT);
-                      localStorage.setItem("access_token",response.data.accessJWT);
-                      this.$router.push('/dashboard')
-        }
-      }).catch(err => {
-        console.log(err.response.data)
-      });
+    const formData = new FormData();
+    formData.append('email', user.value.email);
+    formData.append('password', user.value.password);
+    formData.append('firstname', user.value.firstname);
+    formData.append('lastname', user.value.lastname);
+    formData.append('username', user.value.username);
+    if(user.value.dob){
+      formData.append('dob', user.value.dob);
     }
-}
+    formData.append('gender', user.value.gender);
+    formData.append('country', user.value.country);
+    formData.append('is_artist', isArtist.value);
+    if (profileFile.value) {
+      formData.append('img_profile', profileFile.value); 
+    }
+    if (coverFile.value && isArtist.value) {
+      formData.append('img_cover', coverFile.value); 
+    }
+    formData.append('is_active', "True");
+    axios.post('http://127.0.0.1:8000/api/user/post/', formData)
+        .then(response => {
+            console.log("registered");
+            router.push('/login');
+        })
+        .catch(error => {
+            console.error(error);
+        });
+  }
 }
 </script>
 

@@ -14,7 +14,7 @@
         fill="#302f31"
         scale="1.5"
         @click="closeRadioMode"
-        class="absolute top-5 right-5 cursor-pointer"
+        class="absolute top-5 right-5 cursor-pointer "
       />
       <v-icon
         name="fa-angle-left"
@@ -57,7 +57,7 @@
         <h1
           class="text-primary-text-color font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none"
         >
-          MUSICA
+          MUSICÀ
         </h1>
       </RouterLink>
       <div
@@ -170,14 +170,16 @@ export default {
 </script>
 <style scoped>
 .bggradient {
-  background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));
+  
+  background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .bggradientradio {
-  background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));
+  
+  background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(10px);
 }

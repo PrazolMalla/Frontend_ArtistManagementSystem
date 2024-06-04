@@ -1,6 +1,8 @@
 <template>
   <PageLayout>
     <template #content>
+
+      <!-- <AddMusic/> -->
       <div class="text-primary-text-color flex flex-col gap-2">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
@@ -29,71 +31,51 @@
                 </button>
               </div>
             </div>
-            <div class="flex mb-4"></div>
-            <table class="w-full bg-transparent rounded-lg">
-              <thead>
-                <tr class="bg-transparent border-b border-b-primary-text-color">
-                  <th class="p-4 text-left">Name</th>
 
-                  <th class="p-4 text-left">Release Date</th>
-                  <th class="p-4 text-left">Hide/Unhide</th>
-                  <th class="p-4 text-left">Enable/Disable</th>
-                  <th class="p-4 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="song in songs"
-                  :key="song.name"
-                  class="border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
-                >
-                  <td class="p-4 flex items-center">
-                    <img :src="song.image" alt="Song image" class="w-16 h-16 rounded-lg mr-4" />
-                    <div>
-                      <div class="font-bold text-secondary-color">{{ song.name }}</div>
-                      <div class="">{{ song.artist }}</div>
-                      <div>{{ song.album }}</div>
-                    </div>
-                  </td>
-                  <td class="p-4">{{ song.releaseDate }}</td>
-                  <td class="p-4">
-                    <label class="relative inline-flex cursor-pointer items-center">
-                      <input id="switch-2" type="checkbox" class="peer sr-only" />
-                      <label for="switch-2" class="hidden"></label>
-                      <div
-                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                      ></div>
-                    </label>
-                  </td>
-                  <td class="p-4">
-                    <label class="relative inline-flex cursor-pointer items-center">
-                      <input id="switch-2" type="checkbox" class="peer sr-only" />
-                      <label for="switch-2" class="hidden"></label>
-                      <div
-                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                      ></div>
-                    </label>
-                  </td>
 
-                  <td class="p-4">
-                    <div class="flex gap-6">
-                      <v-icon
-                        name="fa-regular-edit"
-                        fill="#00b166"
-                        scale="1.5"
-                        class="cursor-pointer"
-                      />
-                      <v-icon
-                        name="fa-regular-trash-alt"
-                        fill="#ff4000"
-                        scale="1.5"
-                        class="cursor-pointer"
-                      />
+
+                    <div class="flex flex-col justify-between">
+                      <div class="flex flex-row bg-transparent border-b border-b-primary-text-color">
+                        <div class="p-4 w-full">Name</div>
+                        <div class="p-4 w-1/6">Hide</div>
+                        <div class="p-4 w-1/6">Enable</div>
+                        <div class="p-4 w-1/3">Actions</div>
+                      </div>
+                      <div v-for="song in songs" :key="song.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color">
+                        <div class="p-4 flex items-center w-full">
+                          <img :src="song.image" alt="Song image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4 " /> <!-- Hide on small screens -->
+                          <div>
+                            <div class="font-bold text-secondary-color text-sm sm:text-base  md:text-md">{{ song.name }}</div> <!-- Reduced font size on small screens -->
+                            <div class="text-sm sm:text-base">{{ song.artist }}</div> <!-- Reduced font size on small screens -->
+                            <div class="text-sm sm:text-base">{{ song.album }}</div> <!-- Reduced font size on small screens -->
+                          </div>
+                        </div>
+                        <div class="flex w-full justify-between flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
+                        <p>Hide</p>
+                        <p>Enable</p>
+                        <p>Actions</p>
+                      </div>
+                        <div class="p-4 w-1/6">
+                          <label class="relative inline-flex cursor-pointer items-center">
+                            <input id="switch-2" type="checkbox" class="peer sr-only" />
+                            <label for="switch-2" class="hidden"></label>
+                            <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
+                          </label>
+                        </div>
+                        <div class="p-4 w-1/6">
+                          <label class="relative inline-flex cursor-pointer items-center">
+                            <input id="switch-2" type="checkbox" class="peer sr-only" />
+                            <label for="switch-2" class="hidden"></label>
+                            <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
+                          </label>
+                        </div>
+                        <div class="p-4 w-1/3 flex gap-6">
+                          <v-icon name="fa-regular-edit" fill="#00b166" scale="1.5" class="cursor-pointer"></v-icon>
+                          <v-icon name="fa-regular-trash-alt" fill="#ff4000" scale="1.5" class="cursor-pointer"></v-icon>
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
           </div>
         </div>
       </div>

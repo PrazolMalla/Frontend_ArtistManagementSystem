@@ -4,9 +4,9 @@
           <h1 class=" text-2xl font-semibold mb-4">Lyrics</h1>
           <div class="overflow-y-scroll ">
             
-          <pre class="lg:w-[47vw] text-justify lg:text-lg w-[80vw] lg:mb-0 mb-40 md:w-[65vw]">
-{{lyrics}}
-</pre>
+          <pre class="lg:w-[47vw]  text-justify lg:text-lg w-[80vw] lg:mb-0 mb-40 md:w-[65vw] overflow-scroll">
+            {{lyrics}}
+          </pre>
           </div>
          
           

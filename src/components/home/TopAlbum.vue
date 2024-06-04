@@ -1,22 +1,39 @@
 <template>
   <div class="flex flex-col items-center p-8 overflow-x-auto">
-    <h2 class="text-3xl font-bold mb-4 text-secondary-color">Top Albums</h2>
-    <div class="flex space-x-4">
-      <div
+    <h2 class="text-xl font-bold mb-4 text-secondary-color">Top Albums</h2>
+    <div class="pl-[30vw] flex gap-4">
+      <RouterLink :to="'album/'+ album.id"
         v-for="album in albums"
         :key="album.id"
-        class="album-card bg-white rounded-lg px-3 shadow-md transform hover:scale-105 transition-transform duration-300"
+        class="album-card p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md o"
       >
-        <div class="flex flex-col items-center p-4">
-          <img
-            src="https://source.unsplash.com/800x800/?portrait"
-            alt="Album Image"
-            class="w-56 h-56 object-cover rounded-md mb-4"
-          />
-          <h3 class="text-xl font-semibold text-center">{{ album.name }}</h3>
-          <p class="text-gray-600">{{ album.artist }}</p>
+        <div class="flex flex-col items-center ">
+            <div class="flex justify-start lg:w-[15vw] w-[40vw]"> 
+              <div class="z-20">
+                <img
+                  src="../../assets/images/album-cover-design-template-05a138f43b181c728e956968786fdf7d_screen.jpg"
+                  alt=""
+                  class="w-[10rem]" 
+                />
+              </div>
+              <div class="relative z-10 lg:ml-[-6rem] lg:mt-[-1.5rem] mt-[-0.75rem] ml-[-3.5rem]"> 
+                <div
+                  class="absolute lg:w-12 lg:h-12 rounded-full bg-red-50 lg:top-[4.5rem] lg:left-[4.75rem] lg:flex hidden overflow-hidden" 
+                >
+                  <img
+                    src="../../assets/images/album-cover-design-template-05a138f43b181c728e956968786fdf7d_screen.jpg"
+                    alt=""
+                  />
+                </div>
+                <img src="../../assets/images/musiccassette.png" alt="" class="w-[12.5rem]" /> 
+              </div>
+            </div>
+
+      
+          <h3 class="text-md font-semibold text-center  mt-4">{{ album.name }}</h3>
+          <p class="text-sm text-gray-600">{{ album.artist }}</p>
         </div>
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -34,23 +51,7 @@ const albums = ref([
 ])
 </script>
 <style scoped>
-.album-card {
-  @apply bg-light-primary-color rounded-lg shadow-md overflow-hidden;
-  width: 18rem;
-  height: 18rem;
-}
 
-.album-card img {
-  @apply w-full h-full object-cover rounded-md transition-transform duration-300;
-}
-
-.album-card h3 {
-  @apply text-xl font-semibold mt-4;
-}
-
-.album-card p {
-  @apply text-gray-600;
-}
 
 @media (min-width: 768px) {
   .album-card {

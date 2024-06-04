@@ -9,8 +9,9 @@ import Music from '@/views/explore/Music.vue'
 import Band from '@/views/explore/Band.vue'
 import Genre from '@/views/explore/Genre.vue'
 import ArtistManage from '@/views/manage/ArtistManage.vue'
-import StaffManage from '@/views/manage/StaffManage.vue'
+import UserManage from '@/views/manage/UserManage.vue'
 import MusicManage from '@/views/manage/MusicManage.vue'
+import AlbumManage from '@/views/manage/AlbumManage.vue'
 import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
@@ -99,6 +100,18 @@ const router = createRouter({
       path: '/manage/music',
       name: 'manageMusic',
       component: MusicManage,
+      meta: { auth: true }
+    },
+     {
+      path: '/manage/user',
+      name: 'manageUser',
+      component: UserManage,
+      meta: { auth: true }
+    },
+     {
+      path: '/manage/album',
+      name: 'manageAlbum',
+      component: AlbumManage,
       meta: { auth: true }
     },
    

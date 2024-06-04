@@ -16,7 +16,7 @@
                     </div>
                 <div class="w-full sm:w-3/12   text-white flex flex-col  mt-2">
                       <label for="cover" class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50">Cover Pic</label>
-                      <input type="file" id="cover" name="cover" @change="handleCoverChange"  class="hidden">
+                      <input type="file" id="cover" name="cover" @change="handleCoverChange" >
 
                       <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
                     </div>

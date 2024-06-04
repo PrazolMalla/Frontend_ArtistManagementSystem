@@ -1,11 +1,11 @@
 <template lang="">
-    <div :class=" { 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer }" class="w-full flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5 border sm:border-none sm:rounded-lg sm:h-17  h-17">
-        <!-- <div class=" h-1 bg-white"></div> -->
-        <input type="range" min="0" max="100" v-model="playerData.volume" class="playRange w-full hover:h-2 h-1  rounded-full appearance-none cursor-pointer thumb-edit">
+    <div :class=" { 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer } " class=" flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5 border sm:border-none sm:rounded-lg sm:h-17  h-17 overflow-visible">
+       
+        <input v-if="is_ShownPlayer" type="range" min="0" max="100" v-model="playerData.volume" class="playRange w-full hover:h-2 h-1  rounded-full appearance-none cursor-pointer thumb-edit">
       
         <div class="   flex px-2 justify-between items-center shadow-lg py-2">
         <div class="flex items-center gap-1 text-white">
-            <v-icon name="md-playlistplay-round"  fill="#cbd5e1" scale="2" class="mt-2 cursor-pointer" /> 
+            <v-icon v-if="is_ShownPlayer" name="md-playlistplay-round"  fill="#cbd5e1" scale="2" class="mt-2 cursor-pointer" /> 
         
             <img @click="toggleBar"  src="https://source.unsplash.com/800x800/?portrait" alt="Album Cover" class="h-12 w-12 rounded-md">
             <div v-if="is_ShownPlayer" :to="'/music/' + playerData.id" class=" flex flex-col  flex-wrap">
@@ -38,13 +38,12 @@ export default{
            return{
              is_ShownPlayer: true,
              is_playing: this.is_play,
-             volumeState: localStorage.getItem('volume'),
+             volumeState: 1,
            }
         },
      computed:{
             ...mapState(['playerData', 'is_play']),
             volume() {
-                console.log(this.volumeState)
                 switch (this.volumeState) {
                         case 0: {
                              localStorage.setItem('volume', 0)

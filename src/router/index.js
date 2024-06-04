@@ -9,7 +9,7 @@ import Music from '@/views/explore/Music.vue'
 import Band from '@/views/explore/Band.vue'
 import Genre from '@/views/explore/Genre.vue'
 import ArtistManage from '@/views/manage/ArtistManage.vue'
-import StaffManage from '@/views/manage/StaffManage.vue'
+import UserManage from '@/views/manage/UserManage.vue'
 import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
@@ -96,9 +96,9 @@ const router = createRouter({
       meta: { auth: true } 
     },
     {
-      path: '/manage/staff',
-      name: 'manageStaff',
-      component: StaffManage,
+      path: '/manage/user',
+      name: 'manageUser',
+      component: UserManage,
       meta: { auth: true } 
     },
 

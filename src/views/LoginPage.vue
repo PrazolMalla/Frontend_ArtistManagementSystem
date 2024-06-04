@@ -120,7 +120,7 @@
           //             });
           //       }
 
-    axios.post('http://127.0.0.1:8000/api/login/', user.value)
+      axios.post('http://127.0.0.1:8000/api/login/', user.value)
       .then(response => {
         const accessToken = response.data.access_token;
         const refreshToken = response.data.refresh_token;
@@ -133,8 +133,7 @@
         
       })
       .catch(error => {
-        console.error('Error logging in:', error);
-        alert('Invalid credentials. Please try again.');
+        console.error('Error logging in:', error.data);
         // this.$toast.error('Invalid Username or password', {
         //     position: 'top'
         //   });

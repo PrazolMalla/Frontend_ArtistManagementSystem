@@ -7,10 +7,13 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+    import axios from 'axios';
+    import { jwtDecode } from 'jwt-decode';
     import { onMounted } from 'vue';
-    import {RouterView } from 'vue-router';
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
     onMounted(async () => {
+        console.log(localStorage.getItem("refresh_token"))
         if(localStorage.getItem("refresh_token")){
                     axios.post(`http://127.0.0.1:8000/api/token/refresh/`, {'refresh': localStorage.getItem("refresh_token")}, {
                     headers: {
@@ -19,7 +22,6 @@ import axios from 'axios';
                         if(response.status == 200){
                             localStorage.setItem("access_token",response.data.access);
                             let data = jwtDecode(response.data.access)
-                            console.log(data.user_id)
                             localStorage.setItem("userId", data.user_id)
                             router.push('/')
                         }

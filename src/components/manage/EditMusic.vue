@@ -126,7 +126,7 @@ export default{
                             const RegisterSubmit = ()  => {
                             axios({
                                 method: "post",
-                                url: `http://127.0.0.1:8000/api/user/post/`,
+                                url: `http://127.0.0.1:8000/api/music/edit/`,
                                 headers: {
                                 "Content-Type": "application/json",
                                 },
@@ -148,13 +148,6 @@ export default{
             }
     }
 }
-// const handleFileChange = (event) => {
-//   user.value.profile = event.target.files[0];
-// };
-
-// const handleCoverChange = (event) => {
-//   artist.value.img_cover = event.target.files[0];
-// };
 </script>
 
 <style scoped>

@@ -1,9 +1,17 @@
 <template lang="">
   <div
     :class="{ 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer }"
+<<<<<<< HEAD
     class=" flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5  sm:rounded-lg sm:h-17 h-17 overflow-y-hidden"
   >
     <input v-if="is_ShownPlayer"
+=======
+    class=" flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5 border sm:border-none sm:rounded-lg sm:h-17 h-17"
+  >
+    <!-- <div class=" h-1 bg-white"></div> -->
+    <input 
+      v-if="is_ShownPlayer"
+>>>>>>> ced1b82599b645a87a1a44128961722184669a60
       type="range"
       min="0"
       max="100"
@@ -13,7 +21,14 @@
 
     <div class="flex px-2 justify-between items-center  py-2">
       <div class="flex items-center gap-1 text-light-primary-color">
+<<<<<<< HEAD
         <v-icon v-if="is_ShownPlayer" name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
+=======
+        <v-icon 
+        
+      v-if="is_ShownPlayer"
+        name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
+>>>>>>> ced1b82599b645a87a1a44128961722184669a60
 
         <img
           @click="toggleBar"

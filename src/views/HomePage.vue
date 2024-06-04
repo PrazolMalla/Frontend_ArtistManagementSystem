@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
- import TopArtist from '@/components/TopArtist.vue';
-  import TopAlbum from '@/components/TopAlbum.vue'
+ import TopArtist from '@/components/home/TopArtist.vue';
+  import TopAlbum from '@/components/home/TopAlbum.vue'
 
 
 </script>

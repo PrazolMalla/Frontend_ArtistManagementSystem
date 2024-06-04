@@ -5,11 +5,11 @@
       <div
         v-for="artist in artists"
         :key="artist.id"
-        class="artist-card w-[18rem] bg-light-primary-color rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
+        class="artist-card w-[18rem] transform hover:scale-105 transition-transform duration-300"
       >
-        <div class="flex flex-col items-center p-4 overflow-x-hidden">
+        <div class="flex flex-col gap-2  items-center p-4 overflow-x-hidden">
           <div
-            class="w-52 h-52 rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            class="w-52 h-52  rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           >
             <img
               src="https://source.unsplash.com/800x800/?portrait"

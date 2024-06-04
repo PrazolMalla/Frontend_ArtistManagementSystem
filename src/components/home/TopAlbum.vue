@@ -5,7 +5,7 @@
       <div
         v-for="album in albums"
         :key="album.id"
-        class="album-card bg-white rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
+        class="album-card bg-white rounded-lg px-3 shadow-md transform hover:scale-105 transition-transform duration-300"
       >
         <div class="flex flex-col items-center p-4">
           <img

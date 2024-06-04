@@ -8,7 +8,7 @@
           class="album-card bg-white rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
         >
           <div class="flex flex-col items-center p-4">
-            <img :src="albumImage" alt="Album Image" class="w-56 h-56 object-cover rounded-md mb-4" />
+            <img src="https://source.unsplash.com/800x800/?portrait" alt="Album Image" class="w-56 h-56 object-cover rounded-md mb-4" />
             <h3 class="text-xl font-semibold text-center">{{ album.name }}</h3>
             <p class="text-gray-600">{{ album.artist }}</p>
           </div>
@@ -19,8 +19,6 @@
   
   <script setup>
   import { ref } from 'vue';
-  
-  import albumImage from '../../src/assets/beatles.jpg'; 
   
   const albums = ref([
     { id: 1, name: 'Album 1', artist: 'Artist 1' },

@@ -10,7 +10,7 @@
         <div class="flex flex-col items-center p-4 overflow-x-hidden">
           
           <div class="w-52 h-52 rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
-            <img :src="artistImage" alt="Artist Image" class=" w-48 h-48 rounded-full object-cover border-none   bg-secondary-color z-10" />
+            <img src="https://source.unsplash.com/800x800/?portrait" alt="Artist Image" class=" w-48 h-48 rounded-full object-cover border-none   bg-secondary-color z-10" />
           </div>
           
 
@@ -24,7 +24,6 @@
 <script setup>
 import { ref } from 'vue';
 
-import artistImage from '../../src/assets/ariana.jpg'; 
 
 const artists = ref([
   { id: 1, name: 'Taylor Swift' },

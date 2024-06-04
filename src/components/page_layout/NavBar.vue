@@ -1,9 +1,23 @@
 <template lang="">
+
+    
+    <div v-if="is_radioMode" class="absolute bggradientradio w-screen h-screen z-50 flex flex-col justify-center gap-10 items-center">
+        <img src="https://source.unsplash.com/800x800/?portrait" alt="" class="w-32 rounded-md hover:cursor-pointer select-none">
+        <div class="flex justify-center gap-10 items-center">
+            <v-icon name="fa-times" fill="#cbd5e1" scale="1.5" @click="closeRadioMode" class="absolute top-5 right-5 cursor-pointer" />   
+            <v-icon name="fa-angle-left" @click="prevTrack"  fill="#cbd5e1" scale="4" class=" cursor-pointer" /> 
+            <v-icon v-if="is_playing" @click="togglePlayPause"  name="fa-pause"  fill="#cbd5e1" scale="4" class=" cursor-pointer" /> 
+            <v-icon v-else name="fa-play" @click="togglePlayPause"   fill="#cbd5e1" scale="4" class=" cursor-pointer" /> 
+            <v-icon name="fa-angle-right" @click="nextTrack"  fill="#cbd5e1" scale="4" class=" cursor-pointer" /> 
+        </div>
+    </div>
+
+
+
     <div class=" fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between sm:px-16 z-40">
         <div class="flex gap-4 sm:gap-8">
             <RouterLink to="/">
-            <h1 class=" text-slate-300 font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer">MUSICA</h1>
-
+            <h1 class=" text-slate-300 font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none">MUSICA</h1>
             </RouterLink>
             <div class="hidden md:flex lg:w-[40vw] my-4  justify-between border border-slate-500 rounded-full">
                 <input type="text" class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm  text-slate-300 hidden sm:flex" placeholder="Search Music, Artist, Album, Band ..."
@@ -11,45 +25,22 @@
                     @blur="offFocusSearchBar"
                     @focus="onFocusSearchBar" />
                     <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class=" cursor-pointer hover:text-gray-950 p-1" />
-                
             </div>
-             <div
-                v-if="is_showSearchPopUp"
-                class="bggradient z-30 searchField absolute  z-2 sm:ml-50 w-5/6 h-20 top-20  rounded-lg"
-                ></div>
-                <div
-                v-if="is_showNotificationPopUp"
-                class="bggradient z-30 searchField absolute  z-2 w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 rounded-lg"
-                ></div>
-
-
+            <div  v-if="is_showSearchPopUp"  class="bggradient z-30 searchField absolute  sm:ml-50 w-5/6 h-20 top-20  rounded-lg" ></div>
+            <div v-if="is_showNotificationPopUp" class="bggradient z-30 searchField absolute  w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 rounded-lg"></div>
         </div>
         <div class="flex gap-4">
-
             <div class="flex md:hidden">
-                <v-icon name="md-search"  fill="#cbd5e1" scale="1.5" class="cursor-pointer mt-5" />
-
-            </div>
-                
-            <v-icon name="md-notifications-outlined" fill="#cbd5e1" scale="1.5" class=" cursor-pointer mt-5"
-                @click = "toggleNotification"
-            />
-            
-
-
-            <RouterLink to="/user-profile">
-
-            
-            <div class="relative flex gap-2 cursor-pointer">
-				<img :src="user.profileImg" alt="" class="w-10 h-10 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color">
-                <h2 class=" font-medium text-slate-300 text-md mt-6 sm:flex hidden">{{user.username}}</h2>
-
-			</div>
-        </RouterLink>
-        </div>
+                <v-icon name="fa-search"  fill="#cbd5e1" scale="1.5" class="cursor-pointer mt-5" />
+            </div> 
+            <v-icon name="md-notifications-outlined" fill="#cbd5e1" scale="1.2" class=" cursor-pointer mt-5" @click = "toggleNotification"/>
+            <v-icon name="md-darkmode-round" fill="#cbd5e1" scale="1.2" class=" cursor-pointer mt-5"/>
+            <v-icon name="md-radio-round" fill="#cbd5e1" scale="1.2" class=" cursor-pointer mt-5"  @click = "openRadioMode"/>
+       </div>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default{
     data(){
         return {
@@ -60,7 +51,12 @@ export default{
             is_showNotificationPopUp : false,
             searchName :"",          
             is_showSearchPopUp: false,
+            is_playing: this.is_play,
+            is_radioMode: false
         }
+    },
+    computed:{
+            ...mapState(['playerData', 'is_play']),
     },
     watch: {
             getData(newVal){
@@ -76,6 +72,16 @@ export default{
         },
     },
     methods:{
+        closeRadioMode(){
+                this.is_radioMode = false
+        },
+        openRadioMode(){
+                this.is_radioMode = true
+        },
+        togglePlayPause(){
+                    this.is_playing = !this.is_playing
+                    this.$store.dispatch('setPlayState', this.is_playing )
+            },
         offFocusSearchBar() {
         this.is_showSearchPopUp = false;
         },
@@ -96,10 +102,16 @@ export default{
 <style>
 
 .bggradient {
-        background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));    backdrop-filter: blur(10px);
+        background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));    
+        backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.bggradientradio{
+        background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));    
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(10px);
 }
     
 </style>

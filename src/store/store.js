@@ -11,6 +11,8 @@ export default createStore({
     artistData: Object,
     bandData: Object,
     playerData: Object,
+    is_play: Boolean,
+    volume: Number,
     genreData: Object,
   },
   mutations:{
@@ -32,6 +34,14 @@ export default createStore({
     },
     SET_PLAYER_DATA(state, playerData) {
         state.playerData =  playerData;
+    },
+
+    SET_PLAY_STATE(state, is_play) {
+        state.is_play =  is_play;
+    },
+
+    SET_VOLUME_STATE(state, volume) {
+        state.volume =  volume;
     },
     SET_ALBUM_DATA(state, albumData) {
         state.albumData =  albumData;
@@ -104,7 +114,14 @@ export default createStore({
                 commit('SET_PLAYER_DATA', music)
   },
 
-
+  setVolumeState({commit}, volume){
+                localStorage.setItem('volume', volume)
+                commit('SET_VOLUME_STATE', volume)
+  },
+   setPlayState({commit}, state){
+                localStorage.setItem('is_play', state)
+                commit('SET_PLAY_STATE', state)
+  },
 
 
   setMusicData({commit}){

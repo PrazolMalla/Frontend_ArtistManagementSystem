@@ -143,7 +143,7 @@ export default {
           icon: 'fa-chart-line',
           actions: [
             { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/stats/admin', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' },
             { to: '/stats/user', icon: 'fa-user-alt', text: 'User' },
           ],
         },

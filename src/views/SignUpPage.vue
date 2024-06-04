@@ -153,7 +153,7 @@ const addUser = () => {
     axios.post('http://127.0.0.1:8000/api/user/post/', formData)
         .then(response => {
             console.log("registered");
-            router.push({ name: 'LoginPage' });
+            router.push('/login');
         })
         .catch(error => {
             console.error(error);

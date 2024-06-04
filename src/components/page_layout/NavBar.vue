@@ -168,7 +168,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .bggradient {
   background: linear-gradient(45deg, rgba(255, 81, 109, 0.7), rgba(8, 7, 39, 0.7));
   backdrop-filter: blur(10px);

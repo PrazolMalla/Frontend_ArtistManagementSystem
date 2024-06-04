@@ -11,7 +11,7 @@
       />
       <button
         type="submit"
-        class="mt-2 bg-secondary-color w-16 h-6 text-primary-text-color rounded-sm text-sm font-semibold lg:w-24 lg:h-10 lg:text-lg lg:mt-4 hover:border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+        class="mt-2 bg-secondary-color w-16 h-6 text-dark-primary-color rounded-sm text-sm font-semibold lg:w-24 lg:h-10 lg:text-lg lg:mt-4 hover:border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
       >
         Share
       </button>

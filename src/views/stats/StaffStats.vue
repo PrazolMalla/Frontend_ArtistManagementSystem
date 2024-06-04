@@ -15,7 +15,7 @@
 <script>
 import AdminData from '@/components/stats/admin/AdminData.vue';
 import AdminStats from '@/components/stats/admin/AdminStats.vue';
-import NewTopFive from '@/components/stats/admin/NewTopFive.vue';
+import NewTopFive from '@/components/stats/admin/NewTopFive.vue'
 
 export default {
   name: 'AdminPage',

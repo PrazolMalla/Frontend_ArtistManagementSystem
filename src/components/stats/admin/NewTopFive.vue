@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 md:p-8 w-full flex justify-end bg-dark-primary-color">
+  <div class="p-4 md:p-8 w-full flex justify-start bg-dark-primary-color ">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
   
       <div class="card w-full bg-light-primary-color ">

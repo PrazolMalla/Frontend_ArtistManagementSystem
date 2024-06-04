@@ -25,7 +25,3 @@
   
   </script>
   
-  <script>
-  
-  
-  </script>

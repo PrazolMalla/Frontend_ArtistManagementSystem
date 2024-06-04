@@ -4,22 +4,23 @@
 
 
 body {
-    background-color: #080727;
-    overflow-x: hidden;
+  background-color: #f6f3eb;
+  overflow-x: hidden;
 }
+
 ::-webkit-scrollbar {
   width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #080727;
+  background: #f6f3eb;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: slategray;
+  background: #ff4000;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #ff4000;
 }

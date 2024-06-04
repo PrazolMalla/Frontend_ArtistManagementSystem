@@ -1,17 +1,21 @@
 <template>
-  <div class="p-8 rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-6  text-white">Stats</h1>
+  <div class="rounded-lg">
+    <h1 class="text-3xl font-bold mb-6 text-primary-text-color">Stats</h1>
 
     <div class="justify-around">
-      <div class="card w-[32rem] mb-8 bg-light-primary-color" >      
-          <h2 class="text-2xl font-semibold mb-4 text-center text-white">Song Performance</h2>
+      <div class="card w-[45vw] mb-8 bg-light-primary-color">
+        <h2 class="text-2xl font-semibold mb-4 text-center text-primary-text-color">
+          Song Performance
+        </h2>
         <div class="chart-container">
           <Bar :data="songPerformanceData" :options="chartOptions" />
         </div>
       </div>
 
-      <div class="card w-[32rem] mb-8 bg-light-primary-color">
-        <h2 class="text-2xl font-semibold mb-4 text-center text-white">Genre Distribution</h2>
+      <div class="card w-[45vw] mb-8 bg-light-primary-color">
+        <h2 class="text-2xl font-semibold mb-4 text-center text-primary-text-color">
+          Genre Distribution
+        </h2>
         <div class="chart-container">
           <Pie :data="genreDistributionData" :options="chartOptions" />
         </div>
@@ -21,11 +25,32 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { Bar, Pie } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement } from 'chart.js';
+import { ref } from 'vue'
+import { Bar, Pie } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  PointElement,
+  LineElement
+} from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  PointElement,
+  LineElement
+)
 
 export default {
   name: 'ArtistDashboard',
@@ -42,10 +67,10 @@ export default {
           data: [1500, 1200, 1100, 900, 700],
           backgroundColor: ['#4a90e2', '#50e3c2', '#f5a623', '#e94e77', '#7ed321'],
           borderColor: '#080727',
-          borderWidth: 1,
-        },
-      ],
-    });
+          borderWidth: 1
+        }
+      ]
+    })
 
     const genreDistributionData = ref({
       labels: ['Rock', 'Pop', 'Jazz', 'Classical', 'Hip Hop'],
@@ -55,10 +80,10 @@ export default {
           data: [12, 19, 3, 5, 2],
           backgroundColor: ['#4a90e2', '#50e3c2', '#f5a623', '#e94e77', '#7ed321'],
           borderColor: '#080727',
-          borderWidth: 1,
-        },
-      ],
-    });
+          borderWidth: 1
+        }
+      ]
+    })
 
     const chartOptions = ref({
       responsive: true,
@@ -67,35 +92,35 @@ export default {
         y: {
           beginAtZero: true,
           ticks: {
-            color: 'white', 
-          },
+            color: '#302f31'
+          }
         },
         x: {
           ticks: {
-            color: 'white', 
-          },
-        },
+            color: '#302f31'
+          }
+        }
       },
       plugins: {
         legend: {
           labels: {
-            color: 'white', 
-          },
+            color: '#302f31'
+          }
         },
         tooltip: {
-          titleColor: 'white', 
-          bodyColor: 'white', 
-        },
-      },
-    });
+          titleColor: '#302f31',
+          bodyColor: '#302f31'
+        }
+      }
+    })
 
     return {
       songPerformanceData,
       genreDistributionData,
-      chartOptions,
-    };
-  },
-};
+      chartOptions
+    }
+  }
+}
 </script>
 
 <style scoped>

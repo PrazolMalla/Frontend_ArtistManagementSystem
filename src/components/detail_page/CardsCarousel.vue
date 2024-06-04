@@ -2,7 +2,7 @@
   <div
     class="mt-5 lg:w-[46vw] h-[60vh] overflow-x-visible no-scrollbar w-[80vw] lg:h-[55vh] bg-light-primary-color p-5 rounded-sm md:w-[65vw]"
   >
-    <h1 class="mb-4 text-2xl font-semibold">Top Music</h1>
+    <h1 class="mb-4 text-2xl font-semibold text-primary-text-color">Top Music</h1>
     <swiper
       :slidesPerView="3"
       :centeredSlides="false"

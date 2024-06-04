@@ -19,7 +19,7 @@ import Follow from '@/views/library/Follow.vue'
 import StaffStats from '@/views/stats/StaffStats.vue'
 import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
-
+import Settings from '@/views/Settings.vue'
 
 
 const router = createRouter({
@@ -41,6 +41,12 @@ const router = createRouter({
       path: '/user/profile',
       name: 'userProfile',
       component: UserProfile,
+      meta: { auth: true } 
+    },
+    {
+      path: '/user/settings',
+      name: 'settings',
+      component: Settings,
       meta: { auth: true } 
     },
     {
@@ -136,7 +142,9 @@ const router = createRouter({
       meta: { auth: true } 
     },
     
+    {
 
+    },
     // Detail
     {
       path: '/album/:id',

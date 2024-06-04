@@ -1,9 +1,9 @@
 <template>
-  <PageLayoutWithPlayer id="display-flex">
+  <PageLayout id="display-flex">
     <template #content>
             User Staff
     </template>
-  </PageLayoutWithPlayer>
+  </PageLayout>
 </template>
 
 <script>

@@ -9,7 +9,7 @@
 
       <div class="overflow-y-scroll w-[40vw] h-[40vh]">
         <div
-          class="bg-transparent w-[30vw] h-12 rounded-lg px-4 text-white first-letter mt-4 hover:bg-red-400 cursor-pointer"
+          class="bg-transparent w-[30vw] h-12 rounded-lg px-4 text-primary-text-color first-letter mt-4 hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer"
           v-for="(item, index) in songs"
           :key="index"
         >

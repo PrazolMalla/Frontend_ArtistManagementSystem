@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer>
     <template #content>
-      <div class="mt-10 text-slate-300 flex flex-col gap-2">
+      <div class="mt-10 text-primary-text-color flex flex-col gap-2">
         <div class="flex lg:flex-row flex-col">
           <MusicSingleImage />
           <LyricsComponent />

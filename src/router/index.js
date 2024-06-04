@@ -14,6 +14,7 @@ import AlbumDetail from '@/views/detail/AlbumDetail.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
 import AdminPage from '@/views/stats/AdminStats.vue'
+import Genre from '@/views/explore/Genre.vue'
 const routes = [
   {
     path: '/login',
@@ -54,54 +55,55 @@ const routes = [
     component: Music
   },
   {
-      path:'/band',
-      name:'Band',
-      component:Band
-    },
-    {
-      path:'/genre',
-      name:'Genre',
-      component:Genre
-    },
-    {
-      path:'/music/add/',
-      name:'AddMusic',
-      component:AddMusic
-    },
-    {
-      path:'/album/add/',
-      name:'AddAlbum',
-      component:AddAlbum
-    },
-    {
-      path:'/genre/add/',
-      name:'AddGenre',
-      component:AddGenre
-    },
-    {
-      path: '/album/:id',
-      name: 'albumDetail',
-      component: AlbumDetail,
-      meta: {auth:true}
-    },{
-      path: '/music/:id',
-      name: 'musicDetail',
-      component:  MusicDetail,
-      meta: {auth:true}
-    },{
-      path: '/artist/:id',
-      name: 'artistDetail',
-      component: ArtistDetail,
-      meta: {auth:true}
-    },
-  
-    {
-      path: '/adminpage',
-      name: 'AdminPage',
-      component: AdminPage
-    },
-];
+    path: '/band',
+    name: 'Band',
+    component: Band
+  },
+  {
+    path: '/genre',
+    name: 'Genre',
+    component: Genre
+  },
+  {
+    path: '/music/add/',
+    name: 'AddMusic',
+    component: AddMusic
+  },
+  {
+    path: '/album/add/',
+    name: 'AddAlbum',
+    component: AddAlbum
+  },
+  {
+    path: '/genre/add/',
+    name: 'AddGenre',
+    component: AddGenre
+  },
+  {
+    path: '/album/:id',
+    name: 'albumDetail',
+    component: AlbumDetail,
+    meta: { auth: true }
+  },
+  {
+    path: '/music/:id',
+    name: 'musicDetail',
+    component: MusicDetail,
+    meta: { auth: true }
+  },
+  {
+    path: '/artist/:id',
+    name: 'artistDetail',
+    component: ArtistDetail,
+    meta: { auth: true }
+  },
 
+  {
+    path: '/adminpage',
+    name: 'AdminPage',
+    component: AdminPage
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),

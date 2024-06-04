@@ -136,17 +136,21 @@ const login = () => {
       const refreshToken = response.data.refresh_token
       localStorage.setItem('access_token', accessToken)
       localStorage.setItem('refresh_token', refreshToken)
+      $toast.success('Login sucess', {
+          position: 'top-right'
+        });
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
 
       router.push('/')
+      
     })
     .catch((error) => {
       console.error('Error logging in:', error)
-      alert('Invalid credentials. Please try again.')
-      // this.$toast.error('Invalid Username or password', {
-      //     position: 'top'
-      //   });
+      
+      $toast.error('Invalid Username or password', {
+          position: 'top-right'
+        });
     })
 }
 </script>

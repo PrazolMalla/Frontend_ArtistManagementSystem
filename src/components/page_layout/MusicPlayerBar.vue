@@ -1,10 +1,11 @@
 <template lang="">
   <div
     :class="{ 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer }"
-    class="w-full flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5 border sm:border-none sm:rounded-lg sm:h-17 h-17"
+    class=" flex flex-col bggradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5 border sm:border-none sm:rounded-lg sm:h-17 h-17"
   >
     <!-- <div class=" h-1 bg-white"></div> -->
-    <input
+    <input 
+      v-if="is_ShownPlayer"
       type="range"
       min="0"
       max="100"
@@ -14,7 +15,10 @@
 
     <div class="flex px-2 justify-between items-center shadow-lg py-2">
       <div class="flex items-center gap-1 text-light-primary-color">
-        <v-icon name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
+        <v-icon 
+        
+      v-if="is_ShownPlayer"
+        name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
 
         <img
           @click="toggleBar"

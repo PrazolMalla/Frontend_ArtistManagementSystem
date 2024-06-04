@@ -1,0 +1,23 @@
+<template>
+  <PageLayoutWithPlayer>
+    <template #content>
+      <div class="mt-10 text-slate-300 flex flex-col gap-2">
+        <div class="flex lg:flex-row flex-col">
+          <MusicSingleImage />
+          <SongList />
+        </div>
+        <div class="flex flex-col-reverse lg:flex-row gap-5">
+          <CommentComponent />
+          <CardsCarousel />
+        </div>
+      </div>
+    </template>
+  </PageLayoutWithPlayer>
+</template>
+
+<script setup>
+import MusicSingleImage from '@/components/detail_page/MusicSingleImage.vue'
+import SongList from '@/components/detail_page/album_detail/SongList.vue'
+import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
+import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
+</script>

@@ -8,11 +8,12 @@ import 'vue-toast-notification/dist/theme-bootstrap.css'
 import PageLayout from '@/components/page_layout/PageLayout.vue'
 import PageLayoutWithPlayer from '@/components/page_layout/PageLayoutWithPlayer.vue'
 
-import * as FaIcons from "oh-vue-icons/icons/fa";
+import * as FaIcons from 'oh-vue-icons/icons/fa'
 import * as MdIcons from 'oh-vue-icons/icons/md'
+import * as SiIcons from 'oh-vue-icons/icons/si'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
 
-const Fa = Object.values({ ...MdIcons ,...FaIcons})
+const Fa = Object.values({ ...MdIcons, ...FaIcons, ...SiIcons })
 addIcons(...Fa)
 
 const app = createApp(App)

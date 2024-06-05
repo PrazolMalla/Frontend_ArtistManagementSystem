@@ -40,12 +40,9 @@
       :modules="modules"
       class="mySwiper lg:ml-[-3rem] sm:flex md:ml-0 md:hidden"
     >
-      <swiper-slide class="mb-14"><MusicCard /></swiper-slide>
-      <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
-      <swiper-slide><MusicCard /></swiper-slide>
-      <swiper-slide><MusicCard /></swiper-slide>
-      <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
-      <swiper-slide><MusicCard /></swiper-slide>
+      <swiper-slide v-for="x in musicData" >
+        <MusicCard :musicData="x" />
+      </swiper-slide>
     </swiper>
     <swiper
       :slidesPerView="2"
@@ -62,12 +59,19 @@
       :modules="modules"
       class="mySwiper lg:ml-[-3rem] md:flex md:ml-0 hidden lg:hidden"
     >
-      <swiper-slide class="mb-14"><MusicCard /></swiper-slide>
+
+
+    <swiper-slide class="lg:mb-14 mb-4 mt-1"><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide>
+
+
+      <!-- <swiper-slide v-for="x in musicData" >
+        <MusicCard :musicData="x" />
+      </swiper-slide> -->
     </swiper>
   </div>
 </template>
@@ -79,13 +83,25 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 import { Autoplay, Pagination } from 'swiper/modules'
-import MusicCard from '@/components/cards/card_item/MusicCard.vue'
+import MusicCard from '@/components/cards/MusicCard.vue'
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
     MusicCard
+  },
+  data(){
+    return {
+      musicData:[
+        { id: 1, name: 'Music 1', album: 'Album 1', artist: 'Artist 1' },
+        { id: 2, name: 'Music 2', album: 'Album 1', artist: 'Artist 2' },
+        { id: 3, name: 'Music 3', album: 'Album 1', artist: 'Artist 3' },
+        { id: 4, name: 'Music 4', album: 'Album 1', artist: 'Artist 4' },
+        { id: 5, name: 'Music 5', album: 'Album 1', artist: 'Artist 5' },
+        { id: 6, name: 'Music 6', album: 'Album 1', artist: 'Artist 6' }
+      ]
+    }
   },
   setup() {
     return {

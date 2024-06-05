@@ -123,14 +123,17 @@
                         ></div>
                       </label>
                     </div>
+                   
                     <div class="p-4 w-1/3 flex gap-6">
                       <v-icon
+                      @click="toggleOpenEdit"
                         name="fa-regular-edit"
                         fill="#00b166"
                         scale="1.5"
                         class="cursor-pointer"
                       ></v-icon>
                       <v-icon
+                      @click="toggleOpenDelete"
                         name="fa-regular-trash-alt"
                         fill="#ff4000"
                         scale="1.5"

@@ -4,13 +4,13 @@
   >
     <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] w-[40vw]">
       <div class="z-20">
-        <img src="https://source.unsplash.com/800x800/?portrait" alt="" class="w-[10rem]" />
+        <img :src="`http://127.0.0.1:8000${albumDetail.img_profile}`" alt="" class="w-[10rem]" />
       </div>
       <div class="relative z-10 lg:ml-[-6rem] lg:mt-[-1.5rem] mt-[-0.75rem] ml-[-3.5rem]">
         <div
           class="absolute lg:w-12 lg:h-12 rounded-full bg-red-50 lg:top-[4.5rem] lg:left-[4.75rem] lg:flex hidden overflow-hidden"
         >
-          <img src="https://source.unsplash.com/800x800/?portrait" alt="" />
+          <img :src="`http://127.0.0.1:8000${albumDetail.img_profile}`" alt="" />
         </div>
         <img src="../../assets/images/musiccassette.png" alt="" class="w-[12.5rem]" />
       </div>

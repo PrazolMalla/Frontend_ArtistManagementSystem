@@ -39,72 +39,70 @@
                 <div class="p-4 w-1/6 font-semibold">Disable</div>
                 <div class="p-4 w-1/3 font-semibold">Actions</div>
               </div>
-              <router-link>
+              <div
+                v-for="song in songs"
+                :key="song.name"
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
+              >
+                <router-link :to="`/music/${song.id}`" class="p-4 flex items-center w-full">
+                  <img
+                    :src="`http://127.0.0.1:8000${song.img_profile}`"
+                    alt="Song image"
+                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
+                  />
+
+                  <div>
+                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
+                      {{ song.name }}
+                    </div>
+
+                    <div class="text-sm sm:text-base">{{ song.artist }}</div>
+
+                    <div class="text-sm sm:text-base">{{ song.album }}</div>
+                  </div>
+                </router-link>
                 <div
-                  v-for="song in songs"
-                  :key="song.name"
-                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
+                  class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
                 >
-                  <div class="p-4 flex items-center w-full">
-                    <img
-                      :src="`http://127.0.0.1:8000${song.img_profile}`"
-                      alt="Song image"
-                      class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                    />
-
-                    <div>
-                      <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                        {{ song.name }}
-                      </div>
-
-                      <div class="text-sm sm:text-base">{{ song.artist }}</div>
-
-                      <div class="text-sm sm:text-base">{{ song.album }}</div>
-                    </div>
+                  <p>Hide</p>
+                  <p>Enable</p>
+                  <p>Actions</p>
+                </div>
+                <div class="flex justify-around w-full">
+                  <div class="p-4 w-1/6">
+                    <label class="relative inline-flex cursor-pointer items-center">
+                      <input id="switch-2" type="checkbox" class="peer sr-only" />
+                      <label for="switch-2" class="hidden"></label>
+                      <div
+                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                      ></div>
+                    </label>
                   </div>
-                  <div
-                    class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
-                  >
-                    <p>Hide</p>
-                    <p>Enable</p>
-                    <p>Actions</p>
+                  <div class="p-4 w-1/6">
+                    <label class="relative inline-flex cursor-pointer items-center">
+                      <input id="switch-2" type="checkbox" class="peer sr-only" />
+                      <label for="switch-2" class="hidden"></label>
+                      <div
+                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                      ></div>
+                    </label>
                   </div>
-                  <div class="flex justify-around w-full">
-                    <div class="p-4 w-1/6">
-                      <label class="relative inline-flex cursor-pointer items-center">
-                        <input id="switch-2" type="checkbox" class="peer sr-only" />
-                        <label for="switch-2" class="hidden"></label>
-                        <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                        ></div>
-                      </label>
-                    </div>
-                    <div class="p-4 w-1/6">
-                      <label class="relative inline-flex cursor-pointer items-center">
-                        <input id="switch-2" type="checkbox" class="peer sr-only" />
-                        <label for="switch-2" class="hidden"></label>
-                        <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                        ></div>
-                      </label>
-                    </div>
-                    <div class="p-4 w-1/3 flex gap-6">
-                      <v-icon
-                        name="fa-regular-edit"
-                        fill="#00b166"
-                        scale="1.5"
-                        class="cursor-pointer"
-                      ></v-icon>
-                      <v-icon
-                        name="fa-regular-trash-alt"
-                        fill="#ff4000"
-                        scale="1.5"
-                        class="cursor-pointer"
-                      ></v-icon>
-                    </div>
+                  <div class="p-4 w-1/3 flex gap-6">
+                    <v-icon
+                      name="fa-regular-edit"
+                      fill="#00b166"
+                      scale="1.5"
+                      class="cursor-pointer"
+                    ></v-icon>
+                    <v-icon
+                      name="fa-regular-trash-alt"
+                      fill="#ff4000"
+                      scale="1.5"
+                      class="cursor-pointer"
+                    ></v-icon>
                   </div>
                 </div>
-              </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -116,6 +114,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import router from '@/router'
 const songs = ref([])
 
 const fetchSongs = async () => {

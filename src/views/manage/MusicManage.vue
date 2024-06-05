@@ -1,6 +1,30 @@
 <template>
   <PageLayout>
     <template #content>
+      <div v-if="is_OpenAdd">
+        <div
+          class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+        ></div>
+
+        <AddMusic @close="toggleCloseAdd" />
+      </div>
+
+      <div v-if="is_OpenDelete">
+        <div
+          class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+        ></div>
+
+        <DeleteEdit @close="toggleCloseDelete" />
+      </div>
+
+      <div v-if="is_OpenEdit">
+        <div
+          class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+        ></div>
+
+        <EditMusic @close="toggleCloseEdit" />
+      </div>
+
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
@@ -24,6 +48,7 @@
                 </div>
                 <button
                   class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+                  @click="toggleOpenAdd"
                 >
                   Add Music
                 </button>
@@ -55,10 +80,11 @@
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
                       {{ song.name }}
                     </div>
+                    <div class="flex flex-col sm:flex-row sm:gap-2">
+                      <div class="text-sm sm:text-base">{{ song.artist }}</div>
 
-                    <div class="text-sm sm:text-base">{{ song.artist }}</div>
-
-                    <div class="text-sm sm:text-base">{{ song.album }}</div>
+                      <div class="text-sm sm:text-base">{{ song.album }}</div>
+                    </div>
                   </div>
                 </router-link>
                 <div
@@ -87,14 +113,17 @@
                       ></div>
                     </label>
                   </div>
+
                   <div class="p-4 w-1/3 flex gap-6">
                     <v-icon
+                      @click="toggleOpenEdit"
                       name="fa-regular-edit"
                       fill="#00b166"
                       scale="1.5"
                       class="cursor-pointer"
                     ></v-icon>
                     <v-icon
+                      @click="toggleOpenDelete"
                       name="fa-regular-trash-alt"
                       fill="#ff4000"
                       scale="1.5"
@@ -112,10 +141,37 @@
 </template>
 
 <script setup>
+import AddMusic from '@/components/manage/AddMusic.vue'
+import EditMusic from '@/components/manage/EditMusic.vue'
+import DeleteEdit from '@/components/manage/DeleteMusic.vue'
+
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import router from '@/router'
 const songs = ref([])
+
+const is_OpenAdd = ref(false)
+const is_OpenEdit = ref(false)
+const is_OpenDelete = ref(false)
+
+function toggleOpenAdd() {
+  is_OpenAdd.value = true
+}
+function toggleCloseAdd() {
+  is_OpenAdd.value = false
+}
+function toggleOpenEdit() {
+  is_OpenEdit.value = true
+}
+function toggleCloseEdit() {
+  is_OpenEdit.value = false
+}
+function toggleCloseDelete() {
+  is_OpenDelete.value = false
+}
+
+function toggleOpenDelete() {
+  is_OpenDelete.value = true
+}
 
 const fetchSongs = async () => {
   try {
@@ -167,3 +223,13 @@ onMounted(fetchSongs)
 //   }
 // ])
 </script>
+
+<style scoped>
+.bggradientpopup {
+  background: #ffffff3f;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+</style>

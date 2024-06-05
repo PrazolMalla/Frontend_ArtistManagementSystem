@@ -2,7 +2,7 @@
   <div class="mb-10">
     <h4 class="text-lg font-bold text-primary-text-color self-start">Top Artists</h4>
     <div class="flex overflow-y-hidden">
-      <ArtistCard v-for="x in artistData" class="p-5" :artistDetail="x" />
+      <ArtistCard v-for="x in artistData" class="p-5" :artistData="x" />
     </div>
   </div>
 </template>

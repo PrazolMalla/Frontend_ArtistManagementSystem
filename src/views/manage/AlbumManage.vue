@@ -25,7 +25,7 @@
                 <button
                   class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
                 >
-                  Add Music
+                  Add Album
                 </button>
               </div>
             </div>

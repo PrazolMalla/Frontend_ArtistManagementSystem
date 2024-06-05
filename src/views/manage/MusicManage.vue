@@ -149,9 +149,43 @@
 </template>
 
 <script setup>
+
+import AddMusic from '@/components/manage/AddMusic.vue';
+import EditMusic from '@/components/manage/EditMusic.vue';
+import DeleteEdit from '@/components/manage/DeleteMusic.vue'
+
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 const songs = ref([])
+
+const is_OpenAdd= ref(false);
+const is_OpenEdit= ref(false);
+const is_OpenDelete = ref(false);
+
+function toggleOpenAdd() {
+  is_OpenAdd.value = true;
+}
+function toggleCloseAdd() {
+  is_OpenAdd.value = false;
+}
+function toggleOpenEdit(){
+  is_OpenEdit.value = true;
+
+}
+function toggleCloseEdit(){
+  is_OpenEdit.value = false;
+
+}
+function toggleCloseDelete(){
+  is_OpenDelete.value = false;
+
+}
+
+function toggleOpenDelete(){
+  is_OpenDelete.value = true;
+
+}
+
 
 const fetchSongs = async () => {
   try {

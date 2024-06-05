@@ -89,7 +89,7 @@
     </div>
     <div class="flex gap-4">
       <div class="flex md:hidden">
-        <v-icon name="fa-search" fill="#302f31" scale="1.5" class="cursor-pointer mt-5" />
+        <v-icon name="fa-search" fill="#302f31" scale="1.2" class="cursor-pointer mt-5" />
       </div>
       <v-icon
         name="md-notifications-outlined"

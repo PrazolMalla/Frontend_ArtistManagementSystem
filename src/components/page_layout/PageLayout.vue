@@ -13,7 +13,7 @@ import MobileMenuBar from '@/components/page_layout/MobileMenuBar.vue'
         <NavBar />
       </div>
       <div
-        class="sm:ml-[25vw] lg:ml-[15vw] ml-0  px-16 mt-20 text-primary-text-color flex flex-col mb-32"
+        class="ml-0 sm:ml-[25vw] lg:ml-[15vw] px-1 sm:px-16 mt-20 text-primary-text-color flex flex-col mb-32"
       >
         <slot name="content"> </slot>
       </div>

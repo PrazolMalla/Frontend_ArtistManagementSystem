@@ -2,8 +2,7 @@
   <PageLayout>
     <template #content>
 
-      <!-- <AddMusic/> -->
-      <div class="text-primary-text-color flex flex-col gap-2">
+      <div class="text-primary-text-color flex flex-col gap-2 w-full border">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
@@ -35,7 +34,7 @@
 
 
                     <div class="flex flex-col justify-between">
-                      <div class="flex flex-row bg-transparent border-b border-b-primary-text-color">
+                      <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                         <div class="p-4 w-full">Name</div>
                         <div class="p-4 w-1/6">Hide</div>
                         <div class="p-4 w-1/6">Enable</div>
@@ -50,11 +49,12 @@
                             <div class="text-sm sm:text-base">{{ song.album }}</div> <!-- Reduced font size on small screens -->
                           </div>
                         </div>
-                        <div class="flex w-full justify-between flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
+                        <div class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
                         <p>Hide</p>
                         <p>Enable</p>
                         <p>Actions</p>
                       </div>
+                      <div class="flex justify-around w-full">
                         <div class="p-4 w-1/6">
                           <label class="relative inline-flex cursor-pointer items-center">
                             <input id="switch-2" type="checkbox" class="peer sr-only" />
@@ -73,6 +73,7 @@
                           <v-icon name="fa-regular-edit" fill="#00b166" scale="1.5" class="cursor-pointer"></v-icon>
                           <v-icon name="fa-regular-trash-alt" fill="#ff4000" scale="1.5" class="cursor-pointer"></v-icon>
                         </div>
+                        </div>
                       </div>
                     </div>
 
@@ -85,10 +86,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import MusicSingleImage from '@/components/detail_page/MusicSingleImage.vue'
-import LyricsComponent from '@/components/detail_page/music_detail/LyricsComponent.vue'
-import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
-import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
 
 const songs = ref([
   {

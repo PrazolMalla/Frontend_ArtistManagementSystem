@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="'artist/'+ artistDetail.id" class="transform hover:scale-105 transition-transform duration-300 cursor-pointer" >
+    <RouterLink :to="'artist/'+ artistData.id" class="transform hover:scale-105 transition-transform duration-300 cursor-pointer" >
         <div class="flex flex-col gap-2  items-center p-4 overflow-x-hidden">
           <div
             class="w-28 h-28  rounded-full flex justify-center items-center artistGradient" >
@@ -10,8 +10,8 @@
             />
           </div>
           <div class="text-center">
-          <h3 class="text-md font-semibold text-center">{{ artistDetail.firstname }} {{ artistDetail.lastname }}</h3>
-          <p class="text-sm text-gray-600">@{{ artistDetail.username }}</p>
+          <h3 class="text-md font-semibold text-center">{{ artistData.firstname }} {{ artistData.lastname }}</h3>
+          <p class="text-sm text-gray-600">@{{ artistData.username }}</p>
 
           </div>
         </div>
@@ -20,7 +20,7 @@
 <script>
 export default{
     props:{
-        artistDetail: Object,
+        artistData: Object,
     }
 }
 </script>

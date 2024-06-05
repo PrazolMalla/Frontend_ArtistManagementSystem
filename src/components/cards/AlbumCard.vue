@@ -1,6 +1,6 @@
 <template lang="">
 <div class=" album-card  transform hover:scale-105 transition-transform duration-300 bg-light-primary-color  shadow-md p-2 rounded-lg flex flex-col gap-4 items-center ">
-            <RouterLink :to="'album/'+ albumDetail.id" class="flex justify-start lg:w-[15vw] w-[40vw]"> 
+            <RouterLink :to="'album/'+ albumData.id" class="flex justify-start lg:w-[15vw] w-[40vw]"> 
               <div class="z-20">
                 <img
                   src="https://source.unsplash.com/800x800/?portrait"
@@ -24,8 +24,8 @@
             <div class="flex justify-between w-full items-center">
                     
                 <div class="flex flex-col">
-                    <RouterLink :to="'/music/'+ albumDetail.id"  class="text-md font-semibold text-center hover:underline">{{ albumDetail.name }}</RouterLink>
-                     <RouterLink :to="'/artist/'+ albumDetail.artist"  class="text-sm text-gray-600 hover:underline">{{ albumDetail.artist }}</RouterLink>
+                    <RouterLink :to="'/music/'+ albumData.id"  class="text-md font-semibold text-center hover:underline">{{ albumData.name }}</RouterLink>
+                     <RouterLink :to="'/artist/'+ albumData.artist"  class="text-sm text-gray-600 hover:underline">{{ albumData.artist }}</RouterLink>
                 </div>
                 
                 <v-icon
@@ -41,7 +41,7 @@
 <script>
 export default {
   props: {
-    albumDetail: Object,
+    albumData: Object,
     linkto: ''
   }
 }

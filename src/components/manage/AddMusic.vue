@@ -1,8 +1,16 @@
 <template>
-  <fieldset class="border border-slate-700 rounded-md">
-    <legend class="ml-10">Add Music</legend>
+
+  <fieldset class="border border-slate-700 rounded-md fixed sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto">
+    <legend class="ml-10 ">Add Music</legend>
+    <v-icon
+        name="fa-times"
+        fill="#302f31"
+        scale="1"
+        @click="closeAdd"
+        class="absolute right-3 cursor-pointer "
+      />
     <div
-      class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle"
+      class="form-container w-full p-10 h-full  flex flex-wrap justify-center gap-5 align-middle"
     >
       <div
         v-for="item in userInputField"
@@ -49,12 +57,7 @@
         }}</span>
       </div>
 
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
-        <label
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Artist: Prajwol</label
-        >
-      </div>
+      
 
       <div class="flex flex-col">
         <select
@@ -101,102 +104,97 @@
   </fieldset>
 </template>
 
-<script>
-import { ref } from 'vue'
-import axios from 'axios'
-import { mapState } from 'vuex'
-export default {
-  data() {
-    return {
-      user: {
-        name: '',
-        description: '',
-        language: '',
-        release_at: '',
-        album: '',
-        artist: '',
-        band: '',
-        genre: '',
-        description: '',
-        img_profile: null,
-        music_file: null
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import axios from 'axios';
+
+const user = ref({
+  name: '',
+  description: '',
+  language: '',
+  release_at: '',
+  album: '',
+  artist: '',
+  band: '',
+  genre: '',
+  img_profile: null,
+  music_file: null,
+});
+
+const userInputField = ref([
+  { id: '1', name: 'name', type: 'text', label: 'Name' },
+  { id: '2', name: 'description', type: 'text', label: 'Description' },
+  { id: '3', name: 'language', type: 'text', label: 'Language' },
+  { id: '4', name: 'release_at', type: 'date', label: 'Released At' }
+]);
+
+const formErrors = ref('');
+
+const store = useStore();
+const albumData = computed(() => store.state.albumData);
+const genreData = computed(() => store.state.genreData);
+import { defineProps, defineEmits } from 'vue';
+
+
+const emit = defineEmits(['close']);
+
+function closeAdd() {
+  emit('close');
+}
+
+onMounted(() => {
+  store.dispatch('setAlbumData');
+  store.dispatch('setGenreData');
+});
+
+function validateField(fieldName) {
+  formErrors.value[fieldName] = '';
+}
+
+function addMusic() {
+  formErrors.value = {};
+  if (user.value.name.length < 5) {
+    formErrors.value.name = 'Username should be at least 5 characters long.';
+  }
+  if (user.value.description.length < 5) {
+    formErrors.value.description = 'Description should be at least 5 characters long.';
+  }
+
+  if (Object.keys(formErrors.value).length === 0) {
+    axios({
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api/user/post/',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      user: '',
-      userInputField: [
-        { id: '1', name: 'name', type: 'text', label: 'Name' },
-        { id: '2', name: 'description', type: 'text', label: 'Description' },
-        { id: '3', name: 'language', type: 'text', label: 'Language' },
-        { id: '3', name: 'Released At', type: 'date', label: 'Released At' }
-      ],
-
-      formErrors: ''
-    }
-  },
-  computed: {
-    ...mapState(['albumData', 'genreData'])
-  },
-  mounted() {
-    this.$store.dispatch('setAlbumData')
-    this.$store.dispatch('setGenreData')
-  },
-  methods: {
-    validateField(fieldName) {
-      formErrors.value[fieldName] = ''
-    },
-    addUser() {
-      formErrors.value = {}
-      if (user.value.name.length < 5) {
-        formErrors.value.name = 'Username should be atleast 5 character long.'
-      }
-      if (user.value.first_name.length < 5) {
-        formErrors.value.description = 'Firstname should be atleast 5 characters long.'
-      }
-
-      if (Object.keys(formErrors.value).length === 0) {
-        const RegisterSubmit = () => {
-          axios({
-            method: 'post',
-            url: `http://127.0.0.1:8000/api/user/post/`,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              email: user.email,
-              username: user.username,
-              password: user.password,
-              firstname: user.firstname,
-              lastname: user.lastname,
-              dob: user.dob,
-              gender: user.gender,
-              country: user.country,
-              img_profile: user.img_profile,
-              is_artist: user.is_artist
-            }
-          })
-            .then((response) => {
-              console.log(response)
-              if (response.status == 200) {
-                localStorage.setItem('refresh_token', response.data.refreshJWT)
-                localStorage.setItem('access_token', response.data.accessJWT)
-                this.$router.push('/dashboard')
-              }
-            })
-            .catch((err) => {
-              console.log(err.response.data)
-            })
+      data: {
+        email: user.value.email,
+        username: user.value.username,
+        password: user.value.password,
+        firstname: user.value.firstname,
+        lastname: user.value.lastname,
+        dob: user.value.dob,
+        gender: user.value.gender,
+        country: user.value.country,
+        img_profile: user.value.img_profile,
+        is_artist: user.value.is_artist,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          localStorage.setItem('refresh_token', response.data.refreshJWT);
+          localStorage.setItem('access_token', response.data.accessJWT);
+          this.$router.push('/dashboard');
         }
-      }
-    }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   }
 }
 
-// const handleFileChange = (event) => {
-//   user.value.profile = event.target.files[0];
-// };
-
-// const handleCoverChange = (event) => {
-//   artist.value.img_cover = event.target.files[0];
-// };
 </script>
 
 <style scoped></style>

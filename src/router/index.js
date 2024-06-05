@@ -186,7 +186,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.auth && !isAuthenticated) {
     next('/login')
   } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
-    next('/')
+    next()
   } else {
     next()
   }

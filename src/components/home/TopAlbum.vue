@@ -3,7 +3,7 @@
 
      <h2 class="text-lg font-bold  text-primary-text-color self-start">Top Albums</h2>
     <div class="flex gap-4 overflow-y-hidden">
-         <AlbumCard v-for="x in albumData" class="p-5 " :albumDetail="x" linkto="album"/>
+         <AlbumCard v-for="x in albumData" class="p-5 " :albumData="x" linkto="album"/>
     </div>
    </div>
 </template>

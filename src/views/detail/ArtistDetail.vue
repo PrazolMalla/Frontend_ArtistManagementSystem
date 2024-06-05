@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import  DetailCard from '@/components/cards/card_item/DetailCard.vue'
+import  DetailCard from '@/components/cards/DetailCard.vue'
 export default{
     data(){
             return{

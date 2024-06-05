@@ -3,6 +3,11 @@
     <template #content>
           <AddMusic/>
           <AddAlbum />
+          <div class="allbar border">
+              <div class="header"> 
+                <p>Manage Artist</p>
+              </div>
+          </div>
     </template>
   </PageLayout>
 </template>

@@ -10,10 +10,10 @@
         class="w-14 h-14 border-4 rounded-full border-slate-300 mt-4 hover:cursor-pointer hover:border-secondary-color"
       />
       <form class="flex flex-col gap-2">
-        <textarea
+        <input type="text"
           class="h-9 lg:w-[20vw] w-[40vw] bg-transparent border-b-2 border-secondary-color focus:outline-none"
           placeholder="Add comment"
-        ></textarea>
+        >
         <button
           type="submit"
           class="bg-secondary-color w-20 h-10 text-primary-text-color rounded-sm text-sm font-semibold lg:w-20 lg:h-10 hover:border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"

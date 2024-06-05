@@ -119,7 +119,8 @@ export default {
           icon: 'md-manageaccounts-round',
           actions: [
             { to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/manage/staff', icon: 'fa-user-shield', text: 'Staff' },
+            { to: '/manage/album', icon: 'md-album', text: 'Album' },
+            { to: '/manage/user', icon: 'fa-user-alt', text: 'User' },
             { to: '/manage/music', icon: 'si-applemusic', text: 'Music' }
           ]
         },

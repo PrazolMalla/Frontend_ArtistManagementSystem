@@ -1,22 +1,23 @@
 <template lang="">
-    <div>
-        <div class="w-[50vw] h-[24rem] flex flex-col gap-2 items-start">
-          <h1 class=" text-2xl font-semibold mb-4">Lyrics</h1>
-          <div class="overflow-y-scroll ">
-            
-          <pre class="lg:w-[47vw] text-justify lg:text-lg w-[80vw] lg:mb-0 mb-40 md:w-[65vw]">
-{{lyrics}}
-</pre>
-          </div>
-         
-          
-        </div>
+  <div>
+    <div class="w-[50vw] h-[24rem] flex flex-col gap-2 items-start">
+      <h1 class="text-2xl font-semibold mb-4">Lyrics</h1>
+      <div class="overflow-y-scroll">
+        <pre
+          class="lg:w-[47vw] text-justify lg:text-lg w-[80vw] lg:mb-0 mb-40 md:w-[65vw] overflow-scroll"
+        >
+            {{ lyrics }}
+          </pre
+        >
+      </div>
     </div>
+  </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const lyrics =`We could leave the Christmas lights up 'til January
+const lyrics = `
+We could leave the Christmas lights up 'til January
 And this is our place, we make the rules
 And there's a dazzling haze, a mysterious way about you dear
 Have I known you 20 seconds or 20 years?
@@ -56,6 +57,4 @@ Oh, you're my, my, my, my
 Darling, you're my, my, my, my
 Lover`
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

@@ -7,18 +7,17 @@
         :key="artist.id"
         class="artist-card w-[18rem] transform hover:scale-105 transition-transform duration-300"
       >
-        <div class="flex flex-col gap-2  items-center p-4 overflow-x-hidden">
+        <div class="flex flex-col gap-2 items-center p-4 overflow-x-hidden">
           <div
-            class="w-52 h-52  rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            class="w-52 h-52 rounded-full flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           >
             <img
-              src="https://source.unsplash.com/800x800/?portrait"
+              :src="`http://127.0.0.1:8000${artist.img_profile}`"
               alt="Artist Image"
               class="w-48 h-48 rounded-full object-cover border-none bg-secondary-color z-10"
             />
           </div>
-
-          <h3 class="text-xl font-semibold text-center">{{ artist.name }}</h3>
+          <h3 class="text-xl font-semibold text-center">{{ artist.username }}</h3>
         </div>
       </div>
     </div>
@@ -26,44 +25,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const artists = ref([
-  { id: 1, name: 'Taylor Swift' },
-  { id: 2, name: 'Ed Sheeran' },
-  { id: 3, name: 'Beyoncé' },
-  { id: 4, name: 'Drake' },
-  { id: 5, name: 'Ariana Grande' },
-  { id: 6, name: 'Bruno Mars' }
-])
+const artists = ref([])
+
+const fetchArtists = async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/artist/get/')
+    const data = await response.json()
+    artists.value = data.map(artist => ({
+      id: artist.id,
+      username: artist.username,
+      img_profile: artist.img_profile
+    }))
+  } catch (error) {
+    console.error('Error fetching artists:', error)
+  }
+}
+
+onMounted(fetchArtists)
 </script>
 
 <style scoped>
-/* .artist-card {
-  @apply bg-light-primary-color rounded-lg shadow-md overflow-hidden;
-  width: 18rem; 
-  height: fit-content; 
-} */
-
-/* .artist-card img {
-  @apply  object-cover transition-transform duration-300 ;
-} */
-
-/* .artist-card h3 {
-  @apply text-xl font-semibold mt-4; 
-} */
-
-/* .artist-card {
-  width: calc(50% - 1rem); 
-  max-width: 18rem; 
-  height: fit-content;
-} */
-
-/* .artist-card img {
-  width: 100%;
-  height: auto;
-} */
-
 @media (min-width: 768px) {
   .artist-card {
     width: calc(33.33% - 1rem);

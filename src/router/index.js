@@ -102,19 +102,19 @@ const router = createRouter({
       component: MusicManage,
       meta: { auth: true }
     },
-     {
+    {
       path: '/manage/user',
       name: 'manageUser',
       component: UserManage,
       meta: { auth: true }
     },
-     {
+    {
       path: '/manage/album',
       name: 'manageAlbum',
       component: AlbumManage,
       meta: { auth: true }
     },
-   
+
     // Library
     {
       path: '/library/likes',

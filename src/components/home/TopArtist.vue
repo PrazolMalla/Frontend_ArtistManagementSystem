@@ -2,34 +2,41 @@
   <div class="mb-10">
     <h4 class="text-lg font-bold text-primary-text-color self-start">Top Artists</h4>
     <div class="flex overflow-y-hidden">
-        <ArtistCard v-for="x in artistData" class="p-5" :artistDetail="x"/>
-  </div>
+      <ArtistCard v-for="x in artistData" class="p-5" :artistDetail="x" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import ArtistCard from '@/components/cards/ArtistCard.vue';
+import { ref, onMounted } from 'vue'
+import ArtistCard from '@/components/cards/ArtistCard.vue'
 
-const artistData = ref([
-  { id: 1, name: 'Taylor Swift', username:'taylor' },
-  { id: 2, name: 'Ed Sheeran',username:'taylor'  },
-  { id: 3, name: 'Beyoncé',username:'taylor'   },
-  { id: 4, name: 'Drake',username:'taylor'   },
-  { id: 5, name: 'Ariana Grande',username:'taylor'   },
-  { id: 6, name: 'Bruno Mars',username:'taylor'   }
-])
+const artistData = ref([])
+
+const fetchArtists = async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/artist/get/')
+    const data = await response.json()
+    artistData.value = data.map((artist) => ({
+      id: artist.id,
+      username: artist.username,
+      img_profile: artist.img_profile
+    }))
+  } catch (error) {
+    console.error('Error fetching artists:', error)
+  }
+}
+
+onMounted(fetchArtists)
 </script>
 
 <style scoped>
-
-
 .artistGradient {
   background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-.artistPic{
+.artistPic {
   width: 102px;
   height: 1/1;
 }

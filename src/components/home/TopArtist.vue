@@ -1,36 +1,17 @@
 <template>
-  <div class="flex flex-col items-center p-8 overflow-x-hidden w-full">
-    <h4 class="text-xl font-bold mb-4 text-secondary-color">Top Artists</h4>
-    <div class="flex space-x-4">
-      <RouterLink :to="'artist/'+ artist.id" 
-        v-for="artist in artists"
-        :key="artist.id"
-        class="artist-card w-[14rem] transform hover:scale-105 transition-transform duration-300 cursor-pointer"
-      >
-        <div class="flex flex-col gap-2  items-center p-4 overflow-x-hidden">
-          <div
-            class="w-28 h-28  rounded-full flex justify-center items-center artistGradient" >
-            <img
-              src="https://source.unsplash.com/800x800/?portrait"
-              alt="Artist Image"
-              class="artistPic rounded-full object-cover border-none bg-secondary-color z-10"
-            />
-          </div>
-          <div class="text-center">
-          <h3 class="text-md font-semibold text-center">{{ artist.name }}</h3>
-          <p class="text-sm text-gray-600">@{{ artist.username }}</p>
-
-          </div>
-        </div>
-      </RouterLink>
-    </div>
+  <div class="mb-10">
+    <h4 class="text-lg font-bold text-primary-text-color self-start">Top Artists</h4>
+    <div class="flex overflow-y-hidden">
+        <ArtistCard v-for="x in artistData" class="p-5" :artistDetail="x"/>
+  </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import ArtistCard from '@/components/cards/ArtistCard.vue';
 
-const artists = ref([
+const artistData = ref([
   { id: 1, name: 'Taylor Swift', username:'taylor' },
   { id: 2, name: 'Ed Sheeran',username:'taylor'  },
   { id: 3, name: 'Beyoncé',username:'taylor'   },

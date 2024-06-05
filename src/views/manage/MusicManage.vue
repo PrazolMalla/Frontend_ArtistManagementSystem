@@ -63,52 +63,82 @@
               </div>
             </div>
 
+            <div class="flex flex-col justify-between">
+              <div
+                class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color"
+              >
+                <div class="p-4 w-full font-semibold">Name</div>
+                <div class="p-4 w-1/6 font-semibold">Hide</div>
+                <div class="p-4 w-1/6 font-semibold">Disable</div>
+                <div class="p-4 w-1/3 font-semibold">Actions</div>
+              </div>
+              <router-link>
+                <div
+                  v-for="song in songs"
+                  :key="song.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
+                >
+                  <div class="p-4 flex items-center w-full">
+                    <img
+                      :src="`http://127.0.0.1:8000${song.img_profile}`"
+                      alt="Song image"
+                      class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
+                    />
 
+                    <div>
+                      <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
+                        {{ song.name }}
+                      </div>
 
-                    <div class="flex flex-col justify-between">
-                      <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
-                        <div class="p-4 w-3/6">Name</div>
-                        <div class="p-4 w-1/6">Hide</div>
-                        <div class="p-4 w-1/6">Enable</div>
-                        <div class="p-4 w-1/6">Actions</div>
-                      </div>
-                      <div v-for="song in songs" :key="song.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color">
-                        <div class="p-4 flex items-center w-full">
-                          <img :src="song.image" alt="Song image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4 " /> <!-- Hide on small screens -->
-                          <div>
-                            <div class="font-bold text-secondary-color text-sm sm:text-base  md:text-md">{{ song.name }}</div> <!-- Reduced font size on small screens -->
-                            <div class="text-sm sm:text-base">{{ song.artist }}</div> <!-- Reduced font size on small screens -->
-                            <div class="text-sm sm:text-base">{{ song.album }}</div> <!-- Reduced font size on small screens -->
-                          </div>
-                        </div>
-                        <div class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
-                        <p>Hide</p>
-                        <p>Enable</p>
-                        <p>Actions</p>
-                      </div>
-                      <div class="flex justify-around w-full">
-                        <div class="p-4 w-1/6">
-                          <label class="relative inline-flex cursor-pointer items-center">
-                            <input id="switch-2" type="checkbox" class="peer sr-only" />
-                            <label for="switch-2" class="hidden"></label>
-                            <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
-                          </label>
-                        </div>
-                        <div class="p-4 w-1/6">
-                          <label class="relative inline-flex cursor-pointer items-center">
-                            <input id="switch-2" type="checkbox" class="peer sr-only" />
-                            <label for="switch-2" class="hidden"></label>
-                            <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
-                          </label>
-                        </div>
-                        <div class="p-4 w-1/3 flex gap-6">
-                          <v-icon @click="toggleOpenEdit" name="fa-regular-edit" fill="#00b166" scale="1.5" class="cursor-pointer"></v-icon>
-                          <v-icon @click="toggleOpenDelete" name="fa-regular-trash-alt" fill="#ff4000" scale="1.5" class="cursor-pointer"></v-icon>
-                        </div>
-                        </div>
-                      </div>
+                      <div class="text-sm sm:text-base">{{ song.artist }}</div>
+
+                      <div class="text-sm sm:text-base">{{ song.album }}</div>
                     </div>
-
+                  </div>
+                  <div
+                    class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
+                  >
+                    <p>Hide</p>
+                    <p>Enable</p>
+                    <p>Actions</p>
+                  </div>
+                  <div class="flex justify-around w-full">
+                    <div class="p-4 w-1/6">
+                      <label class="relative inline-flex cursor-pointer items-center">
+                        <input id="switch-2" type="checkbox" class="peer sr-only" />
+                        <label for="switch-2" class="hidden"></label>
+                        <div
+                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                        ></div>
+                      </label>
+                    </div>
+                    <div class="p-4 w-1/6">
+                      <label class="relative inline-flex cursor-pointer items-center">
+                        <input id="switch-2" type="checkbox" class="peer sr-only" />
+                        <label for="switch-2" class="hidden"></label>
+                        <div
+                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                        ></div>
+                      </label>
+                    </div>
+                    <div class="p-4 w-1/3 flex gap-6">
+                      <v-icon
+                        name="fa-regular-edit"
+                        fill="#00b166"
+                        scale="1.5"
+                        class="cursor-pointer"
+                      ></v-icon>
+                      <v-icon
+                        name="fa-regular-trash-alt"
+                        fill="#ff4000"
+                        scale="1.5"
+                        class="cursor-pointer"
+                      ></v-icon>
+                    </div>
+                  </div>
+                </div>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -117,76 +147,59 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import AddMusic from '@/components/manage/AddMusic.vue';
-import EditMusic from '@/components/manage/EditMusic.vue';
-import DeleteEdit from '@/components/manage/DeleteMusic.vue'
-const is_OpenAdd= ref(false);
-const is_OpenEdit= ref(false);
-const is_OpenDelete = ref(false);
-const songs = ref([
-  {
-    name: 'Wildflowers of California',
-    artist: 'Patrick Ono',
-    album: 'Raichu',
-    releaseDate: '2 days ago',
-    image: 'https://source.unsplash.com/800x800/?portrait'
-  },
-  {
-    name: 'Night Towers',
-    artist: 'Patrick Ono',
-    album: 'Hello',
-    releaseDate: 'Jun 16, 2023',
-    image: 'https://source.unsplash.com/800x800/?portrait'
-  },
-  {
-    name: 'Winter',
-    artist: 'Patrick Ono',
-    album: 'RRR',
-    releaseDate: 'May 2, 2023',
-    image: 'https://source.unsplash.com/800x800/?portrait'
-  },
-  {
-    name: 'Just a Thought',
-    artist: 'Patrick Ono',
-    album: 'Hello',
-    releaseDate: 'Jan 24, 2023',
-    image: 'https://source.unsplash.com/800x800/?portrait'
-  },
-  {
-    name: 'Memories',
-    artist: 'Patrick Ono',
-    album: 'Nirmal',
-    releaseDate: 'Jan 6, 2023',
-    image: 'https://source.unsplash.com/800x800/?portrait'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+const songs = ref([])
+
+const fetchSongs = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
+    const data = response.data
+    songs.value = data
+  } catch (error) {
+    console.error('Error fetching songs:', error)
   }
-])
-
-
-function toggleOpenAdd() {
-  is_OpenAdd.value = true;
-}
-function toggleCloseAdd() {
-  is_OpenAdd.value = false;
-}
-function toggleOpenEdit(){
-  is_OpenEdit.value = true;
-
-}
-function toggleCloseEdit(){
-  is_OpenEdit.value = false;
-
-}
-function toggleCloseDelete(){
-  is_OpenDelete.value = false;
-
 }
 
-function toggleOpenDelete(){
-  is_OpenDelete.value = true;
+onMounted(fetchSongs)
 
-}
-
+// const songs = ref([
+//   {
+//     name: 'Wildflowers of California',
+//     artist: 'Patrick Ono',
+//     album: 'Raichu',
+//     releaseDate: '2 days ago',
+//     image: 'https://source.unsplash.com/800x800/?portrait'
+//   },
+//   {
+//     name: 'Night Towers',
+//     artist: 'Patrick Ono',
+//     album: 'Hello',
+//     releaseDate: 'Jun 16, 2023',
+//     image: 'https://source.unsplash.com/800x800/?portrait'
+//   },
+//   {
+//     name: 'Winter',
+//     artist: 'Patrick Ono',
+//     album: 'RRR',
+//     releaseDate: 'May 2, 2023',
+//     image: 'https://source.unsplash.com/800x800/?portrait'
+//   },
+//   {
+//     name: 'Just a Thought',
+//     artist: 'Patrick Ono',
+//     album: 'Hello',
+//     releaseDate: 'Jan 24, 2023',
+//     image: 'https://source.unsplash.com/800x800/?portrait'
+//   },
+//   {
+//     name: 'Memories',
+//     artist: 'Patrick Ono',
+//     album: 'Nirmal',
+//     releaseDate: 'Jan 6, 2023',
+//     image: 'https://source.unsplash.com/800x800/?portrait'
+//   }
+// ])
 </script>
 
 <style scoped>

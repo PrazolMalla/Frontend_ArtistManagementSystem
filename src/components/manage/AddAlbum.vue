@@ -74,20 +74,21 @@ export default {
           method: 'post',
           url: `http://127.0.0.1:8000/api/album/post/`,
           headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'Content-Type': 'application/json'
           },
           data: this.user
         })
           .then((response) => {
             console.log(response)
-            if (response.status == 200) {
-              localStorage.setItem('refresh_token', response.data.refreshJWT)
-              localStorage.setItem('access_token', response.data.accessJWT)
-              this.$router.push('/dashboard')
-            }
+              $toast.success('Login sucess', {
+                position: 'top-right'
+             });
+
+            
           })
           .catch((err) => {
-            console.log(err.response.data)
+            console.log(err.response)
           })
       }
     }

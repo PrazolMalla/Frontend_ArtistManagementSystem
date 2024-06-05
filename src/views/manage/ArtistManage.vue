@@ -1,7 +1,7 @@
 <template>
   <PageLayout>
     <template #content>
-          <AddMusic/>
+          <!-- <AddMusic/> -->
           <AddAlbum />
           <div class="allbar border">
               <div class="header"> 

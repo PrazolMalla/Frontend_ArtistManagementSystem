@@ -35,7 +35,7 @@ const fetchUserData = async () => {
     const response = await axios.get('http://127.0.0.1:8000/api/user/login-user/', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}` 
-      },withCredentials : true
+      },
     })
     user.value = response.data
   } catch (error) {

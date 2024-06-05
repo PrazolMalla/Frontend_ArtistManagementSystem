@@ -9,6 +9,7 @@
         :key="item.id"
         class="w-full sm:w-7/12 text-secondary-color"
       >
+       
         <input
           :type="item.type"
           :placeholder="item.label"

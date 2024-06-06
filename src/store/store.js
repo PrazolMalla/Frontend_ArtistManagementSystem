@@ -14,8 +14,12 @@ export default createStore({
     is_play: Boolean,
     volume: Number,
     genreData: Object,
+    loggedInUserData: Object,
   },
   mutations:{
+    SET_LOGGEDIN_USER_DATA(state, loggedInUserData){ 
+        state.loggedInUserData = loggedInUserData
+    },
     SET_USER_DATA(state, userData) {
       state.userData =  userData;
     },
@@ -159,7 +163,22 @@ export default createStore({
         )
   },
 
+   setLoggedInUserData({commit}){
+    try {
+      axios.get('http://127.0.0.1:8000/api/user/login-user/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}` 
+        },
+      }).then((response) =>{
+          console.log(response.data)
+                commit('SET_LOGGEDIN_USER_DATA', response.data)
+            });
 
+    } catch (error) {
+      console.error('Failed to fetch user data:', error)
+    }
+  
+  },
 
   setBandData({commit}){
         axios.get(`${URL}api/band/get/`, {
@@ -191,7 +210,8 @@ export default createStore({
     }
   },
   getters:{
-    getUserData: state =>  state.userData
+    getUserData: state =>  state.userData,
+    getLoggedInUserData: state => state.loggedInUserData
   }
 });
 

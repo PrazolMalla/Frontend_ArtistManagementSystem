@@ -36,11 +36,11 @@
     <div class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img
-          src="https://source.unsplash.com/800x800/?portrait"
+          :src="`http://127.0.0.1:8000${user.img_profile}`"
           alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
         />
-        <h2 class="font-medium text-primary-text-color text-md mt-2 sm:flex hidden">Prazwol</h2>
+        <h2 class="font-medium text-primary-text-color text-md mt-2">{{user.firstname}}</h2>
       </RouterLink>
       <RouterLink to="/user/settings">
         <v-icon name="md-settings-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer" />
@@ -49,61 +49,84 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      categories: [
-        {
-          name: 'Manage',
-          icon: 'md-manageaccounts-round',
-          actions: [
-            { to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/manage/album', icon: 'md-album', text: 'Album' },
-            { to: '/manage/user', icon: 'fa-user-alt', text: 'User' },
-            { to: '/manage/music', icon: 'si-applemusic', text: 'Music' }
-          ]
-        },
-        {
-          name: 'Library',
-          icon: 'md-librarymusic',
-          actions: [
-            { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
-            { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
-            { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
-          ]
-        },
-        {
-          name: 'Explore',
-          icon: 'md-explore-sharp',
-          actions: [
-            { to: '/music', icon: 'si-applemusic', text: 'Music' },
-            { to: '/artist', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/band', icon: 'fa-guitar', text: 'Band' },
-            { to: '/album', icon: 'md-album', text: 'Album' },
-            { to: '/genre', icon: 'md-musicnote-round', text: 'Genre' }
-          ]
-        },
-        {
-          name: 'Stats',
-          icon: 'fa-chart-line',
-          actions: [
-            { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
-            { to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' },
-            { to: '/stats/user', icon: 'fa-user-alt', text: 'User' }
-          ]
-        }
-      ],
-      isDropdownOpen: null
+<script setup>
+import store from '@/store/store';
+import { ref, onMounted, computed } from 'vue';
+  
+    const user = ref({});
+
+    const userData = computed(() => store.getters.getLoggedInUserData);
+
+  
+    const categories = ref([
+      {
+        name: 'Manage',
+        icon: 'md-manageaccounts-round',
+        actions: [
+
+        ]
+      },
+      {
+        name: 'Library',
+        icon: 'md-librarymusic',
+        actions: [
+          { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
+          { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
+          { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
+        ]
+      },
+      {
+        name: 'Explore',
+        icon: 'md-explore-sharp',
+        actions: [
+          { to: '/music', icon: 'si-applemusic', text: 'Music' },
+          { to: '/artist', icon: 'fa-microphone', text: 'Artist' },
+          { to: '/band', icon: 'fa-guitar', text: 'Band' },
+          { to: '/album', icon: 'md-album', text: 'Album' },
+          { to: '/genre', icon: 'md-musicnote-round', text: 'Genre' }
+        ]
+      },
+      {
+        name: 'Stats',
+        icon: 'fa-chart-line',
+        actions: [
+          { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
+          { to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' },
+          { to: '/stats/user', icon: 'fa-user-alt', text: 'User' }
+        ]
+      }
+    ]);
+
+    const isDropdownOpen = ref(null);
+
+    const toggleDropdown = (categoryName) => {
+      isDropdownOpen.value = isDropdownOpen.value === categoryName ? null : categoryName;
+    };
+
+    const closeDropdown = () => {
+      isDropdownOpen.value = null;
+    };
+
+
+    const showDataInManage = () => {
+            if(userData.value.is_artist | true){
+        categories.value[0].actions.push({ to: '/manage/album', icon: 'md-album', text: 'Album' })
+        categories.value[0].actions.push({ to: '/manage/music', icon: 'si-applemusic', text: 'Music' })
+            }
+            if(userData.value.is_staff  | true ){
+                categories.value[0].actions.push({ to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' })
+                categories.value[0].actions.push({ to: '/manage/user', icon: 'fa-user-alt', text: 'User'})
+      }
     }
-  },
-  methods: {
-    toggleDropdown(categoryName) {
-      this.isDropdownOpen = this.isDropdownOpen === categoryName ? null : categoryName
-    },
-    closeDropdown() {
-      this.isDropdownOpen = null
-    }
-  }
-}
+
+      onMounted(() =>{
+          showDataInManage()
+
+      })
+
+
 </script>
+
+
+
+    

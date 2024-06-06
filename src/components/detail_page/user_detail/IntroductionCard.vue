@@ -4,7 +4,7 @@
   >
     <h1 class="font-semibold text-primary-text-color lg:text-lg">INTRODUCTION</h1>
     <div class="mt-2">
-      <p class="text-sm text-primary-text-color lg:text-lg">Name: {{ userData.username }}</p>
+      <p class="text-sm text-primary-text-color lg:text-lg">Name: {{ userData.firstname }}</p>
       <p class="mt-1 text-sm text-primary-text-color lg:text-lg">Country: {{ userData.country }}</p>
       <p class="mt-1 text-sm text-primary-text-color lg:text-lg">Bio: {{ userData.bio }}</p>
     </div>

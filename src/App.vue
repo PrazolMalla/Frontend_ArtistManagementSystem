@@ -5,11 +5,13 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-import { jwtDecode } from 'jwt-decode'
+import store from './store/store'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+onMounted(()=>{
+    store.dispatch('setLoggedInUserData')
+})
 </script>
 
 <style scoped></style>

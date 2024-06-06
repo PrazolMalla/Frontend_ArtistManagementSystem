@@ -18,7 +18,6 @@ addIcons(...Fa)
 
 const app = createApp(App)
 
-app.use()
 app.use(router)
 app.use(store)
 app.use(ToastPlugin)

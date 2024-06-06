@@ -59,22 +59,7 @@ import { ref, onMounted, computed } from 'vue';
 
   
     const categories = ref([
-      {
-        name: 'Manage',
-        icon: 'md-manageaccounts-round',
-        actions: [
-
-        ]
-      },
-      {
-        name: 'Library',
-        icon: 'md-librarymusic',
-        actions: [
-          { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
-          { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
-          { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
-        ]
-      },
+      
       {
         name: 'Explore',
         icon: 'md-explore-sharp',
@@ -108,19 +93,37 @@ import { ref, onMounted, computed } from 'vue';
     };
 
 
-    const showDataInManage = () => {
-            if(userData.value.is_artist | true){
-        categories.value[0].actions.push({ to: '/manage/album', icon: 'md-album', text: 'Album' })
-        categories.value[0].actions.push({ to: '/manage/music', icon: 'si-applemusic', text: 'Music' })
-            }
-            if(userData.value.is_staff  | true ){
-                categories.value[0].actions.push({ to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' })
-                categories.value[0].actions.push({ to: '/manage/user', icon: 'fa-user-alt', text: 'User'})
-      }
-    }
+    const showDataInSideBar = () => {
+      console.log(userData.value)
+              if(userData.value.id){
+                    categories.value.push({
+                      name: 'Library',
+                      icon: 'md-librarymusic',
+                      actions: [
+                        { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
+                        { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
+                        { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
+                      ]
+                    })
+              }
 
+              if(userData.value.is_artist | userData.value.is_staff ){
+                    categories.value.push({name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
+                    const manageIndex = categories.value.findIndex(category => category.name === 'Manage');
+
+                    if(userData.value.is_artist ){
+                        categories.value[manageIndex].actions.push({ to: '/manage/album', icon: 'md-album', text: 'Album' })
+                        categories.value[manageIndex].actions.push({ to: '/manage/music', icon: 'si-applemusic', text: 'Music' })
+                    }
+                    if(userData.value.is_staff   ){
+                        categories.value[manageIndex].actions.push({ to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' })
+                        categories.value[manageIndex].actions.push({ to: '/manage/user', icon: 'fa-user-alt', text: 'User'})
+                    }
+              }
+            
+    }
       onMounted(() =>{
-          showDataInManage()
+          showDataInSideBar()
 
       })
 

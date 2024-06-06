@@ -3,7 +3,7 @@
     <template #content>
     <div class="flex gap-4 flex-wrap flex-grow justify-center ">
           <AlbumCard v-for="x in albumData" class="p-5" :albumData="x" linkto="album"/>
-    </div>
+        </div>
     </template>
   </PageLayoutWithPlayer>
 </template>

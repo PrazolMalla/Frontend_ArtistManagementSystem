@@ -195,10 +195,8 @@ router.beforeEach(async(to, from, next) => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}` 
         },
       }).then((response) =>{
-            is_staff = true
-            is_artist = true
-          // is_artist = response.data.is_artist
-          // is_staff = response.data.is_staff
+          is_artist = response.data.is_artist
+          is_staff = response.data.is_staff
         });
       } catch (error) {
           console.error('Failed to fetch user data:', error)  
@@ -215,7 +213,7 @@ router.beforeEach(async(to, from, next) => {
         next('/')
   }
   else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
-    next()
+    next('/')
   } 
   else {
     next()

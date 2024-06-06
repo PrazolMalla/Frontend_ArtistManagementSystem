@@ -67,7 +67,7 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Album</option>
-          <option v-for="item in albumData">{{ item.name }}</option>
+          <option  v-for="item in albumData">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
       </div>

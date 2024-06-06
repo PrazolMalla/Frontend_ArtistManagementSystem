@@ -70,7 +70,7 @@ export default {
       userInputField: [
         { id: '1', name: 'name', type: 'text', label: 'Name' },
         { id: '2', name: 'description', type: 'text', label: 'Description' },
-        { id: '3', name: 'img_profile', type: 'file', label: 'Profile Image' }, // Added img_profile field
+        { id: '3', name: 'img_profile', type: 'file', label: 'Profile Image' },
       ],
       formErrors: {},
     }

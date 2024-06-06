@@ -6,7 +6,7 @@
 
     <RouterLink :to="'/music/'+ musicData.id">
      <img
-      src="../../assets/images/album-cover-design-template-05a138f43b181c728e956968786fdf7d_screen.jpg"
+     :src="`http://127.0.0.1:8000${musicData.img_profile}`"
       class="w-32 h-32 rounded-lg"
     />  
     

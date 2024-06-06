@@ -58,7 +58,7 @@
                       {{ user.name }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ user.user }}</div>
+                      <div class="text-sm sm:text-base">{{ user.firstname }}</div>
 
                       <div class="text-sm sm:text-base">{{ user.album }}</div>
                     </div>

@@ -1,7 +1,7 @@
 <template>
     <PageLayoutWithPlayer>
       <template #content >
-          <BannerComponent/>
+          <BannerComponent :userBanner="user.img_cover"/>
           <ProfilePicComponent :userImg="user.img_profile"/>
           <ProfileNav/>
           <div class="flex flex-col-reverse sm:flex-row ">

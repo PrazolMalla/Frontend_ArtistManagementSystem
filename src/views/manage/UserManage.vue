@@ -1,9 +1,17 @@
 <template>
   <PageLayout>
     <template #content>
-      <div  v-if="is_blur" class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"></div>
-      <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?" actionConfirm="Confirm Restore" @close="toggleCloseRestore" />
-        
+      <div
+        v-if="is_blur"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+      ></div>
+      <ManageConfirmDialogue
+        v-if="is_OpenRestore"
+        actionQuestion="Do yo want to restore XYZ?"
+        actionConfirm="Confirm Restore"
+        @close="toggleCloseRestore"
+      />
+
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
@@ -25,28 +33,25 @@
                     class="cursor-pointer hover:text-gray-950 mt-1 p-1"
                   />
                 </div>
-               
               </div>
             </div>
 
             <div class="flex flex-col justify-between">
               <div
-                class="hidden sm:flex flex-row bg-transparent"
+                class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color py-2"
               >
-                <div class="w-3/6  font-semibold">Name</div>
-                <div class="flex  w-full justify-around items-center">
-
-
-                <div class="font-semibold">Disable</div>
-                <div class="font-semibold">Restore</div>
+                <div class="w-3/6 font-semibold">Name</div>
+                <div class="flex w-full justify-around items-center">
+                  <div class="font-semibold">Disable</div>
+                  <div class="font-semibold">Restore</div>
                 </div>
               </div>
               <div
                 v-for="user in users"
                 :key="user.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2"
               >
-                <router-link  :to="`/user/${user.id}`" class="flex items-center w-3/6  ">
+                <router-link :to="`/user/${user.id}`" class="flex items-center w-3/6">
                   <img
                     :src="`http://127.0.0.1:8000${user.img_profile}`"
                     alt="User image"
@@ -55,7 +60,7 @@
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ user.name }}
+                      {{ user.firstname }} {{ user.lastname }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
                       <div class="text-sm sm:text-base">{{ user.user }}</div>
@@ -71,27 +76,34 @@
                   <p>Restore</p>
                 </div>
                 <div class="flex w-full justify-around items-center">
-                
-                    <label class="relative inline-flex cursor-pointer items-center">
-                      <input id="switch-2" type="checkbox" class="peer sr-only" />
-                      <label for="switch-2" class="hidden"></label>
-                      <div
-                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                      ></div>
-                    </label>
-                    <div v-if="true">
-                      <div @click="toggleOpenRestore" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Restore</div>
-                      <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Restored</div>
+                  <label class="relative inline-flex cursor-pointer items-center">
+                    <input id="switch-2" type="checkbox" class="peer sr-only" />
+                    <label for="switch-2" class="hidden"></label>
+                    <div
+                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                    ></div>
+                  </label>
+                  <div v-if="true">
+                    <div
+                      @click="toggleOpenRestore"
+                      v-if="true"
+                      class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color"
+                    >
+                      Restore
                     </div>
-                    
-                  
+                    <div
+                      v-if="false"
+                      class="border border-secondary-color rounded bg-transparent text-sm p-1 text-secondary-colo"
+                    >
+                      Restored
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </template>
   </PageLayout>
 </template>
@@ -105,7 +117,6 @@ const users = ref([])
 
 const is_blur = ref(false)
 const is_OpenRestore = ref(false)
-
 
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -128,7 +139,6 @@ const fetchUser = async () => {
 }
 
 onMounted(fetchUser)
-
 </script>
 
 <style scoped>

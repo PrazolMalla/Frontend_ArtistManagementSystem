@@ -58,7 +58,7 @@
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ artist.name }}
+                      {{ artist.firstname }} {{ artist.lastname }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
                       <div class="text-sm sm:text-base">{{ artist.artist }}</div>

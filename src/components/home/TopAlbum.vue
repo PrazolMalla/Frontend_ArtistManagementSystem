@@ -3,66 +3,62 @@
     <h2 class="text-lg font-bold text-primary-text-color self-start">Top Albums</h2>
     <div class="flex gap-4 overflow-y-hidden">
       <swiper
-      :slidesPerView="4"
-      :centeredSlides="false"
-      :spaceBetween="10"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden"
-    >
-    <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in albumData" >
-      <AlbumCard  class="p-5" :albumDetail="x" linkto="album" />
-      </swiper-slide>
-    </swiper>
-    <swiper
-      :slidesPerView="2"
-      :centeredSlides="false"
-      :spaceBetween="10"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-1rem] md:flex md:ml-0 lg:hidden hidden"
-    >
-    <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData" >
-      <AlbumCard  class="p-5" :albumDetail="x" linkto="album" />
-      </swiper-slide>
-    </swiper>
-    <swiper
-      :slidesPerView="1"
-      :centeredSlides="false"
-      :spaceBetween="10"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-1rem] flex md:ml-0 lg:hidden md:hidden"
-    >
-    <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData" >
-      <AlbumCard  class="p-5" :albumDetail="x" linkto="album" />
-      </swiper-slide>
-    </swiper>
-    
-
-    
-      
+        :slidesPerView="4"
+        :centeredSlides="false"
+        :spaceBetween="10"
+        :grabCursor="true"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false
+        }"
+        :pagination="{
+          clickable: true
+        }"
+        :modules="modules"
+        class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden"
+      >
+        <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in albumData">
+          <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
+        </swiper-slide>
+      </swiper>
+      <swiper
+        :slidesPerView="2"
+        :centeredSlides="false"
+        :spaceBetween="10"
+        :grabCursor="true"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false
+        }"
+        :pagination="{
+          clickable: true
+        }"
+        :modules="modules"
+        class="mySwiper lg:ml-[-1rem] md:flex md:ml-0 lg:hidden hidden"
+      >
+        <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData">
+          <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
+        </swiper-slide>
+      </swiper>
+      <swiper
+        :slidesPerView="1"
+        :centeredSlides="false"
+        :spaceBetween="10"
+        :grabCursor="true"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false
+        }"
+        :pagination="{
+          clickable: true
+        }"
+        :modules="modules"
+        class="mySwiper lg:ml-[-1rem] flex md:ml-0 lg:hidden md:hidden"
+      >
+        <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData">
+          <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
+        </swiper-slide>
+      </swiper>
     </div>
   </div>
 </template>
@@ -91,7 +87,7 @@ const fetchAlbums = async () => {
 }
 
 onMounted(fetchAlbums)
-const modules= [Autoplay, Pagination]
+const modules = [Autoplay, Pagination]
 </script>
 <style scoped>
 /* @media (min-width: 768px) {

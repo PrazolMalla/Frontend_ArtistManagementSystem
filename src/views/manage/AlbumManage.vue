@@ -109,17 +109,7 @@
                           ></div>
                           </label>
 
-                    <!-- <div v-if="true">
-                      <div @click="toggleOpenHide" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Hide</div>
-                      <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Show</div>
-                    </div>
-
-                    <div v-if="true">
-                      <div @click="toggleOpenDisable" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Disable</div>
-                      <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Enable</div>
-                    </div> -->
-
-
+                
                     <div v-if="true">
                       <div @click="toggleOpenRestore" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Restore</div>
                       <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Restored</div>

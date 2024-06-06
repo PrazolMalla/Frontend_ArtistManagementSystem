@@ -4,8 +4,7 @@ import router from './router'
 import './style.css'
 import store from './store/store.js'
 import ToastPlugin from 'vue-toast-notification'
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import 'vue-toast-notification/dist/theme-bootstrap.css'
 import PageLayout from '@/components/page_layout/PageLayout.vue'
 import PageLayoutWithPlayer from '@/components/page_layout/PageLayoutWithPlayer.vue'
 

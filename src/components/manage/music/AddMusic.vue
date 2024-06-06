@@ -69,6 +69,9 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { mapState } from 'vuex';
 import { defineProps, defineEmits } from 'vue';
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
+
 const router=useRouter();
 const store=useStore()
 const track = ref({
@@ -161,7 +164,11 @@ headers: {
 }
 })
   .then(response => {
-      console.log("music added");
+     
+      $toast.success('Music Added', {
+              position: 'top-right'
+            });
+     emit('close');
   })
   .catch(error => {
       console.error(error);

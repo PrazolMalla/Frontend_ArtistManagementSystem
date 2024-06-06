@@ -12,14 +12,14 @@
     <div
       class="form-container w-full p-10 h-full  flex flex-wrap justify-center gap-5 align-middle"
     >
-    <p class="text-xl">Are you sure you want to delete XYZ Music?</p>
+    <p class="text-xl">{{ actionQuestion }}</p>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
           type="submit"
           @click="deleteMusic"
         >
-          Confirm Deletion
+          {{ actionConfirm }}
         </button>
       </div>
     </div>
@@ -31,6 +31,10 @@ import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 
+import { defineProps, defineEmits } from 'vue';
+
+
+const action = defineProps(['actionQuestion', 'actionConfirm']);
 const user = ref({
   name: '',
   description: '',

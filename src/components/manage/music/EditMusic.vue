@@ -35,7 +35,7 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Album</option>
-          <option v-for="item in albumData">{{ item.name }}</option>
+          <option v-for="item in albumData" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
       </div>
@@ -130,11 +130,11 @@ const track = ref({
   is_released:false,
   lyrics:null
 });
-
+const file=ref(null)
 const profileFile = ref(null)
 const musicFile = ref(null)
 const handleProfileChange = (event) => {
-  profileFile.value = event.target.files[0];
+ profileFile.value = event.target.files[0];
 };
 const handleFileChange = (event) => {
   musicFile.value = event.target.files[0];
@@ -169,8 +169,6 @@ function editMusic() {
     }
 
     if (track.value.album != "") {
-      formData.append('album', null);
-    } else {
       formData.append('album', track.value.album);
     }
     formData.append('artist', track.value.artist);
@@ -184,7 +182,7 @@ function editMusic() {
       track.value.is_released=false
     }
     formData.append('is_released', track.value.is_released);
-    if (profileFile.value) {
+    if (profileFile.value && profileFile.value instanceof File) {
       formData.append('img_profile', profileFile.value); 
     }
     if (musicFile.value) {

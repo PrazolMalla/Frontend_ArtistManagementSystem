@@ -1,17 +1,18 @@
 <template>
-  <PageLayoutWithPlayer>
-    <template #content>
-      <BannerComponent :userBanner="user.img_cover" />
-      <ProfilePicComponent :userImg="user.img_profile" />
-      <ProfileNav />
-      <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
-        <InformationCard :userData="user" />
-        <PostForm />
-      </div>
-      <div class="flex flex-col-reverse lg:flex-row gap-5">
-        <TopChartComponent />
-        <CardsCarousel />
-      </div>
+    <PageLayoutWithPlayer>
+      <template #content >
+          <BannerComponent :userBanner="user.img_cover"/>
+          <ProfilePicComponent :userImg="user.img_profile"/>
+          <ProfileNav/>
+          <div class="flex flex-col-reverse sm:flex-row ">
+            <InformationCard :userData="user"/>
+            <PostForm/>
+          </div>
+          <div class="flex flex-col-reverse lg:flex-row gap-5">
+            <TopChartComponent/>
+            <CardsCarousel/>
+          </div>
+         
     </template>
   </PageLayoutWithPlayer>
 </template>

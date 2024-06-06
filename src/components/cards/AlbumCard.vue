@@ -2,7 +2,7 @@
   <div
     class="album-card transform hover:scale-105 transition-transform duration-300 bg-light-primary-color shadow-md p-2 rounded-lg flex flex-col gap-4 items-center"
   >
-    <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] w-[40vw]">
+    <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] sm:w-[35vw] w-[80vw]">
       <div class="z-20">
         <img :src="`http://127.0.0.1:8000${albumDetail.img_profile}`" alt="" class="w-[10rem]" />
       </div>

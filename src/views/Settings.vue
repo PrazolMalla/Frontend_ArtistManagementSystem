@@ -21,7 +21,7 @@ export default {
     const logout = () => {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
-      router.push('/login');
+      router.push('/');
       $toast.success('Logout sucess', {
           position: 'top-right'
         });

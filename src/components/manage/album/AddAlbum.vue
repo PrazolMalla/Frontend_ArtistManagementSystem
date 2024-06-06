@@ -7,7 +7,7 @@
         fill="#302f31"
         scale="1"
         @click="closeAdd"
-        class="absolute right-3 cursor-pointer "
+        class="absolute right-3 cursor-pointer"
       />
     <div
       class="form-container w-full p-10 h-full  flex flex-wrap justify-center gap-5 align-middle"
@@ -44,53 +44,14 @@
         }}</span>
       </div>
 
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
-        <label
-          for="img"
-          class="cursor-pointer albums-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >File(mp3/mp4)</label
-        >
-        <input type="file" id="img" name="profile" @change="handleFileChange" class="hidden" />
-
-        <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
-          formErrors.file
-        }}</span>
-      </div>
-
       
 
-      <div class="flex flex-col">
-        <select
-          v-model="user.album"
-          id="gender"
-          name="album"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
-          <option value="" disabled>Album</option>
-          <option v-for="album in albumData">{{ album.name }}</option>
-        </select>
-        <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
-      </div>
-
-      <div class="flex flex-col">
-        <select
-          v-model="album.genre"
-          id="gender"
-          name="genre"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
-          <option value="" disabled>Genre</option>
-          <option v-for="album in genreData">{{ album.name }}</option>
-        </select>
-        <span v-if="formErrors.genre" class="text-orange-300">{{ formErrors.genre }}</span>
-      </div>
-
-      <div class="w-full text-center">
+      <!-- <div class="w-full text-center">
         <input type="checkbox" class="w-5" v-model="isArtist" @change="updateIsBand" />
         <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color"
           >Are you adding this album as (XYZ) Band?</label
         >
-      </div>
+      </div> -->
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
@@ -133,7 +94,6 @@ const formErrors = ref('');
 
 const store = useStore();
 const albumData = computed(() => store.state.albumData);
-const genreData = computed(() => store.state.genreData);
 import { defineProps, defineEmits } from 'vue';
 
 
@@ -145,7 +105,6 @@ function closeAdd() {
 
 onMounted(() => {
   store.dispatch('setAlbumData');
-  store.dispatch('setGenreData');
 });
 
 function validateField(fieldName) {
@@ -196,3 +155,115 @@ function addAlbum() {
 </script>
 
 <style scoped></style>
+
+
+
+
+
+
+
+<!-- Nirmal File -->
+
+
+
+
+<!-- 
+<template>
+  <fieldset class="border border-slate-700 rounded-md">
+    <legend class="ml-10">Add Album</legend>
+    <div
+      class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle"
+    >
+      <div
+        v-for="item in userInputField"
+        :key="item.id"
+        class="w-full sm:w-5/12 text-secondary-color"
+      >
+        <label :for="item.name" class="text-sm font-helvetica text-primary-text-color pl-3">
+          {{ item.label }}
+        </label>
+        <input
+          :type="item.type"
+          :name="item.name"
+          @blur="validateField(item.name)"
+          v-model="user[item.name]"
+          class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+        />
+        <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
+          formErrors[item.name]
+        }}</span>
+      </div>
+      
+      <div class="w-full flex justify-center gap-2 align-middle">
+        <button
+          class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
+          type="submit"
+          @click.prevent="addAlbum"
+        >
+          Add Album
+        </button>
+      </div>
+    </div>
+  </fieldset>
+</template>
+
+<script>
+import { ref } from 'vue'
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      user: {
+        name: '',
+        description: '',
+      },
+      userInputField: [
+        { id: '1', name: 'name', type: 'text', label: 'Name' },
+        { id: '2', name: 'description', type: 'text', label: 'Description' },
+      ],
+      formErrors: {},
+    }
+  },
+  methods: {
+    validateField(fieldName) {
+      this.formErrors[fieldName] = ''
+    },
+    addAlbum() {
+      this.formErrors = {}
+
+      if (this.user.name.length < 5) {
+        this.formErrors.name = 'Name should be at least 5 characters long.'
+      }
+      if (this.user.description.length < 5) {
+        this.formErrors.description = 'Description should be at least 5 characters long.'
+      }
+
+      if (Object.keys(this.formErrors).length === 0) {
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:8000/api/album/post/`,
+          headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            'Content-Type': 'application/json'
+          },
+          data: this.user
+        })
+          .then((response) => {
+            console.log(response)
+              $toast.success('Login sucess', {
+                position: 'top-right'
+             });
+
+            
+          })
+          .catch((err) => {
+            console.log(err.response)
+          })
+      }
+    }
+  }
+}
+</script>
+
+<style scoped></style> -->

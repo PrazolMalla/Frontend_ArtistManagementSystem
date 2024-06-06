@@ -8,7 +8,7 @@
         ></div>
       <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?" actionConfirm="Confirm Delete" @close="toggleCloseDelete" />
-      <EditMusic  v-if="is_OpenEdit" @close="toggleCloseEdit" />
+      <EditMusic  v-if="is_OpenEdit" :musicId="editMusicId" @close="toggleCloseEdit"/>
       <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?" actionConfirm="Confirm Restore" @close="toggleCloseRestore" />
        <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
        <ManageConfirmDialogue v-if="is_OpenDisable" actionQuestion="Do yo want to Disable XYZ?" actionConfirm="Confirm Disable" @close="toggleCloseDisable" /> -->
@@ -95,15 +95,15 @@
                 
                     
                           <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
+                          <input :id="'hideswitch-'+ music.id" type="checkbox" v-model="music.is_hidden" @change="toggleHideMusic(music)" class="peer sr-only" />
+                          <label :for="'hideswitch-'+ music.id"class="hidden"></label>
                           <div
                           class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                           ></div>
                           </label>
                           <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
+                          <input :id="'disableswitch-'+ music.id" type="checkbox" v-model="music.is_disabled" @change="toggleDisableMusic(music)" class="peer sr-only" />
+                          <label :for="'disableswitch-'+ music.id" class="hidden"></label>
                           <div
                           class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                           ></div>
@@ -126,7 +126,7 @@
                     </div>
                     
                     <v-icon class=" cursor-pointer"
-                      @click="toggleOpenEdit"
+                      @click="toggleOpenEdit(music)"
                       name="fa-regular-edit"
                       fill="#00b166"
                       scale="1.5"
@@ -155,7 +155,10 @@ import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue
 
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
 const musics = ref([])
+const access_token = localStorage.getItem('access_token');
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
 const is_OpenEdit = ref(false)
@@ -164,6 +167,9 @@ const is_OpenRestore = ref(false)
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
+const editMusicId = ref(null);
+
+
 function toggleOpenAdd() {
   is_OpenAdd.value = true
   is_blur.value = true
@@ -171,14 +177,17 @@ function toggleOpenAdd() {
 function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
+  fetchMusics()
 }
-function toggleOpenEdit() {
+function toggleOpenEdit(music) {
   is_OpenEdit.value = true
   is_blur.value = true
+  editMusicId.value = music.id;
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
+  fetchMusics()
 }
 function toggleOpenDelete() {
   is_OpenDelete.value = true
@@ -219,7 +228,47 @@ function toggleCloseRestore() {
 //   is_blur.value = false
 // }
 
+const toggleHideMusic = async (music) => {
+  const originalIsHidden = !music.is_hidden;
+  const newIsHidden = !originalIsHidden;
+  const action = newIsHidden ? 'hide' : 'unhide';
 
+  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`;
+
+  try {
+    await axios.delete(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+    $toast.success(`Music will be ${newIsHidden ? 'hidden' : 'visible'} to public`);
+  } catch (error) {
+    console.error(error);
+    $toast.error(`Error occur while making music ${newIsHidden ? 'hidden' : 'visible'}`);
+    music.is_hidden = originalIsHidden;
+  }
+}
+
+const toggleDisableMusic = async (music) => {
+  const originalIsDisabled = !music.is_disabled;
+  const newIsDisabled = !originalIsDisabled;
+  const action = newIsDisabled ? 'disable' : 'enable';
+
+  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`;
+
+  try {
+    await axios.delete(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+    $toast.success(`Music is made ${newIsDisabled ? 'disable' : 'enable'}`);
+  } catch (error) {
+    console.error(error);
+    $toast.error(`Error occur while making music ${newIsDisabled ? 'disable' : 'enable'}`);
+    music.is_disabled = originalIsDisabled;
+  }
+}
 const fetchMusics = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/music/get/')

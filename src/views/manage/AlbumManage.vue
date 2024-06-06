@@ -95,15 +95,15 @@
                 
                     
                           <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
+                            <input :id="'hideswitch-'+ album.id" type="checkbox" v-model="album.is_hidden" @change="toggleHideAlbum(album)" class="peer sr-only" />
+                            <label :for="'hideswitch-'+ album.id"class="hidden"></label>
                           <div
                           class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                           ></div>
                           </label>
                           <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
+                            <input :id="'disableswitch-'+ album.id" type="checkbox" v-model="album.is_disabled" @change="toggleDisableAlbum(album)" class="peer sr-only" />
+                            <label :for="'disableswitch-'+ album.id" class="hidden"></label>
                           <div
                           class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                           ></div>
@@ -142,7 +142,9 @@
 import AddAlbum from '@/components/manage/album/AddAlbum.vue'
 import EditAlbum from '@/components/manage/album/EditAlbum.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
-
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
+const access_token = localStorage.getItem('access_token');
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 const albums = ref([])
@@ -221,6 +223,46 @@ const fetchAlbums = async () => {
 }
 
 onMounted(fetchAlbums)
+const toggleHideAlbum = async (album) => {
+  const originalIsHidden = !album.is_hidden;
+  const newIsHidden = !originalIsHidden;
+  const action = newIsHidden ? 'hide' : 'unhide';
+
+  const requestUrl = `http://127.0.0.1:8000/api/album/${action}/${album.id}/`;
+
+  try {
+    await axios.delete(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+    $toast.success(`Album will be ${newIsHidden ? 'hidden' : 'visible'} to public`);
+  } catch (error) {
+    console.error(error);
+    $toast.error(`Error occur while making album ${newIsHidden ? 'hidden' : 'visible'}`);
+    album.is_hidden = originalIsHidden;
+  }
+}
+const toggleDisableAlbum= async (album) => {
+  const originalIsDisabled = !album.is_disabled;
+  const newIsDisabled = !originalIsDisabled;
+  const action = newIsDisabled ? 'disable' : 'enable';
+
+  const requestUrl = `http://127.0.0.1:8000/api/album/${action}/${album.id}/`;
+
+  try {
+    await axios.delete(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+    $toast.success(`Album is made ${newIsDisabled ? 'disable' : 'enable'}`);
+  } catch (error) {
+    console.error(error);
+    $toast.error(`Error occur while making album ${newIsDisabled ? 'disable' : 'enable'}`);
+    album.is_disabled = originalIsDisabled;
+  }
+}
 
 </script>
 

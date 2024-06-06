@@ -73,8 +73,8 @@
                 <div class="flex w-full justify-around items-center">
                 
                     <label class="relative inline-flex cursor-pointer items-center">
-                      <input id="switch-2" type="checkbox" class="peer sr-only" />
-                      <label for="switch-2" class="hidden"></label>
+                      <input :id="'disableswitch-'+ user.id" type="checkbox" v-model="user.is_disabled" @change="toggleDisableUser(user)" class="peer sr-only" />
+                            <label :for="'disableswitch-'+ user.id" class="hidden"></label>
                       <div
                         class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                       ></div>
@@ -98,6 +98,9 @@
 
 <script setup>
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
+const access_token = localStorage.getItem('access_token');
 
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
@@ -128,6 +131,26 @@ const fetchUser = async () => {
 }
 
 onMounted(fetchUser)
+const toggleDisableUser = async (user) => {
+  const originalIsDisabled = !user.is_disabled;
+  const newIsDisabled = !originalIsDisabled;
+  const action = newIsDisabled ? 'disable' : 'enable';
+
+  const requestUrl = `http://127.0.0.1:8000/api/user/${action}/${user.id}/`;
+
+  try {
+    await axios.delete(requestUrl, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+    $toast.success(`User is made ${newIsDisabled ? 'disable' : 'enable'}`);
+  } catch (error) {
+    console.error(error);
+    $toast.error(`Error occur while making user ${newIsDisabled ? 'disable' : 'enable'}`);
+    user.is_disabled = originalIsDisabled;
+  }
+}
 
 </script>
 

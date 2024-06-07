@@ -1,18 +1,26 @@
-
-
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-          class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
-        ></div>
+      <div
+        v-if="is_blur"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+      ></div>
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
-      <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?" actionConfirm="Confirm Delete" @close="toggleCloseDelete" />
-      <EditAlbum  v-if="is_OpenEdit" @close="toggleCloseEdit" />
-      <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?" actionConfirm="Confirm Restore" @close="toggleCloseRestore" />
-       <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
+      <ManageConfirmDialogue
+        v-if="is_OpenDelete"
+        actionQuestion="Do yo want to delete XYZ?"
+        actionConfirm="Confirm Delete"
+        @close="toggleCloseDelete"
+      />
+      <EditAlbum v-if="is_OpenEdit" @close="toggleCloseEdit" />
+      <ManageConfirmDialogue
+        v-if="is_OpenRestore"
+        actionQuestion="Do yo want to restore XYZ?"
+        actionConfirm="Confirm Restore"
+        @close="toggleCloseRestore"
+      />
+      <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
        <ManageConfirmDialogue v-if="is_OpenDisable" actionQuestion="Do yo want to Disable XYZ?" actionConfirm="Confirm Disable" @close="toggleCloseDisable" /> -->
-      
 
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
         <div class="flex h-screen">
@@ -46,25 +54,23 @@
 
             <div class="flex flex-col justify-between">
               <div
-                class="hidden sm:flex flex-row bg-transparent"
+                class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color"
               >
-                <div class="w-3/6  font-semibold">Name</div>
-                <div class="flex  w-full justify-around items-center">
-
-
-                <div class="font-semibold">Hide</div>
-                <div class="font-semibold">Disable</div>
-                <div class="font-semibold">Restore</div>
-                <div class="font-semibold">Edit</div>
-                <div class="font-semibold">Delete</div>
+                <div class="w-3/6 font-semibold">Name</div>
+                <div class="flex w-full justify-around items-center">
+                  <div class="font-semibold">Hide</div>
+                  <div class="font-semibold">Disable</div>
+                  <div class="font-semibold">Restore</div>
+                  <div class="font-semibold">Edit</div>
+                  <div class="font-semibold">Delete</div>
                 </div>
               </div>
               <div
                 v-for="album in albums"
                 :key="album.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color"
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2"
               >
-                <router-link  :to="`/album/${album.id}`" class="flex items-center w-3/6  ">
+                <router-link :to="`/album/${album.id}`" class="flex items-center w-3/6">
                   <img
                     :src="`http://127.0.0.1:8000${album.img_profile}`"
                     alt="Album image"
@@ -92,42 +98,51 @@
                   <p>Delete</p>
                 </div>
                 <div class="flex w-full justify-around items-center">
-                
-                    
-                          <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
-                          <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                          ></div>
-                          </label>
-                          <label class="relative inline-flex cursor-pointer items-center">
-                          <input id="switch-2" type="checkbox" class="peer sr-only" />
-                          <label for="switch-2" class="hidden"></label>
-                          <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                          ></div>
-                          </label>
+                  <label class="relative inline-flex cursor-pointer items-center">
+                    <input id="switch-2" type="checkbox" class="peer sr-only" />
+                    <label for="switch-2" class="hidden"></label>
+                    <div
+                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                    ></div>
+                  </label>
+                  <label class="relative inline-flex cursor-pointer items-center">
+                    <input id="switch-2" type="checkbox" class="peer sr-only" />
+                    <label for="switch-2" class="hidden"></label>
+                    <div
+                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                    ></div>
+                  </label>
 
-                
-                    <div v-if="true">
-                      <div @click="toggleOpenRestore" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Restore</div>
-                      <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Restored</div>
+                  <div v-if="true">
+                    <div
+                      @click="toggleOpenRestore"
+                      v-if="true"
+                      class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color"
+                    >
+                      Restore
                     </div>
-                    
-                    <v-icon class=" cursor-pointer"
-                      @click="toggleOpenEdit"
-                      name="fa-regular-edit"
-                      fill="#00b166"
-                      scale="1.5"
-                    ></v-icon>
-                    <v-icon class=" cursor-pointer"
-                      @click="toggleOpenDelete"
-                      name="fa-regular-trash-alt"
-                      fill="#ff4000"
-                      scale="1.5"
-                    ></v-icon>
-                  
+                    <div
+                      v-if="false"
+                      class="border border-secondary-color rounded bg-transparent text-sm p-1 text-secondary-colo"
+                    >
+                      Restored
+                    </div>
+                  </div>
+
+                  <v-icon
+                    class="cursor-pointer"
+                    @click="toggleOpenEdit"
+                    name="fa-regular-edit"
+                    fill="#00b166"
+                    scale="1.5"
+                  ></v-icon>
+                  <v-icon
+                    class="cursor-pointer"
+                    @click="toggleOpenDelete"
+                    name="fa-regular-trash-alt"
+                    fill="#ff4000"
+                    scale="1.5"
+                  ></v-icon>
                 </div>
               </div>
             </div>
@@ -179,7 +194,6 @@ function toggleCloseDelete() {
   is_blur.value = false
 }
 
-
 function toggleOpenRestore() {
   is_OpenRestore.value = true
   is_blur.value = true
@@ -188,7 +202,6 @@ function toggleCloseRestore() {
   is_OpenRestore.value = false
   is_blur.value = false
 }
-
 
 // function toggleOpenHide() {
 //   is_OpenHide.value = true
@@ -199,7 +212,6 @@ function toggleCloseRestore() {
 //   is_blur.value = false
 // }
 
-
 // function toggleOpenDisable() {
 //   is_OpenDisable.value = true
 //   is_blur.value = true
@@ -208,7 +220,6 @@ function toggleCloseRestore() {
 //   is_OpenDisable.value = false
 //   is_blur.value = false
 // }
-
 
 const fetchAlbums = async () => {
   try {
@@ -221,7 +232,6 @@ const fetchAlbums = async () => {
 }
 
 onMounted(fetchAlbums)
-
 </script>
 
 <style scoped>

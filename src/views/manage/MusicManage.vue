@@ -62,8 +62,8 @@
                   <div class="font-semibold" v-if="userData.is_artist">Hide</div>
                   <div class="font-semibold" v-if="userData.is_staff">Disable</div>
                   <div class="font-semibold">Restore</div>
-                  <div class="font-semibold">Edit</div>
-                  <div class="font-semibold">Delete</div>
+                  <div class="font-semibold" v-if="userData.is_artist">Edit</div>
+                  <div class="font-semibold" v-if="userData.is_artist">Delete</div>
                 </div>
               </div>
               <div
@@ -95,8 +95,8 @@
                   <p v-if="userData.is_artist">Hide</p>
                   <p v-if="userData.is_staff">Disable</p>
                   <p>Restore</p>
-                  <p>Edit</p>
-                  <p>Delete</p>
+                  <p v-if="userData.is_artist">Edit</p>
+                  <p v-if="userData.is_artist">Delete</p>
                 </div>
                 <div class="flex w-full justify-around items-center">
                   <label class="relative inline-flex cursor-pointer items-center">
@@ -157,14 +157,14 @@
                     </div>
                   </div>
 
-                  <v-icon
+                  <v-icon v-if="userData.is_artist"
                     class="cursor-pointer"
                     @click="toggleOpenEdit(music)"
                     name="fa-regular-edit"
                     fill="#00b166"
                     scale="1.5"
                   ></v-icon>
-                  <v-icon
+                  <v-icon v-if="userData.is_artist"
                     class="cursor-pointer"
                     @click="toggleOpenDelete(music.id)"
                     name="fa-regular-trash-alt"

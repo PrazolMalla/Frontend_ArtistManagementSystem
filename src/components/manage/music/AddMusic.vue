@@ -165,7 +165,8 @@ const addMusic = () => {
     }
     axios.post('http://127.0.0.1:8000/api/music/post/', formData, {
       headers: {
-        Authorization: `Bearer ${access_token}`
+        Authorization: `Bearer ${access_token}`,
+        
       }
     })
         .then(response => {

@@ -196,24 +196,6 @@ function toggleCloseRestore() {
   is_blur.value = false
 }
 
-// function toggleOpenHide() {
-//   is_OpenHide.value = true
-//   is_blur.value = true
-// }
-// function toggleCloseHide() {
-//   is_OpenHide.value = false
-//   is_blur.value = false
-// }
-
-// function toggleOpenDisable() {
-//   is_OpenDisable.value = true
-//   is_blur.value = true
-// }
-// function toggleCloseDisable() {
-//   is_OpenDisable.value = false
-//   is_blur.value = false
-// }
-
 const fetchAlbums = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/album/get/')

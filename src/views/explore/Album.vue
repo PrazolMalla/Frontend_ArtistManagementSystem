@@ -17,16 +17,21 @@ export default{
   },
     data(){
       return {
-         albumData :[
-  { id: 1, name: 'Album 1', artist: 'Artist 1' },
-  { id: 2, name: 'Album 2', artist: 'Artist 2' },
-  { id: 3, name: 'Album 3', artist: 'Artist 3' },
-  { id: 4, name: 'Album 4', artist: 'Artist 4' },
-  { id: 5, name: 'Album 5', artist: 'Artist 5' },
-  { id: 6, name: 'Album 6', artist: 'Artist 6' }
-]
+         albumData :[]
       }
+    },
+
+      methods: {
+    fetchMusicData() {
+      axios.get('http://127.0.0.1:8000/api/music/get/')
+        .then(response => {
+          this.albumData = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching Album data:', error);
+        });
     }
+  }
 }
 
 </script>

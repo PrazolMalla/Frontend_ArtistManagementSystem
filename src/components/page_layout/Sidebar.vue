@@ -36,11 +36,11 @@
     <div class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img
-          :src="`http://127.0.0.1:8000${user.img_profile}`"
+          :src="`http://127.0.0.1:8000${userData.img_profile}`"
           alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
         />
-        <h2 class="font-medium text-primary-text-color text-md mt-2">{{user.firstname}}</h2>
+        <h2 class="font-medium text-primary-text-color text-md mt-2">{{userData.firstname}}</h2>
       </RouterLink>
       <RouterLink to="/user/settings">
         <v-icon name="md-settings-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer" />
@@ -53,7 +53,7 @@
 import store from '@/store/store';
 import { ref, onMounted, computed } from 'vue';
   
-    const user = ref({});
+    // const user = ref({});
 
     const userData = computed(() => store.getters.getLoggedInUserData);
 

@@ -5,78 +5,108 @@
     <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Comments</h1>
     <div class="flex items-center gap-5">
       <img
-        :src="currentUser.profileImg"
+        :src="`http://127.0.0.1:8000${userData.img_profile}`"
         alt=""
         class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
       />
-      <form class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2">
         <input
           type="text"
-          class="h-9 lg:w-[20vw] w-[40vw] bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-primary-text-color"
-          placeholder="Add comment"
+          v-model="commentBody"
+          class="h-9 lg:w-[20vw] w-[40vw] bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-slate-400"
+          :placeholder="`Comment as ${userData.firstname}`"
         />
         <button
-          type="submit"
+          @click="commentOnMusic(route.params.id)"
           class="bg-secondary-color w-20 h-10 text-light-primary-color rounded-sm text-sm font-semibold lg:w-20 lg:h-10 hover:border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
         >
-          Comment
+          Comment Here bro
         </button>
-      </form>
+      </div>
     </div>
 
-    <div v-for="(commenter, index) in commenters" :key="index">
+    <div v-for="(commenter, index) in comments" :key="index">
       <div class="flex justify-start items-center gap-2 mt-2">
         <img
-          :src="commenter.profileImg"
+          :src="`http://127.0.0.1:8000${commenter.user.img_profile}`"
           alt=""
           class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
         />
         <div class="flex flex-col justify-center mt-4 h-24 text-wrap">
-          <h2 class="text-lg font-medium">{{ commenter.username }}</h2>
-          <p class="">{{ commenter.comment }}</p>
+          <h2 class="text-lg font-medium">{{ commenter.user.firstname }}</h2>
+          <p class="">{{ commenter.body }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-const commenters = ref([
-  {
-    id: '1',
-    profileImg: 'https://source.unsplash.com/50x50/?portrait',
-    username: 'Prazol',
-    comment:
-      'great music touched my heartfkgjsdkgjdslkdsjgk ldgsjkdsfhdjshfdjihfdskjhfdsjkhjdfshfds'
-  },
-  {
-    id: '2',
-    profileImg: 'https://source.unsplash.com/50x50/?portrait',
-    username: 'Bishal',
-    comment: 'Best song'
-  },
-  {
-    id: '3',
-    profileImg: 'https://source.unsplash.com/50x50/?portrait',
-    username: 'Nirmal',
-    comment: 'touched my heart'
-  },
-  {
-    id: '4',
-    profileImg: 'https://source.unsplash.com/50x50/?portrait',
-    username: 'Nirmal',
-    comment: 'touched my hear dajhfsajhfdas fjsahjasfdhjkasfhjjksfan jsdfhjk'
-  },
-  {
-    id: '5',
-    profileImg: 'https://source.unsplash.com/50x50/?portrait',
-    username: 'Nirmal',
-    comment: ''
+import { ref, onMounted, watch, computed } from 'vue'
+import store from '@/store/store'
+import axios from 'axios'
+const comments = ref([])
+let commentBody = ''
+import { useRoute } from 'vue-router'
+import { useToast } from 'vue-toast-notification'
+
+const $toast = useToast()
+
+const route = useRoute()
+const fetchCommentData = async (id) => {
+  try {
+    console.log(id)
+    const response = await axios.get('http://127.0.0.1:8000/api/music/get/comment/' + id + '/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
+    })
+    comments.value = response.data
+    console.log(comments)
+  } catch (error) {
+    console.error('Failed to fetch music data:', error)
   }
-])
-const currentUser = ref({
-  profileImg: 'https://source.unsplash.com/50x50/?portrait'
+}
+onMounted(() => {
+  fetchCommentData(route.params.id)
 })
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    fetchCommentData(newId)
+  }
+)
+
+const userData = computed(() => {
+  return store.getters.getLoggedInUserData
+})
+
+const commentOnMusic = async (id) => {
+  console.log(id)
+  try {
+    console.log(id)
+    const response = await axios.post(
+      `http://127.0.0.1:8000/api/music/comment/`,
+      {
+        body: commentBody,
+        music: id
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    console.log(response)
+    commentBody = ''
+    $toast.success('Comment Added', {
+      position: 'top-right'
+    })
+  } catch (error) {
+    console.error('Failed to Comment:', error)
+  }
+}
 </script>
 <style scoped>
 .custom-scrollbar::-webkit-scrollbar {

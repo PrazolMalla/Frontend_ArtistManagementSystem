@@ -12,6 +12,7 @@
         <TopChartComponent :artistId="user.id" />
         <CardsCarousel :artistId="user.id" />
       </div>
+
     </template>
   </PageLayoutWithPlayer>
 </template>

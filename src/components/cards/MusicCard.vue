@@ -11,9 +11,21 @@
           ><p class="text-md font-semibold text-center">{{ musicData.name }}</p>
         </RouterLink>
 
-        <RouterLink :to="'/artist/' + musicData.artist" class="text-sm">{{
-          musicData.artist
-        }}</RouterLink>
+    <RouterLink :to="'/music/'+ musicData.id">
+     <img
+     :src="`http://127.0.0.1:8000${musicData.img_profile}`"
+      class="w-32 h-32 rounded-lg"
+    />  
+    
+    </RouterLink>               
+            <div class="flex justify-between w-full items-center">
+                <div class="flex flex-col">
+                            <RouterLink :to="'/music/'+ musicData.id"  class="text-md font-semibold text-center hover:underline">{{ musicData.name }}</RouterLink>
+                    
+                            <RouterLink :to="'/artist/'+ musicData.artist"  class="text-sm text-gray-600 hover:underline">{{ musicData.artist }}</RouterLink>
+                              
+                            <RouterLink :to="'/album/'+ musicData.album"  class="text-sm text-gray-600 hover:underline">{{ musicData.album }}</RouterLink>
+
 
         <RouterLink :to="'/album/' + musicData.album" class="text-sm">{{
           musicData.album

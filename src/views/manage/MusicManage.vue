@@ -6,10 +6,21 @@
         class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
       ></div>
       <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" />
-      <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?" actionConfirm="Confirm Delete" @close="toggleCloseDelete" />
-      <EditMusic  v-if="is_OpenEdit" :musicId="editMusicId" @close="toggleCloseEdit"/>
-      <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?" actionConfirm="Confirm Restore" @close="toggleCloseRestore" />
-       <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
+      <ManageConfirmDialogue
+        v-if="is_OpenDelete"
+        actionQuestion="Do yo want to delete XYZ?"
+        actionConfirm="Confirm Delete"
+        @confirm="confirmDelete"
+        @close="toggleCloseDelete"
+      />
+      <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" @close="toggleCloseEdit" />
+      <ManageConfirmDialogue
+        v-if="is_OpenRestore"
+        actionQuestion="Do yo want to restore XYZ?"
+        actionConfirm="Confirm Restore"
+        @close="toggleCloseRestore"
+      />
+      <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
        <ManageConfirmDialogue v-if="is_OpenDisable" actionQuestion="Do yo want to Disable XYZ?" actionConfirm="Confirm Disable" @close="toggleCloseDisable" /> -->
 
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
@@ -48,8 +59,8 @@
               >
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
-                  <div class="font-semibold">Hide</div>
-                  <div class="font-semibold">Disable</div>
+                  <div class="font-semibold" v-if="userData.is_artist">Hide</div>
+                  <div class="font-semibold" v-if="userData.is_staff">Disable</div>
                   <div class="font-semibold">Restore</div>
                   <div class="font-semibold">Edit</div>
                   <div class="font-semibold">Delete</div>
@@ -81,29 +92,44 @@
                 <div
                   class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
                 >
-                  <p>Hide</p>
-                  <p>Disable</p>
+                  <p v-if="userData.is_artist">Hide</p>
+                  <p v-if="userData.is_staff">Disable</p>
                   <p>Restore</p>
                   <p>Edit</p>
                   <p>Delete</p>
                 </div>
                 <div class="flex w-full justify-around items-center">
-                
-                    
-                          <label class="relative inline-flex cursor-pointer items-center">
-                          <input :id="'hideswitch-'+ music.id" type="checkbox" v-model="music.is_hidden" @change="toggleHideMusic(music)" class="peer sr-only" />
-                          <label :for="'hideswitch-'+ music.id"class="hidden"></label>
-                          <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                          ></div>
-                          </label>
-                          <label class="relative inline-flex cursor-pointer items-center">
-                          <input :id="'disableswitch-'+ music.id" type="checkbox" v-model="music.is_disabled" @change="toggleDisableMusic(music)" class="peer sr-only" />
-                          <label :for="'disableswitch-'+ music.id" class="hidden"></label>
-                          <div
-                          class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                          ></div>
-                          </label>
+                  <label class="relative inline-flex cursor-pointer items-center">
+                    <input
+                      v-if="userData.is_artist"
+                      :id="'hideswitch-' + music.id"
+                      type="checkbox"
+                      v-model="music.is_hidden"
+                      @change="toggleHideMusic(music)"
+                      class="peer sr-only"
+                    />
+                    <label :for="'hideswitch-' + music.id" class="hidden"></label>
+                    <div
+                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                    ></div>
+                  </label>
+
+                  <label
+                    v-if="userData.is_staff"
+                    class="relative inline-flex cursor-pointer items-center"
+                  >
+                    <input
+                      :id="'disableswitch-' + music.id"
+                      type="checkbox"
+                      v-model="music.is_disabled"
+                      @change="toggleDisableMusic(music)"
+                      class="peer sr-only"
+                    />
+                    <label :for="'disableswitch-' + music.id" class="hidden"></label>
+                    <div
+                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
+                    ></div>
+                  </label>
 
                   <!-- <div v-if="true">
                       <div @click="toggleOpenHide" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Hide</div>
@@ -115,25 +141,36 @@
                       <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Enable</div>
                     </div> -->
 
-
-                    <div v-if="true">
-                      <div @click="toggleOpenRestore" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Restore</div>
-                      <div v-if="false" class="border  border-secondary-color  rounded bg-transparent text-sm p-1 text-secondary-colo">Restored</div>
+                  <div>
+                    <div
+                      @click="toggleOpenRestore"
+                      v-if="music.is_deleted"
+                      class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color"
+                    >
+                      Restore
                     </div>
-                    
-                    <v-icon class=" cursor-pointer"
-                      @click="toggleOpenEdit(music)"
-                      name="fa-regular-edit"
-                      fill="#00b166"
-                      scale="1.5"
-                    ></v-icon>
-                    <v-icon class=" cursor-pointer"
-                      @click="toggleOpenDelete"
-                      name="fa-regular-trash-alt"
-                      fill="#ff4000"
-                      scale="1.5"
-                    ></v-icon>
-                  
+                    <div
+                      v-else
+                      class="border border-secondary-color rounded bg-transparent text-sm p-1 text-secondary-colo"
+                    >
+                      Restored
+                    </div>
+                  </div>
+
+                  <v-icon
+                    class="cursor-pointer"
+                    @click="toggleOpenEdit(music)"
+                    name="fa-regular-edit"
+                    fill="#00b166"
+                    scale="1.5"
+                  ></v-icon>
+                  <v-icon
+                    class="cursor-pointer"
+                    @click="toggleOpenDelete(music.id)"
+                    name="fa-regular-trash-alt"
+                    fill="#ff4000"
+                    scale="1.5"
+                  ></v-icon>
                 </div>
               </div>
             </div>
@@ -149,22 +186,23 @@ import AddMusic from '@/components/manage/music/AddMusic.vue'
 import EditMusic from '@/components/manage/music/EditMusic.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 
-import { ref, onMounted } from 'vue'
+import store from '@/store/store'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const musics = ref([])
-const access_token = localStorage.getItem('access_token');
+const access_token = localStorage.getItem('access_token')
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
 const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
+let toDeleteValue = 0
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
-const editMusicId = ref(null);
-
+const editMusicId = ref(null)
 
 function toggleOpenAdd() {
   is_OpenAdd.value = true
@@ -178,16 +216,18 @@ function toggleCloseAdd() {
 function toggleOpenEdit(music) {
   is_OpenEdit.value = true
   is_blur.value = true
-  editMusicId.value = music.id;
+  editMusicId.value = music.id
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
+
   fetchMusics()
 }
-function toggleOpenDelete() {
+function toggleOpenDelete(deleteId) {
   is_OpenDelete.value = true
   is_blur.value = true
+  toDeleteValue = deleteId
 }
 function toggleCloseDelete() {
   is_OpenDelete.value = false
@@ -221,55 +261,92 @@ function toggleCloseRestore() {
 //   is_blur.value = false
 // }
 
-const toggleHideMusic = async (music) => {
-  const originalIsHidden = !music.is_hidden;
-  const newIsHidden = !originalIsHidden;
-  const action = newIsHidden ? 'hide' : 'unhide';
+const userData = computed(() => store.getters.getLoggedInUserData)
 
-  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`;
+const toggleHideMusic = async (music) => {
+  const originalIsHidden = !music.is_hidden
+  const newIsHidden = !originalIsHidden
+  const action = newIsHidden ? 'hide' : 'unhide'
+
+  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`
 
   try {
     await axios.delete(requestUrl, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
-    });
-    $toast.success(`Music will be ${newIsHidden ? 'hidden' : 'visible'} to public`);
+    })
+    $toast.success(`Music will be ${newIsHidden ? 'hidden' : 'visible'} to public`)
   } catch (error) {
-    console.error(error);
-    $toast.error(`Error occur while making music ${newIsHidden ? 'hidden' : 'visible'}`);
-    music.is_hidden = originalIsHidden;
+    console.error(error)
+    $toast.error(`Error occur while making music ${newIsHidden ? 'hidden' : 'visible'}`)
+    music.is_hidden = originalIsHidden
   }
 }
 
 const toggleDisableMusic = async (music) => {
-  const originalIsDisabled = !music.is_disabled;
-  const newIsDisabled = !originalIsDisabled;
-  const action = newIsDisabled ? 'disable' : 'enable';
+  const originalIsDisabled = !music.is_disabled
+  const newIsDisabled = !originalIsDisabled
+  const action = newIsDisabled ? 'disable' : 'enable'
 
-  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`;
+  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`
 
   try {
     await axios.delete(requestUrl, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
-    });
-    $toast.success(`Music is made ${newIsDisabled ? 'disable' : 'enable'}`);
+    })
+    $toast.success(`Music is made ${newIsDisabled ? 'disable' : 'enable'}`)
   } catch (error) {
-    console.error(error);
-    $toast.error(`Error occur while making music ${newIsDisabled ? 'disable' : 'enable'}`);
-    music.is_disabled = originalIsDisabled;
+    console.error(error)
+    $toast.error(`Error occur while making music ${newIsDisabled ? 'disable' : 'enable'}`)
+    music.is_disabled = originalIsDisabled
   }
 }
 const fetchMusics = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
-    const data = response.data
+    let data
+    if (!userData.value.is_artist) {
+      const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
+      data = response.data
+    } else {
+      const response = await axios.get('http://127.0.0.1:8000/api/music/get/loggedin/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+
+      data = response.data
+    }
     musics.value = data
   } catch (error) {
     console.error('Error fetching musics:', error)
   }
+}
+function confirmDelete() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/music/delete/${toDeleteValue}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      musics.value = musics.value.filter((music) => music.id !== toDeleteValue)
+      $toast.success('Music is deleted', {
+        position: 'top-right'
+      })
+      console.log(response)
+      if (response.status === 200) {
+        is_OpenDelete.value = false
+        is_blur.value = false
+      }
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
 }
 
 onMounted(fetchMusics)

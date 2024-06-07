@@ -78,6 +78,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import store from '@/store/store'
 import { useToast } from 'vue-toast-notification'
 import { onMounted } from 'vue'
 import { jwtDecode } from 'jwt-decode'
@@ -92,7 +93,6 @@ const user = ref({
 })
 
 const login = () => {
-
   axios
     .post('http://127.0.0.1:8000/api/login/', user.value)
     .then((response) => {
@@ -101,20 +101,19 @@ const login = () => {
       localStorage.setItem('access_token', accessToken)
       localStorage.setItem('refresh_token', refreshToken)
       $toast.success('Login sucess', {
-          position: 'top-right'
-        });
+        position: 'top-right'
+      })
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-        
+      store.dispatch('setLoggedInUserData')
       router.push('/')
-      
     })
     .catch((error) => {
       console.error('Error logging in:', error)
-      
+
       $toast.error('Invalid Username or password', {
-          position: 'top-right'
-        });
+        position: 'top-right'
+      })
     })
 }
 </script>

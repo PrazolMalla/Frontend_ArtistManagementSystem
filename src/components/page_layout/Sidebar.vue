@@ -45,6 +45,13 @@
       <RouterLink to="/user/settings">
         <v-icon name="md-settings-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer" />
       </RouterLink>
+
+      
+    </div>
+    <div class="mt-1 py-2"> 
+      <router-link to="/signup">
+        <button class="sign-in-button  bg-red-500 text-white px-2 py-2 rounded-full hover:bg-red-700 ">Sign In</button>
+      </router-link>
     </div>
   </div>
 </template>

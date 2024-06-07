@@ -5,7 +5,7 @@
         v-if="is_blur"
         class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
       ></div>
-      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" />
+      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
         actionQuestion="Do yo want to delete XYZ?"
@@ -13,6 +13,7 @@
         @confirm="confirmDelete"
         @close="toggleCloseDelete"
       />
+
       <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
@@ -192,6 +193,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const musics = ref([])
+const albums = ref([])
 const access_token = localStorage.getItem('access_token')
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
@@ -205,6 +207,7 @@ let toDeleteValue = 0
 const editMusicId = ref(null)
 
 function toggleOpenAdd() {
+  fetchAlbums()
   is_OpenAdd.value = true
   is_blur.value = true
 }
@@ -347,6 +350,26 @@ function confirmDelete() {
     .catch((err) => {
       console.log(err.response.data)
     })
+}
+
+const fetchAlbums = async () => {
+  try {
+    let data
+    if (!userData.value.is_artist) {
+      const response = await axios.get('http://127.0.0.1:8000/api/album/get/')
+      data = response.data
+    } else {
+      const response = await axios.get('http://127.0.0.1:8000/api/album/get/loggedin/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      data = response.data
+    }
+    albums.value = data
+  } catch (error) {
+    console.error('Error fetching albums:', error)
+  }
 }
 
 onMounted(fetchMusics)

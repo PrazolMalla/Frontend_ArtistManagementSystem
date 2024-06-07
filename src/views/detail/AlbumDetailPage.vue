@@ -28,7 +28,7 @@ const music = ref({})
 
 const route = useRoute()
 const queryParams = route.params.id
-const fetchMusicData = async () => {
+const fetchData = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams, {
       headers: {
@@ -41,6 +41,6 @@ const fetchMusicData = async () => {
   }
 }
 onMounted(() => {
-  fetchMusicData()
+  fetchData()
 })
 </script>

@@ -13,7 +13,7 @@
         @close="toggleCloseDelete"
         @confirm="confirmDelete"
       />
-      <EditAlbum v-if="is_OpenEdit" @close="toggleCloseEdit" />
+      <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
         actionQuestion="Do yo want to restore XYZ?"
@@ -150,7 +150,7 @@
 
                   <v-icon
                     class="cursor-pointer"
-                    @click="toggleOpenEdit"
+                    @click="toggleOpenEdit(album)"
                     name="fa-regular-edit"
                     fill="#00b166"
                     scale="1.5"
@@ -194,6 +194,7 @@ let toDeleteValue = 0
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
+const editAlbumId = ref(null)
 function toggleOpenAdd() {
   is_OpenAdd.value = true
   is_blur.value = true
@@ -202,9 +203,10 @@ function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
 }
-function toggleOpenEdit() {
+function toggleOpenEdit(album) {
   is_OpenEdit.value = true
   is_blur.value = true
+  editAlbumId.value = album.id
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false

@@ -9,8 +9,8 @@
         <PostForm />
       </div>
       <div class="flex flex-col-reverse lg:flex-row gap-5">
-        <TopChartComponent />
-        <CardsCarousel />
+        <TopChartComponent :artistId="user.id" />
+        <CardsCarousel :artistId="user.id" />
       </div>
     </template>
   </PageLayoutWithPlayer>
@@ -26,6 +26,7 @@ import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import TopChartComponent from '@/components/detail_page/TopChartComponent.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import Artist from './explore/Artist.vue'
 
 const user = ref({})
 

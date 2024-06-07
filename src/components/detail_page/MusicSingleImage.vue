@@ -1,6 +1,6 @@
 <template lang="">
   <div>
-    <h1 class="font-semibold text-2xl">Title</h1>
+    <h1 class="font-semibold text-2xl">{{ music.name }}</h1>
     <div class="flex gap-10 mb-4">
       <p>Artist : {{ music.artist }}</p>
       <p v-if="music.album">Album : {{ music.album }}</p>

@@ -6,11 +6,11 @@
       <ProfileNav />
       <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
         <InformationCard :userData="user" />
-        <LatestRelease />
+        <LatestRelease :artistId="user.id" />
       </div>
       <div class="flex flex-col-reverse lg:flex-row gap-5">
-        <TopChartComponent />
-        <CardsCarousel />
+        <TopChartComponent :artistId="user.id" />
+        <CardsCarousel :artistId="user.id" />
       </div>
     </template>
   </PageLayoutWithPlayer>
@@ -28,6 +28,7 @@ import LatestRelease from '@/components/detail_page/artist_detail/LatestRelease.
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+import Artist from '../explore/Artist.vue'
 
 const user = ref({})
 
@@ -42,6 +43,7 @@ const fetchUserData = async () => {
       }
     })
     user.value = response.data
+    console.log(user)
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   }

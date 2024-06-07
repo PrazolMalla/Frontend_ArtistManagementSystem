@@ -71,15 +71,7 @@ import { ref, onMounted, computed } from 'vue';
           { to: '/genre', icon: 'md-musicnote-round', text: 'Genre' }
         ]
       },
-      {
-        name: 'Stats',
-        icon: 'fa-chart-line',
-        actions: [
-          { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' },
-          { to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' },
-          { to: '/stats/user', icon: 'fa-user-alt', text: 'User' }
-        ]
-      }
+      
     ]);
 
     const isDropdownOpen = ref(null);
@@ -94,9 +86,16 @@ import { ref, onMounted, computed } from 'vue';
 
 
     const showDataInSideBar = () => {
-      console.log(userData.value)
+              
+
+
               if(userData.value.id){
-                    categories.value.push({
+                  categories.value.push( {name: 'Stats', icon: 'fa-chart-line', actions: [{ to: '/stats/user', icon: 'fa-user-alt', text: 'User' }] })
+                    
+              }
+              if(userData.value.is_artist | userData.value.is_staff ){
+
+                   categories.value.push({
                       name: 'Library',
                       icon: 'md-librarymusic',
                       actions: [
@@ -105,19 +104,19 @@ import { ref, onMounted, computed } from 'vue';
                         { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
                       ]
                     })
-              }
-
-              if(userData.value.is_artist | userData.value.is_staff ){
                     categories.value.push({name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
                     const manageIndex = categories.value.findIndex(category => category.name === 'Manage');
+                    const statsIndex = categories.value.findIndex(category => category.name === 'Stats');
 
-                    if(userData.value.is_artist ){
+                    if(userData.value.is_artist){
                         categories.value[manageIndex].actions.push({ to: '/manage/album', icon: 'md-album', text: 'Album' })
                         categories.value[manageIndex].actions.push({ to: '/manage/music', icon: 'si-applemusic', text: 'Music' })
+                        categories.value[statsIndex].actions.push( { to: '/stats/artist', icon: 'fa-microphone', text: 'Artist' })
                     }
-                    if(userData.value.is_staff   ){
+                    if(userData.value.is_staff){
                         categories.value[manageIndex].actions.push({ to: '/manage/artist', icon: 'fa-microphone', text: 'Artist' })
                         categories.value[manageIndex].actions.push({ to: '/manage/user', icon: 'fa-user-alt', text: 'User'})
+                        categories.value[statsIndex].actions.push({ to: '/stats/staff', icon: 'fa-user-shield', text: 'Staff' })
                     }
               }
             

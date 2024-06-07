@@ -48,7 +48,7 @@
 
       
     </div>
-    <div class="mt-1 py-2"> 
+    <div v-if="!userData.id" class="mt-1 py-2"> 
       <router-link to="/signup">
         <button class="sign-in-button  bg-red-500 text-white px-2 py-2 rounded-full hover:bg-red-700 ">Sign In</button>
       </router-link>

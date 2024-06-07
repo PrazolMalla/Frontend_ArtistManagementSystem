@@ -8,7 +8,7 @@
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
-          <CardsCarousel />
+          <CardsCarousel :artistId="music.artist" />
         </div>
       </div>
     </template>
@@ -22,15 +22,13 @@ import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 const music = ref({})
 
 const route = useRoute()
-const queryParams = route.params.id
-const fetchMusicData = async () => {
-  console.log(queryParams)
+const fetchMusicData = async (id) => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/music/get/' + queryParams, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
@@ -42,6 +40,13 @@ const fetchMusicData = async () => {
 }
 
 onMounted(() => {
-  fetchMusicData()
+  fetchMusicData(route.params.id)
 })
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    fetchMusicData(newId)
+  }
+)
 </script>

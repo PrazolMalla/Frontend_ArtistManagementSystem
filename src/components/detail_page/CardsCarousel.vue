@@ -76,9 +76,6 @@
   </div>
 </template> -->
 
-
-
-
 <template>
   <div
     class="mt-5 lg:w-[46vw] h-[60vh] overflow-x-visible no-scrollbar w-[80vw] lg:h-[55vh] bg-light-primary-color p-5 rounded-sm md:w-[65vw]"
@@ -106,7 +103,7 @@
       <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide> -->
 
-      <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData" >
+      <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" />
       </swiper-slide>
     </swiper>
@@ -132,7 +129,7 @@
       <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide> -->
 
-      <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData" >
+      <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" />
       </swiper-slide>
     </swiper>
@@ -158,18 +155,14 @@
       <swiper-slide><MusicCard /></swiper-slide><swiper-slide><MusicCard /></swiper-slide>
       <swiper-slide><MusicCard /></swiper-slide> -->
 
-       <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData" >
+      <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" />
       </swiper-slide>
     </swiper>
   </div>
 </template>
 
-
-
-
-
-<script>
+<script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
 import 'swiper/css'
@@ -178,31 +171,36 @@ import 'swiper/css/pagination'
 
 import { Autoplay, Pagination } from 'swiper/modules'
 import MusicCard from '@/components/cards/MusicCard.vue'
-
-export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-    MusicCard
-  },
-  data(){
-    return {
-      musicData:[
-        { id: 1, name: 'Music 1', album: 'Album 1', artist: 'Artist 1' },
-        { id: 2, name: 'Music 2', album: 'Album 1', artist: 'Artist 2' },
-        { id: 3, name: 'Music 3', album: 'Album 1', artist: 'Artist 3' },
-        { id: 4, name: 'Music 4', album: 'Album 1', artist: 'Artist 4' },
-        { id: 5, name: 'Music 5', album: 'Album 1', artist: 'Artist 5' },
-        { id: 6, name: 'Music 6', album: 'Album 1', artist: 'Artist 6' }
-      ]
-    }
-  },
-  setup() {
-    return {
-      modules: [Autoplay, Pagination]
-    }
+import { ref, defineProps, onMounted, watch } from 'vue'
+import axios from 'axios'
+const props = defineProps(['artistId'])
+const musicData = ref([])
+const modules = [Autoplay, Pagination]
+const fetchMusicData = async (artistId) => {
+  try {
+    console.log(artistId)
+    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
+    })
+    musicData.value = response.data
+    console.log(musicData)
+  } catch (error) {
+    console.error('Failed to fetch music data:', error)
   }
 }
+
+onMounted(() => {
+  fetchMusicData(props.artistId)
+})
+
+watch(
+  () => props.artistId,
+  (newArtistId) => {
+    fetchMusicData(newArtistId)
+  }
+)
 </script>
 <style>
 .swiper-pagination-bullet {

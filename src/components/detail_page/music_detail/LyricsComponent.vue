@@ -5,8 +5,7 @@
       <div class="overflow-y-scroll">
         <pre
           class="lg:w-[47vw] text-justify lg:text-lg w-[80vw] lg:mb-0 mb-40 md:w-[65vw] overflow-scroll"
-        >
-            {{ musicLyrics }}
+          >{{ musicLyrics }}
           </pre
         >
       </div>

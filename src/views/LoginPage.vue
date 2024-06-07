@@ -92,42 +92,6 @@ const user = ref({
 })
 
 const login = () => {
-  //  if(user.value.email && user.value.password){
-  //       axios
-  //         .post(`http://127.0.0.1:8000/api/token/`, user.value, {
-  //           headers: {
-  //           "content-Type": "application/json",
-  //           },
-  //         })
-  //         .then((response) => {
-  //         if(response.status == 200){
-  //             localStorage.setItem("refresh_token",response.data.refresh);
-  //             localStorage.setItem("access_token",response.data.access);
-  //             let data = jwtDecode(response.data.access)
-  //             localStorage.setItem("userId", data.user_id)
-  //             console.log(data.user_id)
-  //             this.$store.dispatch('setUserData')
-  //            router.push('/');
-  //         }
-  //         else if(response.status == 401){
-  //           this.$toast.error(response.detail, {
-  //               position: 'top'
-  //             });
-  //         }
-  //         })
-  //         .catch(error => {
-  //           console.error('Error logging in:', error);
-  //           alert('Invalid credentials. Please try again.');
-  //           this.$toast.error('Invalid Username or password', {
-  //               position: 'top'
-  //             });
-  //         });
-  //       }
-  //       else{
-  //           this.$toast.error('Invalid Username or password', {
-  //               position: 'top'
-  //             });
-  //       }
 
   axios
     .post('http://127.0.0.1:8000/api/login/', user.value)
@@ -141,7 +105,7 @@ const login = () => {
         });
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-
+        
       router.push('/')
       
     })

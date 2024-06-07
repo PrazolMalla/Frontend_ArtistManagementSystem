@@ -65,7 +65,7 @@ export default {
       user: {
         name: '',
         description: '',
-        img_profile: null, 
+        img_profile: null, // Changed to null
       },
       userInputField: [
         { id: '1', name: 'name', type: 'text', label: 'Name' },
@@ -98,19 +98,30 @@ export default {
         const formData = new FormData();
         formData.append('name', this.user.name);
         formData.append('description', this.user.description);
-        formData.append('img_profile', this.user.img_profile); 
+        formData.append('img_profile', this.user.img_profile); // Append img_profile
         
         axios({
           method: 'post',
           url: `http://127.0.0.1:8000/api/album/post/`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            'Content-Type': 'multipart/form-data', // Changed to multipart/form-data
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'Content-Type': 'multipart/form-data', 
           },
+          data: formData, 
           data: formData, 
         })
           .then((response) => {
             console.log(response)
+           
+            this.closeAdd()
+            this.user = {
+              name: '',
+              description: '',
+              img_profile: null,
+            }
+           
             $toast.success('Album Added', {
               position: 'top-right'
             });

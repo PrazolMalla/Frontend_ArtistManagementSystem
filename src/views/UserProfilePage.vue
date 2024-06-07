@@ -46,6 +46,7 @@ const fetchUserData = async () => {
 
 onMounted(() => {
   fetchUserData()
+  console.log(user)
 })
 </script>
 

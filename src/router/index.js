@@ -22,7 +22,7 @@ import StaffStats from '@/views/stats/StaffStats.vue'
 import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
-
+import axios from 'axios'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,7 +69,7 @@ const router = createRouter({
       path: '/album',
       name: 'album',
       component: Album,
-      meta: { auth: false }
+      meta: { auth: false}
     },
     {
       path: '/music',
@@ -91,30 +91,32 @@ const router = createRouter({
     },
 
     // Manage
-    {
-      path: '/manage/artist',
-      name: 'manageArtist',
-      component: ArtistManage,
-      meta: { auth: true }
-    },
+   
     {
       path: '/manage/music',
       name: 'manageMusic',
       component: MusicManage,
-      meta: { auth: true }
+      meta: { auth: true,  is_artist:true  }
     },
+      {
+      path: '/manage/album',
+      name: 'manageAlbum',
+      component: AlbumManage,
+      meta: { auth: true,   is_artist:true }
+    },
+
     {
       path: '/manage/user',
       name: 'manageUser',
       component: UserManage,
-      meta: { auth: true }
+      meta: { auth: true,  is_staff:true }
+    }, {
+      path: '/manage/artist',
+      name: 'manageArtist',
+      component: ArtistManage,
+      meta: { auth: true,  is_staff:true  }
     },
-    {
-      path: '/manage/album',
-      name: 'manageAlbum',
-      component: AlbumManage,
-      meta: { auth: true }
-    },
+  
 
     // Library
     {
@@ -174,20 +176,46 @@ const router = createRouter({
       path: '/artist/:id',
       name: 'artistDetail',
       component: ArtistDetail,
-      meta: { auth: false }
+      meta: { auth: false  }
     },
  
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('access_token')
 
-  if (to.meta.auth && !isAuthenticated) {
+
+router.beforeEach(async(to, from, next) => {
+
+    let is_artist
+    let is_staff
+    const isAuthenticated = !!localStorage.getItem('access_token')
+     try {
+       await axios.get('http://127.0.0.1:8000/api/user/login-user/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}` 
+        },
+      }).then((response) =>{
+          is_artist = response.data.is_artist
+          is_staff = response.data.is_staff
+        });
+      } catch (error) {
+          console.error('Failed to fetch user data:', error)  
+       } 
+
+       
+  if (to.meta.auth && !isAuthenticated ) {
     next('/login')
-  } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
-    next()
-  } else {
+  } 
+  else if(!is_artist && to.meta.is_artist){
+        next('/')
+  }
+  else if(!is_staff && to.meta.is_staff){
+        next('/')
+  }
+  else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
+    next('/')
+  } 
+  else {
     next()
   }
 })

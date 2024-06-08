@@ -1,8 +1,6 @@
 <template>
   <div class="flex justify-evenly items-center min-h-screen w-full bg-dark-primary-color p-5">
-    <div
-      class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle"
-    >
+    <div class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle">
       <div
         v-for="item in userInputField"
         :key="item.id"
@@ -18,16 +16,13 @@
           v-model="user[item.name]"
           class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
         />
-        <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
-          formErrors[item.name]
-        }}</span>
+        <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{ formErrors[item.name] }}</span>
       </div>
       <div class="w-full sm:w-3/12 text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
           class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Profile Pic</label
-        >
+        >Profile Pic</label>
         <input
           type="file"
           id="profile"
@@ -35,32 +30,50 @@
           @change="handleProfileChange"
           class="hidden"
         />
-
-        <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{
-          formErrors.profile
-        }}</span>
+        <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
       </div>
       <div class="w-full sm:w-3/12 text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
           class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Cover Pic</label
-        >
-        <input type="file" id="cover" name="cover" @change="handleCoverChange" class="hidden" />
+        >Cover Pic</label>
+        <input
+          type="file"
+          id="cover"
+          name="cover"
+          @change="handleCoverChange"
+          class="hidden"
+        />
+        <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
+      </div>
 
-        <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{
-          formErrors.cover
-        }}</span>
+      <div class="flex flex-col w-full sm:w-3/12 mt-2">
+        <label for="country" class="text-sm font-helvetica text-primary-text-color pl-3">
+          Country
+        </label>
+        <select
+          v-model="user.country"
+          id="country"
+          name="country"
+          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
+        >
+          <option value="" disabled>Select Country</option>
+          <option v-for="country in countryOptions" :key="country" :value="country">
+            {{ country }}
+          </option>
+        </select>
+        <span v-if="formErrors.country" class="text-orange-300">{{ formErrors.country }}</span>
       </div>
 
       <div class="flex flex-col">
+        <label for="gender" class="text-sm font-helvetica text-primary-text-color pl-3">Gender</label>
         <select
           v-model="user.gender"
           id="gender"
           name="gender"
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
-          <option value="" disabled>Gender</option>
+          <option value="" disabled>Select Gender</option>
           <option value="0">Male</option>
           <option value="1">Female</option>
           <option value="2">Other</option>
@@ -69,9 +82,7 @@
       </div>
       <div class="w-full text-center">
         <input type="checkbox" class="w-5" v-model="isArtist" />
-        <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color"
-          >Are you signing as an Artist?</label
-        >
+        <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color">Are you signing as an Artist?</label>
       </div>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
@@ -87,15 +98,15 @@
         </div>
       </div>
     </div>
-
     <div class="form-img hidden md:flex rounded-lg"></div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const isArtist = ref(false)
 const user = ref({
@@ -118,11 +129,25 @@ const userInputField = ref([
   { id: '4', name: 'email', type: 'email', label: 'Email' },
   { id: '5', name: 'password', type: 'password', label: 'Password' },
   { id: '6', name: 'Repassword', type: 'password', label: 'Confirm Password' },
-  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' },
-  { id: '8', name: 'country', type: 'text', label: 'Country' }
+  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' }
 ])
 
 const formErrors = ref({})
+
+const countryOptions = ref([])
+
+const fetchCountries = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    countryOptions.value = response.data.countries
+  } catch (error) {
+    console.error('Error fetching countries:', error)
+  }
+}
+
+onMounted(() => {
+  fetchCountries()
+})
 
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
@@ -133,6 +158,7 @@ const validateField = (fieldName) => {
     formErrors.value.Repassword = 'Passwords do not match.'
   }
 }
+
 const profileFile = ref(null)
 const coverFile = ref(null)
 const handleProfileChange = (event) => {
@@ -156,7 +182,7 @@ const addUser = () => {
     formErrors.value.Repassword = 'Passwords do not match.'
   }
   if (user.value.username.length < 5) {
-    formErrors.value.username = 'Username should be atleast 5 character long.'
+    formErrors.value.username = 'Username should be at least 5 characters long.'
   }
   if (!user.value.email) {
     formErrors.value.email = 'Please provide an email.'
@@ -175,7 +201,8 @@ const addUser = () => {
     if (user.value.dob) {
       formData.append('dob', user.value.dob)
     }
-    formData.append('gender', user.value.gender)
+    formData.append('gender', user.value
+    .gender)
     formData.append('country', user.value.country)
     formData.append('is_artist', isArtist.value)
     if (profileFile.value) {
@@ -189,7 +216,6 @@ const addUser = () => {
       .post('http://127.0.0.1:8000/api/user/post/', formData)
       .then((response) => {
         console.log('registered')
-        
         router.push('/login')
       })
       .catch((error) => {

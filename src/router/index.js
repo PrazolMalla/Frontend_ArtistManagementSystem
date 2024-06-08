@@ -23,6 +23,7 @@ import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import axios from 'axios'
+import MapShow from '@/components/MapShow.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -177,6 +178,12 @@ const router = createRouter({
       name: 'artistDetail',
       component: ArtistDetail,
       meta: { auth: false }
+    },
+    {
+      path:'/mapshow',
+      name:'MapShow',
+      component:MapShow
+
     }
   ]
 })

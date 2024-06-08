@@ -108,16 +108,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
 import { mapState } from 'vuex'
 import { defineProps, defineEmits } from 'vue'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 
-const router = useRouter()
-const store = useStore()
 const track = ref({
   name: '',
   description: '',
@@ -194,16 +190,17 @@ const addMusic = () => {
     formData.append('description', track.value.description)
     formData.append('language', track.value.language)
     formData.append('release_at', track.value.release_at)
+    formData.append('img_profile', profileFile.value)
     // formData.append('genre', track.value.genre);
-    // formData.append('album', track.value.album);
+    formData.append('album', track.value.album);
     formData.append('artist', track.value.artist)
     formData.append('band', track.value.band)
     formData.append('release_at', track.value.release_at)
+
     if (releaseDate <= today) track.value.is_released = true
+
     formData.append('is_released', track.value.is_released)
-    if (profileFile.value) {
-      formData.append('img_profile', profileFile.value)
-    }
+      
     if (musicFile.value) {
       formData.append('music_file', musicFile.value)
     }

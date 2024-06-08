@@ -11,6 +11,7 @@ export default createStore({
   mutations: {
     SET_LOGGEDIN_USER_DATA(state, loggedInUserData) {
       state.loggedInUserData = loggedInUserData
+     
     },
     SET_PLAYER_DATA(state, playerData) {
       state.playerData = playerData
@@ -48,7 +49,6 @@ export default createStore({
             }
           })
           .then((response) => {
-            console.log(response.data)
             commit('SET_LOGGEDIN_USER_DATA', response.data)
           })
       } catch (error) {

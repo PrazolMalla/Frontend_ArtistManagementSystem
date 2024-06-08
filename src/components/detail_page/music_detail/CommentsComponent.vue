@@ -18,9 +18,9 @@
         />
         <button
           @click="commentOnMusic(route.params.id)"
-          class="bg-secondary-color w-20 h-10 text-light-primary-color rounded-sm text-sm font-semibold lg:w-20 lg:h-10 hover:border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+          class="bg-secondary-color rounded-md w-20 h-8 text-sm text-light-primary-color   hover:border hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
         >
-          Comment Here bro
+          Comment
         </button>
       </div>
     </div>

@@ -60,11 +60,12 @@
 
 <script setup>
 import store from '@/store/store'
-import { ref, onMounted, computed } from 'vue'
-
-const userData = computed(() => {
-  return store.getters.getLoggedInUserData
-})
+import { ref, onMounted } from 'vue'
+const userData = ref([])
+const userDataFunc = () => {
+     userData.value = store.getters.getLoggedInUserData
+     console.log(userData.value.img_profile)
+}
 
 const categories = ref([
   {
@@ -165,6 +166,7 @@ const showDataInSideBar = () => {
 }
 
 onMounted(() => {
+  userDataFunc()
   store.dispatch('setLoggedInUserData')
   console.log()
   showDataInSideBar()

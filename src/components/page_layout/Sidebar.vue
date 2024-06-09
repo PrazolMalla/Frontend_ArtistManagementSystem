@@ -123,7 +123,6 @@ const showDataInSideBar = () => {
     categories.value.push({ name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
     const manageIndex = categories.value.findIndex((category) => category.name === 'Manage')
     const statsIndex = categories.value.findIndex((category) => category.name === 'Stats')
-
     if (userData.value.is_artist) {
       categories.value[manageIndex].actions.push({
         to: '/manage/album',
@@ -151,11 +150,6 @@ const showDataInSideBar = () => {
         to: '/manage/music',
         icon: 'si-applemusic',
         text: 'Music'
-      })
-      categories.value[statsIndex].actions.push({
-        to: '/stats/artist',
-        icon: 'fa-microphone',
-        text: 'Artist'
       })
       categories.value[manageIndex].actions.push({
         to: '/manage/artist',

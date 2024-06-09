@@ -32,7 +32,7 @@
         >
       </div>
 
-      <v-icon name="md-playcircleoutline-round" fill="#302f31" scale="1.5" class="cursor-pointer" />
+      <!-- <v-icon name="md-playcircleoutline-round" fill="#302f31" scale="1.5" class="cursor-pointer" /> -->
     </div>
   </div>
 </template>

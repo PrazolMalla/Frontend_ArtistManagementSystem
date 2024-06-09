@@ -17,7 +17,7 @@
 
         <img
           @click="toggleBar"
-          src="https://source.unsplash.com/800x800/?portrait"
+          :src="playerData.img_src"
           alt="Album Cover"
           class="h-12 w-12 rounded-md"
         />

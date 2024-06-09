@@ -5,7 +5,7 @@
         v-if="is_blur"
         class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
       ></div>
-      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" />
+      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
         actionQuestion="Do yo want to delete XYZ?"
@@ -86,7 +86,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full justify-around items-center">
+                <div class="flex w-full  justify-center items-center ">
                   <label v-if="userData.is_artist"
                   class="relative inline-flex cursor-pointer items-center">
                     <input
@@ -115,6 +115,9 @@
                 </div>
               </div>
 
+
+
+              
               <div v-else v-for="delmusic in deletedMusics"  :key="delmusic.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
                   <img :src="`http://127.0.0.1:8000${delmusic.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
@@ -135,6 +138,17 @@
                     </div>
                 </div>
               </div>
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
@@ -165,6 +179,7 @@ const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 const is_deletedShown = ref(false)
+const genreData = ref([])
 let toDeleteValue = 0
 let toRestoreValue = 0
 
@@ -172,6 +187,7 @@ const editMusicId = ref(null)
 
 function toggleOpenAdd() {
   fetchAlbums()
+  getGenre()
   is_OpenAdd.value = true
   is_blur.value = true
 }
@@ -370,6 +386,7 @@ const fetchAlbums = async () => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
+      console.log(response.data,"here we goo")
       data = response.data
     }
     albums.value = data
@@ -378,9 +395,22 @@ const fetchAlbums = async () => {
   }
 }
 
+const getGenre = async () => {
+   await axios
+      .get('http://127.0.0.1:8000/api/genre/get/')
+      .then((response) => {
+        console.log(response.data)
+        genreData.value = response.data
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
 onMounted(() =>{
   fetchMusics()
   fetchDeletedMusics()
+  
 })
 </script>
 

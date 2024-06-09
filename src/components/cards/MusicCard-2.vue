@@ -10,7 +10,7 @@
         <div class="flex flex-col">
           <RouterLink
             :to="'/music/' + musicData.id"
-            class="text-md font-semibold text-center hover:underline"
+            class="text-md text-blue-500 font-semibold text-center hover:underline"
             >{{ musicData.name }}</RouterLink
           >
 
@@ -29,13 +29,13 @@
           </div>
         </div>
 
-        <v-icon
+        <!-- <v-icon
           name="md-playcircleoutline-round"
           @click="playMusic"
           fill="#302f31"
           scale="1.5"
           class="cursor-pointer"
-        />
+        /> -->
       </div>
     </div>
   </div>

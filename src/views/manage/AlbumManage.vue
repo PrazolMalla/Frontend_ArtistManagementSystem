@@ -301,11 +301,6 @@ const fetchDeletedAlbum = async () => {
 }
 
 
-
-onMounted(() =>{
-  fetchAlbums()
-  fetchDeletedAlbum()
-})
 const toggleHideAlbum = async (album) => {
   const originalIsHidden = !album.is_hidden
   const newIsHidden = !originalIsHidden
@@ -370,6 +365,12 @@ function confirmDelete() {
       console.log(err.response.data)
     })
 }
+
+
+onMounted(() =>{
+  fetchAlbums()
+  fetchDeletedAlbum()
+})
 </script>
 
 <style scoped>

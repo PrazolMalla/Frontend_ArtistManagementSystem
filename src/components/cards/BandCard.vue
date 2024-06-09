@@ -4,7 +4,7 @@
           <div
             class="w-28 h-28  rounded-full flex justify-center items-center bandGradient" >
             <img
-              src="https://source.unsplash.com/800x800/?portrait"
+              :src="bandDetail.img_profile"
               alt="Band Image"
               class="bandPic rounded-full object-cover border-none bg-secondary-color z-10"
             />

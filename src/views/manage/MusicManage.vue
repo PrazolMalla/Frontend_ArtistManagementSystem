@@ -20,6 +20,7 @@
         actionQuestion="Do yo want to restore XYZ?"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
+        @confirm="confirmRestore"
       />
      
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
@@ -129,7 +130,7 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around flex-row bg-transparentborder-b border-b-primary-text-color" >
-                  <div @click="toggleOpenRestore" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                  <div @click="toggleOpenRestore(toRestoreValue)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
@@ -165,6 +166,7 @@ const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 const is_deletedShown = ref(false)
 let toDeleteValue = 0
+let toRestoreValue = 0
 
 const editMusicId = ref(null)
 
@@ -199,9 +201,10 @@ function toggleCloseDelete() {
   is_blur.value = false
 }
 
-function toggleOpenRestore() {
+function toggleOpenRestore(restoreId) {
   is_OpenRestore.value = true
   is_blur.value = true
+  toRestoreValue = restoreId
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -317,6 +320,31 @@ function confirmDelete() {
     .then((response) => {
       musics.value = musics.value.filter((music) => music.id !== toDeleteValue)
       $toast.success('Music is deleted', {
+        position: 'top-right'
+      })
+      console.log(response)
+      if (response.status === 200) {
+        is_OpenDelete.value = false
+        is_blur.value = false
+      }
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+}
+
+function confirmRestore() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/music/recover/${toRestoreValue}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      musics.value = musics.value.filter((music) => music.id !== toRestoreValue)
+      $toast.success('Music is Restored', {
         position: 'top-right'
       })
       console.log(response)

@@ -23,6 +23,7 @@ import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import axios from 'axios'
+import store from '@/store/store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -195,6 +196,7 @@ router.beforeEach(async (to, from, next) => {
       .then((response) => {
         is_artist = response.data.is_artist
         is_staff = response.data.is_staff
+        store.dispatch('setLoggedInUserData')
       })
   } catch (error) {
     console.error('Failed to fetch user data:', error)

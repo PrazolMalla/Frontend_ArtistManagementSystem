@@ -12,6 +12,7 @@ import ArtistManage from '@/views/manage/ArtistManage.vue'
 import UserManage from '@/views/manage/UserManage.vue'
 import MusicManage from '@/views/manage/MusicManage.vue'
 import AlbumManage from '@/views/manage/AlbumManage.vue'
+import ThemeManage from '@/views/manage/ThemeManage.vue'
 import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
@@ -26,6 +27,7 @@ import Test from '@/views/TestPage.vue'
 import axios from 'axios'
 import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
+import { imageOverlay } from 'leaflet'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -120,6 +122,12 @@ const router = createRouter({
       component: ArtistManage,
       meta: { auth: true, is_staff: true }
     },
+     {
+      path: '/manage/theme',
+      name: 'manageTheme',
+      component: ThemeManage,
+      meta: { auth: true, is_staff: true }
+    },
 
     // Library
     {
@@ -147,6 +155,7 @@ const router = createRouter({
       component: StaffStats,
       meta: { auth: true, is_staff: true }
     },
+    
     {
       path: '/stats/artist',
       name: 'artistStats',

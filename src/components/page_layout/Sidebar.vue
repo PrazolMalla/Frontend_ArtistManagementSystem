@@ -147,6 +147,11 @@ const showDataInSideBar = () => {
         text: 'Album'
       })
       categories.value[manageIndex].actions.push({
+        to: '/manage/theme',
+        icon: 'md-album',
+        text: 'Theme'
+      })
+      categories.value[manageIndex].actions.push({
         to: '/manage/music',
         icon: 'si-applemusic',
         text: 'Music'

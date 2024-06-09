@@ -29,11 +29,7 @@ const musicData = ref([])
 const fetchMusicData = async (artistId) => {
   try {
     console.log(artistId)
-    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    })
+    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId)
     musicData.value = response.data.splice(0, 3)
     console.log(musicData)
   } catch (error) {

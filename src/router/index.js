@@ -23,6 +23,7 @@ import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import axios from 'axios'
+import store from '@/store/store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -143,13 +144,13 @@ const router = createRouter({
       path: '/stats/staff',
       name: 'adminStats',
       component: StaffStats,
-      meta: { auth: true }
+      meta: { auth: true, is_staff: true }
     },
     {
       path: '/stats/artist',
       name: 'artistStats',
       component: ArtistStats,
-      meta: { auth: true }
+      meta: { auth: true, is_artist: true }
     },
     {
       path: '/stats/user',
@@ -195,6 +196,7 @@ router.beforeEach(async (to, from, next) => {
       .then((response) => {
         is_artist = response.data.is_artist
         is_staff = response.data.is_staff
+        store.dispatch('setLoggedInUserData')
       })
   } catch (error) {
     console.error('Failed to fetch user data:', error)
@@ -204,7 +206,9 @@ router.beforeEach(async (to, from, next) => {
     next('/login')
   } else if (!is_staff && to.meta.is_staff) {
     next('/')
-  } else if (is_staff | is_artist && to.meta.is_staffAndArtist) {
+  }else if (!is_artist && to.meta.is_artist) {
+    next('/')
+  }else if (is_staff | is_artist && to.meta.is_staffAndArtist) {
     next()
   } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
     next('/')

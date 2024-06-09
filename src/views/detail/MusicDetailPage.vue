@@ -30,7 +30,7 @@ const fetchMusicData = async (id) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
     music.value = response.data

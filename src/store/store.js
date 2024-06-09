@@ -11,7 +11,6 @@ export default createStore({
   mutations: {
     SET_LOGGEDIN_USER_DATA(state, loggedInUserData) {
       state.loggedInUserData = loggedInUserData
-     
     },
     SET_PLAYER_DATA(state, playerData) {
       state.playerData = playerData
@@ -29,6 +28,7 @@ export default createStore({
     setMusicPlayer({ commit }, music) {
       localStorage.setItem('selectedMusic', music.name)
       localStorage.setItem('selectedMusicdes', music.description)
+      localStorage.setItem('selectedMusicImg', music.img_profile)
       commit('SET_PLAYER_DATA', music)
     },
 

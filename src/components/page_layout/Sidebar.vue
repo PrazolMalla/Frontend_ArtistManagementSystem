@@ -46,13 +46,19 @@
         <v-icon name="md-settings-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer" />
       </RouterLink>
     </div>
-    <div v-if="!userData.id" class="mt-1 py-2">
-      <router-link to="/signup">
+    <div v-if="!userData.id" class="mt-1 py-2 flex gap-2 items-center">
+      <router-link to="/login">
         <button
-          class="sign-in-button bg-red-500 text-white px-2 py-2 rounded-full hover:bg-red-700"
+          class="text-sm bg-secondary-color text-dark-primary-color p-2 rounded-full hover:text-secondary-color  hover:bg-dark-primary-color border border-secondary-color"
         >
-          Sign In
+          Login
         </button>
+      </router-link>
+      <span class="text-sm">or</span>
+      <router-link to="/signup">
+        <p class="text-md text-secondary-color">
+          SignUp
+      </p>
       </router-link>
     </div>
   </div>
@@ -60,12 +66,17 @@
 
 <script setup>
 import store from '@/store/store'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed} from 'vue'
 const userData = ref([])
+
 const userDataFunc = () => {
      userData.value = store.getters.getLoggedInUserData
-     console.log(userData.value.img_profile)
+     console.log(userData.value)
 }
+computed(() => {
+      userData.value = store.getters.getLoggedInUserData
+     console.log(userData.value)
+})
 
 const categories = ref([
   {
@@ -112,7 +123,6 @@ const showDataInSideBar = () => {
     categories.value.push({ name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
     const manageIndex = categories.value.findIndex((category) => category.name === 'Manage')
     const statsIndex = categories.value.findIndex((category) => category.name === 'Stats')
-
     if (userData.value.is_artist) {
       categories.value[manageIndex].actions.push({
         to: '/manage/album',
@@ -141,11 +151,6 @@ const showDataInSideBar = () => {
         icon: 'si-applemusic',
         text: 'Music'
       })
-      categories.value[statsIndex].actions.push({
-        to: '/stats/artist',
-        icon: 'fa-microphone',
-        text: 'Artist'
-      })
       categories.value[manageIndex].actions.push({
         to: '/manage/artist',
         icon: 'fa-microphone',
@@ -166,8 +171,8 @@ const showDataInSideBar = () => {
 }
 
 onMounted(() => {
-  userDataFunc()
   store.dispatch('setLoggedInUserData')
+  userDataFunc()
   console.log()
   showDataInSideBar()
 })

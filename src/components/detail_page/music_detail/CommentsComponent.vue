@@ -57,11 +57,11 @@ const fetchCommentData = async (id) => {
     console.log(id)
     const response = await axios.get('http://127.0.0.1:8000/api/music/get/comment/' + id + '/', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
     comments.value = response.data
-    console.log(comments)
+    console.log(comments.value)
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

@@ -83,7 +83,7 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Genre</option>
-          <option v-for="item in genreData">{{ item.name }}</option>
+          <option v-for="item in genreData" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.gemre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
@@ -107,9 +107,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
-import { mapState } from 'vuex'
 import { defineProps, defineEmits } from 'vue'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
@@ -131,6 +130,10 @@ const props = defineProps({
   albums: {
     type: Object,
     required: true
+  },
+  genreData:{
+    type:Object,
+    required: true
   }
 })
 const emit = defineEmits(['close'])
@@ -138,8 +141,6 @@ const emit = defineEmits(['close'])
 function closeAdd() {
   emit('close')
 }
-
-const { albumData, genreData } = mapState(['albumData', 'genreData'])
 
 const musicInputField = ref([
   { id: '1', name: 'name', type: 'text', label: 'Name' },
@@ -153,13 +154,6 @@ const access_token = localStorage.getItem('access_token')
 
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
-
-  // if (fieldName === 'name' && track.value.name.length < 1) {
-  //   formErrors.value.name = "Name is required";
-  // }
-  // if (fieldName === 'description' && track.value.password<1) {
-  //   formErrors.value.description = "Description is required";
-  // }
 }
 const profileFile = ref(null)
 const musicFile = ref(null)
@@ -191,7 +185,7 @@ const addMusic = () => {
     formData.append('language', track.value.language)
     formData.append('release_at', track.value.release_at)
     formData.append('img_profile', profileFile.value)
-    // formData.append('genre', track.value.genre);
+    formData.append('genre', track.value.genre);
     formData.append('album', track.value.album);
     formData.append('artist', track.value.artist)
     formData.append('band', track.value.band)

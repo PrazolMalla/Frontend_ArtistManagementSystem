@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group ml-2 lg:ml-5 w-40 h-54 hover:bg-secondary-color rounded-2xl flex flex-col justify-start items-start p-3 gap-1 hover:transition-all cursor-pointer hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#FF516D,0_0_4px_#FF516D,0_0_15px_#FF516D] hover:border-2 text-primary-text-color hover:text-dark-primary-color"
+    class="group ml-2 lg:ml-5 w-40 h-54 hover:bg-secondary-color rounded-2xl flex flex-col justify-start items-start p-3 gap-1  hover:transition-all cursor-pointer hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#FF516D,0_0_4px_#FF516D,0_0_15px_#FF516D] hover:border-2 text-primary-text-color hover:text-dark-primary-color"
   >
     <RouterLink :to="'/music/' + musicData.id">
       <img
@@ -14,19 +14,19 @@
           {{ musicData.name }}
         </RouterLink>
         <RouterLink :to="'/artist/' + musicData.artist" class="text-sm text-gray-600 hover:underline">
-          {{ musicData.artist }}
+          {{ musicData.artist_name }}
         </RouterLink>
         <RouterLink :to="'/album/' + musicData.album" class="text-sm text-gray-600 hover:underline">
-          {{ musicData.album }}
+          {{ musicData.album_name }}
         </RouterLink>
       </div>
-      <v-icon
+      <!-- <v-icon
         name="md-playcircleoutline-round"
         @click="playMusic"
         fill="#302f31"
         scale="1.5"
         class="cursor-pointer"
-      />
+      /> -->
     </div>
   </div>
 </template>

@@ -30,11 +30,7 @@ const route = useRoute()
 const queryParams = route.params.id
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    })
+    const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams)
     music.value = response.data
   } catch (error) {
     console.error('Failed to fetch music data:', error)

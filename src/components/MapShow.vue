@@ -202,7 +202,7 @@
   /* Add custom styles here if needed */
   </style>
    -->
-   <template>
+   <!-- <template>
     <div id="map" style="height: 400px;"></div>
   </template>
   
@@ -313,6 +313,71 @@
                                     </div>`;
               marker.bindPopup(popupContent).addTo(map);
             }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching artist data:', error);
+        });
+  
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map);
+    },
+  };
+  </script>
+  
+  <style scoped>
+  /* Add custom styles here if needed */
+  </style>
+   -->
+  <!-- last code  -->
+  <template>
+    <div id="map" style="height: 400px;"></div>
+  </template>
+  
+  <script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import 'leaflet.heat/dist/leaflet-heat.js';
+  import axios from 'axios';
+  
+  export default {
+    mounted() {
+      const map = L.map('map').setView([20, 100], 3);
+  
+      axios.get('http://127.0.0.1:8000/api/artist/get/')
+        .then(response => {
+          const artistData = response.data;
+  
+          const artistCountByCountry = {}; // Object to store artist count by country
+  
+          // Count artists for each country
+          artistData.forEach(artist => {
+            const country = artist.country;
+            artistCountByCountry[country] = (artistCountByCountry[country] || 0) + 1;
+          });
+  
+          // Fetch coordinates for each country using a geocoding service
+          Object.keys(artistCountByCountry).forEach(country => {
+            axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(country)}&format=json`)
+              .then(geoResponse => {
+                if (geoResponse.data.length > 0) {
+                  const coordinates = [parseFloat(geoResponse.data[0].lat), parseFloat(geoResponse.data[0].lon)];
+                  const artistCount = artistCountByCountry[country];
+                  if (coordinates) {
+                    const marker = L.marker(coordinates);
+                    const popupContent = `<div style="background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+                                            <strong>${country}</strong><br>
+                                            ${artistCount} artist${artistCount > 1 ? 's' : ''}
+                                          </div>`;
+                    marker.bindPopup(popupContent).addTo(map);
+                  }
+                }
+              })
+              .catch(error => {
+                console.error(`Error fetching coordinates for ${country}:`, error);
+              });
           });
         })
         .catch(error => {

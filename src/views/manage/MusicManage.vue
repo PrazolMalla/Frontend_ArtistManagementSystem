@@ -5,7 +5,7 @@
         v-if="is_blur"
         class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
       ></div>
-      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" />
+      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
         actionQuestion="Do yo want to delete XYZ?"
@@ -20,6 +20,7 @@
         actionQuestion="Do yo want to restore XYZ?"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
+        @confirm="confirmRestore"
       />
      
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
@@ -73,9 +74,9 @@
                       {{ music.name }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ music.artist }}</div>
+                      <div class="text-sm sm:text-base">{{ music.artist_name }}</div>
 
-                      <div class="text-sm sm:text-base">{{ music.album }}</div>
+                      <div class="text-sm sm:text-base">{{ music.album_name }}</div>
                     </div>
                   </div>
                 </router-link>
@@ -85,7 +86,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full justify-around items-center">
+                <div class="flex w-full  justify-center items-center ">
                   <label v-if="userData.is_artist"
                   class="relative inline-flex cursor-pointer items-center">
                     <input
@@ -114,6 +115,9 @@
                 </div>
               </div>
 
+
+
+              
               <div v-else v-for="delmusic in deletedMusics"  :key="delmusic.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
                   <img :src="`http://127.0.0.1:8000${delmusic.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
@@ -129,11 +133,22 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around flex-row bg-transparentborder-b border-b-primary-text-color" >
-                  <div @click="toggleOpenRestore" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                  <div @click="toggleOpenRestore(toRestoreValue)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
               </div>
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
@@ -164,12 +179,15 @@ const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 const is_deletedShown = ref(false)
+const genreData = ref([])
 let toDeleteValue = 0
+let toRestoreValue = 0
 
 const editMusicId = ref(null)
 
 function toggleOpenAdd() {
   fetchAlbums()
+  getGenre()
   is_OpenAdd.value = true
   is_blur.value = true
 }
@@ -199,9 +217,10 @@ function toggleCloseDelete() {
   is_blur.value = false
 }
 
-function toggleOpenRestore() {
+function toggleOpenRestore(restoreId) {
   is_OpenRestore.value = true
   is_blur.value = true
+  toRestoreValue = restoreId
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -330,6 +349,31 @@ function confirmDelete() {
     })
 }
 
+function confirmRestore() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/music/recover/${toRestoreValue}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      musics.value = musics.value.filter((music) => music.id !== toRestoreValue)
+      $toast.success('Music is Restored', {
+        position: 'top-right'
+      })
+      console.log(response)
+      if (response.status === 200) {
+        is_OpenDelete.value = false
+        is_blur.value = false
+      }
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+}
+
 const fetchAlbums = async () => {
   try {
     let data
@@ -342,6 +386,7 @@ const fetchAlbums = async () => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
+      console.log(response.data,"here we goo")
       data = response.data
     }
     albums.value = data
@@ -350,9 +395,22 @@ const fetchAlbums = async () => {
   }
 }
 
+const getGenre = async () => {
+   await axios
+      .get('http://127.0.0.1:8000/api/genre/get/')
+      .then((response) => {
+        console.log(response.data)
+        genreData.value = response.data
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
 onMounted(() =>{
   fetchMusics()
   fetchDeletedMusics()
+  
 })
 </script>
 

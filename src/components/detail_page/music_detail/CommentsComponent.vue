@@ -140,7 +140,7 @@ const fetchCommentData = async (id) => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/music/get/comment/' + id + '/', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
     comments.value = response.data.map((comment) => ({
@@ -153,6 +153,7 @@ const fetchCommentData = async (id) => {
     }))
     replies.value = comments.value.map(() => ({ replyBody: '' }))
     showReplies.value = comments.value.map(() => false)
+
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

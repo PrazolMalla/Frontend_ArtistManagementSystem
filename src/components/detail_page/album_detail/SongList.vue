@@ -4,7 +4,6 @@
       <h1 class="text-2xl font-semibold mb-4 ml-4">Songs</h1>
       <div class="flex justify-between w-40 p-4">
         <p class="text-lg">{{ songs.length }} Songs</p>
-        <!-- <p class="text-lg">2018</p> -->
       </div>
 
       <div class="overflow-y-scroll w-[40vw] h-[40vh]">
@@ -40,11 +39,7 @@ const props = defineProps({
 const songs = ref([])
 const fetchMusicData = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/album/${props.musicId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    })
+    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/album/${props.musicId}`)
     songs.value = response.data
   } catch (error) {
     console.error('Failed to fetch songs data:', error)
@@ -53,6 +48,7 @@ const fetchMusicData = async () => {
 
 onMounted(() => {
   fetchMusicData()
+
 })
 </script>
 <style lang=""></style>

@@ -20,7 +20,7 @@
 
             <div class="mt-6">
               <h1 class="text-lg font-semibold">{{ recent.name }}</h1>
-              <h1 class="text-lg">{{ recent.release_at }}</h1>
+              <h1 class="text-sm">{{ recent.release_at }}</h1>
             </div>
           </div>
         </RouterLink>
@@ -38,7 +38,7 @@ const fetchMusicData = async (artistId) => {
     console.log(artistId)
     const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
     recentSongs.value = response.data.splice(0, 3).map((song) => {

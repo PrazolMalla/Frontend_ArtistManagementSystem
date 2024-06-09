@@ -86,9 +86,8 @@
                       {{ album.name }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist }}</div>
+                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
 
-                      <div class="text-sm sm:text-base">{{ album.album }}</div>
                     </div>
                   </div>
                 </router-link>
@@ -301,11 +300,6 @@ const fetchDeletedAlbum = async () => {
 }
 
 
-
-onMounted(() =>{
-  fetchAlbums()
-  fetchDeletedAlbum()
-})
 const toggleHideAlbum = async (album) => {
   const originalIsHidden = !album.is_hidden
   const newIsHidden = !originalIsHidden
@@ -370,6 +364,12 @@ function confirmDelete() {
       console.log(err.response.data)
     })
 }
+
+
+onMounted(() =>{
+  fetchAlbums()
+  fetchDeletedAlbum()
+})
 </script>
 
 <style scoped>

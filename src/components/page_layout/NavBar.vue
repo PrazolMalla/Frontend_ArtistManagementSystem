@@ -4,7 +4,7 @@
     class="fixed top-0 bggradientradio w-screen h-screen z-50 flex flex-col justify-center gap-10 items-center"
   >
     <img
-      src="https://source.unsplash.com/800x800/?portrait"
+      :src="playerData.img_src"
       alt=""
       class="w-32 rounded-md hover:cursor-pointer select-none"
     />
@@ -99,13 +99,13 @@
         @click="toggleNotification"
       />
       <v-icon name="md-darkmode-round" fill="#302f31" scale="1.2" class="cursor-pointer mt-5" />
-      <v-icon
+      <!-- <v-icon
         name="md-radio-round"
         fill="#302f31"
         scale="1.2"
         class="cursor-pointer mt-5"
         @click="openRadioMode"
-      />
+      /> -->
     </div>
   </div>
 </template>

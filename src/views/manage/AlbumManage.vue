@@ -13,7 +13,7 @@
         @close="toggleCloseDelete"
         @confirm="confirmDelete"
       />
-      <EditAlbum v-if="is_OpenEdit" @close="toggleCloseEdit" />
+      <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
         actionQuestion="Do yo want to restore XYZ?"
@@ -27,11 +27,15 @@
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
-              <h1 class="text-3xl font-bold">All Albums</h1>
+
+
+              <h1 class="text-lg sm:text-3xl font-bold"  v-if="!is_deletedShown">All Albums</h1>
+              <h1 class="text-lg sm:text-3xl font-bold" v-else>All Deleted Albums</h1>
               <div class="flex items-center space-x-4">
-                <div
-                  class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full"
-                >
+                 <div v-if="!is_deletedShown" @click="showDeletedList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none"> Show Deleted</div>
+               <div v-if="is_deletedShown" @click="showAllList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Show All</div>
+                
+                <div class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full">
                   <input
                     type="text"
                     class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
@@ -44,7 +48,7 @@
                     class="cursor-pointer hover:text-gray-950 mt-1 p-1"
                   />
                 </div>
-                <button
+                <button    v-if="userData.is_artist"
                   class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
                   @click="toggleOpenAdd"
                 >
@@ -59,18 +63,17 @@
               >
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
-                  <div class="font-semibold" v-if="userData.is_artist">Hide</div>
-                  <div class="font-semibold" v-if="userData.is_staff">Disable</div>
-                  <div class="font-semibold">Restore</div>
-                  <div class="font-semibold">Edit</div>
-                  <div class="font-semibold">Delete</div>
+                  <div class="font-semibold" v-if="userData.is_artist   & !is_deletedShown">Hide</div>
+                  <div class="font-semibold" v-if="userData.is_staff   & !is_deletedShown">Disable</div>
+                  <div class="font-semibold" v-if="is_deletedShown">Restore</div>
+                  <div class="font-semibold" v-if="userData.is_artist   & !is_deletedShown">Edit</div>
+                  <div class="font-semibold" v-if="userData.is_artist   & !is_deletedShown">Delete</div>
                 </div>
               </div>
-              <div
+              <div v-if="!is_deletedShown"
                 v-for="album in albums"
                 :key="album.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2"
-              >
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/album/${album.id}`" class="flex items-center w-3/6">
                   <img
                     :src="`http://127.0.0.1:8000${album.img_profile}`"
@@ -83,9 +86,8 @@
                       {{ album.name }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist }}</div>
+                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
 
-                      <div class="text-sm sm:text-base">{{ album.album }}</div>
                     </div>
                   </div>
                 </router-link>
@@ -94,9 +96,8 @@
                 >
                   <p v-if="userData.is_artist">Hide</p>
                   <p v-if="userData.is_staff">Disable</p>
-                  <p>Restore</p>
-                  <p>Edit</p>
-                  <p>Delete</p>
+                  <p v-if="userData.is_artist">Edit</p>
+                  <p v-if="userData.is_artist">Delete</p>
                 </div>
                 <div class="flex w-full justify-around items-center">
                   <label
@@ -131,31 +132,14 @@
                       class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
                     ></div>
                   </label>
-
-                  <div v-if="true">
-                    <div
-                      @click="toggleOpenRestore"
-                      v-if="album.is_deleted"
-                      class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color"
-                    >
-                      Restore
-                    </div>
-                    <div
-                      v-else
-                      class="border border-secondary-color rounded bg-transparent text-sm p-1 text-secondary-colo"
-                    >
-                      Restored
-                    </div>
-                  </div>
-
-                  <v-icon
+                  <v-icon v-if="userData.is_artist"
                     class="cursor-pointer"
-                    @click="toggleOpenEdit"
+                    @click="toggleOpenEdit(album)"
                     name="fa-regular-edit"
                     fill="#00b166"
                     scale="1.5"
                   ></v-icon>
-                  <v-icon
+                  <v-icon v-if="userData.is_artist"
                     class="cursor-pointer"
                     @click="toggleOpenDelete(album.id)"
                     name="fa-regular-trash-alt"
@@ -163,7 +147,36 @@
                     scale="1.5"
                   ></v-icon>
                 </div>
-              </div>
+               </div>
+
+               <div v-else
+                v-for="deletedalbum in deletedAlbums"
+                :key="deletedalbum.name"
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+                <div class="flex items-center w-3/6">
+                  <img
+                    :src="`http://127.0.0.1:8000${deletedalbum.img_profile}`"
+                    alt="Album image"
+                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
+                  />
+                  <div class="w-1-6">
+                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
+                      {{ deletedalbum.name }}
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:gap-2">
+                      <div class="text-sm sm:text-base">{{ deletedalbum.artist }}</div>
+
+                      <div class="text-sm sm:text-base">{{ deletedalbum.album }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex w-full justify-around items-center">
+                    <div  @click="toggleOpenRestore" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                      Restore
+                    </div>
+                </div>
+               </div>
+
             </div>
           </div>
         </div>
@@ -185,6 +198,8 @@ const $toast = useToast()
 const access_token = localStorage.getItem('access_token')
 const userData = computed(() => store.getters.getLoggedInUserData)
 const albums = ref([])
+const is_deletedShown = ref(false)
+const deletedAlbums = ref([])
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
 const is_OpenEdit = ref(false)
@@ -194,6 +209,7 @@ let toDeleteValue = 0
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
+const editAlbumId = ref(null)
 function toggleOpenAdd() {
   is_OpenAdd.value = true
   is_blur.value = true
@@ -202,9 +218,10 @@ function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
 }
-function toggleOpenEdit() {
+function toggleOpenEdit(album) {
   is_OpenEdit.value = true
   is_blur.value = true
+  editAlbumId.value = album.id
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
@@ -229,6 +246,13 @@ function toggleCloseRestore() {
   is_blur.value = false
 }
 
+const showDeletedList = async () => {
+    is_deletedShown.value = true
+}
+const showAllList = async () => {
+ is_deletedShown.value = false
+}
+
 const fetchAlbums = async () => {
   try {
     let data
@@ -249,7 +273,33 @@ const fetchAlbums = async () => {
   }
 }
 
-onMounted(fetchAlbums)
+
+const fetchDeletedAlbum = async () => {
+  try {
+    let data
+    if (!userData.value.is_staff & userData.value.is_artist) {
+      const response = await axios.get( 'http://127.0.0.1:8000/api/album/get/loggedin/deleted/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      data = response.data
+    } else {
+      const response = await axios.get('http://127.0.0.1:8000/api/album/get/deleted/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+
+      data = response.data
+    }
+    deletedAlbums.value = data
+  } catch (error) {
+    console.error('Error fetching Album:', error)
+  }
+}
+
+
 const toggleHideAlbum = async (album) => {
   const originalIsHidden = !album.is_hidden
   const newIsHidden = !originalIsHidden
@@ -314,6 +364,12 @@ function confirmDelete() {
       console.log(err.response.data)
     })
 }
+
+
+onMounted(() =>{
+  fetchAlbums()
+  fetchDeletedAlbum()
+})
 </script>
 
 <style scoped>

@@ -28,6 +28,7 @@ export default createStore({
     setMusicPlayer({ commit }, music) {
       localStorage.setItem('selectedMusic', music.name)
       localStorage.setItem('selectedMusicdes', music.description)
+      localStorage.setItem('selectedMusicImg', music.img_profile)
       commit('SET_PLAYER_DATA', music)
     },
 
@@ -48,7 +49,6 @@ export default createStore({
             }
           })
           .then((response) => {
-            console.log(response.data)
             commit('SET_LOGGEDIN_USER_DATA', response.data)
           })
       } catch (error) {

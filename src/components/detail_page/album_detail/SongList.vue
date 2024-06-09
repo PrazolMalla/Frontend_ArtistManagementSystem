@@ -4,7 +4,6 @@
       <h1 class="text-2xl font-semibold mb-4 ml-4">Songs</h1>
       <div class="flex justify-between w-40 p-4">
         <p class="text-lg">{{ songs.length }} Songs</p>
-        <p class="text-lg">2018</p>
       </div>
 
       <div class="overflow-y-scroll w-[40vw] h-[40vh]">
@@ -28,13 +27,28 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-const songs = ref([
-  { id: '1', name: 'Let me love you', duration: '3:23' },
-  { id: '2', name: 'Hello Its me', duration: '2:02' },
-  { id: '3', name: 'Hawa jastai malai', duration: '3:20' },
-  { id: '4', name: 'Timro Pratikshya', duration: '3:30' },
-  { id: '5', name: 'Komal tyo timro', duration: '3:21' }
-])
+import { ref, defineProps, onMounted } from 'vue'
+import axios from 'axios'
+
+const props = defineProps({
+  musicId: {
+    type: Number,
+    required: true
+  }
+})
+const songs = ref([])
+const fetchMusicData = async () => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/album/${props.musicId}`)
+    songs.value = response.data
+  } catch (error) {
+    console.error('Failed to fetch songs data:', error)
+  }
+}
+
+onMounted(() => {
+  fetchMusicData()
+
+})
 </script>
 <style lang=""></style>

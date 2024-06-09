@@ -19,7 +19,7 @@ import MusicPlayerBar from '@/components/page_layout/MusicPlayerBar.vue'
         <slot name="content"> </slot>
       </div>
       <div>
-        <MusicPlayerBar />
+        <!-- <MusicPlayerBar /> -->
       </div>
 
       <div

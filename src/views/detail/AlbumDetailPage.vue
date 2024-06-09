@@ -3,8 +3,8 @@
     <template #content>
       <div class="mt-10 text-primary-text-color flex flex-col gap-2">
         <div class="flex lg:flex-row flex-col">
-          <MusicSingleImage :music="music" />
-          <SongList />
+          <MusicSingleImage :musicId="route.params.id" :type="album" />
+          <SongList :musicId="route.params.id" />
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
@@ -25,22 +25,18 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 import Artist from '../explore/Artist.vue'
 const music = ref({})
-
+const album = ref('album')
 const route = useRoute()
 const queryParams = route.params.id
-const fetchMusicData = async () => {
+const fetchData = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    })
+    const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams)
     music.value = response.data
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }
 }
 onMounted(() => {
-  fetchMusicData()
+  fetchData()
 })
 </script>

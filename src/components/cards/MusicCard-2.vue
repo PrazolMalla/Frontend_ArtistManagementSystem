@@ -10,32 +10,33 @@
         <div class="flex flex-col">
           <RouterLink
             :to="'/music/' + musicData.id"
-            class="text-md font-semibold text-center hover:underline"
+            class="text-md text-blue-500 font-semibold text-center hover:underline"
             >{{ musicData.name }}</RouterLink
           >
 
-          <div class="flex gap-2">
+          <div class="flex  flex-col gap-2">
             <RouterLink
               :to="'/artist/' + musicData.artist"
               class="text-sm text-gray-600 hover:underline"
-              >{{ musicData.artist }}</RouterLink
+              >{{ musicData.artist_name }}</RouterLink
             >
+            
 
             <RouterLink
               :to="'/album/' + musicData.album"
               class="text-sm text-gray-600 hover:underline"
-              >{{ musicData.album }}</RouterLink
+              >{{ musicData.album_name }}</RouterLink
             >
           </div>
         </div>
 
-        <v-icon
+        <!-- <v-icon
           name="md-playcircleoutline-round"
           @click="playMusic"
           fill="#302f31"
           scale="1.5"
           class="cursor-pointer"
-        />
+        /> -->
       </div>
     </div>
   </div>

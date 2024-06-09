@@ -3,7 +3,7 @@
     <template #content>
       <div class="mt-10 text-primary-text-color flex flex-col gap-2">
         <div class="flex lg:flex-row flex-col">
-          <MusicSingleImage :music="music" />
+          <MusicSingleImage :musicId="route.params.id" :type="type" />
           <LyricsComponent :musicLyrics="music.lyrics" />
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
@@ -24,13 +24,13 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
 const music = ref({})
-
+const type = ref('music')
 const route = useRoute()
 const fetchMusicData = async (id) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
     music.value = response.data

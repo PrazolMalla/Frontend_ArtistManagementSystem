@@ -22,6 +22,7 @@ import StaffStats from '@/views/stats/StaffStats.vue'
 import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
+import Test from '@/views/TestPage.vue'
 import axios from 'axios'
 
 const router = createRouter({
@@ -176,6 +177,12 @@ const router = createRouter({
       path: '/artist/:id',
       name: 'artistDetail',
       component: ArtistDetail,
+      meta: { auth: false }
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test,
       meta: { auth: false }
     }
   ]

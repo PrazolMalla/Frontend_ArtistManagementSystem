@@ -53,5 +53,3 @@ onMounted(() => {
   fetchUserData()
 })
 </script>
-
-<script></script>

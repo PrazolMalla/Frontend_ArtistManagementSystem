@@ -19,6 +19,8 @@
         actionQuestion="Do yo want to restore XYZ?"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
+
+        @confirm="confirmRestore"
       />
       <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
        <ManageConfirmDialogue v-if="is_OpenDisable" actionQuestion="Do yo want to Disable XYZ?" actionConfirm="Confirm Disable" @close="toggleCloseDisable" /> -->
@@ -171,7 +173,7 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around items-center">
-                    <div  @click="toggleOpenRestore" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                    <div  @click="toggleOpenRestore(deletedalbum.id)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
@@ -206,6 +208,7 @@ const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 let toDeleteValue = 0
+let toRestoreValue = 0
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
@@ -237,9 +240,10 @@ function toggleCloseDelete() {
   is_blur.value = false
 }
 
-function toggleOpenRestore() {
+function toggleOpenRestore(restoreId) {
   is_OpenRestore.value = true
   is_blur.value = true
+  toRestoreValue = restoreId
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -365,6 +369,31 @@ function confirmDelete() {
     })
 }
 
+
+function confirmRestore() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/album/recover/${toRestoreValue}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      deletedAlbums.value = deletedAlbums.value.filter((deletedAlbums) => deletedAlbums.id !== toRestoreValue)
+      $toast.success('Album is Restored', {
+        position: 'top-right'
+      })
+      console.log(response)
+      if (response.status === 200) {
+        is_OpenRestore.value = false
+        is_blur.value = false
+      }
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+}
 
 onMounted(() =>{
   fetchAlbums()

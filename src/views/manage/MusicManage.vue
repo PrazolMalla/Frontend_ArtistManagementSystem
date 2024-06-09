@@ -133,7 +133,7 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around flex-row bg-transparentborder-b border-b-primary-text-color" >
-                  <div @click="toggleOpenRestore(toRestoreValue)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                  <div @click="toggleOpenRestore(delmusic.id)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
@@ -338,7 +338,6 @@ function confirmDelete() {
       $toast.success('Music is deleted', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenDelete.value = false
         is_blur.value = false
@@ -359,13 +358,13 @@ function confirmRestore() {
     }
   })
     .then((response) => {
-      musics.value = musics.value.filter((music) => music.id !== toRestoreValue)
+      deletedMusics.value = deletedMusics.value.filter((deletedMusics) => deletedMusics.id !== toRestoreValue)
       $toast.success('Music is Restored', {
         position: 'top-right'
       })
       console.log(response)
       if (response.status === 200) {
-        is_OpenDelete.value = false
+        is_OpenRestore.value = false
         is_blur.value = false
       }
     })

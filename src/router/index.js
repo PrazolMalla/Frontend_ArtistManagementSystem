@@ -141,7 +141,6 @@ const router = createRouter({
       meta: { auth: true }
     },
 
-    //Stats
     {
       path: '/stats/staff',
       name: 'adminStats',
@@ -161,8 +160,6 @@ const router = createRouter({
       meta: { auth: true }
     },
 
-    {},
-    // Detail
     {
       path: '/album/:id',
       name: 'albumDetail',
@@ -185,8 +182,8 @@ const router = createRouter({
       path:'/mapshow',
       name:'MapShow',
       component:MapShow
-
-      path: '/test',
+    },
+     { path: '/test',
       name: 'test',
       component: Test,
       meta: { auth: false }

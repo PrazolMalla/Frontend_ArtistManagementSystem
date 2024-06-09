@@ -24,6 +24,7 @@ import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import Test from '@/views/TestPage.vue'
 import axios from 'axios'
+import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
 
 const router = createRouter({
@@ -181,6 +182,10 @@ const router = createRouter({
       meta: { auth: false }
     },
     {
+      path:'/mapshow',
+      name:'MapShow',
+      component:MapShow
+
       path: '/test',
       name: 'test',
       component: Test,

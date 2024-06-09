@@ -17,7 +17,7 @@ const musicData = ref([])
 const fetchSongs = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
-    const data = response.data
+    const data = response.data.slice(0,5)
     musicData.value = data
   } catch (error) {
     console.error('Error fetching songs:', error)

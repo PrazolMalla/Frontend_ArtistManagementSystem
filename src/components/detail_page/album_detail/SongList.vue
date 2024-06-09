@@ -27,22 +27,28 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
-import axios from 'axios';
-const songs = ref([])
- const fetchAlbumMusicList = async (albumid) =>{
-          await axios
-            .get(`http://127.0.0.1:8000/api/music/get/album/${albumid}`)
-            .then((response) => {
-              songs.value = response.data
-            })
-            .catch((error) => {
-              console.error(error)
-            })
-    }
+import { ref, defineProps, onMounted } from 'vue'
+import axios from 'axios'
 
-onMounted(() =>{
-  fetchAlbumMusicList(1)
+const props = defineProps({
+  musicId: {
+    type: Number,
+    required: true
+  }
+})
+const songs = ref([])
+const fetchMusicData = async () => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/album/${props.musicId}`)
+    songs.value = response.data
+  } catch (error) {
+    console.error('Failed to fetch songs data:', error)
+  }
+}
+
+onMounted(() => {
+  fetchMusicData()
+
 })
 </script>
 <style lang=""></style>

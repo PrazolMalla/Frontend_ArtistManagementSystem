@@ -15,7 +15,7 @@
         v-for="item in musicInputField"
         :key="item.id"
         class="w-full sm:w-5/12 text-secondary-color"
-      >
+      > 
         <label :for="item.name" class="text-sm font-helvetica text-primary-text-color pl-3">
           {{ item.label }}
         </label>
@@ -87,12 +87,6 @@
         </select>
         <span v-if="formErrors.gemre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
-      <!-- <div class="w-full text-center">
-            <input type="checkbox" class="w-5" v-model="isArtist" @change="updateIsArtist" />
-            <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color"
-              >Are you adding this music as (XYZ) Band?</label
-            >
-          </div> -->
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
@@ -185,8 +179,8 @@ const addMusic = () => {
     formData.append('language', track.value.language)
     formData.append('release_at', track.value.release_at)
     formData.append('img_profile', profileFile.value)
-    formData.append('genre', track.value.genre);
-    formData.append('album', track.value.album);
+    formData.append('genre', track.value.genre)
+    formData.append('album', track.value.album)
     formData.append('artist', track.value.artist)
     formData.append('band', track.value.band)
     formData.append('release_at', track.value.release_at)
@@ -194,7 +188,7 @@ const addMusic = () => {
     if (releaseDate <= today) track.value.is_released = true
 
     formData.append('is_released', track.value.is_released)
-      
+
     if (musicFile.value) {
       formData.append('music_file', musicFile.value)
     }

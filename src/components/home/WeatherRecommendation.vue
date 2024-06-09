@@ -26,7 +26,8 @@
 
               <div class="flex flex-col  gap-2 items-start flex-wrap">
                   <p class="text-lg text-gray-text-color">Recommended Music</p>
-                   <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/>
+                  <div class="flex gap-2">
+                   <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/></div>
               </div>
           </div>
       </div>

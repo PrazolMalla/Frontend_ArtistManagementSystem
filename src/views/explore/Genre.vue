@@ -19,7 +19,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import MusicCard from '@/components/cards/MusicCard.vue';
+import MusicCard from '@/components/cards/MusicCard-2.vue';
 
 const musicData = ref([]);
 const genreData = ref([]);

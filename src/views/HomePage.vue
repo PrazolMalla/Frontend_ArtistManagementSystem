@@ -2,8 +2,8 @@
   <PageLayoutWithPlayer>
     <template #content >
         <TopArtist/>
-         <TopAlbum/>
         <TopMusic/>
+         <TopAlbum/>
         <WeatherRecommendation/>
 
   </template>

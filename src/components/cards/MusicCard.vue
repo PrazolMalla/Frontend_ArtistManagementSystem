@@ -14,10 +14,10 @@
           {{ musicData.name }}
         </RouterLink>
         <RouterLink :to="'/artist/' + musicData.artist" class="text-sm text-gray-600 hover:underline">
-          {{ musicData.artist }}
+          {{ musicData.artist_name }}
         </RouterLink>
         <RouterLink :to="'/album/' + musicData.album" class="text-sm text-gray-600 hover:underline">
-          {{ musicData.album }}
+          {{ musicData.album_name }}
         </RouterLink>
       </div>
       <!-- <v-icon

@@ -21,14 +21,14 @@
     <div class="flex justify-between w-full items-center">
       <div class="flex flex-col">
         <RouterLink
-          :to="'/music/' + albumDetail.id"
+          :to="'/album/' + albumDetail.id"
           class="text-md font-semibold text-center hover:underline"
           >{{ albumDetail.name }}</RouterLink
         >
         <RouterLink
           :to="'/artist/' + albumDetail.artist"
           class="text-sm text-gray-600 hover:underline"
-          >{{ albumDetail.artist }}</RouterLink
+          >{{ albumDetail.artist_name }}</RouterLink
         >
       </div>
 

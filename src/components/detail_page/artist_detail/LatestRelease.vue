@@ -20,7 +20,7 @@
 
             <div class="mt-6">
               <h1 class="text-lg font-semibold">{{ recent.name }}</h1>
-              <h1 class="text-lg">{{ recent.release_at }}</h1>
+              <h1 class="text-sm">{{ recent.release_at }}</h1>
             </div>
           </div>
         </RouterLink>

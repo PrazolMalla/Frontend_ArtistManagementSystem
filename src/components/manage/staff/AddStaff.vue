@@ -124,7 +124,6 @@ const staff = ref({
   password: '',
   Repassword: '',
   country: '',
-  bio: '',
   gender: ''
 })
 const emit = defineEmits(['close'])

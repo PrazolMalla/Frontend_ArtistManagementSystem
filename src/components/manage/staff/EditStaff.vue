@@ -115,7 +115,6 @@ import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['close'])
-// const props = defineProps(['musicId'])
 function closeEdit() {
   emit('close')
 }
@@ -149,7 +148,9 @@ const fetchStaff = async () => {
     profileFile.value = data.img_profile
     coverFile.value = data.img_cover
     staff.value.dob = new Date(data.dob).toISOString().split('T')[0]
-    
+    if (!staff.value.country) {
+      staff.value.country = ''
+    }
   } catch (error) {
     console.error('Error fetching staff:', error)
   }
@@ -182,7 +183,6 @@ const staff = ref({
   password: '',
   Repassword: '',
   country: '',
-  bio: '',
   gender: ''
 })
 const profileFile = ref(null)
@@ -219,10 +219,10 @@ function editStaff() {
     formData.append('gender', staff.value
     .gender)
     formData.append('country', staff.value.country)
-    if (profileFile.value) {
+    if (profileFile.value && profileFile.value instanceof File) {
       formData.append('img_profile', profileFile.value)
     }
-    if (coverFile.value) {
+    if (coverFile.value && coverFile.value instanceof File) {
       formData.append('img_cover', coverFile.value)
     }
     axios

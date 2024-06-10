@@ -2,7 +2,7 @@
   <fieldset
     class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
   >
-    <legend class="ml-10">Add Music</legend>
+    <legend class="ml-10">Add Theme</legend>
     <v-icon
       name="fa-times"
       fill="#302f31"
@@ -10,7 +10,7 @@
       @click="closeAdd"
       class="absolute right-3 cursor-pointer"
     />
-    <div class="form-container w-full p-10 h-full flex flex-wrap justify-center gap-5 align-middle">
+    <div class="form-container w-full border p-10 h-full flex flex-wrap justify-center gap-5 align-middle">
       <div
         v-for="item in musicInputField"
         :key="item.id"

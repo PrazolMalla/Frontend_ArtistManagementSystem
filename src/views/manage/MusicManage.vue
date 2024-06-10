@@ -3,7 +3,7 @@
     <template #content>
       <div
         v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
       ></div>
       <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue
@@ -86,7 +86,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full  justify-center items-center ">
+                <div class="flex w-full  justify-evenly items-center ">
                   <label v-if="userData.is_artist"
                   class="relative inline-flex cursor-pointer items-center">
                     <input
@@ -110,7 +110,7 @@
                   </label>
                   <div>
                   </div>
-                  <v-icon v-if="userData.is_artist"  class="cursor-pointer"  name="fa-regular-edit"  fill="#00b166" scale="1.5"></v-icon>
+                  <v-icon v-if="userData.is_artist"  class="cursor-pointer"  name="fa-regular-edit" @click="toggleOpenEdit(music.id)"  fill="#00b166" scale="1.5"></v-icon>
                   <v-icon v-if="userData.is_artist" class="cursor-pointer"  @click="toggleOpenDelete(music.id)" name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
                 </div>
               </div>
@@ -199,7 +199,7 @@ function toggleCloseAdd() {
 function toggleOpenEdit(music) {
   is_OpenEdit.value = true
   is_blur.value = true
-  editMusicId.value = music.id
+  editMusicId.value = music
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false

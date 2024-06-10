@@ -3,7 +3,7 @@
     <template #content>
       <div
         v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
       ></div>
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue
@@ -101,7 +101,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full justify-around items-center">
+                <div class="flex w-full  justify-around items-center">
                   <label
                     v-if="userData.is_artist"
                     class="relative inline-flex cursor-pointer items-center"
@@ -220,24 +220,30 @@ function toggleOpenAdd() {
 function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
+  fetchAlbums()
 }
 function toggleOpenEdit(album) {
   is_OpenEdit.value = true
   is_blur.value = true
   editAlbumId.value = album.id
+  
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
+  fetchAlbums()
 }
 function toggleOpenDelete(deletevalue) {
   is_OpenDelete.value = true
   is_blur.value = true
   toDeleteValue = deletevalue
+  fetchDeletedAlbum()
+  
 }
 function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
+  fetchAlbums()
 }
 
 function toggleOpenRestore(restoreId) {
@@ -248,6 +254,7 @@ function toggleOpenRestore(restoreId) {
 function toggleCloseRestore() {
   is_OpenRestore.value = false
   is_blur.value = false
+  fetchDeletedAlbum()
 }
 
 const showDeletedList = async () => {
@@ -255,6 +262,7 @@ const showDeletedList = async () => {
 }
 const showAllList = async () => {
  is_deletedShown.value = false
+ showAllList()
 }
 
 const fetchAlbums = async () => {

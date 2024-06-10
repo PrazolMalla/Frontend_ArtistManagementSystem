@@ -23,9 +23,9 @@ onMounted(() => {
     if (refresh_token.value) {
         if (isAccessTokenExpired()) {
             refreshAccessToken();
-            store.dispatch('setLoggedInUserData')
         } 
     } 
+     store.dispatch('setLoggedInUserData')
 });
 
 const refreshAccessToken = async () => {

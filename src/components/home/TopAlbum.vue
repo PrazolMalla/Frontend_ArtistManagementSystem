@@ -79,7 +79,6 @@ const albumData = ref([])
 const fetchAlbums = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/album/get/')
-    console.log(response.data)
     const data = response.data.splice(0, 10)
     albumData.value = data
   } catch (error) {

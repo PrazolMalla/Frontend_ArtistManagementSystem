@@ -1,6 +1,6 @@
 <template>
   <fieldset
-    class="border border-slate-700 rounded-md fixed sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 mt-20"
+    class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 mt-20"
   >
     <legend class="ml-10">Confirmation Box</legend>
     <v-icon

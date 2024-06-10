@@ -71,11 +71,9 @@ const userData = ref([])
 
 const userDataFunc = () => {
      userData.value = store.getters.getLoggedInUserData
-     console.log(userData.value)
 }
 computed(() => {
       userData.value = store.getters.getLoggedInUserData
-     console.log(userData.value)
 })
 
 const categories = ref([
@@ -146,10 +144,21 @@ const showDataInSideBar = () => {
         icon: 'md-album',
         text: 'Album'
       })
+      
       categories.value[manageIndex].actions.push({
         to: '/manage/music',
         icon: 'si-applemusic',
         text: 'Music'
+      })
+      categories.value[manageIndex].actions.push({
+        to: '/manage/theme',
+        icon: 'fa-palette',
+        text: 'Theme'
+      })
+      categories.value[manageIndex].actions.push({
+        to: '/manage/genre',
+        icon: 'md-musicnote-round',
+        text: 'Genre'
       })
       categories.value[manageIndex].actions.push({
         to: '/manage/artist',
@@ -167,13 +176,19 @@ const showDataInSideBar = () => {
         text: 'Staff'
       })
     }
+    if(userData.value.is_superuser){
+        categories.value[manageIndex].actions.push({
+          to: '/manage/staff',
+            icon: 'fa-user-shield',
+            text: 'Staff'
+      })
+    }
   }
 }
 
 onMounted(() => {
   store.dispatch('setLoggedInUserData')
   userDataFunc()
-  console.log()
   showDataInSideBar()
 })
 </script>

@@ -86,7 +86,7 @@ const addGenre = () => {
     .then((response) => {
       console.log(response);
       if (response.status === 200) {
-        useToast().success('Album is deleted', {
+        useToast().success('Genre is Added', {
           position: 'top-right'
         });
         closeAdd()

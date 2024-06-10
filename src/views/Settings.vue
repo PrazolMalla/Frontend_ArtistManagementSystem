@@ -28,9 +28,9 @@ const logout = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
   store.dispatch('setLoggedInUserData')
-  router.push('/')
   $toast.success('Logout sucess', {
     position: 'top-right'
   })
+  window.location.reload()
 }
 </script>

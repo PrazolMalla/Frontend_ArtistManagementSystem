@@ -1,5 +1,7 @@
 <template>
-  <fieldset class="border border-slate-700 rounded-md fixed sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto">
+  <fieldset
+    class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
+  >
     <legend class="ml-10">Add Album</legend>
 
     <v-icon
@@ -10,7 +12,6 @@
       class="absolute right-3 top-3 cursor-pointer"
     />
     <div class="form-container w-full p-10 h-full flex flex-wrap justify-center gap-5 align-middle">
-   
       <div
         v-for="item in userInputField"
         :key="item.id"
@@ -38,7 +39,7 @@
           formErrors[item.name]
         }}</span>
       </div>
-      
+
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
@@ -65,25 +66,25 @@ export default {
       user: {
         name: '',
         description: '',
-        img_profile: null, // Changed to null
+        img_profile: null
       },
       userInputField: [
         { id: '1', name: 'name', type: 'text', label: 'Name' },
         { id: '2', name: 'description', type: 'text', label: 'Description' },
-        { id: '3', name: 'img_profile', type: 'file', label: 'Profile Image' },
+        { id: '3', name: 'img_profile', type: 'file', label: 'Profile Image' }
       ],
-      formErrors: {},
+      formErrors: {}
     }
   },
   methods: {
     closeAdd() {
-      this.$emit('close');
+      this.$emit('close')
     },
 
     validateField(fieldName) {
       this.formErrors[fieldName] = ''
     },
-    
+
     addAlbum() {
       this.formErrors = {}
 
@@ -95,42 +96,49 @@ export default {
       }
 
       if (Object.keys(this.formErrors).length === 0) {
-        const formData = new FormData();
-        formData.append('name', this.user.name);
-        formData.append('description', this.user.description);
-        formData.append('img_profile', this.user.img_profile); // Append img_profile
-        
+        const formData = new FormData()
+        formData.append('name', this.user.name)
+        formData.append('description', this.user.description)
+        formData.append('img_profile', this.user.img_profile)
+
         axios({
           method: 'post',
           url: `http://127.0.0.1:8000/api/album/post/`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            'Content-Type': 'multipart/form-data', // Changed to multipart/form-data
+            'Content-Type': 'multipart/form-data', 
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            'Content-Type': 'multipart/form-data'
           },
-          data: formData, 
+          data: formData
         })
           .then((response) => {
             console.log(response)
-            $toast.success('Login success', {
-              position: 'top-right'
-            });
             this.closeAdd()
             this.user = {
               name: '',
               description: '',
-              img_profile: null,
+              img_profile: null
             }
-           
+
+            $toast.success('Album Added', {
+              position: 'top-right'
+            })
+            this.closeAdd()
+            this.user = {
+              name: '',
+              description: '',
+              img_profile: null
+            }
           })
           .catch((err) => {
             console.log(err.response)
           })
       }
     },
-    
+
     handleFileChange(event) {
-      
-      this.user.img_profile = event.target.files[0];
+      this.user.img_profile = event.target.files[0]
     }
   }
 }

@@ -7,6 +7,7 @@
         </h1>
 
         <div
+          v-if="totalArtists !== null"
           class="p-5 rounded-md w-full bg-light-primary-color text-primary-text-color mb-8 text-center hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer"
         >
           <h2 class="text-xl font-bold mb-2">Total Artists</h2>
@@ -14,6 +15,7 @@
         </div>
 
         <div
+          v-if="totalUsers !== null"
           class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
         >
           <h2 class="text-xl font-bold mb-2">Total Users</h2>
@@ -21,6 +23,7 @@
         </div>
 
         <div
+          v-if="totalAlbums !== null"
           class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
         >
           <h2 class="text-xl font-bold mb-2">Total Albums</h2>
@@ -28,6 +31,7 @@
         </div>
 
         <div
+          v-if="totalSongs !== null"
           class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer selection mb-10 text-center"
         >
           <h2 class="text-xl font-bold mb-2">Total Songs</h2>
@@ -39,24 +43,49 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
 
 export default {
   name: 'Dashboard',
   setup() {
-    const totalArtists = ref(50)
-    const totalUsers = ref(1500)
-    const totalAlbums = ref(200)
-    const totalSongs = ref(500)
+    const totalArtists = ref(null);
+    const totalUsers = ref(null);
+    const totalAlbums = ref(null);
+    const totalSongs = ref(null);
+
+    const fetchData = async () => {
+      try {
+        const [artistResponse, userResponse, albumResponse, songResponse] = await Promise.all([
+          axios.get('http://127.0.0.1:8000/api/user/artist-count/'),
+          axios.get('http://127.0.0.1:8000/api/user/user-count/'),
+          axios.get('http://127.0.0.1:8000/api/album/album-count/'),
+          axios.get('http://127.0.0.1:8000/api/music/music-count')
+        ]);
+        
+        totalArtists.value = artistResponse.data.total_artists;
+        totalUsers.value = userResponse.data.total_users;
+        totalAlbums.value = albumResponse.data.total_albums;
+        totalSongs.value = songResponse.data.total_music;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       totalArtists,
       totalUsers,
       totalAlbums,
       totalSongs
-    }
+    };
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Add your component-specific styles here */
+</style>

@@ -1,6 +1,6 @@
 <template lang="">
   <div
-    class="mt-10 w-[80vw] h-24 bg-light-primary-color px-5 pt-2 md:w-[22rem] md:h-[7rem] md:mt-20 md:ml-10 md:lg:mt-24 lg:w-[66rem] lg:h-[10rem] lg:p-6 rounded-md"
+    class="mt-10 w-[80vw] h-24 bg-light-primary-color border-none px-5 pt-2 md:w-[22rem] md:h-[7rem] md:mt-20 lg:mt-24 lg:w-[50vw] lg:h-[10rem] lg:p-6 rounded-md"
   >
     <form>
       <h1 class="font-semibold text-primary-text-color lg:text-lg">POST</h1>

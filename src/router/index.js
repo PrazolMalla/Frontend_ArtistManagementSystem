@@ -10,9 +10,11 @@ import Band from '@/views/explore/Band.vue'
 import Genre from '@/views/explore/Genre.vue'
 import ArtistManage from '@/views/manage/ArtistManage.vue'
 import UserManage from '@/views/manage/UserManage.vue'
+import StaffManage from '@/views/manage/StaffManage.vue'
 import MusicManage from '@/views/manage/MusicManage.vue'
 import AlbumManage from '@/views/manage/AlbumManage.vue'
 import ThemeManage from '@/views/manage/ThemeManage.vue'
+import GenreManage from '@/views/manage/GenreManage.vue'
 import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
@@ -94,14 +96,17 @@ const router = createRouter({
       component: Genre,
       meta: { auth: false }
     },
-
     // Manage
-
     {
       path: '/manage/music',
       name: 'manageMusic',
       component: MusicManage,
       meta: { auth: true, is_staffAndArtist: true }
+    }, {
+      path: '/manage/staff',
+      name: 'manageStaff',
+      component: StaffManage,
+      meta: { auth: true, is_superuser: true }
     },
     {
       path: '/manage/album',
@@ -126,6 +131,12 @@ const router = createRouter({
       path: '/manage/theme',
       name: 'manageTheme',
       component: ThemeManage,
+      meta: { auth: true, is_staff: true }
+    },
+     {
+      path: '/manage/genre',
+      name: 'manageGenre',
+      component: GenreManage,
       meta: { auth: true, is_staff: true }
     },
 
@@ -203,6 +214,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   let is_artist
   let is_staff
+  let is_superuser
   const isAuthenticated = !!localStorage.getItem('access_token')
   try {
     await axios
@@ -214,6 +226,7 @@ router.beforeEach(async (to, from, next) => {
       .then((response) => {
         is_artist = response.data.is_artist
         is_staff = response.data.is_staff
+        is_superuser = response.data.is_superuser
         store.dispatch('setLoggedInUserData')
       })
   } catch (error) {
@@ -224,13 +237,17 @@ router.beforeEach(async (to, from, next) => {
     next('/login')
   } else if (!is_staff && to.meta.is_staff) {
     next('/')
-  }else if (!is_artist && to.meta.is_artist) {
+  }else if (!is_superuser && to.meta.is_superuser) {
+    next('/')
+  }
+  else if (!is_artist && to.meta.is_artist) {
+    next('/')
+  } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
     next('/')
   }else if (is_staff | is_artist && to.meta.is_staffAndArtist) {
     next()
-  } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
-    next('/')
-  } else {
+  } 
+  else {
     next()
   }
 })

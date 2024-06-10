@@ -113,7 +113,6 @@ import axios from 'axios';
             appid: '3cf62da66ab3f658628dc40ed4a8bb97'
           }
         });
-        console.log(response.data)
         weather.value = response.data;
         fetchGenre(response.data.weather[0].main)
         fetchMusic(response.data.weather[0].main)

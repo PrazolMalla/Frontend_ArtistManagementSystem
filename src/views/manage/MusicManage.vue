@@ -14,7 +14,7 @@
         @close="toggleCloseDelete"
       />
 
-      <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" @close="toggleCloseEdit" />
+      <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" :albums="albums" :genreData="genreData" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
         actionQuestion="Do yo want to restore XYZ?"

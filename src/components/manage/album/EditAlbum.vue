@@ -33,9 +33,20 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="img"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Album Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Album Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removePicture"
+              class="absolute right-3 cursor-pointer"
+              v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input type="file" id="img" name="profile" @change="handleFileChange" class="hidden" />
 
         <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{
@@ -82,7 +93,6 @@ const fetchAlbums = async () => {
     const data = response.data
     album.value = data
     profileFile.value = data.img_profile
-    musicFile.value = data.music_file
     album.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
     if (!album.value.genre) {
       album.value.genre = ''
@@ -113,13 +123,22 @@ const album = ref({
   release_at: '',
   is_released: false
 })
-const file = ref(null)
-const profileFile = ref(null)
-const musicFile = ref(null)
-const handleProfileChange = (event) => {
-  profileFile.value = event.target.files[0]
-}
 
+const profileFile = ref(null)
+const backgroundImage=ref(null)
+const handleFileChange = (event) => {
+  profileFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
+}
+const removePicture= (event) => {
+  event.preventDefault();
+  profileFile.value = null;
+  backgroundImage.value = null;
+};
 function validateField(fieldName) {
   formErrors.value[fieldName] = ''
 }
@@ -147,9 +166,6 @@ function editAlbum() {
     formData.append('is_released', album.value.is_released)
     if (profileFile.value && profileFile.value instanceof File) {
       formData.append('img_profile', profileFile.value)
-    }
-    if (musicFile.value) {
-      formData.append('music_file', musicFile.value)
     }
     axios
       .patch(`http://127.0.0.1:8000/api/album/edit/${props.albumId}/`, formData, {

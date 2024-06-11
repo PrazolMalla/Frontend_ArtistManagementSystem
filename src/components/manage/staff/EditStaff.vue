@@ -33,9 +33,20 @@
       <div class="w-full sm:w-[20%]  self-center text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Profile Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeProfile"
+              class="absolute right-3 cursor-pointer"
+              v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="profile"
@@ -50,9 +61,20 @@
       <div class="w-full sm:w-[20%] self-center text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Cover Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'cover' }"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeCover"
+              class="absolute right-3 cursor-pointer"
+              v-if="coverFile"/>
+          </p>
+          
+       </label>
         <input type="file" id="cover" name="cover" @change="handleCoverChange" class="hidden" />
 
         <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
@@ -147,6 +169,8 @@ const fetchStaff = async () => {
     staff.value = data
     profileFile.value = data.img_profile
     coverFile.value = data.img_cover
+    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
+    coverbackgroundImage.value =  `http://127.0.0.1:8000/${data.img_cover}`
     staff.value.dob = new Date(data.dob).toISOString().split('T')[0]
     if (!staff.value.country) {
       staff.value.country = ''
@@ -187,13 +211,35 @@ const staff = ref({
 })
 const profileFile = ref(null)
 const coverFile = ref(null)
+const backgroundImage=ref(null)
+const coverbackgroundImage=ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
 }
 
 const handleCoverChange = (event) => {
  coverFile.value = event.target.files[0]
+ const reader = new FileReader()
+  reader.onload = (e) => {
+    coverbackgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(coverFile.value)
 }
+const removeProfile = (event) => {
+  event.preventDefault();
+  profileFile.value = null;
+  backgroundImage.value = null;
+};
+const removeCover = (event) => {
+  event.preventDefault();
+  coverFile.value = null;
+  coverbackgroundImage.value = null;
+};
 
 
 function editStaff() {

@@ -87,6 +87,13 @@
         </select>
         <span v-if="formErrors.gemre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
+      <div class="w-full flex flex-col sm:w-10/12">
+          <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
+            Lyrics
+          </label>
+          <textarea name="lyrics" id="lyrics" class="resize-none  px-8 py-4 h-96 focus:outline-none mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
+
+      </div>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
@@ -117,7 +124,8 @@ const track = ref({
   artist: '',
   band: '',
   release_at: '',
-  is_released: false
+  is_released: false,
+  lyrics: null
 })
 
 const props = defineProps({
@@ -178,11 +186,21 @@ const addMusic = () => {
     formData.append('description', track.value.description)
     formData.append('language', track.value.language)
     formData.append('release_at', track.value.release_at)
-    formData.append('img_profile', profileFile.value)
-    formData.append('genre', track.value.genre)
-    formData.append('album', track.value.album)
+    if(profileFile.value){
+      formData.append('img_profile', profileFile.value)
+    }
+    if (track.value.genre != '') {
+      formData.append('genre', track.value.genre)
+    }
+
+    if (track.value.album != '') {
+      formData.append('album', track.value.album)
+    }
     formData.append('artist', track.value.artist)
-    formData.append('band', track.value.band)
+    if (track.value.band != '') {
+      formData.append('band', track.value.band)
+    }
+    formData.append('lyrics', track.value.lyrics)
     formData.append('release_at', track.value.release_at)
 
     if (releaseDate <= today) track.value.is_released = true

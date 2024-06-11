@@ -67,7 +67,7 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Album</option>
-          <option v-for="item in albumData" :value="item.id">{{ item.name }}</option>
+          <option v-for="item in albums" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
       </div>
@@ -84,6 +84,13 @@
         </select>
         <span v-if="formErrors.genre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
+      <div class="w-full flex flex-col sm:w-10/12">
+          <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
+            Lyrics
+          </label>
+          <textarea name="lyrics" id="lyrics" class="resize-none px-8 py-4 h-96 focus:outline-none mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
+
+      </div>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
@@ -99,23 +106,32 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
+
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['close'])
-const props = defineProps(['musicId'])
+// const props = defineProps(['musicId'])
 function closeEdit() {
   emit('close')
 }
-const store = useStore()
-const albumData = computed(() => store.state.albumData)
-const genreData = computed(() => store.state.genreData)
-
+const props = defineProps({
+  albums: {
+    type: Object,
+    required: true
+  },
+  genreData:{
+    type:Object,
+    required: true
+  },
+  musicId: {
+    type: String,
+    required: true
+  },
+})
 onMounted(() => {
-  store.dispatch('setAlbumData')
-  store.dispatch('setGenreData')
+
   fetchMusics()
 })
 const fetchMusics = async () => {

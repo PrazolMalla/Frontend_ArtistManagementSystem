@@ -63,7 +63,7 @@
     </div>
     <div class="border border-slate-500 relative  rounded-md overflow-hidden w-8/12 h-1/1" >
       <div class="absolute  w-full h-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"></div>
-      <div class="absolute bgThemeGlass z-10 h-full w-full opacity-90 p-10 backdrop-blur-3xl filter" :style="{ backgroundColor: theme.darkPrimaryColor}">
+      <div class="absolute bgThemeGlass z-10 h-full w-full opacity-80 p-10 backdrop-blur-3xl filter" :style="{ backgroundColor: theme.darkPrimaryColor}">
 
       <p class="z-20 text-3xl" :style="{ color: theme.secondaryColor}"> The Text Goes here</p>
       </div>

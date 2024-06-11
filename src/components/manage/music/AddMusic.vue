@@ -2,7 +2,7 @@
   <fieldset
     class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
   >
-    <legend class="ml-10">Add Theme</legend>
+    <legend class="ml-10">Add Music</legend>
     <v-icon
       name="fa-times"
       fill="#302f31"
@@ -34,7 +34,9 @@
         <label
           for="profile"
           class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Music Profile Pic</label
+          >
+          <!-- <img src="https://source.unsplash.com/50x50/?portrait'"> -->
+          </label
         >
         <input
           type="file"

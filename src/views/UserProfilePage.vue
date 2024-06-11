@@ -1,18 +1,31 @@
 <template>
   <PageLayoutWithPlayer>
     <template #content>
-      <BannerComponent :userBanner="user.img_cover" />
-      <ProfilePicComponent :userImg="user.img_profile" />
-      <ProfileNav />
-      <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
-        <InformationCard :userData="user" />
-        <PostForm />
+      <div
+        class="ml-[-4rem] z-10 absolute w-full h-[100%]"
+        :style="{
+          backgroundImage: `url(http://127.0.0.1:8000${user?.theme?.img_profile})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        }"
+      ></div>
+      <div
+        class="ml-[-4rem] absolute bgThemeGlass z-20 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
+        :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"
+      ></div>
+      <div class="z-30">
+        <BannerComponent :userBanner="user.img_cover" />
+        <ProfilePicComponent :userImg="user.img_profile" />
+        <ProfileNav :user="user" />
+        <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
+          <InformationCard :userData="user" />
+          <PostForm :user="user" />
+        </div>
+        <div class="flex flex-col-reverse lg:flex-row gap-5">
+          <TopChartComponent :user="user" />
+          <CardsCarousel :artistId="user.id" :user="user" />
+        </div>
       </div>
-      <div class="flex flex-col-reverse lg:flex-row gap-5">
-        <TopChartComponent :artistId="user.id" />
-        <CardsCarousel :artistId="user.id" />
-      </div>
-
     </template>
   </PageLayoutWithPlayer>
 </template>

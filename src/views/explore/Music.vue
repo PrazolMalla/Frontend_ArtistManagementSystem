@@ -1,8 +1,8 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="flex gap-4 flex-wrap flex-grow justify-center">
-        <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/>
+      <div class="mt-4 flex gap-2 flex-wrap justify-start w-[80vw] ml-[-2rem]">
+        <MusicCard v-for="music in musicData" :key="music.id" :musicData="music" linkto="music" />
       </div>
     </template>
   </PageLayoutWithPlayer>
@@ -22,17 +22,18 @@ export default {
     }
   },
   mounted() {
-    this.fetchMusicData();
+    this.fetchMusicData()
   },
   methods: {
     fetchMusicData() {
-      axios.get('http://127.0.0.1:8000/api/music/get/')
-        .then(response => {
-          this.musicData = response.data;
+      axios
+        .get('http://127.0.0.1:8000/api/music/get/')
+        .then((response) => {
+          this.musicData = response.data
         })
-        .catch(error => {
-          console.error('Error fetching music data:', error);
-        });
+        .catch((error) => {
+          console.error('Error fetching music data:', error)
+        })
     }
   }
 }

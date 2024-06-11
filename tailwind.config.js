@@ -9,7 +9,11 @@ export default {
         'light-primary-color': '#ECE6D5 ',
         'gray-text-color': '#4e4e71',
         'primary-text-color': '#302f31'
+      },
+      theme:{
+        
       }
+
     }
   },
   plugins: []

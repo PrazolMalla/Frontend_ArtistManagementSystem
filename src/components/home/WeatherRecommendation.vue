@@ -16,7 +16,7 @@
           </div>
           <div class="flex flex-col gap-5">
               <div class="flex flex-col  gap-2 items-start flex-wrap">
-                <p class="text-lg text-gray-text-color">Recommended Genre</p>
+                <p class="text-lg text-white" v-if="genreData.length">Recommended Genre</p>
                 <div class="flex gap-2">
                   <router-link to="/genre/" class="flex flex-col bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-white border-blue-500 hover:text-blue-500 text-white" v-for="genre in genreData">
                    {{ genre.name }}
@@ -25,7 +25,7 @@
               </div>
 
               <div class="flex flex-col  gap-2 items-start flex-wrap">
-                  <p class="text-lg text-gray-text-color">Recommended Music</p>
+                  <p class="text-lg text-white" v-if="musicData.length">Recommended Music</p>
                   <div class="flex gap-2">
                    <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/></div>
               </div>
@@ -137,7 +137,7 @@ import axios from 'axios';
       } else if (weatherId === 800) {
         return 'md-sunny';
       } else if (weatherId > 800) {
-        return 'md-cloudy';
+        return 'md-cloudqueue-round';
       } else {
         return 'md-weather-warning';
       }
@@ -148,17 +148,17 @@ import axios from 'axios';
       const main = weather.value.weather[0].main.toLowerCase();
       switch (main) {
         case 'clear':
-          return 'bg-gradient-to-r from-blue-400 via-blue-300 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-blue-600 to-orange-600 text-white';
         case 'clouds':
-          return 'bg-gradient-to-r from-gray-400 via-gray-300 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-gray-600  to-orange-600 text-white';
         case 'rain':
-          return 'bg-gradient-to-r from-blue-500 via-blue-600 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-blue-600 to-orange-600 text-white';
         case 'drizzle':
-          return 'bg-gradient-to-r from-blue-200 via-blue-300 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-blue-600  to-orange-600 text-white';
         case 'thunderstorm':
-          return 'bg-gradient-to-r from-purple-400 via-purple-500 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-purple-600  to-orange-500 text-white';
         case 'snow':
-          return 'bg-gradient-to-r from-gray-100 via-gray-200 to-orange-500 text-black';
+          return 'bg-gradient-to-r from-gray-600  to-orange-600 text-black';
         case 'mist':
         case 'smoke':
         case 'haze':
@@ -168,9 +168,9 @@ import axios from 'axios';
         case 'ash':
         case 'squall':
         case 'tornado':
-          return 'bg-gradient-to-r from-gray-300 via-gray-400 to-orange-500 text-black';
+          return 'bg-gradient-to-r from-gray-300  to-orange-500 text-black';
         default:
-          return 'bg-gradient-to-r from-gray-400 via-gray-500 to-orange-500 text-white';
+          return 'bg-gradient-to-r from-gray-400  to-orange-500 text-white';
       }
     });
 

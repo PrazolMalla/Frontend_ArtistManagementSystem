@@ -16,7 +16,7 @@
           </div>
           <div class="flex flex-col gap-5">
               <div class="flex flex-col  gap-2 items-start flex-wrap">
-                <p class="text-lg text-white">Recommended Genre</p>
+                <p class="text-lg text-white" v-if="genreData.length">Recommended Genre</p>
                 <div class="flex gap-2">
                   <router-link to="/genre/" class="flex flex-col bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-white border-blue-500 hover:text-blue-500 text-white" v-for="genre in genreData">
                    {{ genre.name }}
@@ -25,7 +25,7 @@
               </div>
 
               <div class="flex flex-col  gap-2 items-start flex-wrap">
-                  <p class="text-lg text-white">Recommended Music</p>
+                  <p class="text-lg text-white" v-if="musicData.length">Recommended Music</p>
                   <div class="flex gap-2">
                    <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/></div>
               </div>

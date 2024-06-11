@@ -29,7 +29,7 @@ import Test from '@/views/TestPage.vue'
 import axios from 'axios'
 import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
-import { imageOverlay } from 'leaflet'
+import { jwtDecode } from 'jwt-decode'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -211,6 +211,31 @@ const router = createRouter({
   ]
 })
 
+const refresh_token = localStorage.getItem("refresh_token")
+const access_token = localStorage.getItem("access_token")
+const isAccessTokenExpired = () => {
+    if (!access_token) {
+        return true;
+    }
+    const decodedToken = jwtDecode(access_token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decodedToken.exp < currentTime;
+};
+const refreshAccessToken = async () => {
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/api/token/refresh/`, {'refresh': localStorage.getItem("refresh_token")}, {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        if (response.status === 200) {
+            localStorage.setItem("access_token", response.data.access);
+            store.dispatch('setLoggedInUserData')
+        } 
+    } catch (error) {
+        console.error('Error refreshing access token:', error);
+    }
+};
 router.beforeEach(async (to, from, next) => {
   let is_artist
   let is_staff
@@ -233,6 +258,12 @@ router.beforeEach(async (to, from, next) => {
     console.error('Failed to fetch user data:', error)
   }
 
+  if (refresh_token) {
+        if (isAccessTokenExpired()) {
+            refreshAccessToken();
+        } 
+    } 
+
   if (to.meta.auth && !isAuthenticated) {
     next('/login')
   } else if (!is_staff && to.meta.is_staff) {
@@ -251,5 +282,7 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
+
+
 
 export default router

@@ -125,7 +125,6 @@ const track = ref({
   release_at: '',
   genre: '',
   album: '',
-  artist: '',
   band: '',
   release_at: '',
   is_released: false,
@@ -207,7 +206,6 @@ const addMusic = () => {
     if (track.value.album != '') {
       formData.append('album', track.value.album)
     }
-    formData.append('artist', track.value.artist)
     if (track.value.band != '') {
       formData.append('band', track.value.band)
     }

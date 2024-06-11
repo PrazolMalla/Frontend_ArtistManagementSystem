@@ -120,9 +120,6 @@ export default {
 </template>
 
 <script setup>
-import AddAlbum from '@/components/manage/album/AddAlbum.vue'
-import EditAlbum from '@/components/manage/album/EditAlbum.vue'
-import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'

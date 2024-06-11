@@ -1,7 +1,7 @@
 <template lang="">
   <div
     v-if="is_radioMode"
-    class="fixed top-0 bggradientradio w-screen h-screen z-50 flex flex-col justify-center gap-10 items-center"
+    class="fixed top-0 bggradientradio w-screen h-screen z-60 flex flex-col justify-center gap-10 items-center"
   >
     <img
       :src="playerData.img_src"

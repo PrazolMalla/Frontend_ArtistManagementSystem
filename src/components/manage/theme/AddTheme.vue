@@ -1,6 +1,6 @@
 <template>
   <fieldset
-    class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
+    class="border border-slate-700 z-40 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden  m-auto"
   >
     <legend class="ml-10">Add Theme</legend>
     <v-icon

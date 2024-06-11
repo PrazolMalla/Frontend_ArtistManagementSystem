@@ -83,7 +83,7 @@
                   </div>
                 </router-link>
                 
-                <div class="flex w-full justify-around items-center">
+                  <div class="flex w-full justify-around items-center">
                 
                     <label class="relative inline-flex cursor-pointer items-center">
                       <input :id="'disableswitch-'+ staff.id" type="checkbox" v-model="staff.is_disabled" @change="toggleDisableStaff(staff)" class="peer sr-only" />
@@ -171,15 +171,6 @@ function toggleCloseEdit() {
   is_blur.value = false
 
   fetchStaff()
-}
-function toggleOpenDelete(deleteId) {
-  is_OpenDelete.value = true
-  is_blur.value = true
-  // toDeleteValue = deleteId
-}
-function toggleCloseDelete() {
-  is_OpenDelete.value = false
-  is_blur.value = false
 }
 
 function toggleCloseRestore() {

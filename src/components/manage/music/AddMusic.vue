@@ -33,10 +33,11 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 w-100 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
           >
-          <!-- <img src="https://source.unsplash.com/50x50/?portrait'"> -->
-          </label
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile</p>
+       </label
         >
         <input
           type="file"
@@ -52,7 +53,8 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="music"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          class="border text-center relative p-2 border-slate-600 overflow-hidden cursor-pointer h-20 w-100 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          
           >File(mp3/mp4)</label
         >
         <input type="file" id="music" name="track" @change="handleFileChange" class="hidden" />
@@ -93,7 +95,7 @@
           <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
             Lyrics
           </label>
-          <textarea name="lyrics" id="lyrics" class="resize-none  px-8 py-4 h-96 focus:outline-none mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
+          <textarea name="lyrics" id="lyrics" class="resize-none  px-8 py-4 h-96 focus:outline-none mb rounded-lg border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
 
       </div>
       <div class="w-full flex justify-center gap-2 align-middle">
@@ -156,6 +158,7 @@ const musicInputField = ref([
 const formErrors = ref({})
 const access_token = localStorage.getItem('access_token')
 
+const backgroundImage = ref(null)
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
 }
@@ -163,6 +166,12 @@ const profileFile = ref(null)
 const musicFile = ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
 }
 
 const handleFileChange = (event) => {

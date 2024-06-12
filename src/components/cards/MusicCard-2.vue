@@ -10,21 +10,20 @@
         <div class="flex flex-col">
           <RouterLink
             :to="'/music/' + musicData.id"
-            class="text-md text-blue-500 font-semibold text-center hover:underline"
+            class="text-md text-primary-text-color font-semibold text-center"
             >{{ musicData.name }}</RouterLink
           >
 
-          <div class="flex  flex-col gap-2">
+          <div class="flex flex-col gap-2">
             <RouterLink
               :to="'/artist/' + musicData.artist"
-              class="text-sm text-gray-600 hover:underline"
+              class="text-sm text-primary-text-color opacity-50 hover:underline"
               >{{ musicData.artist_name }}</RouterLink
             >
-            
 
             <RouterLink
               :to="'/album/' + musicData.album"
-              class="text-sm text-gray-600 hover:underline"
+              class="text-sm text-primary-text-color opacity-50 hover:underline"
               >{{ musicData.album_name }}</RouterLink
             >
           </div>

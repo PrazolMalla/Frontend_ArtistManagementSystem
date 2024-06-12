@@ -88,7 +88,7 @@ export default {
                 </div>
               </div>
               <div
-                v-for="likedmusic in likedMusics"
+                v-for="(likedmusic, index) in likedMusics"
                 :key="likedmusic.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2"
               >
@@ -108,8 +108,20 @@ export default {
                     </div>
                   </div>
                 </router-link>
-
-                
+                <div class="items-center mt-[-1rem] ml-[11.5rem]">
+                  <button
+                    @click="toggleLikeMusic(likedmusic.id, index)"
+                    class="flex items-center gap-1 mt-4 text-sm text-secondary-color hover:underline"
+                  >
+                    <v-icon
+                      :name="likedmusic.liked ? 'bi-suit-heart-fill' : 'bi-suit-heart'"
+                      :fill="likedmusic.liked ? '#ff4000' : '#302f31'"
+                      scale="1.5"
+                      class="cursor-pointer"
+                    />
+                    {{ likedmusic.total_likes }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -139,8 +151,8 @@ const fetchLikedSongs = async () => {
     console.log(response.data)
     const userData = store.getters.getLoggedInUserData
 
-    likedMusics.value = response.data.map(music => {
-      if (userData && music.likes.some(like => like.user.id === userData.id)) {
+    likedMusics.value = response.data.map((music) => {
+      if (userData && music.likes.some((like) => like.user.id === userData.id)) {
         return { ...music, liked: true }
       } else {
         return { ...music, liked: false }
@@ -154,12 +166,37 @@ const fetchLikedSongs = async () => {
   }
 }
 
-
-    
-
 onMounted(() => {
   fetchLikedSongs()
 })
+
+const toggleLikeMusic = async (id, index) => {
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/api/music/likeunlike/${id}/`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+
+    const likedMusic = likedMusics.value[index]
+
+    likedMusic.liked = !likedMusic.liked
+    likedMusic.total_likes += likedMusic.liked ? 1 : -1
+
+    $toast.success(response.data.message, {
+      position: 'top-right'
+    })
+  } catch (error) {
+    $toast.error('Failed to like/unlike music', {
+      position: 'top-right'
+    })
+  }
+}
 </script>
 
 <style scoped>

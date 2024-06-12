@@ -12,12 +12,7 @@
     />
     <div class="form-container flex flex-wrap justify-start gap-5 p-5 align-middle">
       <div class="flex flex-col sm:w-3/12 gap-5">
-        
-        <div
-          v-for="item in themeInputField"
-          :key="item.id"
-          class="text-secondary-color"
-        >
+        <div v-for="item in themeInputField" :key="item.id" class="text-secondary-color">
           <label :for="item.name" class="text-sm font-helvetica text-primary-text-color pl-3">
             {{ item.label }}
           </label>
@@ -26,7 +21,10 @@
             :name="item.name"
             @blur="validateField(item.name)"
             v-model="theme[item.name]"
-            :class="['w-full h-10 rounded-lg', item.name === 'name' ? 'border border-black p-3' : '']"
+            :class="[
+              'w-full h-10 rounded-lg',
+              item.name === 'name' ? 'border border-black p-3' : ''
+            ]"
           />
           <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">
             {{ formErrors[item.name] }}
@@ -53,7 +51,8 @@
           <label
             for="profile"
             class="border border-black cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Background Img</label>
+            >Background Img</label
+          >
           <input
             type="file"
             id="profile"
@@ -75,14 +74,19 @@
             Add Theme
           </button>
         </div>
-
       </div>
       <div class="border border-slate-500 relative rounded-md overflow-hidden w-8/12 h-1/1">
-        <div class="absolute w-full h-full bg-cover" :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"></div>
-        <div class="absolute bgThemeGlass z-10 h-full w-full" :style="{ backgroundColor: theme.darkPrimaryColor, opacity: theme.opacity }">
-          
-        </div>
-        <p class="absolute z-20 text-3xl p-5" :style="{ color: theme.secondaryColor }">The Text Goes here</p>
+        <div
+          class="absolute w-full h-full bg-cover"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+        ></div>
+        <div
+          class="absolute bgThemeGlass z-10 h-full w-full"
+          :style="{ backgroundColor: theme.darkPrimaryColor, opacity: theme.opacity }"
+        ></div>
+        <p class="absolute z-20 text-3xl p-5" :style="{ color: theme.secondaryColor }">
+          The Text Goes here
+        </p>
       </div>
     </div>
   </fieldset>
@@ -146,8 +150,8 @@ const addTheme = () => {
     formData.append('darkPrimaryColor', theme.value.darkPrimaryColor)
     formData.append('lightPrimaryColor', theme.value.lightPrimaryColor)
     formData.append('opacity', theme.value.opacity)
-    formData.append('img_profile', profileFile.value)
-    
+    if (profileFile.value) formData.append('img_profile', profileFile.value)
+
     axios
       .post('http://127.0.0.1:8000/api/theme/create/', formData, {
         headers: {

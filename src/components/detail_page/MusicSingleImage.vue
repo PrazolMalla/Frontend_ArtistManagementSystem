@@ -2,9 +2,12 @@
   <div v-if="music">
     <h1 class="font-semibold text-2xl">{{ music.name }}</h1>
     <div class="flex gap-10 mb-4">
-      <router-link :to="`/artist/${music.artist}`"  v-if="music.artist"><p>Artist : {{ music.artist_name }}</p></router-link>
-      <router-link :to="`/album/${music.album}`"  v-if="music.album"><p>Album : {{ music.album_name }}</p></router-link>
-   
+      <router-link :to="`/artist/${music.artist}`" v-if="music.artist"
+        ><p>Artist : {{ music.artist_name }}</p></router-link
+      >
+      <router-link :to="`/album/${music.album}`" v-if="music.album"
+        ><p>Album : {{ music.album_name }}</p></router-link
+      >
     </div>
     <div class="flex justify-start lg:w-[30vw] w-[80vw] mt-5">
       <div class="z-20">
@@ -67,7 +70,6 @@ const fetchMusicData = async () => {
     }
     music.value = response.data
 
-    // Check if the logged-in user has liked the music
     const userData = store.getters.getLoggedInUserData
     if (userData && response.data.likes.some((like) => like.user.id === userData.id)) {
       music.value.liked = true

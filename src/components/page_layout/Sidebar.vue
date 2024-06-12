@@ -156,8 +156,6 @@ const showDataInSideBar = () => {
       icon: 'fa-chart-line',
       actions: [{ to: '/stats/user', icon: 'fa-user-alt', text: 'User' }]
     })
-  }
-  if (userData.value.is_artist | userData.value.is_staff) {
     categories.value.push({
       name: 'Library',
       icon: 'md-librarymusic',
@@ -167,6 +165,10 @@ const showDataInSideBar = () => {
         { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
       ]
     })
+
+  }
+  if (userData.value.is_artist | userData.value.is_staff) {
+    
     categories.value.push({ name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
     const manageIndex = categories.value.findIndex((category) => category.name === 'Manage')
     const statsIndex = categories.value.findIndex((category) => category.name === 'Stats')

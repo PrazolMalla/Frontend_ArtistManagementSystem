@@ -30,20 +30,14 @@
           formErrors[item.name]
         }}</span>
       </div>
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[22%] text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center' }"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removeProfile"
-              class="absolute right-3 cursor-pointer"
-              v-if="profileFile"/>
+            <v-icon name="fa-times" fill="#ffffff" scale="1" @click="removeProfile" class="absolute right-3 cursor-pointer" v-if="profileFile"/>
           </p>
           
        </label>
@@ -58,11 +52,11 @@
           formErrors.profile
         }}</span>
       </div>
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
         <label
           for="music"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${musicSelected})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${musicbackgroundImage})`, backgroundSize: 'cover' , backgroundPosition: 'center'}"
           
           ><p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select File(mp3/mp4)
             <v-icon
@@ -81,7 +75,7 @@
         }}</span>
       </div>
 
-      <div class="flex flex-col">
+      <div class="w-full sm:w-2/12 flex flex-col">
         <select
           v-model="track.album"
           id="gender"
@@ -96,7 +90,7 @@
         <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
       </div>
 
-      <div class="flex flex-col">
+      <div class="w-full sm:w-2/12 flex flex-col">
         <select
           v-model="track.genre"
           id="gender"
@@ -175,7 +169,8 @@ const formErrors = ref({})
 const access_token = localStorage.getItem('access_token')
 
 const backgroundImage = ref(null)
-const musicSelected = ref(null)
+const musicbackgroundImage = ref(null)
+
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
 }
@@ -198,7 +193,7 @@ const removeProfile = (event) => {
 const removefile = (event) => {
   event.preventDefault();
   musicFile.value = null;
-  musicSelected.value = null;
+  musicbackgroundImage.value = null;
 };
 
 
@@ -206,7 +201,7 @@ const handleFileChange = (event) => {
   musicFile.value = event.target.files[0]
   const reader = new FileReader()
   reader.onload = (e) => {
-    musicSelected.value = "/home/anuska/Frontend_ArtistManagementSystem/src/assets/images/albumcover.jpg"
+    musicbackgroundImage.value = "../../../src/assets/images/musiccassette.png"
   }
   reader.readAsDataURL(musicFile.value)
 }

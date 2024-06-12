@@ -30,11 +30,11 @@
           formErrors[item.name]
         }}</span>
       </div>
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-36 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile
             <v-icon
@@ -58,11 +58,21 @@
           formErrors.profile
         }}</span>
       </div>
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[22%] text-secondary-color flex flex-col mt-2">
         <label
           for="music"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >File(mp3/mp4)</label
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-36 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${musicbackgroundImage})`, backgroundSize: 'cover' ,backgroundPosition: 'center' }"
+          
+          ><p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select File(mp3/mp4)
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removefile"
+              class="absolute right-1 cursor-pointer"
+              v-if="musicFile"/>
+          </p></label
         >
         <input type="file" id="music" name="track" @change="handleFileChange" class="hidden" />
         <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
@@ -70,7 +80,7 @@
         }}</span>
       </div>
 
-      <div class="flex flex-col">
+      <div class="w-full sm:w-2/12 flex flex-col">
         <select
           v-model="track.album"
           id="gender"
@@ -78,12 +88,12 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Album</option>
-          <option v-for="item in albums" :value="item.id">{{ item.name }}</option>
+          <option v-for="item in albums" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.album" class="text-orange-300">{{ formErrors.album }}</span>
       </div>
 
-      <div class="flex flex-col">
+      <div class="w-full sm:w-2/12 flex flex-col">
         <select
           v-model="track.genre"
           id="gender"
@@ -91,7 +101,7 @@
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
         >
           <option value="" disabled>Genre</option>
-          <option v-for="item in genreData" :value="item.id">{{ item.name }}</option>
+          <option v-for="item in genreData" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.genre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
@@ -99,7 +109,7 @@
           <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
             Lyrics
           </label>
-          <textarea name="lyrics" id="lyrics" class="resize-none px-8 py-4 h-96 focus:outline-none mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
+          <textarea name="lyrics" id="lyrics" class="resize-none px-8 py-4 h-96 focus:outline-none mb rounded-lg border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
 
       </div>
       <div class="w-full flex justify-center gap-2 align-middle">
@@ -137,7 +147,7 @@ const props = defineProps({
     required: true
   },
   musicId: {
-    type: String,
+    type: Number,
     required: true
   },
 })
@@ -152,6 +162,7 @@ const fetchMusics = async () => {
     track.value = data
     profileFile.value = data.img_profile
     backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
+    musicbackgroundImage.value = "../../../src/assets/images/musiccassette.png"
     musicFile.value = data.music_file
     track.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
     if (!track.value.genre) {
@@ -189,6 +200,7 @@ const track = ref({
   lyrics: null
 })
 const backgroundImage = ref(null)
+const musicbackgroundImage = ref(null)
 const profileFile = ref(null)
 const musicFile = ref(null)
 const handleProfileChange = (event) => {
@@ -206,7 +218,17 @@ const removeProfile = (event) => {
 };
 const handleFileChange = (event) => {
   musicFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    musicbackgroundImage.value = "../../../src/assets/images/musiccassette.png"
+  }
+  reader.readAsDataURL(musicFile.value)
 }
+const removefile = (event) => {
+  event.preventDefault();
+  musicFile.value = null;
+  musicbackgroundImage.value = null;
+};
 
 function validateField(fieldName) {
   formErrors.value[fieldName] = ''

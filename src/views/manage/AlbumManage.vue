@@ -245,7 +245,6 @@ function toggleOpenDelete(deletevalue) {
 function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
-  fetchAlbums()
 }
 
 function toggleOpenRestore(restore) {
@@ -257,17 +256,15 @@ function toggleOpenRestore(restore) {
 function toggleCloseRestore() {
   is_OpenRestore.value = false
   is_blur.value = false
-  fetchDeletedAlbum()
 }
 
 const showDeletedList = async () => {
-    is_deletedShown.value = true
-    fetchDeletedAlbum()    
-
+  is_deletedShown.value = true
+  fetchDeletedAlbum()
 }
 const showAllList = async () => {
- is_deletedShown.value = false
- fetchAlbums()
+  is_deletedShown.value = false
+  fetchAlbums()
 }
 
 const fetchAlbums = async () => {
@@ -410,7 +407,6 @@ function confirmRestore() {
 
 onMounted(() =>{
   fetchAlbums()
-  fetchDeletedAlbum()
 })
 </script>
 

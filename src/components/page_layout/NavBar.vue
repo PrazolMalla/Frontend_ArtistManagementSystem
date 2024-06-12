@@ -50,14 +50,16 @@
   </div>
 
   <div
-    class="fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 bg-dark-primary-color h-16 w-full flex px-8 justify-between sm:px-16 z-40"
+    class="fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16  h-16 w-full flex px-8 justify-between sm:px-16 z-40" 
+    :style="{ backgroundColor: themeData?.bgColor }"
   >
     <div class="flex gap-4 sm:gap-8">
       <RouterLink to="/">
         <h1
-          class="text-primary-text-color font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none"
+          class=" font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none"
+          :style="{ color: themeData?.textColor }"
         >
-          MUSICÀ
+          MUSICÀ  
         </h1>
       </RouterLink>
       <div
@@ -65,8 +67,9 @@
       >
         <input
           type="text"
-          class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
+          class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm   hidden sm:flex"
           placeholder="Search Music, Artist, Album, Band ..."
+          :style="{ color: themeData?.textColor }"
           v-model="searchName"
           @blur="offFocusSearchBar"
           @focus="onFocusSearchBar"
@@ -76,6 +79,7 @@
           fill="#302f31"
           scale="1.5"
           class="cursor-pointer hover:text-gray-950 p-1"
+          :style="{ fill: themeData?.textColor }"
         />
       </div>
       <div
@@ -89,16 +93,18 @@
     </div>
     <div class="flex gap-4">
       <div class="flex md:hidden">
-        <v-icon name="fa-search" fill="#302f31" scale="1.2" class="cursor-pointer mt-5" />
+        <v-icon name="fa-search"  scale="1.2" class="cursor-pointer mt-5"
+        :style="{ fill: themeData?.textColor }" />
       </div>
       <v-icon
         name="md-notifications-outlined"
-        fill="#302f31"
         scale="1.2"
         class="cursor-pointer mt-5"
+        :style="{ fill: themeData?.textColor }"
         @click="toggleNotification"
       />
-      <v-icon name="md-darkmode-round" fill="#302f31" scale="1.2" class="cursor-pointer mt-5" />
+      <v-icon name="md-darkmode-round"  scale="1.2" class="cursor-pointer mt-5" 
+        :style="{ fill: themeData?.textColor }"/>
       <!-- <v-icon
         name="md-radio-round"
         fill="#302f31"
@@ -110,25 +116,37 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      user: {
-        profileImg: 'https://source.unsplash.com/50x50/?portrait',
-        username: 'Prazol'
-      },
+      
       is_showNotificationPopUp: false,
       searchName: '',
       is_showSearchPopUp: false,
       is_playing: this.is_play,
-      is_radioMode: false
+      is_radioMode: false,
+      themeData:{
+        bgColor:"",
+        textColor:""
+      }
     }
   },
+
+ 
   computed: {
-    ...mapState(['playerData', 'is_play'])
+    ...mapState(['playerData', 'is_play']),
+    ...mapGetters(['getThemeColor']),
   },
   watch: {
+
+     getThemeColor: {
+      immediate: true,
+      handler(newVal) {
+        this.themeData = newVal
+        console.log("Theme updated:", this.themeData)
+      }
+    },
     getData(newVal) {
       this.userData = newVal.resData
     },
@@ -142,6 +160,7 @@ export default {
     }
   },
   methods: {
+     
     closeRadioMode() {
       this.is_radioMode = false
     },

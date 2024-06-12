@@ -122,9 +122,8 @@ const toggleLikeMusic = async () => {
 }
 
 onMounted(() => {
-  store.dispatch('setLoggedInUserData').then(() => {
     fetchMusicData()
-  })
+ 
 })
 </script>
 

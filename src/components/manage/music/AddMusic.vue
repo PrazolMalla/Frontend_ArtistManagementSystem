@@ -33,12 +33,20 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 w-100 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
           :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
           >
-          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile</p>
-       </label
-        >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeProfile"
+              class="absolute right-3 cursor-pointer"
+              v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="profile"
@@ -53,9 +61,18 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="music"
-          class="border text-center relative p-2 border-slate-600 overflow-hidden cursor-pointer h-20 w-100 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${musicSelected})`, backgroundSize: 'cover' }"
           
-          >File(mp3/mp4)</label
+          ><p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select File(mp3/mp4)
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removefile"
+              class="absolute right-1 cursor-pointer"
+              v-if="musicFile"/>
+          </p></label
         >
         <input type="file" id="music" name="track" @change="handleFileChange" class="hidden" />
 
@@ -125,7 +142,6 @@ const track = ref({
   release_at: '',
   genre: '',
   album: '',
-  artist: '',
   band: '',
   release_at: '',
   is_released: false,
@@ -159,6 +175,7 @@ const formErrors = ref({})
 const access_token = localStorage.getItem('access_token')
 
 const backgroundImage = ref(null)
+const musicSelected = ref(null)
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
 }
@@ -173,9 +190,25 @@ const handleProfileChange = (event) => {
   }
   reader.readAsDataURL(profileFile.value)
 }
+const removeProfile = (event) => {
+  event.preventDefault();
+  profileFile.value = null;
+  backgroundImage.value = null;
+};
+const removefile = (event) => {
+  event.preventDefault();
+  musicFile.value = null;
+  musicSelected.value = null;
+};
+
 
 const handleFileChange = (event) => {
   musicFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    musicSelected.value = "/home/anuska/Frontend_ArtistManagementSystem/src/assets/images/albumcover.jpg"
+  }
+  reader.readAsDataURL(musicFile.value)
 }
 
 const addMusic = () => {
@@ -207,7 +240,6 @@ const addMusic = () => {
     if (track.value.album != '') {
       formData.append('album', track.value.album)
     }
-    formData.append('artist', track.value.artist)
     if (track.value.band != '') {
       formData.append('band', track.value.band)
     }

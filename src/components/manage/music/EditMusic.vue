@@ -33,15 +33,26 @@
       <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Music Profile Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeProfile"
+              class="absolute right-3 cursor-pointer"
+              v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="profile"
           name="profile"
           @change="handleProfileChange"
-          class="hidden"
+         class="hidden"
         />
         <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{
           formErrors.profile
@@ -140,6 +151,7 @@ const fetchMusics = async () => {
     const data = response.data
     track.value = data
     profileFile.value = data.img_profile
+    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
     musicFile.value = data.music_file
     track.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
     if (!track.value.genre) {
@@ -176,12 +188,22 @@ const track = ref({
   is_released: false,
   lyrics: null
 })
-const file = ref(null)
+const backgroundImage = ref(null)
 const profileFile = ref(null)
 const musicFile = ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
 }
+const removeProfile = (event) => {
+  event.preventDefault();
+  profileFile.value = null;
+  backgroundImage.value = null;
+};
 const handleFileChange = (event) => {
   musicFile.value = event.target.files[0]
 }

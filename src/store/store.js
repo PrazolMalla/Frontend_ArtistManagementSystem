@@ -7,10 +7,10 @@ export default createStore({
     is_play: Boolean,
     volume: Number,
     loggedInUserData: Object,
-    themeColor: 
-    {
-      bgColor:" #f6f3eb",
-      textColor:"#302f31"
+    themeColor: {
+      bgColor: ' #f6f3eb',
+      textColor: '#302f31',
+      sidebarBgColor: '#ECE6D5'
     }
   },
   mutations: {
@@ -33,11 +33,8 @@ export default createStore({
     }
   },
   actions: {
-
-    
-
-    setThemeColor({commit}, themeColor){
-      commit('SET_THEME_COLOR',themeColor)
+    setThemeColor({ commit }, themeColor) {
+      commit('SET_THEME_COLOR', themeColor)
     },
     setMusicPlayer({ commit }, music) {
       localStorage.setItem('selectedMusic', music.name)

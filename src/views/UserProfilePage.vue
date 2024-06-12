@@ -62,7 +62,8 @@ onMounted(async () => {
   if (user.value.theme)
     store.dispatch('setThemeColor', {
       bgColor: user.value.theme.darkPrimaryColor,
-      textColor: user.value.theme?.secondaryColor
+      textColor: user.value.theme?.secondaryColor,
+      sidebarBgColor: user.value.theme?.darkPrimaryColor
     })
   console.log(user)
 })
@@ -70,10 +71,15 @@ watch(user, (newValue) => {
   if (newValue.theme?.secondaryColor)
     store.dispatch('setThemeColor', {
       bgColor: newValue.theme?.darkPrimaryColor,
-      textColor: newValue.theme?.secondaryColor
+      textColor: newValue.theme?.secondaryColor,
+      sidebarBgColor: newValue.theme?.darkPrimaryColor
     })
 })
 onUnmounted(() => {
-  store.dispatch('setThemeColor', { bgColor: '#f6f3eb', textColor: ' #302f31' })
+  store.dispatch('setThemeColor', {
+    bgColor: '#f6f3eb',
+    textColor: ' #302f31',
+    sidebarBgColor: '#ECE6D5'
+  })
 })
 </script>

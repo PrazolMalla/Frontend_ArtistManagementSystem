@@ -127,74 +127,71 @@
     </div>
   </div>
 </template>
-<script>
-import { mapState, mapGetters } from 'vuex'
-export default {
-  data() {
-    return {
-      is_showNotificationPopUp: false,
-      searchName: '',
-      is_showSearchPopUp: false,
-      is_playing: this.is_play,
-      is_radioMode: false,
-      themeData: {
-        bgColor: '',
-        textColor: ''
-      }
-    }
-  },
+<script setup>
+import { ref, computed, watch } from 'vue'
+import { useStore } from 'vuex'
 
-  computed: {
-    ...mapState(['playerData', 'is_play']),
-    ...mapGetters(['getThemeColor'])
+const store = useStore()
+
+const is_showNotificationPopUp = ref(false)
+const searchName = ref('')
+const is_showSearchPopUp = ref(false)
+const is_playing = ref(store.state.is_play)
+const is_radioMode = ref(false)
+const themeData = ref({
+  bgColor: '',
+  textColor: ''
+})
+
+const playerData = computed(() => store.state.playerData)
+const getThemeColor = computed(() => store.getters.getThemeColor)
+
+watch(
+  getThemeColor,
+  (newVal) => {
+    themeData.value.bgColor = newVal.bgColor
+    themeData.value.textColor = newVal.textColor
   },
-  watch: {
-    getThemeColor: {
-      immediate: true,
-      handler(newVal) {
-        this.themeData = newVal
-        console.log('Theme updated:', this.themeData)
-      }
-    },
-    getData(newVal) {
-      this.userData = newVal.resData
-    },
-    searchName(newVal) {
-      if (newVal == '') {
-        this.is_showSearchPopUp = false
-      } else {
-        this.is_showSearchPopUp = true
-        console.log(newVal)
-      }
-    }
-  },
-  methods: {
-    closeRadioMode() {
-      this.is_radioMode = false
-    },
-    openRadioMode() {
-      this.is_radioMode = true
-    },
-    togglePlayPause() {
-      this.is_playing = !this.is_playing
-      this.$store.dispatch('setPlayState', this.is_playing)
-    },
-    offFocusSearchBar() {
-      this.is_showSearchPopUp = false
-    },
-    onFocusSearchBar() {
-      this.is_showNotificationPopUp = false
-      if (this.searchName != '') {
-        this.is_showSearchPopUp = true
-      }
-    },
-    toggleNotification() {
-      this.is_showSearchPopUp = false
-      this.is_showNotificationPopUp = !this.is_showNotificationPopUp
-    }
+  { immediate: true }
+)
+
+watch(searchName, (newVal) => {
+  is_showSearchPopUp.value = newVal !== ''
+  if (newVal !== '') {
+    console.log(newVal)
+  }
+})
+
+const closeRadioMode = () => {
+  is_radioMode.value = false
+}
+
+const openRadioMode = () => {
+  is_radioMode.value = true
+}
+
+const togglePlayPause = () => {
+  is_playing.value = !is_playing.value
+  store.dispatch('setPlayState', is_playing.value)
+}
+
+const offFocusSearchBar = () => {
+  is_showSearchPopUp.value = false
+}
+
+const onFocusSearchBar = () => {
+  is_showNotificationPopUp.value = false
+  if (searchName.value !== '') {
+    is_showSearchPopUp.value = true
   }
 }
+
+const toggleNotification = () => {
+  is_showSearchPopUp.value = false
+  is_showNotificationPopUp.value = !is_showNotificationPopUp.value
+}
 </script>
+
 <style scoped>
 .searchbar::placeholder {
   color: var(--placeholder-color);

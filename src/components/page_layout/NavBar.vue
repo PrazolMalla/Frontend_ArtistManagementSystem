@@ -1,7 +1,8 @@
-<template lang="">
+<template>
   <div
     v-if="is_radioMode"
     class="fixed top-0 bggradientradio w-screen h-screen z-60 flex flex-col justify-center gap-10 items-center"
+    :style="{ '--bg-color': themeData?.bgColor }"
   >
     <img
       :src="playerData.img_src"
@@ -51,7 +52,7 @@
 
   <div
     class="fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16  h-16 w-full flex px-8 justify-between sm:px-16 z-40" 
-    :style="{ backgroundColor: themeData?.bgColor }"
+    :style="{ backgroundColor: themeData?.bgColor, '--bg-color': themeData?.bgColor }"
   >
     <div class="flex gap-4 sm:gap-8">
       <RouterLink to="/">
@@ -63,13 +64,14 @@
         </h1>
       </RouterLink>
       <div
-        class="hidden md:flex lg:w-[40vw] my-4 justify-between border border-primary-text-color rounded-full"
+        class="hidden md:flex lg:w-[40vw] my-4 justify-between  rounded-full border"
+        :style="{ color: themeData?.textColor, borderColor: themeData?.textColor}"
       >
         <input
           type="text"
           class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm   hidden sm:flex"
           placeholder="Search Music, Artist, Album, Band ..."
-          :style="{ color: themeData?.textColor }"
+          :style="{ color: themeData?.textColor  }"
           v-model="searchName"
           @blur="offFocusSearchBar"
           @focus="onFocusSearchBar"
@@ -85,10 +87,12 @@
       <div
         v-if="is_showSearchPopUp"
         class="bggradient z-30 searchField absolute sm:ml-50 w-5/6 h-20 top-20 rounded-lg"
+        :style="{ '--bg-color': themeData?.bgColor }"
       ></div>
       <div
         v-if="is_showNotificationPopUp"
         class="bggradient z-30 searchField absolute w-5/6 sm:w-3/6 sm:right-10 h-20 top-20 rounded-lg"
+        :style="{ '--bg-color': themeData?.bgColor }"
       ></div>
     </div>
     <div class="flex gap-4">
@@ -189,16 +193,14 @@ export default {
 </script>
 <style scoped>
 .bggradient {
-  
-  background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
+  background: linear-gradient(45deg, var(--bg-color, #ff4000bb), #ece6d59d);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .bggradientradio {
-  
-  background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
+  background: linear-gradient(45deg, var(--bg-color, #ff4000bb), #ece6d59d);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(10px);
 }

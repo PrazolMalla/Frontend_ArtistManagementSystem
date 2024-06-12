@@ -9,7 +9,7 @@
             :key="index"
             class="flex items-center mb-2 hover:text-button-color"
           >
-            <img :src="album.albumCover" :alt="album.title" class="w-12 h-12 rounded-full mr-2" />
+            <img :src="album.img_profile" :alt="album.title" class="w-12 h-12 rounded-full mr-2" />
             <div>
               <div class="text-primary-text-color">{{ album.title }}</div>
               <div class="text-sm text-secondary-color">{{ album.artist }}</div>
@@ -36,16 +36,17 @@
       </div>
 
       <div class="card bg-light-primary-color">
-        <h2 class="text-xl font-bold mb-4 text-center text-primary-text-color">New Bands</h2>
+        <h2 class="text-xl font-bold mb-4 text-center text-primary-text-color">New Songs</h2>
         <div class="max-h-40 overflow-y-auto custom-scrollbar">
           <div
-            v-for="(band, index) in newBands"
+            v-for="(song, index) in newMusic"
             :key="index"
             class="flex items-center mb-2 hover:text-button-color"
           >
-            <img :src="band.bandPhoto" :alt="band.bandName" class="w-12 h-12 rounded-full mr-2" />
+            <img :src="song.img_profile" :alt="song.title" class="w-12 h-12 rounded-full mr-2" />
             <div>
-              <div class="text-primary-text-color">{{ band.bandName }}</div>
+              <div class="text-primary-text-color">{{ song.title }}</div>
+              <div class="text-sm text-secondary-color">{{ song.artist }}</div>
             </div>
           </div>
         </div>
@@ -60,24 +61,44 @@ import axios from 'axios'
 
 const newAlbums = ref([])
 const newArtists = ref([])
-const newBands = ref([])
+const newMusic = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/users')
-    newAlbums.value = response.data.map((user) => ({
-      title: user.name,
-      artist: user.username,
-      albumCover: `https://i.pravatar.cc/150?u=${user.id}`
+    const artistResponse = await axios.get('http://127.0.0.1:8000/api/user/newly-joined-artists/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    newArtists.value = artistResponse.data.map((artist) => ({
+      name: artist.firstname + ' ' + artist.lastname,
+      // stageName: artist.username,
+      photo: artist.img_profile 
     }))
-    newArtists.value = response.data.map((user) => ({
-      name: user.name,
-      stageName: user.username,
-      photo: `https://i.pravatar.cc/150?u=${user.id}`
+
+    const albumResponse = await axios.get('http://127.0.0.1:8000/api/user/newly-joined-album/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    newAlbums.value = albumResponse.data.map((album) => ({
+      title: album.name,
+      artist: album.artist.username,
+      img_profile: album.img_profile
     }))
-    newBands.value = response.data.map((user) => ({
-      bandName: user.name,
-      bandPhoto: `https://i.pravatar.cc/150?u=${user.id}`
+
+    const musicResponse = await axios.get('http://127.0.0.1:8000/api/user/newly-joined-music/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    newMusic.value = musicResponse.data.map((music) => ({
+      title: music.name,
+      artist: music.artist.username,
+      img_profile: music.img_profile
     }))
   } catch (error) {
     console.error('Error fetching data:', error)

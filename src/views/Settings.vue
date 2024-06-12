@@ -91,7 +91,7 @@ const selectDefaultTheme = async () => {
       }
     )
 
-    $toast.success(response.data.message, {
+    $toast.success('default theme selected', {
       position: 'top-right'
     })
     console.log('default selected')

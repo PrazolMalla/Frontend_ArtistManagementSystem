@@ -1,10 +1,10 @@
 <template>
   <div
-    class="album-card p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md o"
+    class="album-card p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md"
   >
     <div class="flex flex-col items-center gap-2">
       <RouterLink :to="'/music/' + musicData.id">
-        <img :src="`http://127.0.0.1:8000${musicData.img_profile}`" alt="" class="rounded-lg"
+        <img :src="`http://127.0.0.1:8000${musicData.img_profile}`" alt="" class="rounded-lg sm:w-64 h-16 sm:h-48"
       /></RouterLink>
       <div class="flex justify-between w-full items-center">
         <div class="flex flex-col">

@@ -8,7 +8,7 @@
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
-        actionQuestion="Do yo want to delete XYZ?"
+        :actionQuestion="`Do yo want to delete ${itemName}?`"
         actionConfirm="Confirm Delete"
         @close="toggleCloseDelete"
         @confirm="confirmDelete"
@@ -16,7 +16,7 @@
       <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
-        actionQuestion="Do yo want to restore XYZ?"
+        :actionQuestion="`Do yo want to restore ${itemName}?`"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
 
@@ -143,7 +143,7 @@
                   ></v-icon>
                   <v-icon v-if="userData.is_artist"
                     class="cursor-pointer"
-                    @click="toggleOpenDelete(album.id)"
+                    @click="toggleOpenDelete(album)"
                     name="fa-regular-trash-alt"
                     fill="#ff4000"
                     scale="1.5"
@@ -173,7 +173,7 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around items-center">
-                    <div  @click="toggleOpenRestore(deletedalbum.id)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                    <div  @click="toggleOpenRestore(deletedalbum)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
@@ -209,6 +209,7 @@ const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 let toDeleteValue = 0
 let toRestoreValue = 0
+const itemName=ref()
 // const is_OpenHide = ref(false)
 // const is_OpenDisable = ref(false)
 
@@ -236,7 +237,8 @@ function toggleCloseEdit() {
 function toggleOpenDelete(deletevalue) {
   is_OpenDelete.value = true
   is_blur.value = true
-  toDeleteValue = deletevalue
+  toDeleteValue = deletevalue.id
+  itemName.value=deletevalue.name
   fetchDeletedAlbum()
   
 }
@@ -246,10 +248,11 @@ function toggleCloseDelete() {
   fetchAlbums()
 }
 
-function toggleOpenRestore(restoreId) {
+function toggleOpenRestore(restore) {
   is_OpenRestore.value = true
   is_blur.value = true
-  toRestoreValue = restoreId
+  toRestoreValue = restore.id
+  itemName.value=restore.name
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -259,10 +262,12 @@ function toggleCloseRestore() {
 
 const showDeletedList = async () => {
     is_deletedShown.value = true
+    fetchDeletedAlbum()    
+
 }
 const showAllList = async () => {
  is_deletedShown.value = false
- showAllList()
+ fetchAlbums()
 }
 
 const fetchAlbums = async () => {

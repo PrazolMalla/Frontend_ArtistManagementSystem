@@ -9,10 +9,16 @@
       <div class="settings-container flex flex-col gap-5 p-5">
         <h1 class="text-3xl font-bold mb-5">Settings</h1>
 
-        <button @click="logout" class="logout-button w-20 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 cursor-pointer"> Logout </button>
+        <button @click="logout" class="flex gap-2 logout-button w-40 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 cursor-pointer">
+          <v-icon name="md-logout" fill="#fff" scale="1.5"></v-icon>
+          <p>Logout</p> </button>
         <button class="px-4 py-2 flex gap-2 w-40 bg-red-500 text-white  rounded-full hover:bg-red-700 cursor-pointer"  @click="toggleOpenEdit"  >
           <v-icon name="fa-regular-edit" fill="#fff" scale="1.5"></v-icon>
           <p>Edit Profile</p>
+        </button>
+        <button class="px-4 py-2 flex gap-2 w-48 bg-red-500 text-white  rounded-full hover:bg-red-700 cursor-pointer"  @click="toggleOpenDelete"  >
+          <v-icon name="fa-regular-trash-alt" fill="#fff" scale="1.4"></v-icon>
+          <p>Delete Account</p>
         </button>
         
         <div v-if="userData.is_artist">
@@ -50,6 +56,7 @@ const defaultTheme = ref([])
 
 const is_blur = ref(false)
 const is_OpenEdit = ref(false)
+const is_OpenDelete= ref(false)
 
 
 const userData = ref([])
@@ -71,11 +78,14 @@ const logout = () => {
 function toggleOpenEdit(album) {
   is_OpenEdit.value = true
   is_blur.value = true
-  
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
+}
+function toggleOpenDelete(){
+  is_OpenDelete.value = true
+  is_blur.value = true
 }
 const themeData = ref([])
 const selectDefaultTheme = async () => {

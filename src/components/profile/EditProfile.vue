@@ -2,7 +2,7 @@
   <fieldset
     class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
   >
-    <legend class="ml-10">Add Staff</legend>
+    <legend class="ml-10">Edit Profile</legend>
     <v-icon
       name="fa-times"
       fill="#302f31"
@@ -12,7 +12,7 @@
     />
     <div class="form-container w-full p-10 h-full flex flex-wrap justify-center gap-5 align-middle">
       <div
-        v-for="item in staffInputField"
+        v-for="item in userInputField"
         :key="item.id"
         class="w-full sm:w-5/12 text-secondary-color"
       > 
@@ -23,7 +23,7 @@
           :type="item.type"
           :name="item.name"
           @blur="validateField(item.name)"
-          v-model="staff[item.name]"
+          v-model="user[item.name]"
           class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
         />
         <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
@@ -33,20 +33,9 @@
       <div class="w-full sm:w-[20%]  self-center text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
-          >
-          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removeProfile"
-              class="absolute right-3 cursor-pointer"
-              v-if="profileFile"/>
-          </p>
-          
-       </label>
+          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          >Profile Pic</label
+        >
         <input
           type="file"
           id="profile"
@@ -61,20 +50,9 @@
       <div class="w-full sm:w-[20%] self-center text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'cover' }"
-          >
-          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removeCover"
-              class="absolute right-3 cursor-pointer"
-              v-if="coverFile"/>
-          </p>
-          
-       </label>
+          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          >Cover Pic</label
+        >
         <input type="file" id="cover" name="cover" @change="handleCoverChange" class="hidden" />
 
         <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
@@ -85,7 +63,7 @@
         <div class="w-full flex flex-col sm:w-5/12">
         <label for="gender" class="text-sm font-helvetica text-primary-text-color pl-3">Gender</label>
         <select
-          v-model="staff.gender"
+          v-model="user.gender"
           id="gender"
           name="gender"
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
@@ -103,7 +81,7 @@
           Country
         </label>
         <select
-          v-model="staff.country"
+          v-model="user.country"
           id="country"
           name="country"
           class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
@@ -120,9 +98,9 @@
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
           type="submit"
-          @click="addStaff()"
+          @click="editUser()"
         >
-          Add Staff
+          Add User
         </button>
       </div>
     </div>
@@ -132,29 +110,32 @@
 <script setup>
 import { ref, onMounted} from 'vue'
 import axios from 'axios'
-import {defineEmits } from 'vue'
+import {defineEmits, defineProps } from 'vue'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const countryOptions = ref([])
 
-const staff = ref({
-  firstname: '',
-  lastname: '',
-  username: '',
-  email: '',
-  dob: '',
+const props = defineProps(['userData'])
+const user = ref({
+  firstname: props.userData.firstname,
+  lastname: props.userData.lastname,
+  username: props.userData.username,
+  email: props.userData.email,
+  dob: props.userData.dob,
   password: '',
   Repassword: '',
-  country: '',
-  gender: ''
+  country: props.userData.country,
+  gender: props.userData.gender
 })
+
+
 const emit = defineEmits(['close'])
 
 function closeAdd() {
   emit('close')
 }
 
-const staffInputField = ref([
+const userInputField = ref([
   { id: '1', name: 'firstname', type: 'text', label: 'First Name' },
   { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
   { id: '3', name: 'username', type: 'text', label: 'Username' },
@@ -170,80 +151,58 @@ const access_token = localStorage.getItem('access_token')
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
 
-  if (fieldName === 'password' && staff.value.password.length < 8) {
+  if (fieldName === 'password' && user.value.password.length < 8) {
     formErrors.value.password = 'Password should be at least 8 characters long.'
-  } else if (fieldName === 'Repassword' && staff.value.password !== staff.value.Repassword) {
+  } else if (fieldName === 'Repassword' && user.value.password !== user.value.Repassword) {
     formErrors.value.Repassword = 'Passwords do not match.'
   }
 }
 const profileFile = ref(null)
 const coverFile = ref(null)
-const backgroundImage=ref(null)
-const coverbackgroundImage=ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    backgroundImage.value = e.target.result
-  }
-  reader.readAsDataURL(profileFile.value)
 }
 
 const handleCoverChange = (event) => {
  coverFile.value = event.target.files[0]
- const reader = new FileReader()
-  reader.onload = (e) => {
-    coverbackgroundImage.value = e.target.result
-  }
-  reader.readAsDataURL(coverFile.value)
 }
-const removeProfile = (event) => {
-  event.preventDefault();
-  profileFile.value = null;
-  backgroundImage.value = null;
-};
-const removeCover = (event) => {
-  event.preventDefault();
-  coverFile.value = null;
-  coverbackgroundImage.value = null;
-};
 
-const addStaff = () => {
+const editUser = () => {
   formErrors.value = {}
 
-  if (staff.value.password.length < 8) {
+  if (user.value.password.length < 8) {
     formErrors.value.password = 'Password should be at least 8 characters long.'
-  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(staff.value.password)) {
+  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(user.value.password)) {
     formErrors.value.password =
       'Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
   }
-  if (staff.value.password !== staff.value.Repassword) {
+  if (user.value.password !== user.value.Repassword) {
     formErrors.value.Repassword = 'Passwords do not match.'
   }
-  if (staff.value.username.length < 5) {
+  if (user.value.username.length < 5) {
     formErrors.value.username = 'Username should be at least 5 characters long.'
   }
-  if (!staff.value.email) {
+  if (!user.value.email) {
     formErrors.value.email = 'Please provide an email.'
   }
-  if (!staff.value.country) {
+  if (!user.value.country) {
     formErrors.value.country = 'Please provide your country.'
   }
 
   if (Object.keys(formErrors.value).length === 0) {
     const formData = new FormData()
-    formData.append('email', staff.value.email)
-    formData.append('password', staff.value.password)
-    formData.append('firstname', staff.value.firstname)
-    formData.append('lastname', staff.value.lastname)
-    formData.append('username', staff.value.username)
-    if (staff.value.dob) {
-      formData.append('dob', staff.value.dob)
+    formData.append('email', user.value.email)
+    formData.append('password', user.value.password)
+    formData.append('firstname', user.value.firstname)
+    formData.append('lastname', user.value.lastname)
+    formData.append('username', user.value.username)
+    if (user.value.dob) {
+      formData.append('dob', user.value.dob)
     }
-    formData.append('gender', staff.value
+    formData.append('gender', user.value
     .gender)
-    formData.append('country', staff.value.country)
-    formData.append('is_staff', 'True')
+    formData.append('country', user.value.country)
+    formData.append('is_user', 'True')
     if (profileFile.value) {
       formData.append('img_profile', profileFile.value)
     }
@@ -252,15 +211,20 @@ const addStaff = () => {
     }
     formData.append('is_active', 'True')
     axios
-      .post('http://127.0.0.1:8000/api/user/post/', formData)
+      .patch('http://127.0.0.1:8000/api/user/edit/', formData,  {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            'Content-Type': 'application/json'
+          }
+        })
       .then((response) => {
         console.log('registered')
-        $toast.success("Staff added successfully");
+        $toast.success("User added successfully");
         closeAdd();
       })
       .catch((error) => {
         console.error(error)
-        $toast.error("Error while adding staff")
+        $toast.error("Error while adding user")
       })
   }
 }

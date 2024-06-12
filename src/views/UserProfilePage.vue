@@ -2,7 +2,7 @@
   <PageLayoutWithPlayer>
     <template #content>
       <div
-        class="ml-[-4rem] z-10 absolute w-full h-[100%]"
+        class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full h-[100%]"
         :style="{
           backgroundImage: `url(http://127.0.0.1:8000${user?.theme?.img_profile})`,
           backgroundRepeat: 'no-repeat',
@@ -10,8 +10,9 @@
         }"
       ></div>
       <div
-        class="ml-[-4rem] absolute bgThemeGlass z-20 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
-        :style="{ backgroundColor: user?.theme?.darkPrimaryColor, opacity: user?.theme?.opacity }"
+        class="ml-[-4rem] mt-[-4rem]  absolute bgThemeGlass z-20 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
+        :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"
+
       ></div>
       <div class="z-30">
         <BannerComponent :userBanner="user.img_cover" />
@@ -38,10 +39,10 @@ import InformationCard from '@/components/detail_page/user_detail/IntroductionCa
 import PostForm from '@/components/detail_page/user_detail/PostForm.vue'
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import TopChartComponent from '@/components/detail_page/TopChartComponent.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch} from 'vue'
 import axios from 'axios'
 import Artist from './explore/Artist.vue'
-
+import store from '@/store/store'
 const user = ref({})
 
 const fetchUserData = async () => {
@@ -57,10 +58,22 @@ const fetchUserData = async () => {
   }
 }
 
-onMounted(() => {
-  fetchUserData()
+onMounted(async () => {
+  await fetchUserData()
+  console.log(user.value.theme)
+  console.log("User Profile Mounted")
+    store.dispatch('setThemeColor', { bgColor:user.value.theme.darkPrimaryColor, textColor:user.value.theme.lightPrimaryColor})
   console.log(user)
 })
+watch(user, (newValue) => {
+    console.log("THeme Changed")
+    console.log(newValue.theme.lightPrimaryColor)
+    console.log("THeme Changed")
+    store.dispatch('setThemeColor', { bgColor:newValue.theme.darkPrimaryColor, textColor:newValue.theme.lightPrimaryColor})
+})
+onUnmounted(() => {
+  console.log('Component is about to be unmounted');
+  store.dispatch('setThemeColor', {bgColor:"#f6f3eb", textColor:" #302f31"})
+});
 </script>
 
-<script></script>

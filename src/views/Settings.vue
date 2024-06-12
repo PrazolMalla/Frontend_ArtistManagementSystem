@@ -1,6 +1,11 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
+      <div
+        v-if="is_blur"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
+      ></div>
+      <EditProfile v-if="is_OpenEdit" @close="toggleCloseEdit" :userData="userData" />
       <div class="settings-container flex flex-col gap-5 p-5">
         <h1 class="text-3xl font-bold mb-5">Settings</h1>
         <button
@@ -24,22 +29,33 @@
           </div>
           <ThemeCard v-for="x in themeData" :themeData="x" />
         </div>
+
       </div>
     </template>
   </PageLayoutWithPlayer>
 </template>
 
 <script setup>
+import EditProfile from '@/components/profile/EditProfile.vue'
 import ThemeCard from '@/components/cards/ThemeCard.vue'
-import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 const $toast = useToast()
 const defaultTheme = ref([])
+
+const is_blur = ref(false)
+const is_OpenEdit = ref(false)
+
+
+const userData = ref([])
+
 computed(() => logout)
 
+const userDataFunc = () => {
+     userData.value = store.getters.getLoggedInUserData
+} 
 const logout = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
@@ -49,7 +65,15 @@ const logout = () => {
   })
   window.location.reload()
 }
-
+function toggleOpenEdit(album) {
+  is_OpenEdit.value = true
+  is_blur.value = true
+  
+}
+function toggleCloseEdit() {
+  is_OpenEdit.value = false
+  is_blur.value = false
+}
 const themeData = ref([])
 const selectDefaultTheme = async () => {
   try {
@@ -75,6 +99,7 @@ const selectDefaultTheme = async () => {
 const fetchTheme = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/theme/get/', {
+
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         'Content-Type': 'application/json'
@@ -86,5 +111,12 @@ const fetchTheme = async () => {
   }
 }
 
-onMounted(fetchTheme)
+onMounted(() => {
+  fetchTheme()
+  userDataFunc()
+}
+)
 </script>
+<style scoped>
+
+</style>

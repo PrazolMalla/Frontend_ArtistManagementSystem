@@ -227,6 +227,7 @@ router.beforeEach(async (to, from, next) => {
         is_artist = response.data.is_artist
         is_staff = response.data.is_staff
         is_superuser = response.data.is_superuser
+
         store.dispatch('setLoggedInUserData')
       })
   } catch (error) {

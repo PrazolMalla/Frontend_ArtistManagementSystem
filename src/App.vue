@@ -25,7 +25,10 @@ onMounted(() => {
             refreshAccessToken();
         } 
     } 
+    console.log("App")
      store.dispatch('setLoggedInUserData')
+
+    console.log("App End")
 });
 
 const refreshAccessToken = async () => {

@@ -3,7 +3,7 @@
     <template #content>
       <div
         v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
+        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
       ></div>
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue
@@ -410,11 +410,5 @@ onMounted(() =>{
 </script>
 
 <style scoped>
-.bggradientpopup {
-  background: #ffffff3f;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
+
 </style>

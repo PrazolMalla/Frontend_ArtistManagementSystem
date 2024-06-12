@@ -15,7 +15,8 @@
           <p>Edit Profile</p>
         </button>
         
-        <p class="text-xl">Select Theme:</p>
+        <div v-if="userData.is_artist">
+          <p class="text-xl">Select Theme:</p>
         <div class="flex gap-5 flex-grow-0">
           <div
             class="border hover:border-blue-800 hover:shadow-md shadow-blue-400 border-slate-300 relative rounded-md overflow-hidden w-[20vw] h-[20vh] cursor-pointer"
@@ -29,6 +30,7 @@
             </div>
           </div>
           <ThemeCard v-for="x in themeData" :themeData="x" />
+        </div>
         </div>
 
       </div>

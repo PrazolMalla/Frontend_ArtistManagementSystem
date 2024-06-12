@@ -56,7 +56,7 @@
             </div>
 
             <div class="flex flex-col justify-between">
-              <div class="hidden sm:flex flex-row bg-transparent">
+              <div class="hidden sm:flex flex-row bg-transparent sm:border-b sm:border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
                   <div class="font-semibold" v-if="!is_deletedShown">Disable</div>

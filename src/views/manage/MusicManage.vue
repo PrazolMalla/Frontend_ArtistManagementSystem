@@ -197,6 +197,8 @@ function toggleCloseAdd() {
   fetchMusics()
 }
 function toggleOpenEdit(music) {
+  fetchAlbums()
+  getGenre()
   is_OpenEdit.value = true
   is_blur.value = true
   editMusicId.value = music
@@ -204,7 +206,6 @@ function toggleOpenEdit(music) {
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
-
   fetchMusics()
 }
 function toggleOpenDelete(deleteId) {
@@ -273,9 +274,11 @@ const toggleDisableMusic = async (music) => {
 
 const showDeletedList = async () => {
     is_deletedShown.value = true
+    fetchDeletedMusics()
 }
 const showAllList = async () => {
  is_deletedShown.value = false
+ fetchMusics()
 }
 
 const fetchMusics = async () => {
@@ -342,6 +345,7 @@ function confirmDelete() {
         is_OpenDelete.value = false
         is_blur.value = false
       }
+
     })
     .catch((err) => {
       console.log(err.response.data)
@@ -385,7 +389,6 @@ const fetchAlbums = async () => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
-      console.log(response.data,"here we goo")
       data = response.data
     }
     albums.value = data
@@ -398,7 +401,6 @@ const getGenre = async () => {
    await axios
       .get('http://127.0.0.1:8000/api/genre/get/')
       .then((response) => {
-        console.log(response.data)
         genreData.value = response.data
       })
       .catch((error) => {
@@ -408,7 +410,6 @@ const getGenre = async () => {
 
 onMounted(() =>{
   fetchMusics()
-  fetchDeletedMusics()
   
 })
 </script>

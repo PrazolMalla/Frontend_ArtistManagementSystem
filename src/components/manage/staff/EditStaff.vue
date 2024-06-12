@@ -33,8 +33,8 @@
       <div class="w-full sm:w-[20%]  self-center text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center' }"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
             <v-icon
@@ -61,8 +61,8 @@
       <div class="w-full sm:w-[20%] self-center text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
             <v-icon
@@ -164,7 +164,11 @@ onMounted(() => {
 
 const fetchStaff = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/staff/get/${props.staffId}`)
+    const response = await axios.get(`http://127.0.0.1:8000/api/staff/get/${props.staffId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      })
     const data = response.data
     staff.value = data
     profileFile.value = data.img_profile
@@ -241,6 +245,8 @@ const removeCover = (event) => {
   coverbackgroundImage.value = null;
 };
 
+const validateField = (fieldName) => {
+}
 
 function editStaff() {
   formErrors.value = {}

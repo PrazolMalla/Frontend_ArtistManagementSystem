@@ -18,11 +18,17 @@
         />
         <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{ formErrors[item.name] }}</span>
       </div>
-      <div class="w-full sm:w-3/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-        >Profile Pic</label>
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
+            <v-icon name="fa-times" fill="#ffffff" scale="1" @click="removeProfile" class="absolute right-3 cursor-pointer" v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="profile"
@@ -32,11 +38,23 @@
         />
         <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
       </div>
-      <div class="w-full sm:w-3/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-        >Cover Pic</label>
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeCover"
+              class="absolute right-3 cursor-pointer"
+              v-if="coverFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="cover"
@@ -47,7 +65,7 @@
         <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
       </div>
 
-      <div class="flex flex-col w-full sm:w-3/12 mt-2">
+      <div class="flex flex-col w-full sm:w-3/12">
         <label for="country" class="text-sm font-helvetica text-primary-text-color pl-3">
           Country
         </label>
@@ -65,7 +83,7 @@
         <span v-if="formErrors.country" class="text-orange-300">{{ formErrors.country }}</span>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col w-full sm:w-3/12">
         <label for="gender" class="text-sm font-helvetica text-primary-text-color pl-3">Gender</label>
         <select
           v-model="user.gender"
@@ -161,13 +179,35 @@ const validateField = (fieldName) => {
 
 const profileFile = ref(null)
 const coverFile = ref(null)
+const backgroundImage=ref(null)
+const coverbackgroundImage=ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
 }
 
 const handleCoverChange = (event) => {
-  coverFile.value = event.target.files[0]
+ coverFile.value = event.target.files[0]
+ const reader = new FileReader()
+  reader.onload = (e) => {
+    coverbackgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(coverFile.value)
 }
+const removeProfile = (event) => {
+  event.preventDefault();
+  profileFile.value = null;
+  backgroundImage.value = null;
+};
+const removeCover = (event) => {
+  event.preventDefault();
+  coverFile.value = null;
+  coverbackgroundImage.value = null;
+};
 
 const addUser = () => {
   formErrors.value = {}

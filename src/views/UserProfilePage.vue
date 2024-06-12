@@ -11,7 +11,7 @@
       ></div>
       <div
         class="ml-[-4rem] absolute bgThemeGlass z-20 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
-        :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"
+        :style="{ backgroundColor: user?.theme?.darkPrimaryColor, opacity: user?.theme?.opacity }"
       ></div>
       <div class="z-30">
         <BannerComponent :userBanner="user.img_cover" />

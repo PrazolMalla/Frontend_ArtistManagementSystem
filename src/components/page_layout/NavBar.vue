@@ -15,7 +15,7 @@
         fill="#302f31"
         scale="1.5"
         @click="closeRadioMode"
-        class="absolute top-5 right-5 cursor-pointer "
+        class="absolute top-5 right-5 cursor-pointer"
       />
       <v-icon
         name="fa-angle-left"
@@ -51,27 +51,27 @@
   </div>
 
   <div
-    class="fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16  h-16 w-full flex px-8 justify-between sm:px-16 z-40" 
-    :style="{ backgroundColor: themeData?.bgColor, '--bg-color': themeData?.bgColor }"
+    class="fixed lg:w-[85vw] md:w-[75vw] sm:ml-[25vw] lg:ml-[15vw] sm:h-16 h-16 w-full flex px-8 justify-between sm:px-16 z-40"
+    :style="{ backgroundColor: themeData?.bgColor }"
   >
     <div class="flex gap-4 sm:gap-8">
       <RouterLink to="/">
         <h1
-          class=" font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none"
+          class="font-semibold text-2xl mt-4 hover:text-secondary-color cursor-pointer select-none"
           :style="{ color: themeData?.textColor }"
         >
-          MUSICÀ  
+          MUSICÀ
         </h1>
       </RouterLink>
       <div
-        class="hidden md:flex lg:w-[40vw] my-4 justify-between  rounded-full border"
-        :style="{ color: themeData?.textColor, borderColor: themeData?.textColor}"
+        class="hidden md:flex lg:w-[40vw] my-4 justify-between rounded-full border"
+        :style="{ color: themeData?.textColor, borderColor: themeData?.textColor }"
       >
         <input
           type="text"
-          class="text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm   hidden sm:flex"
+          class="searchbar text-sm border-none w-full p-4 bg-transparent focus:outline-none text-xsm hidden sm:flex opacity-100"
           placeholder="Search Music, Artist, Album, Band ..."
-          :style="{ color: themeData?.textColor  }"
+          :style="{ color: themeData?.textColor, 'placeholder-color': themeData?.textColor }"
           v-model="searchName"
           @blur="offFocusSearchBar"
           @focus="onFocusSearchBar"
@@ -97,8 +97,12 @@
     </div>
     <div class="flex gap-4">
       <div class="flex md:hidden">
-        <v-icon name="fa-search"  scale="1.2" class="cursor-pointer mt-5"
-        :style="{ fill: themeData?.textColor }" />
+        <v-icon
+          name="fa-search"
+          scale="1.2"
+          class="cursor-pointer mt-5"
+          :style="{ fill: themeData?.textColor }"
+        />
       </div>
       <v-icon
         name="md-notifications-outlined"
@@ -107,8 +111,12 @@
         :style="{ fill: themeData?.textColor }"
         @click="toggleNotification"
       />
-      <v-icon name="md-darkmode-round"  scale="1.2" class="cursor-pointer mt-5" 
-        :style="{ fill: themeData?.textColor }"/>
+      <v-icon
+        name="md-darkmode-round"
+        scale="1.2"
+        class="cursor-pointer mt-5"
+        :style="{ fill: themeData?.textColor }"
+      />
       <!-- <v-icon
         name="md-radio-round"
         fill="#302f31"
@@ -124,31 +132,28 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      
       is_showNotificationPopUp: false,
       searchName: '',
       is_showSearchPopUp: false,
       is_playing: this.is_play,
       is_radioMode: false,
-      themeData:{
-        bgColor:"",
-        textColor:""
+      themeData: {
+        bgColor: '',
+        textColor: ''
       }
     }
   },
 
- 
   computed: {
     ...mapState(['playerData', 'is_play']),
-    ...mapGetters(['getThemeColor']),
+    ...mapGetters(['getThemeColor'])
   },
   watch: {
-
-     getThemeColor: {
+    getThemeColor: {
       immediate: true,
       handler(newVal) {
         this.themeData = newVal
-        console.log("Theme updated:", this.themeData)
+        console.log('Theme updated:', this.themeData)
       }
     },
     getData(newVal) {
@@ -164,7 +169,6 @@ export default {
     }
   },
   methods: {
-     
     closeRadioMode() {
       this.is_radioMode = false
     },
@@ -192,6 +196,10 @@ export default {
 }
 </script>
 <style scoped>
+.searchbar::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
 .bggradient {
   background: linear-gradient(45deg, var(--bg-color, #ff4000bb), #ece6d59d);
   backdrop-filter: blur(10px);

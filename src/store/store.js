@@ -6,9 +6,17 @@ export default createStore({
     playerData: Object,
     is_play: Boolean,
     volume: Number,
-    loggedInUserData: Object
+    loggedInUserData: Object,
+    themeColor: 
+    {
+      bgColor:" #f6f3eb",
+      textColor:"#302f31"
+    }
   },
   mutations: {
+    SET_THEME_COLOR(state, themeColor) {
+      state.themeColor = themeColor
+    },
     SET_LOGGEDIN_USER_DATA(state, loggedInUserData) {
       state.loggedInUserData = loggedInUserData
     },
@@ -25,6 +33,12 @@ export default createStore({
     }
   },
   actions: {
+
+    
+
+    setThemeColor({commit}, themeColor){
+      commit('SET_THEME_COLOR',themeColor)
+    },
     setMusicPlayer({ commit }, music) {
       localStorage.setItem('selectedMusic', music.name)
       localStorage.setItem('selectedMusicdes', music.description)
@@ -50,6 +64,7 @@ export default createStore({
           })
           .then((response) => {
             commit('SET_LOGGEDIN_USER_DATA', response.data)
+            console.log(response.data)
           })
       } catch (error) {
         console.error('Failed to fetch user data:', error)
@@ -57,7 +72,7 @@ export default createStore({
     }
   },
   getters: {
-    getUserData: (state) => state.userData,
-    getLoggedInUserData: (state) => state.loggedInUserData
+    getLoggedInUserData: (state) => state.loggedInUserData,
+    getThemeColor: (state) => state.themeColor
   }
 })

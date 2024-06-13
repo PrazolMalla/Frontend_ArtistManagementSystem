@@ -1,23 +1,72 @@
 <template lang="">
-    <div class="mt-5 bg-light-primary-color h-[50vh] w-[80vw] p-6 lg:w-[30vw] md:h-[55vh] mb-5">
-        <h1 class=" mb-4 text-2xl font-semibold md:w-[60vw]">Top Chart</h1>
-        <div v-for="(item, index) in 3" :key="index">
-        <div class="w-[67vw] bg-transparent h-24 rounded-md md:w-[25vw] md:h-24 p-4 flex gap-5 hover:bg-secondary-color hover:hover:text-slate-200  text-slate-400 cursor-pointer">
-            <img src="../assets/img/album-cover-design-template-05a138f43b181c728e956968786fdf7d_screen.jpg" class="w-16 h-16 rounded-md">
-            <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
-                <div>
-                    <p class="md:text-lg font-semibold text-slate-50">Hello</p>
-                <p class="md:text-lg">Ram Dhakal</p>
-                </div>
-               
-                <p class="md:text-lg">3:30</p>
+  <div
+    class="mt-5 bg-light-primary-color h-[50vh] w-[80vw] p-6 lg:w-[30vw] md:h-[55vh] mb-5"
+    :style="{
+      backgroundColor: hexWithOpacity(`${user?.theme?.darkPrimaryColor}`, 0.5),
+      boxShadow: user.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
+      backdropFilter: user.theme ? 'blur(4.9px)' : 'none',
+      color: `${user?.theme?.secondaryColor}`
+    }"
+  >
+    <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Top Chart</h1>
+    <div v-for="(music, index) in musicData" :key="index">
+      <RouterLink :to="'/music/' + music.id">
+        <div
+          class="w-[67vw] bg-transparent h-24 rounded-md md:w-[25vw] md:h-24 p-4 flex gap-5 hover:bg-secondary-color hover:text-light-primary-color cursor-pointer"
+        >
+          <img :src="`http://127.0.0.1:8000${music.img_profile}`" class="w-16 h-16 rounded-md" />
+
+          <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
+            <div>
+              <p class="md:text-lg font-semibold">{{ music.name }}</p>
+              <p class="md:text-lg">{{ music.artist }}</p>
             </div>
+
+            <p class="md:text-lg">{{ music.duration }}</p>
+          </div>
         </div>
+      </RouterLink>
     </div>
-    </div>
+  </div>
 </template>
-<script>
+<script setup>
+import { ref, defineProps, onMounted, watch } from 'vue'
+import axios from 'axios'
+const props = defineProps({
+  user: {
+    type: Object,
+    required: true
+  }
+})
+const musicData = ref([])
+const fetchMusicData = async (artistId) => {
+  try {
+    console.log(artistId)
+    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId)
+    musicData.value = response.data.splice(0, 3)
+    console.log(musicData)
+  } catch (error) {
+    console.error('Failed to fetch music data:', error)
+  }
+}
+
+function hexWithOpacity(hex, opacity) {
+  const alpha = Math.round(opacity * 255)
+    .toString(16)
+    .padStart(2, '0')
+    .toUpperCase()
+  return `${hex}${alpha}`
+}
+
+onMounted(() => {
+  fetchMusicData(props.user.id)
+})
+
+watch(
+  () => props.user.id,
+  (newArtistId) => {
+    fetchMusicData(newArtistId)
+  }
+)
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

@@ -1,55 +1,91 @@
 <template>
-  <div class="min-h-screen  flex flex-col bg-dark-primary-color">
+  <div class="min-h-screen flex flex-col bg-dark-primary-color">
     <main class="flex-1 p-6 bg-primary-color flex justify-end">
-      <div class="bg-primary-color w-[20rem] bg-opacity-75 p-8 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold mb-6 mt-6 text-white text-center">Information</h1>
+      <div class="bg-primary-color w-[20rem] bg-opacity-75 rounded-lg ml-24">
+        <h1 class="text-3xl font-bold mb-6 mt-6 text-primary-text-color text-center">
+          Information
+        </h1>
 
-        <div class="p-5 rounded-md w-full bg-light-primary-color text-white mb-8 text-center hover:bg-secondary-color">
+        <div
+          v-if="totalArtists !== null"
+          class="p-5 rounded-md w-full bg-light-primary-color text-primary-text-color mb-8 text-center hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer"
+        >
           <h2 class="text-xl font-bold mb-2">Total Artists</h2>
           <p class="text-2xl">{{ totalArtists }}</p>
         </div>
 
-        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color mb-10 text-center">
+        <div
+          v-if="totalUsers !== null"
+          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
+        >
           <h2 class="text-xl font-bold mb-2">Total Users</h2>
           <p class="text-2xl">{{ totalUsers }}</p>
         </div>
 
-        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
+        <div
+          v-if="totalAlbums !== null"
+          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
+        >
           <h2 class="text-xl font-bold mb-2">Total Albums</h2>
           <p class="text-2xl">{{ totalAlbums }}</p>
         </div>
 
-        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
+        <div
+          v-if="totalSongs !== null"
+          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer selection mb-10 text-center"
+        >
           <h2 class="text-xl font-bold mb-2">Total Songs</h2>
           <p class="text-2xl">{{ totalSongs }}</p>
         </div>
-
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
 
 export default {
   name: 'Dashboard',
   setup() {
-    const totalArtists = ref(50);
-    const totalUsers = ref(1500);
-    const totalAlbums = ref(200);
-    const totalSongs = ref(500);
+    const totalArtists = ref(null);
+    const totalUsers = ref(null);
+    const totalAlbums = ref(null);
+    const totalSongs = ref(null);
+
+    const fetchData = async () => {
+      try {
+        const [artistResponse, userResponse, albumResponse, songResponse] = await Promise.all([
+          axios.get('http://127.0.0.1:8000/api/user/artist-count/'),
+          axios.get('http://127.0.0.1:8000/api/user/user-count/'),
+          axios.get('http://127.0.0.1:8000/api/album/album-count/'),
+          axios.get('http://127.0.0.1:8000/api/music/music-count')
+        ]);
+        
+        totalArtists.value = artistResponse.data.total_artists;
+        totalUsers.value = userResponse.data.total_users;
+        totalAlbums.value = albumResponse.data.total_albums;
+        totalSongs.value = songResponse.data.total_music;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       totalArtists,
       totalUsers,
       totalAlbums,
-      totalSongs,
+      totalSongs
     };
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
-
+/* Add your component-specific styles here */
 </style>

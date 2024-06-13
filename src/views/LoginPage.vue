@@ -1,142 +1,205 @@
 <template>
-    <div class="flex flex-col sm:flex-row items-center h-screen w-full  bg-dark-primary-color " >
-      <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
-        <div class="w-full sm:w-[50vw] h-full bg-dark-primary-color flex items-center justify-center">
-          <form
-            id="form"
-            class="w-full sm:w-[400px] h-[500px] flex flex-col justify-center"
-            @submit.prevent="login"
-          >
-            <h1 class="text-4xl font-bold text-center mb-5 font-helvetica text-white">Welcome Back</h1>
-            <div class="mt-4">
-              <label for="email" class="mt-4  text-xl font-bold font-helvetica text-white">Email</label>
-              <br />
-              <input
-                type="email"
-                class="mt-2 p-2 focus:outline-none  w-full h-[3rem]  mb rounded-3xl border-2"
-                id="email"
-                v-model="user.email"
-                required
-              />
+   <div
+        v-if="is_blur"
+        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
+      ></div>
+      <ManageConfirmDialogue
+        v-if="is_OpenRestore"
+        actionQuestion="You have deleted your account. Do you want to restore your account?"
+        actionConfirm="Confirm Restore"
+        @close="toggleCloseRestore"
+        @confirm="confirmRestore"
+      />
+  <div class="flex flex-col sm:flex-row items-center h-screen w-full bg-dark-primary-color">
+    <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
+      <div
+        class="w-[90vw] m-auto sm:w-[50vw] h-full bg-dark-primary-color flex items-center justify-center"
+      >
+        <form
+          id="form"
+          class="w-full sm:w-[500px] h-[500px] flex flex-col gap-4 justify-center p-10 bg-brown-900 rounded-xl border-4 border-primary-text-color"
+          @submit.prevent="login"
+        >
+          <h1 class="text-4xl font-bold text-center mb-5 font-helvetica text-secondary-color">
+            Welcome Back
+          </h1>
+
+          <div>
+            <label for="email" class="text-sm font-helvetica text-primary-text-color pl-3">
+              Email</label
+            >
+            <input
+              type="email"
+              class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+              id="email"
+              v-model="user.email"
+              required
+            />
+          </div>
+          <div>
+            <label for="password" class="text-sm font-helvetica text-primary-text-color pl-3">
+              Password</label
+            >
+            <input
+              type="password"
+              class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+              id="password"
+              v-model="user.password"
+              required
+            />
+          </div>
+          <div class="w-full flex justify-start gap-2 align-middle items-center">
+            <button
+              class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-light-primary-color font-semibold text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
+              type="submit"
+            >
+              Login
+            </button>
+            <div class="text-primary-text-color mt-2">
+              <span class="px-2 text-slate-500"> Don't Have an account? </span>
+              <RouterLink to="/signup" class="hover:text-secondary-color"> SignUp </RouterLink>
             </div>
-            <div class="mt-4">
-              <label for="password" class="text-xl font-bold font-helvetica text-white">Password</label>
-              <br />
-              <input
-                type="password"
-                class="p-2 mt-2 focus:outline-none w-full h-[3rem] mb rounded-3xl border-2"
-                v-model="user.password"
-              />
-            </div>
-            <div class="mt-6">
-                
-              <button
-                class="bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
-                type="submit"
-              >
-                Login
-              </button>
-              <div class="relative flex items-center justify-center mt-8 mb-4">
-              <hr class="w-full border-transparent">
-              <span class="absolute px-3 bg-whites font-medium text-white">Or Create an Account</span>
-            </div>
-              <router-link to="/signup">
-                <button
-                  class="mt-4 bg-secondary-color w-full h-[3rem] text-white text-xl font-bold rounded-3xl hover:bg-transparent hover:border hover:border-pink-500 hover:text-pink-500"
-                  type="button"
+          </div>
+        </form>
+      </div>
+      <div class="md:flex justify-center items-center hidden p-16">
+        <div class="flex justify-center items-center form-img h-screen w-full sm:w-full rounded-lg">
+          <div class="relative w-full h-full flex justify-center items-center">
+            <div class="absolute w-[70%] h-[60%] z-10 flex justify-center items-center">
+              <h1 class="font-helvetica text-4xl text-light-primary-color p-10 font-bold">
+                Artistry Amplified
+                <br />
+                <br />
+                <span class="text-light-primary-color text-4xl font-helvetica font-normal"
+                  >Revolutionizing the Industry with Our Artist Management System</span
                 >
-                  Sign Up
-                </button>
-              </router-link>
+              </h1>
             </div>
-          </form>
-        </div>
-        <div class="md:flex justify-center items-center hidden p-16">
-          <div class="flex justify-center items-center form-img h-screen w-full sm:w-full  rounded-lg">
-            <div class="relative w-full h-full flex justify-center items-center">
-              <div class="absolute w-[70%] h-[60%] z-10 flex justify-center items-center">
-                <h1 class="font-helvetica text-4xl text-white p-10 font-bold">
-                  Artistry Amplified
-                  <br />
-                  <br />
-                  <span class="text-white text-4xl font-helvetica font-normal">Revolutionizing the Industry with Our Artist Management System</span>
-                </h1>
-              </div>
-              <div class="absolute w-[80%] h-[10rem] sm:h-[20rem] bg-button-color rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"></div>
-            </div>
+            <div
+              class="absolute w-[80%] h-[10rem] sm:h-[20rem] bg-button-color rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100"
+            ></div>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  import axios from 'axios';
-  
-  export default {
-    setup() {
-      const user = ref({
-        email: '',
-        password: ''
-      });
-  
-      const login = () => {
-        axios.post('http://127.0.0.1:8000/api/v1/login/', user.value)
-          .then(response => {
-            const accessToken = response.data.access;
-            const isAdmin = response.data.user.is_superuser;
-            const isArtist = response.data.user.is_artist;
-            const userName = response.data.user.first_name;
-            localStorage.setItem('access_token', accessToken);
-            localStorage.setItem('refresh_token', accessToken);
-            localStorage.setItem('isAdmin', isAdmin);
-            localStorage.setItem('isArtist', isArtist);
-            localStorage.setItem('userName', userName);
-            // Assuming that $store is already set up
-            // this.$store.commit('setAdmin', isAdmin);
-            // this.$store.commit('setArtist', isArtist);
-            // this.$store.commit('setToken', accessToken);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  
-            if (isAdmin) {
-              // this.$toast.success('Login Successful', {
-              //   position: 'top'
-              // });
-              // this.$router.push('/admin');
-            } else if (isArtist) {
-              // this.$router.push('/artist');
-            } else {
-              alert('User role not recognized. Redirecting to login.');
-              // this.$router.push('/login');
-            }
-          })
-          .catch(error => {
-            console.error('Error logging in:', error);
-            alert('Invalid credentials. Please try again.');
-          });
-      };
-  
-      return {
-        user,
-        login
-      };
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+import store from '@/store/store'
+import { useToast } from 'vue-toast-notification'
+import { onMounted } from 'vue'
+import { jwtDecode } from 'jwt-decode'
+import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
+
+// const access_token =localStorage.getItem("access_token");
+const refresh_token = localStorage.getItem('refresh_token')
+const router = useRouter()
+const $toast = useToast()
+const user = ref({
+  email: '',
+  password: ''
+})
+const accessToken =ref()
+const refreshToken = ref()
+
+
+const login = () => {
+  axios
+    .post('http://127.0.0.1:8000/api/login/', user.value)
+    .then((response) => {
+      accessToken.value = response.data.access_token
+      refreshToken.value = response.data.refresh_token
+      const disabled=response.data.user.is_disabled
+      const deleted=response.data.user.is_deleted
+      const id=response.data.user.id
+      console.log(disabled)
+      console.log(deleted)
+      if(disabled){
+        $toast.error('Your account has been disabled', {
+        position: 'top-left'
+      })
+      }
+      else if(deleted){
+        console.log("Recover Account")
+        toggleOpenRestore(id)
+      }
+      else{
+        setToken()
+      }
+      
+    })
+    .catch((error) => {
+      console.error('Error logging in:', error)
+
+      $toast.error('Invalid Username or password', {
+        position: 'top-right'
+      })
+    })
+}
+const setToken=()=>{
+
+  localStorage.setItem('access_token', accessToken.value)
+        localStorage.setItem('refresh_token', refreshToken.value)
+        $toast.success('Login sucess', {
+          position: 'top-right'
+        })
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken.value}`
+        store.dispatch('setLoggedInUserData')
+        router.push('/')
+}
+const is_blur = ref(false)
+const is_OpenRestore = ref(false)
+let toRestoreValue = 0
+function toggleOpenRestore(id) {
+  is_OpenRestore.value = true
+  is_blur.value = true
+  toRestoreValue = id
+}
+function toggleCloseRestore() {
+  is_OpenRestore.value = false
+  is_blur.value = false
+}
+function confirmRestore() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/user/recover/${toRestoreValue}/`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`,
+      'Content-Type': 'application/json'
     }
-  };
-  </script>
-  
-  <style scoped>
-  .body {
-    background-image: url();
-  }
-  
-  .form-img {
-    width: 45vw;
-    height: 95%;
-    background-image: url('../assets/background.jpeg');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  </style>
-  
+  })
+    .then((response) => {
+      $toast.success('Your account is restored', {
+        position: 'top-right'
+      })
+      if (response.status === 200) {
+        is_OpenRestore.value = false
+        is_blur.value = false
+      }
+      setToken()
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+}
+</script>
+
+<style scoped>
+.body {
+  background-image: url();
+}
+
+.form-img {
+  width: 45vw;
+  height: 95%;
+  background-image: url('../assets/background.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>

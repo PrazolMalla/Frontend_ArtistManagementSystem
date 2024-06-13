@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue'
+import { ref, onMounted, defineProps, watch } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 import { useStore } from 'vuex'
@@ -60,13 +60,13 @@ const store = useStore()
 const music = ref(null)
 const $toast = useToast()
 
-const fetchMusicData = async () => {
+const fetchMusicData = async (id) => {
   try {
     let response
     if (props.type === 'music') {
-      response = await axios.get(`http://127.0.0.1:8000/api/music/get/${props.musicId}/`)
+      response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}/`)
     } else {
-      response = await axios.get(`http://127.0.0.1:8000/api/album/get/${props.musicId}/`)
+      response = await axios.get(`http://127.0.0.1:8000/api/album/get/${id}/`)
     }
     music.value = response.data
 
@@ -124,9 +124,15 @@ const toggleLikeMusic = async () => {
 }
 
 onMounted(() => {
-    fetchMusicData()
- 
+  fetchMusicData(props.musicId)
 })
+
+watch(
+  () => props.musicId,
+  (newMusicId) => {
+    fetchMusicData(newMusicId)
+  }
+)
 </script>
 
 <style scoped></style>

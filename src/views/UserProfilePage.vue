@@ -16,7 +16,13 @@
       <div class="z-30">
         <BannerComponent :userBanner="user.img_cover" />
         <ProfilePicComponent :userImg="user.img_profile" />
-        <ProfileNav :user="user" />
+        <div
+          class="absolute top-44 w-[80vw] h-12 md:w-[60vw] bg-light-primary-color lg:top-[22rem] lg:h-20 lg:w-[77vw] flex gap-5 pl-24 justify-center items-center lg:justify-start lg:pl-52"
+          :style="{
+            backgroundColor: `${user?.theme?.darkPrimaryColor}`
+          }"
+        ></div>
+        <!-- <ProfileNav :user="user" /> -->
         <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
           <InformationCard :userData="user" />
           <PostForm :user="user" />

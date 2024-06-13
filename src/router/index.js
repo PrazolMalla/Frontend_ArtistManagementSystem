@@ -26,6 +26,10 @@ import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import Test from '@/views/TestPage.vue'
+import ArtistMusic from '@/views/detail/ArtistMusicPage.vue'
+import ArtistHome from '@/views/detail/ArtistHomePage.vue'
+import ArtistAlbum from '@/views/detail/ArtistAlbumPage.vue'
+
 import axios from 'axios'
 import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
@@ -73,6 +77,12 @@ const router = createRouter({
       meta: { auth: false }
     },
     {
+      path: '/artist/music',
+      name: 'artistMusic',
+      component: ArtistMusic,
+      meta: { auth: false }
+    },
+    {
       path: '/album',
       name: 'album',
       component: Album,
@@ -102,7 +112,8 @@ const router = createRouter({
       name: 'manageMusic',
       component: MusicManage,
       meta: { auth: true, is_staffAndArtist: true }
-    }, {
+    },
+    {
       path: '/manage/staff',
       name: 'manageStaff',
       component: StaffManage,
@@ -127,13 +138,13 @@ const router = createRouter({
       component: ArtistManage,
       meta: { auth: true, is_staff: true }
     },
-     {
+    {
       path: '/manage/theme',
       name: 'manageTheme',
       component: ThemeManage,
       meta: { auth: true, is_staff: true }
     },
-     {
+    {
       path: '/manage/genre',
       name: 'manageGenre',
       component: GenreManage,
@@ -166,7 +177,7 @@ const router = createRouter({
       component: StaffStats,
       meta: { auth: true, is_staff: true }
     },
-    
+
     {
       path: '/stats/artist',
       name: 'artistStats',
@@ -193,21 +204,37 @@ const router = createRouter({
       meta: { auth: false }
     },
     {
-      path: '/artist/:id',
+      path: '/artist/:id/',
       name: 'artistDetail',
       component: ArtistDetail,
-      meta: { auth: false }
+      meta: { auth: false },
+      children: [
+        {
+          path: 'music',
+          name: 'artistMusic',
+          component: ArtistMusic,
+          meta: { auth: false }
+        },
+        {
+          path: '',
+          name: 'artistHome',
+          component: ArtistHome,
+          meta: { auth: false }
+        },
+        {
+          path: 'album',
+          name: 'artistAlbum',
+          component: ArtistAlbum,
+          meta: { auth: false }
+        }
+      ]
     },
     {
-      path:'/mapshow',
-      name:'MapShow',
-      component:MapShow
+      path: '/mapshow',
+      name: 'MapShow',
+      component: MapShow
     },
-     { path: '/test',
-      name: 'test',
-      component: Test,
-      meta: { auth: false }
-    }
+    { path: '/test', name: 'test', component: Test, meta: { auth: false } }
   ]
 })
 
@@ -238,17 +265,15 @@ router.beforeEach(async (to, from, next) => {
     next('/login')
   } else if (!is_staff && to.meta.is_staff) {
     next('/')
-  }else if (!is_superuser && to.meta.is_superuser) {
+  } else if (!is_superuser && to.meta.is_superuser) {
     next('/')
-  }
-  else if (!is_artist && to.meta.is_artist) {
+  } else if (!is_artist && to.meta.is_artist) {
     next('/')
   } else if (!to.meta.auth && isAuthenticated && to.name === 'loginPage') {
     next('/')
-  }else if (is_staff | is_artist && to.meta.is_staffAndArtist) {
+  } else if (is_staff | is_artist && to.meta.is_staffAndArtist) {
     next()
-  } 
-  else {
+  } else {
     next()
   }
 })

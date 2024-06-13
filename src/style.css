@@ -4,28 +4,22 @@
 
 
 body {
-  background-color: #f6f3eb;
-  overflow-x: hidden;
-}
-.bggradientpopup {
-  background: #ffffff3f;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+    background-color: #080727;
+    overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 0px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f6f3eb;
+  background: #080727;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff4000;
+  background: slategray;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff4000;
+  background: #555;
 }

@@ -8,7 +8,7 @@
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
-        :actionQuestion="`Do yo want to delete ${itemName}?`"
+        :actionQuestion="`Do yoy want to delete ${itemName}?`"
         actionConfirm="Confirm Delete"
         @close="toggleCloseDelete"
         @confirm="confirmDelete"
@@ -16,7 +16,7 @@
       <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
-        :actionQuestion="`Do yo want to restore ${itemName}?`"
+        :actionQuestion="`Do you want to restore ${itemName}?`"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
 

@@ -8,7 +8,7 @@
       <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
-        :actionQuestion="`Do yo want to delete ${itemName}?`"
+        :actionQuestion="`Do you want to delete ${itemName}?`"
         actionConfirm="Confirm Delete"
         @confirm="confirmDelete"
         @close="toggleCloseDelete"
@@ -17,7 +17,7 @@
       <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" :albums="albums" :genreData="genreData" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
-        :actionQuestion="`Do yo want to restore ${itemName}?`"
+        :actionQuestion="`Do you want to restore ${itemName}?`"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
         @confirm="confirmRestore"
@@ -52,7 +52,7 @@
             </div>
 
             <div class="flex flex-col justify-between">
-              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color py-2" >
+              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color" >
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
                   <div class="font-semibold" v-if="userData.is_artist  & !is_deletedShown">Hide</div>
@@ -86,7 +86,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full  justify-evenly items-center ">
+                <div class="flex w-full  justify-around items-center ">
                   <label v-if="userData.is_artist"
                   class="relative inline-flex cursor-pointer items-center">
                     <input
@@ -108,8 +108,6 @@
                     <label :for="'disableswitch-' + music.id" class="hidden"></label>
                     <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
                   </label>
-                  <div>
-                  </div>
                   <v-icon v-if="userData.is_artist"  class="cursor-pointer"  name="fa-regular-edit" @click="toggleOpenEdit(music.id)"  fill="#00b166" scale="1.5"></v-icon>
                   <v-icon v-if="userData.is_artist" class="cursor-pointer"  @click="toggleOpenDelete(music)" name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
                 </div>
@@ -289,7 +287,11 @@ const fetchMusics = async () => {
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
+      const response = await axios.get('http://127.0.0.1:8000/api/music/admin/get/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
       data = response.data
     } else {
       const response = await axios.get('http://127.0.0.1:8000/api/music/get/loggedin/', {

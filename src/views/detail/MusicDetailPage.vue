@@ -21,11 +21,14 @@ import LyricsComponent from '@/components/detail_page/music_detail/LyricsCompone
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter} from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
+import { useToast } from 'vue-toast-notification'
+const toast = useToast()
 const music = ref({})
 const type = ref('music')
 const route = useRoute()
+const router = useRouter()
 const fetchMusicData = async (id) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}`, {
@@ -33,6 +36,14 @@ const fetchMusicData = async (id) => {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
+    const referrer = document.referrer
+    if (referrer) {
+        router.go(-1)
+        toast.error('This music is disabled.')
+      } else {
+        router.push('/') 
+        toast.error('This music is disabled.')
+      }
     music.value = response.data
   } catch (error) {
     console.error('Failed to fetch music data:', error)

@@ -5,6 +5,14 @@
         v-if="is_blur"
         class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
       ></div>
+      <ManageConfirmDialogue
+        v-if="is_OpenDelete"
+        actionQuestion="Do you really want to delete your account?"
+        actionConfirm="Confirm Delete"
+        notes="(You can recover your account by logging again and providing confirmation)"
+        @confirm="confirmDelete"
+        @close="toggleCloseDelete"
+      />
       <EditProfile v-if="is_OpenEdit" @close="toggleCloseEdit" :userData="userData" />
       <div class="settings-container flex flex-col gap-5 p-5">
         <h1 class="text-3xl font-bold mb-5">Settings</h1>
@@ -46,6 +54,7 @@
 
 <script setup>
 import EditProfile from '@/components/profile/EditProfile.vue'
+import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import ThemeCard from '@/components/cards/ThemeCard.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
@@ -75,7 +84,7 @@ const logout = () => {
   })
   window.location.reload()
 }
-function toggleOpenEdit(album) {
+function toggleOpenEdit() {
   is_OpenEdit.value = true
   is_blur.value = true
 }
@@ -87,6 +96,40 @@ function toggleOpenDelete(){
   is_OpenDelete.value = true
   is_blur.value = true
 }
+function toggleCloseDelete() {
+  is_OpenDelete.value = false
+  is_blur.value = false
+}
+
+function confirmDelete() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/user/delete/${userData.value.id}/`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    }
+  })
+    .then((response) => {
+      
+      if (response.status === 200) {
+        is_OpenDelete.value = false
+        is_blur.value = false
+      }
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      store.dispatch('setLoggedInUserData')
+      window.location.reload()
+      $toast.success('Your account is deleted', {
+        position: 'top-right'
+      })
+
+
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+}
+
 const themeData = ref([])
 const selectDefaultTheme = async () => {
   try {

@@ -1,4 +1,15 @@
 <template>
+   <div
+        v-if="is_blur"
+        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
+      ></div>
+      <ManageConfirmDialogue
+        v-if="is_OpenRestore"
+        actionQuestion="You have deleted your account. Do you want to restore your account?"
+        actionConfirm="Confirm Restore"
+        @close="toggleCloseRestore"
+        @confirm="confirmRestore"
+      />
   <div class="flex flex-col sm:flex-row items-center h-screen w-full bg-dark-primary-color">
     <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
       <div
@@ -32,7 +43,7 @@
             <input
               type="password"
               class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
-              id="email"
+              id="password"
               v-model="user.password"
               required
             />
@@ -82,6 +93,7 @@ import store from '@/store/store'
 import { useToast } from 'vue-toast-notification'
 import { onMounted } from 'vue'
 import { jwtDecode } from 'jwt-decode'
+import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 
 // const access_token =localStorage.getItem("access_token");
 const refresh_token = localStorage.getItem('refresh_token')
@@ -91,22 +103,34 @@ const user = ref({
   email: '',
   password: ''
 })
+const accessToken =ref()
+const refreshToken = ref()
+
 
 const login = () => {
   axios
     .post('http://127.0.0.1:8000/api/login/', user.value)
     .then((response) => {
-      const accessToken = response.data.access_token
-      const refreshToken = response.data.refresh_token
-      localStorage.setItem('access_token', accessToken)
-      localStorage.setItem('refresh_token', refreshToken)
-      $toast.success('Login sucess', {
-        position: 'top-right'
+      accessToken.value = response.data.access_token
+      refreshToken.value = response.data.refresh_token
+      const disabled=response.data.user.is_disabled
+      const deleted=response.data.user.is_deleted
+      const id=response.data.user.id
+      console.log(disabled)
+      console.log(deleted)
+      if(disabled){
+        $toast.error('Your account has been disabled', {
+        position: 'top-left'
       })
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-      store.dispatch('setLoggedInUserData')
-      router.push('/')
+      }
+      else if(deleted){
+        console.log("Recover Account")
+        toggleOpenRestore(id)
+      }
+      else{
+        setToken()
+      }
+      
     })
     .catch((error) => {
       console.error('Error logging in:', error)
@@ -114,6 +138,53 @@ const login = () => {
       $toast.error('Invalid Username or password', {
         position: 'top-right'
       })
+    })
+}
+const setToken=()=>{
+
+  localStorage.setItem('access_token', accessToken.value)
+        localStorage.setItem('refresh_token', refreshToken.value)
+        $toast.success('Login sucess', {
+          position: 'top-right'
+        })
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken.value}`
+        store.dispatch('setLoggedInUserData')
+        router.push('/')
+}
+const is_blur = ref(false)
+const is_OpenRestore = ref(false)
+let toRestoreValue = 0
+function toggleOpenRestore(id) {
+  is_OpenRestore.value = true
+  is_blur.value = true
+  toRestoreValue = id
+}
+function toggleCloseRestore() {
+  is_OpenRestore.value = false
+  is_blur.value = false
+}
+function confirmRestore() {
+  axios({
+    method: 'delete',
+    url: `http://127.0.0.1:8000/api/user/recover/${toRestoreValue}/`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      $toast.success('Your account is restored', {
+        position: 'top-right'
+      })
+      if (response.status === 200) {
+        is_OpenRestore.value = false
+        is_blur.value = false
+      }
+      setToken()
+    })
+    .catch((err) => {
+      console.log(err.response.data)
     })
 }
 </script>

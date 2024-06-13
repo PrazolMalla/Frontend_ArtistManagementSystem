@@ -8,7 +8,7 @@
       <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue
         v-if="is_OpenDelete"
-        actionQuestion="Do yo want to delete XYZ?"
+        :actionQuestion="`Do you want to delete ${itemName}?`"
         actionConfirm="Confirm Delete"
         @confirm="confirmDelete"
         @close="toggleCloseDelete"
@@ -17,7 +17,7 @@
       <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" :albums="albums" :genreData="genreData" @close="toggleCloseEdit" />
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
-        actionQuestion="Do yo want to restore XYZ?"
+        :actionQuestion="`Do you want to restore ${itemName}?`"
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
         @confirm="confirmRestore"
@@ -52,7 +52,7 @@
             </div>
 
             <div class="flex flex-col justify-between">
-              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color py-2" >
+              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color" >
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
                   <div class="font-semibold" v-if="userData.is_artist  & !is_deletedShown">Hide</div>
@@ -86,7 +86,7 @@
                   <p v-if="userData.is_artist">Edit</p>
                   <p v-if="userData.is_artist">Delete</p>
                 </div>
-                <div class="flex w-full  justify-evenly items-center ">
+                <div class="flex w-full  justify-around items-center ">
                   <label v-if="userData.is_artist"
                   class="relative inline-flex cursor-pointer items-center">
                     <input
@@ -108,10 +108,8 @@
                     <label :for="'disableswitch-' + music.id" class="hidden"></label>
                     <div class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"></div>
                   </label>
-                  <div>
-                  </div>
                   <v-icon v-if="userData.is_artist"  class="cursor-pointer"  name="fa-regular-edit" @click="toggleOpenEdit(music.id)"  fill="#00b166" scale="1.5"></v-icon>
-                  <v-icon v-if="userData.is_artist" class="cursor-pointer"  @click="toggleOpenDelete(music.id)" name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
+                  <v-icon v-if="userData.is_artist" class="cursor-pointer"  @click="toggleOpenDelete(music)" name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
                 </div>
               </div>
 
@@ -133,7 +131,7 @@
                   </div>
                 </div>
                 <div class="flex w-full justify-around flex-row bg-transparentborder-b border-b-primary-text-color" >
-                  <div @click="toggleOpenRestore(delmusic.id)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
+                  <div @click="toggleOpenRestore(delmusic)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
                     </div>
                 </div>
@@ -179,6 +177,7 @@ const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 const is_deletedShown = ref(false)
+const itemName=ref()
 const genreData = ref([])
 let toDeleteValue = 0
 let toRestoreValue = 0
@@ -197,6 +196,8 @@ function toggleCloseAdd() {
   fetchMusics()
 }
 function toggleOpenEdit(music) {
+  fetchAlbums()
+  getGenre()
   is_OpenEdit.value = true
   is_blur.value = true
   editMusicId.value = music
@@ -204,23 +205,25 @@ function toggleOpenEdit(music) {
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
-
   fetchMusics()
 }
-function toggleOpenDelete(deleteId) {
+function toggleOpenDelete(music) {
+  itemName.value=music.name
   is_OpenDelete.value = true
   is_blur.value = true
-  toDeleteValue = deleteId
+  toDeleteValue = music.id
+  
 }
 function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
 }
 
-function toggleOpenRestore(restoreId) {
+function toggleOpenRestore(delmusic) {
   is_OpenRestore.value = true
   is_blur.value = true
-  toRestoreValue = restoreId
+  toRestoreValue = delmusic.id
+  itemName.value=delmusic.name
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -273,16 +276,22 @@ const toggleDisableMusic = async (music) => {
 
 const showDeletedList = async () => {
     is_deletedShown.value = true
+    fetchDeletedMusics()
 }
 const showAllList = async () => {
  is_deletedShown.value = false
+ fetchMusics()
 }
 
 const fetchMusics = async () => {
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
+      const response = await axios.get('http://127.0.0.1:8000/api/music/admin/get/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
       data = response.data
     } else {
       const response = await axios.get('http://127.0.0.1:8000/api/music/get/loggedin/', {
@@ -342,6 +351,7 @@ function confirmDelete() {
         is_OpenDelete.value = false
         is_blur.value = false
       }
+
     })
     .catch((err) => {
       console.log(err.response.data)
@@ -362,7 +372,6 @@ function confirmRestore() {
       $toast.success('Music is Restored', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenRestore.value = false
         is_blur.value = false
@@ -385,7 +394,6 @@ const fetchAlbums = async () => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
-      console.log(response.data,"here we goo")
       data = response.data
     }
     albums.value = data
@@ -398,7 +406,6 @@ const getGenre = async () => {
    await axios
       .get('http://127.0.0.1:8000/api/genre/get/')
       .then((response) => {
-        console.log(response.data)
         genreData.value = response.data
       })
       .catch((error) => {
@@ -408,7 +415,6 @@ const getGenre = async () => {
 
 onMounted(() =>{
   fetchMusics()
-  fetchDeletedMusics()
   
 })
 </script>

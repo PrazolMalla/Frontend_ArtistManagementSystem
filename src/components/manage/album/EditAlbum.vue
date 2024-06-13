@@ -30,11 +30,11 @@
           formErrors[item.name]
         }}</span>
       </div>
-      <div class="w-full sm:w-2/12 text-secondary-color flex flex-col mt-2">
+      <div class="w-full sm:w-3/12 text-secondary-color flex flex-col mt-2">
         <label
           for="img"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-36 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'  }"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Album Picture
             <v-icon
@@ -93,13 +93,8 @@ const fetchAlbums = async () => {
     const data = response.data
     album.value = data
     profileFile.value = data.img_profile
+    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
     album.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
-    if (!album.value.genre) {
-      album.value.genre = ''
-    }
-    if (!album.value.album) {
-      album.value.album = ''
-    }
     if (!album.value.band) {
       album.value.band = ''
     }
@@ -113,13 +108,11 @@ const formErrors = ref('')
 const AlbumInputField = ref([
   { id: '1', name: 'name', type: 'text', label: 'Name' },
   { id: '2', name: 'description', type: 'text', label: 'Description' },
-  { id: '3', name: 'language', type: 'text', label: 'Language' },
   { id: '3', name: 'release_at', type: 'date', label: 'Released At' }
 ])
 const album = ref({
   name: '',
   description: '',
-  language: '',
   release_at: '',
   is_released: false
 })
@@ -160,8 +153,12 @@ function editAlbum() {
     const releaseDate = new Date(album.value.release_at)
     formData.append('name', album.value.name)
     formData.append('description', album.value.description)
-    formData.append('language', album.value.language)
     formData.append('release_at', album.value.release_at)
+    if (releaseDate <= today) {
+      album.value.is_released = true
+    } else {
+      album.value.is_released = false
+    }
 
     formData.append('is_released', album.value.is_released)
     if (profileFile.value && profileFile.value instanceof File) {

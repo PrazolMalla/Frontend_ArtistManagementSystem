@@ -100,7 +100,7 @@
           type="submit"
           @click="editUser()"
         >
-          Add User
+          Edit Profile
         </button>
       </div>
     </div>

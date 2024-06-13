@@ -33,8 +33,8 @@
       <div class="w-full sm:w-[20%]  self-center text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center' }"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
             <v-icon
@@ -61,8 +61,8 @@
       <div class="w-full sm:w-[20%] self-center text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-20 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'cover' }"
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center' }"
           >
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
             <v-icon
@@ -252,7 +252,11 @@ const addStaff = () => {
     }
     formData.append('is_active', 'True')
     axios
-      .post('http://127.0.0.1:8000/api/user/post/', formData)
+      .post('http://127.0.0.1:8000/api/user/post/', formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      })
       .then((response) => {
         console.log('registered')
         $toast.success("Staff added successfully");

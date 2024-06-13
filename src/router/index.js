@@ -201,7 +201,7 @@ const router = createRouter({
       path: '/music/:id',
       name: 'musicDetail',
       component: MusicDetail,
-      meta: { auth: false }
+      meta: { auth: false },
     },
     {
       path: '/artist/:id/',
@@ -237,7 +237,6 @@ const router = createRouter({
     { path: '/test', name: 'test', component: Test, meta: { auth: false } }
   ]
 })
-
 router.beforeEach(async (to, from, next) => {
   let is_artist
   let is_staff

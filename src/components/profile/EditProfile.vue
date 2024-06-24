@@ -1,6 +1,13 @@
 <template>
+  <Credential
+        v-if="is_confirm"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 mt-40  "
+        @confirm="editUser"
+        @close="toggleCloseCredential"
+      />
   <fieldset
     class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
+    v-if="!is_confirm"
   >
     <legend class="ml-10">Edit Profile</legend>
     <v-icon
@@ -33,9 +40,20 @@
       <div class="w-full sm:w-[20%]  self-center text-secondary-color flex flex-col mt-2">
         <label
           for="profile"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Profile Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center' }"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeProfile"
+              class="absolute right-3 cursor-pointer"
+              v-if="profileFile"/>
+          </p>
+          
+       </label>
         <input
           type="file"
           id="profile"
@@ -50,9 +68,20 @@
       <div class="w-full sm:w-[20%] self-center text-secondary-color flex flex-col mt-2">
         <label
           for="cover"
-          class="cursor-pointer items-center p-2 text-sm text-gray-900 bg-gray-50 rounded-full focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          >Cover Pic</label
-        >
+          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
+          >
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
+            <v-icon
+              name="fa-times"
+              fill="#ffffff"
+              scale="1"
+              @click="removeCover"
+              class="absolute right-3 cursor-pointer"
+              v-if="coverFile"/>
+          </p>
+          
+       </label>
         <input type="file" id="cover" name="cover" @change="handleCoverChange" class="hidden" />
 
         <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
@@ -98,7 +127,7 @@
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
           type="submit"
-          @click="editUser()"
+          @click="confirmEdit()"
         >
           Edit Profile
         </button>
@@ -109,6 +138,7 @@
 
 <script setup>
 import { ref, onMounted} from 'vue'
+import Credential from '@/components/manage/Credential.vue'
 import axios from 'axios'
 import {defineEmits, defineProps } from 'vue'
 import { useToast } from 'vue-toast-notification'
@@ -122,8 +152,6 @@ const user = ref({
   username: props.userData.username,
   email: props.userData.email,
   dob: props.userData.dob,
-  password: '',
-  Repassword: '',
   country: props.userData.country,
   gender: props.userData.gender
 })
@@ -140,45 +168,77 @@ const userInputField = ref([
   { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
   { id: '3', name: 'username', type: 'text', label: 'Username' },
   { id: '4', name: 'email', type: 'email', label: 'Email' },
-  { id: '5', name: 'password', type: 'password', label: 'Password' },
-  { id: '6', name: 'Repassword', type: 'password', label: 'Confirm Password' },
-  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' }
+  { id: '5', name: 'dob', type: 'date', label: 'Date of Birth' }
 ])
 
 const formErrors = ref({})
-const access_token = localStorage.getItem('access_token')
 
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = ''
-
-  if (fieldName === 'password' && user.value.password.length < 8) {
-    formErrors.value.password = 'Password should be at least 8 characters long.'
-  } else if (fieldName === 'Repassword' && user.value.password !== user.value.Repassword) {
-    formErrors.value.Repassword = 'Passwords do not match.'
-  }
 }
-const profileFile = ref(null)
-const coverFile = ref(null)
+const newProfile=ref(false);
+const newCover=ref(false);
+const profileFile = ref(props.userData.img_profile)
+const coverFile = ref(props.userData.img_cover)
+const backgroundImage = ref(`http://127.0.0.1:8000/${props.userData.img_profile}`)
+const coverbackgroundImage = ref(`http://127.0.0.1:8000/${props.userData.img_cover}`)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
+  newProfile.value=true;
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    backgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(profileFile.value)
 }
 
 const handleCoverChange = (event) => {
  coverFile.value = event.target.files[0]
+ newProfile.value=true;
+ const reader = new FileReader()
+  reader.onload = (e) => {
+    coverbackgroundImage.value = e.target.result
+  }
+  reader.readAsDataURL(coverFile.value)
+}
+const removeProfile = (event) => {
+  event.preventDefault();
+  if(newProfile.value){
+    profileFile.value = props.userData.img_profile;
+    backgroundImage.value = `http://127.0.0.1:8000/${props.userData.img_profile}`
+    newProfile.value=false
+  }
+  else{
+    profileFile.value = null;
+    backgroundImage.value = null;
+  }
+};
+const removeCover = (event) => {
+  event.preventDefault();
+  if(newCover.value){
+    coverFile.value = props.userData.img_cover;
+    coverbackgroundImage.value = `http://127.0.0.1:8000/${props.userData.img_cover}`
+    newCover.value=false
+  }
+  else{
+    coverFile.value = null;
+    coverbackgroundImage.value = null;
+  }
+};
+
+const is_confirm= ref(false)
+
+function toggleCloseCredential() {
+  is_confirm.value = false
+}
+function confirmEdit() {
+  console.log("coverFile=",coverFile.value)
+  is_confirm.value=true
 }
 
 const editUser = () => {
   formErrors.value = {}
-
-  if (user.value.password.length < 8) {
-    formErrors.value.password = 'Password should be at least 8 characters long.'
-  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(user.value.password)) {
-    formErrors.value.password =
-      'Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
-  }
-  if (user.value.password !== user.value.Repassword) {
-    formErrors.value.Repassword = 'Passwords do not match.'
-  }
+  is_confirm.value=false
   if (user.value.username.length < 5) {
     formErrors.value.username = 'Username should be at least 5 characters long.'
   }
@@ -192,41 +252,67 @@ const editUser = () => {
   if (Object.keys(formErrors.value).length === 0) {
     const formData = new FormData()
     formData.append('email', user.value.email)
-    formData.append('password', user.value.password)
     formData.append('firstname', user.value.firstname)
     formData.append('lastname', user.value.lastname)
     formData.append('username', user.value.username)
     if (user.value.dob) {
       formData.append('dob', user.value.dob)
     }
-    formData.append('gender', user.value
-    .gender)
+    formData.append('gender', user.value.gender)
     formData.append('country', user.value.country)
-    formData.append('is_user', 'True')
-    if (profileFile.value) {
+    if (profileFile.value && profileFile.value instanceof File) {
+      RemoveOldProfile()
       formData.append('img_profile', profileFile.value)
     }
-    if (coverFile.value) {
-      formData.append('img_cover', coverFile.value)
+    if(profileFile.value==null){
+      RemoveOldProfile()
     }
-    formData.append('is_active', 'True')
+    if (coverFile.value && coverFile.value instanceof File) {
+      console.log("Before Image remove")
+      RemoveOldCover()
+      console.log("After Image remove")
+      formData.append('img_cover', coverFile.value)
+      console.log("coverFile=",coverFile.value)
+      
+    }
+    if(coverFile.value==null){
+      RemoveOldCover()
+    }
     axios
-      .patch('http://127.0.0.1:8000/api/user/edit/', formData,  {
+      .patch(`http://127.0.0.1:8000/api/user/edit/${props.userData.id}/`, formData,  {
           headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            'Content-Type': 'application/json'
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`
           }
         })
       .then((response) => {
-        console.log('registered')
-        $toast.success("User added successfully");
+        $toast.success("Profile edited successfully");
         closeAdd();
       })
       .catch((error) => {
         console.error(error)
-        $toast.error("Error while adding user")
+        $toast.error("Error while editing profile")
       })
   }
+}
+const RemoveOldProfile = () => {
+  axios.delete(`http://127.0.0.1:8000/api/users/profile-delete/${props.userData.id}/`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    }
+  })
+    .catch((err) => {
+      console.log(err.response.data)
+    })  
+}
+const RemoveOldCover = () => {
+  axios.delete(`http://127.0.0.1:8000/api/users/cover-delete/${props.userData.id}/`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    }
+  })
+    .catch((err) => {
+      console.log(err.response.data)
+    })  
 }
 const fetchCountries = async () => {
   try {

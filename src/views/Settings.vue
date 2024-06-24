@@ -13,6 +13,12 @@
         @confirm="confirmDelete"
         @close="toggleCloseDelete"
       />
+      <Credential
+        v-if="is_confirm"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-40 "
+        @confirm="confirmCredential"
+        @close="toggleCloseCredential"
+      />
       <EditProfile v-if="is_OpenEdit" @close="toggleCloseEdit" :userData="userData" />
       <div class="settings-container flex flex-col gap-5 p-5">
         <h1 class="text-3xl font-bold mb-5">Settings</h1>
@@ -55,6 +61,7 @@
 <script setup>
 import EditProfile from '@/components/profile/EditProfile.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
+import Credential from '@/components/manage/Credential.vue'
 import ThemeCard from '@/components/cards/ThemeCard.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
@@ -66,6 +73,7 @@ const defaultTheme = ref([])
 const is_blur = ref(false)
 const is_OpenEdit = ref(false)
 const is_OpenDelete= ref(false)
+const is_confirm= ref(false)
 
 
 const userData = ref([])
@@ -100,8 +108,17 @@ function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
 }
+function toggleCloseCredential() {
+  is_confirm.value = false
+  is_blur.value = false
+}
+
 
 function confirmDelete() {
+  is_OpenDelete.value=false
+  is_confirm.value=true
+}
+function confirmCredential() {
   axios({
     method: 'delete',
     url: `http://127.0.0.1:8000/api/user/delete/${userData.value.id}/`,
@@ -112,17 +129,21 @@ function confirmDelete() {
     .then((response) => {
       
       if (response.status === 200) {
-        is_OpenDelete.value = false
+        is_confirm.value = false
         is_blur.value = false
+        
       }
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-      store.dispatch('setLoggedInUserData')
-      window.location.reload()
-      $toast.success('Your account is deleted', {
+       $toast.success('Your account is deleted', {
         position: 'top-right'
       })
 
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      store.dispatch('setLoggedInUserData')
+      setTimeout(() => {
+          window.location.reload()
+        }, 3000);
+     
 
     })
     .catch((err) => {

@@ -1,7 +1,7 @@
 <template>
    <div
         v-if="is_blur"
-        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
+        class="fixed inset-0 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center items-center"
       ></div>
       <ManageConfirmDialogue
         v-if="is_OpenRestore"
@@ -9,7 +9,9 @@
         actionConfirm="Confirm Restore"
         @close="toggleCloseRestore"
         @confirm="confirmRestore"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-20"
       />
+
   <div class="flex flex-col sm:flex-row items-center h-screen w-full bg-dark-primary-color">
     <div class="form-container w-full h-full bg-light-primary-color flex sm:flex-row flex-col">
       <div
@@ -136,15 +138,15 @@ const login = () => {
       console.error('Error logging in:', error)
 
       $toast.error('Invalid Username or password', {
-        position: 'top-right'
+        position: 'top-left'
       })
     })
 }
 const setToken=()=>{
 
-  localStorage.setItem('access_token', accessToken.value)
+        localStorage.setItem('access_token', accessToken.value)
         localStorage.setItem('refresh_token', refreshToken.value)
-        $toast.success('Login sucess', {
+        $toast.success('Login success', {
           position: 'top-right'
         })
 

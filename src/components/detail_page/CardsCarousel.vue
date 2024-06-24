@@ -78,7 +78,7 @@ import 'swiper/css/pagination'
 
 import { Autoplay, Pagination } from 'swiper/modules'
 import MusicCard from '@/components/cards/MusicCard.vue'
-import { ref, defineProps, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({
   user: {

@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const props = defineProps({

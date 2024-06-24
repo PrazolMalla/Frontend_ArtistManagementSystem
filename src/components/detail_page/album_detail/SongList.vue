@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({

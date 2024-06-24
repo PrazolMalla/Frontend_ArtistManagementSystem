@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 import { useStore } from 'vuex'

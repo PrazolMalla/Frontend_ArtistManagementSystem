@@ -30,7 +30,7 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({
   user: {

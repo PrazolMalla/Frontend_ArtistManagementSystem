@@ -135,7 +135,6 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
-import { defineProps, defineEmits } from 'vue'
 const emit = defineEmits(['close'])
 function closeEdit() {
   emit('close')

@@ -61,7 +61,7 @@
     <div class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img
-          :src="imgUrl(userData.img_profile)"
+          :src="imgProfile"
           alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           :style="{ borderColor: themeData?.textColor }"
@@ -105,9 +105,12 @@ import store from '@/store/store'
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])
 const themeData = ref([])
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const imgProfile =  ref(`${base_url}${userData.value.img_profile}`)
 const userDataFunc = () => {
   userData.value = store.getters.getLoggedInUserData
+  console.log(userData.value.img_profile)
+  imgProfile.value = `${base_url}${userData.value.img_profile}`
 }
 const getUserData = computed(() => store.getters.getLoggedInUserData)
 
@@ -124,6 +127,7 @@ watch(
 )
 watch(getUserData, (newVal) => {
   userData.value = newVal
+  imgProfile.value = `${base_url}/${userData.value.img_profile}`
 })
 
 const categories = ref([

@@ -11,6 +11,7 @@
 <script>
 import MusicCard from '@/components/cards/MusicCard.vue'
 import axios from 'axios'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   components: {
@@ -27,7 +28,7 @@ export default {
   methods: {
     fetchMusicData() {
       axios
-        .get('http://127.0.0.1:8000/api/music/get/')
+        .get(`${base_url}/api/music/get/`)
         .then((response) => {
           this.musicData = response.data
         })

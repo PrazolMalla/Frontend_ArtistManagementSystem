@@ -31,7 +31,7 @@ const route = useRoute()
 const router = useRouter()
 const fetchMusicData = async (id) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}`, {
+    const response = await axios.get(`${base_url}/api/music/get/${id}`, {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }

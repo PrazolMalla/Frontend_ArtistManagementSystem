@@ -113,6 +113,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const countryOptions = ref([])
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const props = defineProps(['userData'])
 const user = ref({
@@ -210,7 +211,7 @@ const editUser = () => {
     }
     formData.append('is_active', 'True')
     axios
-      .patch('http://127.0.0.1:8000/api/user/edit/', formData,  {
+      .patch(`${base_url}/api/user/edit/`, formData,  {
           headers: {
               Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'Content-Type': 'application/json'
@@ -229,7 +230,7 @@ const editUser = () => {
 }
 const fetchCountries = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
     countryOptions.value = response.data.countries
   } catch (error) {
     console.error('Error fetching countries:', error)

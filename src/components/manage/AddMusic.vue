@@ -76,6 +76,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { mapState } from 'vuex';
 const router=useRouter();
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const track = ref({
   name: '',
   description: '',
@@ -157,7 +158,7 @@ const addMusic = () => {
     if (musicFile.value) {
       formData.append('music_file', musicFile.value); 
     }
-    axios.post('http://127.0.0.1:8000/api/music/post/', formData)
+    axios.post(`${base_url}/api/music/post/`, formData)
         .then(response => {
             console.log("music added");
         })
@@ -228,7 +229,7 @@ export default{
         const RegisterSubmit = () => {
           axios({
             method: 'post',
-            url: `http://127.0.0.1:8000/api/user/post/`,
+            url: `${base_url}/api/user/post/`,
             headers: {
               'Content-Type': 'application/json'
             },

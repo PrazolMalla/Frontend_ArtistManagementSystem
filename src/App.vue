@@ -10,8 +10,7 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import store from './store/store';
 
-// Reactive state
-const API = "http://127.0.0.1:8000/";
+const base_url  = import.meta.env.VITE_BASE_API_URL
 const access_token = ref(localStorage.getItem("access_token"));
 const refresh_token = ref(localStorage.getItem("refresh_token"));
 const userId = ref(localStorage.getItem("userId"));
@@ -25,15 +24,13 @@ onMounted(() => {
             refreshAccessToken();
         } 
     } 
-    console.log("App")
      store.dispatch('setLoggedInUserData')
 
-    console.log("App End")
 });
 
 const refreshAccessToken = async () => {
     try {
-        const response = await axios.post(`${API}api/token/refresh/`, {'refresh': refresh_token.value}, {
+        const response = await axios.post(`${base_url}api/token/refresh/`, {'refresh': refresh_token.value}, {
             headers: {
                 "Content-Type": "application/json",
             }

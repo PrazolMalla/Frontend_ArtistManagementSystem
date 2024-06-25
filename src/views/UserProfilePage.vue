@@ -4,7 +4,7 @@
       <div
         class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full h-[100%]"
         :style="{
-          backgroundImage: `url(http://127.0.0.1:8000${user?.theme?.img_profile})`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover'
         }"
@@ -49,10 +49,11 @@ import axios from 'axios'
 import Artist from './explore/Artist.vue'
 import store from '@/store/store'
 const user = ref({})
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const backgroundImage =  `${base_url}${user?.theme?.img_profile}`
 const fetchUserData = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/login-user/', {
+    const response = await axios.get(`${base_url}/api/user/login-user/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }

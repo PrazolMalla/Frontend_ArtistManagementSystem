@@ -88,11 +88,11 @@ onMounted(() => {
 })
 const fetchAlbums = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/album/get/${props.albumId}`)
+    const response = await axios.get(`${base_url}/api/album/get/${props.albumId}`)
     const data = response.data
     album.value = data
     profileFile.value = data.img_profile
-    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
+    backgroundImage.value =  `${base_url}/${data.img_profile}`
     album.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
     if (!album.value.band) {
       album.value.band = ''
@@ -164,7 +164,7 @@ function editAlbum() {
       formData.append('img_profile', profileFile.value)
     }
     axios
-      .patch(`http://127.0.0.1:8000/api/album/edit/${props.albumId}/`, formData, {
+      .patch(`${base_url}/api/album/edit/${props.albumId}/`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

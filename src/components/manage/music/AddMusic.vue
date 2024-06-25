@@ -127,7 +127,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const track = ref({
   name: '',
   description: '',
@@ -248,7 +248,7 @@ const addMusic = () => {
       formData.append('music_file', musicFile.value)
     }
     axios
-      .post('http://127.0.0.1:8000/api/music/post/', formData, {
+      .post(`${base_url}/api/music/post/`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

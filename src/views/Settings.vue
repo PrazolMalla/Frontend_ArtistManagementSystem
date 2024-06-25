@@ -62,6 +62,7 @@ import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 const $toast = useToast()
 const defaultTheme = ref([])
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const is_blur = ref(false)
 const is_OpenEdit = ref(false)
@@ -104,7 +105,7 @@ function toggleCloseDelete() {
 function confirmDelete() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/user/delete/${userData.value.id}/`,
+    url: `${base_url}/api/user/delete/${userData.value.id}/`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     }
@@ -134,7 +135,7 @@ const themeData = ref([])
 const selectDefaultTheme = async () => {
   try {
     const response = await axios.patch(
-      'http://127.0.0.1:8000/api/user/theme/unset/',
+      `${base_url}/api/user/theme/unset/`,
       {},
       {
         headers: {
@@ -154,7 +155,7 @@ const selectDefaultTheme = async () => {
 }
 const fetchTheme = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/theme/get/', {
+    const response = await axios.get(`${base_url}/api/theme/get/`, {
 
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,

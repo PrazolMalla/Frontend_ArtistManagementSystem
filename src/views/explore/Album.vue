@@ -11,6 +11,8 @@
 <script>
 import AlbumCard from '@/components/cards/AlbumCard.vue'
 import axios from 'axios';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+
 export default{
    components:{
     AlbumCard
@@ -25,7 +27,7 @@ export default{
 
       methods: {
     fetchAlbumData() {
-      axios.get('http://127.0.0.1:8000/api/album/get/')
+      axios.get(`${base_url}/api/album/get/`)
         .then(response => {
           this.albumData = response.data;
         })

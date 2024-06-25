@@ -23,14 +23,15 @@ import CommentComponent from '@/components/detail_page/music_detail/CommentsComp
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-import Artist from '../explore/Artist.vue'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+
 const music = ref({})
 const album = ref('album')
 const route = useRoute()
 const queryParams = route.params.id
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/album/get/' + queryParams)
+    const response = await axios.get(`${base_url}/api/album/get/` + queryParams)
     music.value = response.data
   } catch (error) {
     console.error('Failed to fetch music data:', error)

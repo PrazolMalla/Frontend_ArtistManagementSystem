@@ -23,9 +23,10 @@ import MusicCard from '@/components/cards/MusicCard-2.vue';
 
 const musicData = ref([]);
 const genreData = ref([]);
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const fetchGenreAll = () => {
-  axios.get('http://127.0.0.1:8000/api/genre/get/')
+  axios.get(`${base_url}/api/genre/get/`)
     .then(response => {
       genreData.value = response.data;
     })
@@ -35,7 +36,7 @@ const fetchGenreAll = () => {
 };
 
 const fetchMusicData = () => {
-  axios.get('http://127.0.0.1:8000/api/music/get/genre/1')
+  axios.get(`${base_url}/api/music/get/genre/1`)
     .then(response => {
       musicData.value = response.data;
     })
@@ -45,7 +46,7 @@ const fetchMusicData = () => {
 };
 
 const getAllGenreMusic = () => {
-  axios.get(`http://127.0.0.1:8000/api/music/get/genre/`)
+  axios.get(`${base_url}/api/music/get/genre/`)
     .then(response => {
       musicData.value = response.data;
     })
@@ -55,7 +56,7 @@ const getAllGenreMusic = () => {
 };
 
 const getGenreMusic = (id) => {
-  axios.get(`http://127.0.0.1:8000/api/music/get/genre/${id}`)
+  axios.get(`${base_url}/api/music/get/genre/${id}`)
     .then(response => {
       musicData.value = response.data;
     })

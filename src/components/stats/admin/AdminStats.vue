@@ -117,7 +117,7 @@ export default {
 
     const fetchCountryData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/country/country-data/')
+        const response = await axios.get(`${base_url}/api/country/country-data/`)
         const data = response.data
 
         const labels = []
@@ -204,6 +204,8 @@ export default {
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { Line, Pie } from 'vue-chartjs'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+
 import {
   Chart as ChartJS,
   Title,
@@ -291,7 +293,7 @@ export default {
 
     const fetchCountryData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/country/country-data/')
+        const response = await axios.get(`${base_url}/api/country/country-data/`)
         const data = response.data
 
         const labels = []
@@ -327,7 +329,7 @@ export default {
 
     const fetchUserCreationStats = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/user/user-creation-stats/')
+        const response = await axios.get(`${base_url}/api/user/user-creation-stats/`)
         const data = response.data
 
         userCreationStatsData.value = {

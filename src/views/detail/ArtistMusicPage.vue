@@ -19,13 +19,14 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 
 const user = ref({})
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
   console.log(queryParams)
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/get/' + queryParams, {
+    const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
       headers: {}
     })
     user.value = response.data
@@ -39,7 +40,7 @@ const musicData = ref([])
 const fetchMusicData = async () => {
   try {
     console.log(queryParams)
-    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + queryParams)
+    const response = await axios.get(`${base_url}/api/music/artist/get/` + queryParams)
     musicData.value = response.data
     console.log(musicData.value)
   } catch (error) {

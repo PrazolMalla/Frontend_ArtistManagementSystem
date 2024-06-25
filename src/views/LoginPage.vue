@@ -91,14 +91,11 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 import store from '@/store/store'
 import { useToast } from 'vue-toast-notification'
-import { onMounted } from 'vue'
-import { jwtDecode } from 'jwt-decode'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
-
-// const access_token =localStorage.getItem("access_token");
-const refresh_token = localStorage.getItem('refresh_token')
 const router = useRouter()
 const $toast = useToast()
+
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const user = ref({
   email: '',
   password: ''
@@ -109,7 +106,7 @@ const refreshToken = ref()
 
 const login = () => {
   axios
-    .post('http://127.0.0.1:8000/api/login/', user.value)
+    .post(`${base_url}/api/login/`, user.value)
     .then((response) => {
       accessToken.value = response.data.access_token
       refreshToken.value = response.data.refresh_token
@@ -167,7 +164,7 @@ function toggleCloseRestore() {
 function confirmRestore() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/user/recover/${toRestoreValue}/`,
+    url: `${base_url}/api/user/recover/${toRestoreValue}/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`,
       'Content-Type': 'application/json'

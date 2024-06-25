@@ -47,6 +47,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification' 
 const emit = defineEmits(['close']);
 const weatherData = ref([])
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const genre = reactive({
   name: '',
   weather: ''
@@ -58,7 +59,7 @@ const closeAdd = () => {
 
   const fetchWeather = async (weatherMain) =>{
           await axios
-            .get(`http://127.0.0.1:8000/api/genre/get/weather/`)
+            .get(`${base_url}/api/genre/get/weather/`)
             .then((response) => {
 
               weatherData.value = response.data.weather
@@ -73,7 +74,7 @@ const closeAdd = () => {
 const addGenre = () => {
   axios({
     method: 'post',
-    url: 'http://127.0.0.1:8000/api/genre/post/',
+    url: `${base_url}/api/genre/post/`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'

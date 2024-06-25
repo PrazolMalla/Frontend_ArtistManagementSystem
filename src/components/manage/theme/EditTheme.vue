@@ -66,7 +66,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const props = defineProps({
   themeId: {
     type: String,
@@ -108,7 +108,7 @@ const handleProfileChange = (event) => {
 
 const fetchThemeData = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/theme/get/${props.themeId}`, {
+    const response = await axios.get(`${base_url}/api/theme/get/${props.themeId}`, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
@@ -137,7 +137,7 @@ const addTheme = () => {
     formData.append('img_profile', profileFile.value)
     
     axios
-      .post('http://127.0.0.1:8000/api/theme/create/', formData, {
+      .post(`${base_url}/api/theme/create/`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

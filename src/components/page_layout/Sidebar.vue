@@ -61,7 +61,7 @@
     <div class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img
-          :src="`http://127.0.0.1:8000${userData.img_profile}`"
+          :src="imgUrl(userData.img_profile)"
           alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           :style="{ borderColor: themeData?.textColor }"
@@ -100,6 +100,7 @@
 </template>
 
 <script setup>
+import { imgUrl } from '@/utils/imageProcess';
 import store from '@/store/store'
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])
@@ -238,9 +239,7 @@ const showDataInSideBar = () => {
 }
 
 onMounted(() => {
-  console.log('On Sidebar')
   store.dispatch('setLoggedInUserData')
-  console.log('On Sidebar end')
   userDataFunc()
   showDataInSideBar()
 })

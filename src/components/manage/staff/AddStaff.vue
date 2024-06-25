@@ -132,11 +132,10 @@
 <script setup>
 import { ref, onMounted} from 'vue'
 import axios from 'axios'
-import {defineEmits } from 'vue'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const countryOptions = ref([])
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const staff = ref({
   firstname: '',
   lastname: '',
@@ -252,7 +251,7 @@ const addStaff = () => {
     }
     formData.append('is_active', 'True')
     axios
-      .post('http://127.0.0.1:8000/api/user/post/', formData, {
+      .post(`${base_url}/api/user/post/`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
@@ -270,7 +269,7 @@ const addStaff = () => {
 }
 const fetchCountries = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
     countryOptions.value = response.data.countries
   } catch (error) {
     console.error('Error fetching countries:', error)

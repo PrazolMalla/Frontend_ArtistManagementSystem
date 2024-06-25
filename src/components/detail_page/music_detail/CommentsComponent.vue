@@ -5,7 +5,7 @@
     <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Comments</h1>
     <div class="flex items-center gap-5">
       <img
-        :src="`http://127.0.0.1:8000${userData.img_profile}`"
+        :src="imgUrl(comment.user.img_profile)"
         alt=""
         class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
       />
@@ -28,7 +28,7 @@
     <div v-for="(comment, index) in comments" :key="index">
       <div class="flex justify-start items-center gap-2">
         <img
-          :src="`http://127.0.0.1:8000${comment.user.img_profile}`"
+          :src="imgUrl(comment.user.img_profile)"
           alt=""
           class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
         />
@@ -72,7 +72,7 @@
           class="flex gap-2 mt-2"
         >
           <img
-            :src="`http://127.0.0.1:8000${reply.user.img_profile}`"
+            :src="imgUrl(reply.user.img_profile)"
             alt=""
             class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           />
@@ -129,7 +129,7 @@ const comments = ref([])
 let commentBody = ''
 const replies = ref([])
 const showReplies = ref([])
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toast-notification'
 
@@ -138,7 +138,7 @@ const $toast = useToast()
 const route = useRoute()
 const fetchCommentData = async (id) => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/music/get/comment/' + id + '/', {
+    const response = await axios.get(`${base_url}/api/music/get/comment/` + id + '/', {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
@@ -177,7 +177,7 @@ const userData = computed(() => {
 const commentOnMusic = async (id) => {
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/music/comment/`,
+      `${base_url}/api/music/comment/`,
       {
         body: commentBody,
         music: id
@@ -202,7 +202,7 @@ const commentOnMusic = async (id) => {
 const replyToComment = async (musicId, commentId, index) => {
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/music/comment/reply/`,
+      `${base_url}/api/music/comment/reply/`,
       {
         body: replies.value[index].replyBody,
         comment: commentId
@@ -230,7 +230,7 @@ const toggleReplies = (index) => {
 
 const deleteComment = async (commentId) => {
   try {
-    await axios.delete(`http://127.0.0.1:8000/api/music/delete/comment/${commentId}/`, {
+    await axios.delete(`${base_url}/api/music/delete/comment/${commentId}/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
@@ -249,7 +249,7 @@ const deleteComment = async (commentId) => {
 
 const deleteReply = async (replyId) => {
   try {
-    await axios.delete(`http://127.0.0.1:8000/api/music/delete/comment/reply/${replyId}/`, {
+    await axios.delete(`${base_url}/api/music/delete/comment/reply/${replyId}/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
@@ -268,7 +268,7 @@ const deleteReply = async (replyId) => {
 const toggleLike = async (commentId, index) => {
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/music/likeunlike/comment/${commentId}/`,
+      `${base_url}/api/music/likeunlike/comment/${commentId}/`,
       {},
       {
         headers: {
@@ -288,7 +288,7 @@ const toggleLike = async (commentId, index) => {
 const toggleReplyLike = async (replyId, commentIndex, replyIndex) => {
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/music/likeunlike/comment/reply/${replyId}/`,
+      `${base_url}/api/music/likeunlike/comment/reply/${replyId}/`,
       {},
       {
         headers: {

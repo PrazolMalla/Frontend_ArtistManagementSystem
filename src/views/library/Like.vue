@@ -1,68 +1,4 @@
-<!-- <template>
-  <PageLayoutWithPlayer id="display-flex">
-    <template #content>
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-2xl font-semibold mb-4">Liked Songs</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead>
-              <tr>
-                <th class="px-4 py-2">Artist</th>
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Profile Image</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="song in likedSongs" :key="song.id" class="border-b border-gray-200">
-                <td class="px-4 py-2">{{ song.artist_name }}</td>
-                <td class="px-4 py-2">{{ song.name }}</td>
-                <td class="px-4 py-2"><img :src="song.img_profile" alt="Profile Image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </template>
-  </PageLayoutWithPlayer>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      likedSongs: []
-    };
-  },
-  created() {
-    this.fetchLikedSongs();
-  },
-  methods: {
-    async fetchLikedSongs() {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/user/liked/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        this.likedSongs = response.data.map(song => ({
-          artist_name: song.artist_name,
-          name: song.name,
-          img_profile: song.img_profile
-        }));
-      } catch (error) {
-        console.error('Error fetching liked songs:', error);
-      }
-    }
-  }
-};
-</script>
-
-<style>
-/* Add your styles here if needed */
-</style> -->
+->
 
 <template>
   <PageLayout>
@@ -136,6 +72,7 @@ import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { useStore } from 'vuex'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const $toast = useToast()
 const store = useStore()
@@ -143,7 +80,7 @@ const likedMusics = ref([])
 
 const fetchLikedSongs = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/liked/', {
+    const response = await axios.get(`${base_url}/api/user/liked/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
@@ -173,7 +110,7 @@ onMounted(() => {
 const toggleLikeMusic = async (id, index) => {
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/music/likeunlike/${id}/`,
+      `${base_url}/api/music/likeunlike/${id}/`,
       {},
       {
         headers: {

@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col items-center gap-2">
       <RouterLink :to="'/music/' + musicData.id">
-        <img :src="`http://127.0.0.1:8000${musicData.img_profile}`" alt="" class="rounded-lg sm:w-64 h-16 sm:h-48"
+        <img :src="musicImage" alt="" class="rounded-lg sm:w-64 h-16 sm:h-48"
       /></RouterLink>
       <div class="flex justify-between w-full items-center">
         <div class="flex flex-col">
@@ -41,18 +41,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    musicData: Object
-  },
-  methods: {
-    playMusic() {
-      this.$store.dispatch('setMusicPlayer', this.musicData)
-      console.log(this.musicData)
-    }
-  }
+<script setup>
+import { computed } from 'vue';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const props = defineProps({
+   musicData:{
+    type:Object,
+   } 
+  })
+
+const musicImage = computed(() => `${base_url}${props.musicData?.img_profile}`);
+function playMusic() {
+  this.$store.dispatch('setMusicPlayer', this.musicData)
+  console.log(this.musicData)
 }
+
+
 </script>
 <style scoped>
 @media (min-width: 768px) {

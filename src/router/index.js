@@ -33,7 +33,8 @@ import ArtistAlbum from '@/views/detail/ArtistAlbumPage.vue'
 import axios from 'axios'
 import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
-import { imageOverlay } from 'leaflet'
+
+const base_url = import.meta.env.VITE_BASE_API_URL
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -244,7 +245,7 @@ router.beforeEach(async (to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('access_token')
   try {
     await axios
-      .get('http://127.0.0.1:8000/api/user/login-user/', {
+      .get(`${base_url}/api/user/login-user/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }

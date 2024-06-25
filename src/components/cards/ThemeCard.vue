@@ -1,7 +1,8 @@
 <template>
 
   <div class="border hover:border-blue-800 hover:shadow-md shadow-blue-400 border-slate-300 relative  rounded-md overflow-hidden w-[20vw] h-[20vh] cursor-pointer"  @click="select(themeData.id)">
-      <div class="absolute  w-full h-full bg-cover" :style="{ backgroundImage: `url(http://127.0.0.1:8000${themeData.img_profile})`, backgroundSize: 'cover' }"></div>
+      <div class="absolute  w-full h-full bg-cover" :style="{ 
+          backgroundImage: `url(${imgUrl(themeData.img_profile)})`, backgroundSize: 'cover' }"></div>
       <div class="absolute bgThemeGlass z-10 h-full w-full opacity-90 p-2 backdrop-blur-3xl filter" :style="{ backgroundColor: themeData.darkPrimaryColor}">
       <p class="z-20 text-md" :style="{ color: themeData.secondaryColor}"> {{  themeData.name }}</p>
       </div>
@@ -11,6 +12,8 @@
 
 <script>
 import axios from 'axios';
+
+const base_url  = import.meta.env.VITE_BASE_API_URL
 import {useToast} from 'vue-toast-notification'
 const $toast = useToast()
 export default {
@@ -22,7 +25,7 @@ export default {
 
 
        try {
-        const response = await axios.patch(`http://127.0.0.1:8000/api/user/theme/set/${id}/`, {}, {
+        const response = await axios.patch(`${base_url}/api/user/theme/set/${id}/`, {}, {
               headers: {
                   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                   'Content-Type': 'application/json'

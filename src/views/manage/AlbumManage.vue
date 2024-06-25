@@ -78,7 +78,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/album/${album.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${album.img_profile}`"
+                    :src="imgUrl(album.img_profile)"
                     alt="Album image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -157,7 +157,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${deletedalbum.img_profile}`"
+                    :src="imgUrl(deletedalbum.img_profile)"
                     alt="Album image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -193,6 +193,7 @@ import EditAlbum from '@/components/manage/album/EditAlbum.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
@@ -271,10 +272,10 @@ const fetchAlbums = async () => {
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get('http://127.0.0.1:8000/api/album/get/')
+      const response = await axios.get(`${base_url}/api/album/get/`)
       data = response.data
     } else {
-      const response = await axios.get('http://127.0.0.1:8000/api/album/get/loggedin/', {
+      const response = await axios.get(`${base_url}/api/album/get/loggedin/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -292,14 +293,14 @@ const fetchDeletedAlbum = async () => {
   try {
     let data
     if (!userData.value.is_staff & userData.value.is_artist) {
-      const response = await axios.get( 'http://127.0.0.1:8000/api/album/get/loggedin/deleted/', {
+      const response = await axios.get( `${base_url}/api/album/get/loggedin/deleted/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
       data = response.data
     } else {
-      const response = await axios.get('http://127.0.0.1:8000/api/album/get/deleted/', {
+      const response = await axios.get(`${base_url}/api/album/get/deleted/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -319,7 +320,7 @@ const toggleHideAlbum = async (album) => {
   const newIsHidden = !originalIsHidden
   const action = newIsHidden ? 'hide' : 'unhide'
 
-  const requestUrl = `http://127.0.0.1:8000/api/album/${action}/${album.id}/`
+  const requestUrl = `${base_url}/api/album/${action}/${album.id}/`
 
   try {
     await axios.delete(requestUrl, {
@@ -339,7 +340,7 @@ const toggleDisableAlbum = async (album) => {
   const newIsDisabled = !originalIsDisabled
   const action = newIsDisabled ? 'disable' : 'enable'
 
-  const requestUrl = `http://127.0.0.1:8000/api/album/${action}/${album.id}/`
+  const requestUrl = `${base_url}/api/album/${action}/${album.id}/`
 
   try {
     await axios.delete(requestUrl, {
@@ -357,7 +358,7 @@ const toggleDisableAlbum = async (album) => {
 function confirmDelete() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/album/delete/${toDeleteValue}`,
+    url: `${base_url}/api/album/delete/${toDeleteValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'
@@ -383,7 +384,7 @@ function confirmDelete() {
 function confirmRestore() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/album/recover/${toRestoreValue}`,
+    url: `${base_url}/api/album/recover/${toRestoreValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'

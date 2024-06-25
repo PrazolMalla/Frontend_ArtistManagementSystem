@@ -54,7 +54,7 @@
               <div v-if="!is_deletedShown" v-for="artist in artists" :key="artist.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/artist/${artist.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${artist.img_profile}`"
+                    :src="imgUrl(artist.img_profile)"
                     alt="Artist image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -87,7 +87,7 @@
                 <div v-else v-for="deletedArtist in deletedArtists" :key="deletedArtists.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${deletedArtist.img_profile}`"
+                    :src="imgUrl(deletedArtist.img_profile)"
                     alt="Artist image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -130,6 +130,7 @@ const is_deletedShown = ref(false)
 const is_blur = ref(false)
 const is_OpenRestore = ref(false)
 let toRestoreValue = 0
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 function toggleCloseRestore() {
   is_OpenRestore.value = false
@@ -152,7 +153,7 @@ const showAllList = async () => {
 
 const fetchArtist = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/artist/get/')
+    const response = await axios.get(`${base_url}/api/artist/get/`)
     const data = response.data
     artists.value = data
   } catch (error) {
@@ -161,7 +162,7 @@ const fetchArtist = async () => {
 }
 const fetchDeletedArtist = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/artist/get/deleted/')
+    const response = await axios.get(`${base_url}/api/artist/get/deleted/`)
     const data = response.data
     deletedArtists.value = data
   } catch (error) {
@@ -179,7 +180,7 @@ const toggleDisableArtist = async (artist) => {
   const newIsDisabled = !originalIsDisabled;
   const action = newIsDisabled ? 'disable' : 'enable';
 
-  const requestUrl = `http://127.0.0.1:8000/api/user/${action}/${artist.id}/`;
+  const requestUrl = `${base_url}/api/user/${action}/${artist.id}/`;
 
   try {
     await axios.delete(requestUrl, {
@@ -197,7 +198,7 @@ const toggleDisableArtist = async (artist) => {
 function confirmRestore() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/user/recover/${toRestoreValue}`,
+    url: `${base_url}/api/user/recover/${toRestoreValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'

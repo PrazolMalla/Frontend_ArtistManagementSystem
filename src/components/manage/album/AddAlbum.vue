@@ -71,9 +71,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
-import {defineEmits } from 'vue'
 const emit = defineEmits(['close'])
 
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const $toast = useToast()
 
 const album = ref({
@@ -129,7 +129,7 @@ const addAlbum = async () => {
       formData.append('img_profile', profileFile.value)
     }
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/album/post/`, formData, {
+      const response = await axios.post(`${base_url}/api/album/post/`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },

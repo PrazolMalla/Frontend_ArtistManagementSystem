@@ -45,6 +45,7 @@ import axios from 'axios';
     const genreData = ref(null);
     const musicData = ref(null);
 
+const base_url  = import.meta.env.VITE_BASE_API_URL;
     const getLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -83,7 +84,7 @@ import axios from 'axios';
     
     const fetchGenre = async (weatherMain) =>{
           await axios
-            .get(`http://127.0.0.1:8000/api/genre/get/weather/${weatherMain}`)
+            .get(`${base_url}/api/genre/get/weather/${weatherMain}`)
             .then((response) => {
               genreData.value = response.data
             })
@@ -93,7 +94,7 @@ import axios from 'axios';
     }
     const fetchMusic = async (weatherMain) =>{
           await axios
-            .get(`http://127.0.0.1:8000/api/music/get/weather/${weatherMain}`)
+            .get(`${base_url}/api/music/get/weather/${weatherMain}`)
             .then((response) => {
               musicData.value = response.data
             })

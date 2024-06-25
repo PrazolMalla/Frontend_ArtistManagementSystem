@@ -78,7 +78,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/theme/${theme.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${theme.img_profile}`"
+                    :src="imgUrl(theme.img_profile)"
                     alt="Theme image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -124,7 +124,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="`http://127.0.0.1:8000${deletedtheme.img_profile}`"
+                    :src="imgUrl(deletedtheme.img_profile)"
                     alt="Theme image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -176,6 +176,7 @@ const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
 let toDeleteValue = 0
 let toRestoreValue = 0
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const editThemeId = ref(null)
 function toggleOpenAdd() {
@@ -233,7 +234,7 @@ const showAllList = async () => {
 
 const fetchThemes = async () => {
   try {
-      const response = await axios.get('http://127.0.0.1:8000/api/theme/get/',{
+      const response = await axios.get(`${base_url}/api/theme/get/`,{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -248,7 +249,7 @@ const fetchThemes = async () => {
 
 const fetchDeletedTheme = async () => {
   try {
-      const response = await axios.get('http://127.0.0.1:8000/api/theme/get/',{
+      const response = await axios.get(`${base_url}/api/theme/get/`,{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -262,7 +263,7 @@ const fetchDeletedTheme = async () => {
 function confirmDelete() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/theme/delete/${toDeleteValue}`,
+    url: `${base_url}/api/theme/delete/${toDeleteValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'
@@ -288,7 +289,7 @@ function confirmDelete() {
 function confirmRestore() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/theme/recover/${toRestoreValue}`,
+    url: `${base_url}/api/theme/recover/${toRestoreValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'

@@ -30,15 +30,39 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   name: 'Dashboard',
   setup() {
-    const totalArtists = ref(50);
-    const totalUsers = ref(1500);
-    const totalAlbums = ref(200);
-    const totalSongs = ref(500);
+    const totalArtists = ref(null);
+    const totalUsers = ref(null);
+    const totalAlbums = ref(null);
+    const totalSongs = ref(null);
+
+    const fetchData = async () => {
+      try {
+        const [artistResponse, userResponse, albumResponse, songResponse] = await Promise.all([
+          axios.get(`${base_url}/api/user/artist-count/`),
+          axios.get(`${base_url}/api/user/user-count/`),
+          axios.get(`${base_url}/api/album/album-count/`),
+          axios.get(`${base_url}/api/music/music-count`)
+        ]);
+        
+        totalArtists.value = artistResponse.data.total_artists;
+        totalUsers.value = userResponse.data.total_users;
+        totalAlbums.value = albumResponse.data.total_albums;
+        totalSongs.value = songResponse.data.total_music;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       totalArtists,

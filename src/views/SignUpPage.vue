@@ -58,8 +58,10 @@
 
 
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const user = ref({
   firstname: '',
@@ -87,11 +89,25 @@ const userInputField = ref([
   { id: '4', name: 'email', type: 'email', label: 'Email' },
   { id: '5', name: 'password', type: 'password', label: 'Password' },
   { id: '6', name: 'Repassword', type: 'password', label: 'Confirm Password' },
-  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' },
-  { id: '8', name: 'country', type: 'text', label: 'Country' },
-]);
+  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' }
+])
 
-const formErrors = ref({});
+const formErrors = ref({})
+
+const countryOptions = ref([])
+
+const fetchCountries = async () => {
+  try {
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
+    countryOptions.value = response.data.countries
+  } catch (error) {
+    console.error('Error fetching countries:', error)
+  }
+}
+
+onMounted(() => {
+  fetchCountries()
+})
 
 const validateField = (fieldName) => {
   formErrors.value[fieldName] = '';
@@ -140,28 +156,36 @@ const addUser = () => {
   }
 
   if (Object.keys(formErrors.value).length === 0) {
-     const RegisterSubmit = ()  => {
-      axios({
-        method: "post",
-        url: `http://127.0.0.1:8000/api/user/post/`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          "email": user.email, "username":  user.username, "password": user.password, "firstname":  user.firstname, "lastname":  user.lastname, "dob": user.dob, "gender":  user.gender, "country": user.country, "img_profile": user.img_profile, "is_artist": user.is_artist
-            },
-      }).then(response => {
-        console.log(response)
-        if(response.status == 200){
-                      localStorage.setItem("refresh_token",response.data.refreshJWT);
-                      localStorage.setItem("access_token",response.data.accessJWT);
-                      this.$router.push('/dashboard')
-        }
-      }).catch(err => {
-        console.log(err.response.data)
-      });
+    const formData = new FormData()
+    formData.append('email', user.value.email)
+    formData.append('password', user.value.password)
+    formData.append('firstname', user.value.firstname)
+    formData.append('lastname', user.value.lastname)
+    formData.append('username', user.value.username)
+    if (user.value.dob) {
+      formData.append('dob', user.value.dob)
     }
-}
+    formData.append('gender', user.value
+    .gender)
+    formData.append('country', user.value.country)
+    formData.append('is_artist', isArtist.value)
+    if (profileFile.value) {
+      formData.append('img_profile', profileFile.value)
+    }
+    if (coverFile.value && isArtist.value) {
+      formData.append('img_cover', coverFile.value)
+    }
+    formData.append('is_active', 'True')
+    axios
+      .post(`${base_url}/api/user/post/`, formData)
+      .then((response) => {
+        console.log('registered')
+        router.push('/login')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 }
 </script>
 

@@ -64,28 +64,49 @@
   </swiper>
 </div>
 </template>
-<script>
-  import { Swiper, SwiperSlide } from 'swiper/vue';
 
-  import 'swiper/css';
+<script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue'
 
-  import 'swiper/css/pagination';
+import 'swiper/css'
 
-  import { Pagination } from 'swiper/modules';
-  import MusicCard from '@/components/cards/card_item/MusicCard.vue';
-
-  export default {
-    components: {
-      Swiper,
-      SwiperSlide,
-      MusicCard,
-    },
-    setup() {
-      return {
-        modules: [Pagination],
-      };
-    },
-  };
+import 'swiper/css/pagination'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+import { Autoplay, Pagination } from 'swiper/modules'
+import MusicCard from '@/components/cards/MusicCard.vue'
+import { ref, onMounted, watch } from 'vue'
+import axios from 'axios'
+const props = defineProps({
+  user: {
+    type: Object,
+  },
+  artistId: {
+    type: Number
+  }
+})
+const musicData = ref([])
+const modules = [Autoplay, Pagination]
+const fetchMusicData = async (artistId) => {
+  try {
+    const response = await axios.get(`${base_url}/api/music/artist/get/${artistId}`)
+    musicData.value = response.data
+  } catch (error) {
+    console.error('Failed to fetch music data:', error)
+  }
+}
+function hexWithOpacity(hex, opacity) {
+  const alpha = Math.round(opacity * 255)
+    .toString(16)
+    .padStart(2, '0')
+    .toUpperCase()
+  return `${hex}${alpha}`
+}
+watch(
+  () => props.artistId,
+  (newArtistId) => {
+    fetchMusicData(newArtistId)
+  }
+)
 </script>
 <style >
   .swiper-pagination-bullet{

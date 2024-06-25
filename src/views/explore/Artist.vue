@@ -7,13 +7,33 @@
 </template>
 
 <script>
-import  ArtistTiles from '@/components/cards/ArtistCards.vue'
-export default{
+import ArtistCard from '@/components/cards/ArtistCard.vue'
+import axios from 'axios'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
-  components:{
-    ArtistTiles
+export default {
+  components: {
+    ArtistCard
+  },
+  data() {
+    return {
+      artistData: []
+    }
+  },
+  mounted() {
+    this.fetchArtistData()
+  },
+  methods: {
+    fetchArtistData() {
+      axios
+        .get(`${base_url}/api/artist/get/`)
+        .then((response) => {
+          this.artistData = response.data
+        })
+        .catch((error) => {
+          console.error('Error fetching artist data:', error)
+        })
+    }
   }
-
 }
-
 </script>

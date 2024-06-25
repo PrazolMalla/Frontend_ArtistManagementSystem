@@ -1,35 +1,24 @@
-# Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Step 1:  copy  docker-compose.dev.yaml,  docker-compose.production.yaml and Makefile   outside  the frontend folder
 
-## Customize configuration
+Setp 2:  rename  Backend_ArtistManagementtSystem folder to backend
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Step 3: rename Frontend_ArtistManagementSystem  folder to frontend
 
-## Project Setup
+Step 4:  change .env.sample to .env  and add Data accordingly of both backend and frontend
 
-```sh
-npm install
-```
+Step 5:  run in terminal -> make prod-db
 
-### Compile and Hot-Reload for Development
+Step 6: run -> docker ps
 
-```sh
-npm run dev
-```
+Step 7:  run in terminal -> make prod-build
 
-### Compile and Minify for Production
+Step 8:  run in terminal -> make prod-up
 
-```sh
-npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
+
+
+"In case of new package installed in backend..  RUN 'poetry export --format requirements.txt --output requirements.txt'" 

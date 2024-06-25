@@ -9,12 +9,21 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-    const user = ref({
-        stageName:"Prazol",
-        country:"Nepal",
-        bio:"Hello My name is Prazol Malla i am CSIT"
-    })
+
+const props = defineProps({
+  userData: {
+    type: Object,
+    required: true
+  }
+})
+
+function hexWithOpacity(hex, opacity) {
+  const alpha = Math.round(opacity * 255)
+    .toString(16)
+    .padStart(2, '0')
+    .toUpperCase()
+  return `${hex}${alpha}`
+}
 </script>
 <style lang="">
     

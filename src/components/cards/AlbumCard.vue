@@ -4,8 +4,7 @@
   >
     <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] sm:w-[35vw] w-[80vw]">
       <div class="z-20">
-        <img :src="albumDetail" alt="" class="w-[10rem]" />
-        <img else :src="``" alt="" class="w-[10rem]" />
+        <img :src="albumDetailImg" alt="" class="w-[10rem]" />
         
       </div>
       <div class="relative z-10 lg:ml-[-6rem] lg:mt-[-1.5rem] mt-[-0.75rem] ml-[-3.5rem]">

@@ -8,7 +8,7 @@
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
-          <CardsCarousel :artistId="music.artist" :user="user" />
+          <CardsCarousel :artistId="music.artist"  />
         </div>
       </div>
     </template>
@@ -25,6 +25,7 @@ import { useStore } from 'vuex'
 import { useRoute,useRouter} from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
 import { useToast } from 'vue-toast-notification'
+const base_url  = import.meta.env.VITE_BASE_API_URL
 const toast = useToast()
 const music = ref({})
 const type = ref('music')

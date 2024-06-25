@@ -268,12 +268,8 @@ const editUser = () => {
       RemoveOldProfile()
     }
     if (coverFile.value && coverFile.value instanceof File) {
-      console.log("Before Image remove")
       RemoveOldCover()
-      console.log("After Image remove")
       formData.append('img_cover', coverFile.value)
-      console.log("coverFile=",coverFile.value)
-      
     }
     if(coverFile.value==null){
       RemoveOldCover()

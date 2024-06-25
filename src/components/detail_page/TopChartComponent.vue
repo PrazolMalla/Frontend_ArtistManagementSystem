@@ -14,7 +14,7 @@
         <div
           class="w-[67vw] bg-transparent h-24 rounded-md md:w-[25vw] md:h-24 p-4 flex gap-5 hover:bg-secondary-color hover:text-light-primary-color cursor-pointer"
         >
-          <img :src="`http://127.0.0.1:8000${music.img_profile}`" class="w-16 h-16 rounded-md" />
+          <img :src="`${base_url}${music.img_profile}`" class="w-16 h-16 rounded-md" />
 
           <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
             <div>
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script setup>
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({
@@ -42,7 +43,7 @@ const musicData = ref([])
 const fetchMusicData = async (artistId) => {
   try {
     console.log(artistId)
-    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId)
+    const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId)
     musicData.value = response.data.splice(0, 3)
     console.log(musicData)
   } catch (error) {

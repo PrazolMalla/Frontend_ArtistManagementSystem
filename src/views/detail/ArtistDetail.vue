@@ -4,7 +4,7 @@
       <div
         class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full min-h-screen h-[100%]"
         :style="{
-          backgroundImage: `url(http://127.0.0.1:8000${user?.theme?.img_profile})`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover'
         }"
@@ -36,15 +36,17 @@ import { ref, onMounted, watch, onUnmounted } from 'vue'
 import store from '@/store/store'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-
 const user = ref({})
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const backgroundImage =  `${base_url}/${user?.theme?.img_profile}`
+
 
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
   console.log(queryParams)
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/get/' + queryParams, {
+    const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }

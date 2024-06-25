@@ -12,14 +12,14 @@
     <div class="flex flex-row gap-5">
       <div class="" v-for="(recent, index) in recentSongs" :key="index">
         <!-- <img
-          :src="`http://127.0.0.1:8000${recent.img_profile}`"
+          :src="`${base_url}${recent.img_profile}`"
           alt=""
           class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
         /> -->
         <RouterLink :to="'/music/' + recent.id">
           <div class="flex items-center gap-2">
             <img
-              :src="`http://127.0.0.1:8000${recent.img_profile}`"
+              :src="`${base_url}${recent.img_profile}`"
               alt=""
               class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
             />
@@ -35,6 +35,7 @@
   </div>
 </template>
 <script setup>
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({
@@ -47,7 +48,7 @@ const recentSongs = ref([])
 const fetchMusicData = async (artistId) => {
   try {
     console.log(artistId)
-    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId, {
+    const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId, {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }

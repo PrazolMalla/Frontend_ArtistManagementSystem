@@ -6,7 +6,7 @@
     <div class="flex flex-col gap-2 items-center p-4 overflow-x-hidden">
       <div class="w-28 h-28 rounded-full flex justify-center items-center artistGradient">
         <img
-          :src="`http://127.0.0.1:8000${artistData.img_profile}`"
+          :src="artistDataImg"
           alt="Artist Image"
           class="artistPic rounded-full object-cover border-none bg-secondary-color z-10"
         />
@@ -20,12 +20,18 @@
     </div>
   </RouterLink>
 </template>
-<script>
-export default {
-  props: {
-    artistData: Object
-  }
-}
+<script setup> 
+import { computed } from 'vue';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const props = defineProps({
+    artistData: {
+      type:Object
+    }
+  })
+const artistDataImg = computed(() => `${base_url}${props.artistData?.img_profile}`);
+
+ 
+
 </script>
 
 <style scoped>

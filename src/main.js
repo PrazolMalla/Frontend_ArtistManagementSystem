@@ -9,7 +9,6 @@ import PageLayout from '@/components/page_layout/PageLayout.vue'
 import PageLayoutWithPlayer from '@/components/page_layout/PageLayoutWithPlayer.vue'
 import DefaultUser from '@/assets/images/defaultUser.png'
 import DefaultMusic from '@/assets/images/defaultMusic.jpg'
-
 import * as FaIcons from 'oh-vue-icons/icons/fa'
 import * as MdIcons from 'oh-vue-icons/icons/md'
 import * as SiIcons from 'oh-vue-icons/icons/si'

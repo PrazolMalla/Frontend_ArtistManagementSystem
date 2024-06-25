@@ -17,6 +17,7 @@
 <script>
 import ArtistCard from '@/components/cards/ArtistCard.vue'
 import axios from 'axios'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   components: {
@@ -33,7 +34,7 @@ export default {
   methods: {
     fetchArtistData() {
       axios
-        .get('http://127.0.0.1:8000/api/artist/get/')
+        .get(`${base_url}/api/artist/get/`)
         .then((response) => {
           this.artistData = response.data
         })

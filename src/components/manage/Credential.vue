@@ -68,7 +68,7 @@ const user = ref({
 })
 const login = () => {
   axios
-    .post('http://127.0.0.1:8000/api/credential/', user.value,{
+    .post(`${base_url}/api/credential/`, user.value,{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }

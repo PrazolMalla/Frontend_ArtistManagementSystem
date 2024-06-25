@@ -57,6 +57,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const newAlbums = ref([])
 const newArtists = ref([])

@@ -11,12 +11,12 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import MusicCard from '@/components/cards/MusicCard-2.vue'
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const musicData = ref([])
 
 const fetchSongs = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/music/get/')
+    const response = await axios.get(`${base_url}/api/music/get/`)
     const data = response.data.slice(0,5)
     musicData.value = data
   } catch (error) {

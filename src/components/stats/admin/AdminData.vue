@@ -45,6 +45,7 @@
 <script>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   name: 'Dashboard',
@@ -57,10 +58,10 @@ export default {
     const fetchData = async () => {
       try {
         const [artistResponse, userResponse, albumResponse, songResponse] = await Promise.all([
-          axios.get('http://127.0.0.1:8000/api/user/artist-count/'),
-          axios.get('http://127.0.0.1:8000/api/user/user-count/'),
-          axios.get('http://127.0.0.1:8000/api/album/album-count/'),
-          axios.get('http://127.0.0.1:8000/api/music/music-count')
+          axios.get(`${base_url}/api/user/artist-count/`),
+          axios.get(`${base_url}/api/user/user-count/`),
+          axios.get(`${base_url}/api/album/album-count/`),
+          axios.get(`${base_url}/api/music/music-count`)
         ]);
         
         totalArtists.value = artistResponse.data.total_artists;

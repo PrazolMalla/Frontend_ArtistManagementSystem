@@ -75,7 +75,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 
 import 'swiper/css/pagination'
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import { Autoplay, Pagination } from 'swiper/modules'
 import MusicCard from '@/components/cards/MusicCard.vue'
 import { ref, onMounted, watch } from 'vue'
@@ -83,7 +83,6 @@ import axios from 'axios'
 const props = defineProps({
   user: {
     type: Object,
-    required: true
   },
   artistId: {}
 })
@@ -92,7 +91,7 @@ const modules = [Autoplay, Pagination]
 const fetchMusicData = async (artistId) => {
   try {
     console.log(artistId)
-    const response = await axios.get('http://127.0.0.1:8000/api/music/artist/get/' + artistId)
+    const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId)
     musicData.value = response.data
     console.log(musicData)
   } catch (error) {
@@ -111,7 +110,6 @@ function hexWithOpacity(hex, opacity) {
     .toUpperCase()
   return `${hex}${alpha}`
 }
-
 watch(
   () => props.artistId,
   (newArtistId) => {

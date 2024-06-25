@@ -143,6 +143,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const countryOptions = ref([])
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const props = defineProps(['userData'])
 const user = ref({
@@ -179,8 +180,8 @@ const newProfile=ref(false);
 const newCover=ref(false);
 const profileFile = ref(props.userData.img_profile)
 const coverFile = ref(props.userData.img_cover)
-const backgroundImage = ref(`http://127.0.0.1:8000/${props.userData.img_profile}`)
-const coverbackgroundImage = ref(`http://127.0.0.1:8000/${props.userData.img_cover}`)
+const backgroundImage = ref(`${base_url}${props.userData.img_profile}`)
+const coverbackgroundImage = ref(`${base_url}${props.userData.img_cover}`)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
   newProfile.value=true;
@@ -204,7 +205,7 @@ const removeProfile = (event) => {
   event.preventDefault();
   if(newProfile.value){
     profileFile.value = props.userData.img_profile;
-    backgroundImage.value = `http://127.0.0.1:8000/${props.userData.img_profile}`
+    backgroundImage.value = `${base_url}${props.userData.img_profile}`
     newProfile.value=false
   }
   else{
@@ -216,7 +217,7 @@ const removeCover = (event) => {
   event.preventDefault();
   if(newCover.value){
     coverFile.value = props.userData.img_cover;
-    coverbackgroundImage.value = `http://127.0.0.1:8000/${props.userData.img_cover}`
+    coverbackgroundImage.value = `${base_url}${props.userData.img_cover}`
     newCover.value=false
   }
   else{
@@ -267,18 +268,14 @@ const editUser = () => {
       RemoveOldProfile()
     }
     if (coverFile.value && coverFile.value instanceof File) {
-      console.log("Before Image remove")
       RemoveOldCover()
-      console.log("After Image remove")
       formData.append('img_cover', coverFile.value)
-      console.log("coverFile=",coverFile.value)
-      
     }
     if(coverFile.value==null){
       RemoveOldCover()
     }
     axios
-      .patch(`http://127.0.0.1:8000/api/user/edit/${props.userData.id}/`, formData,  {
+      .patch(`${base_url}/api/user/edit/`, formData,  {
           headers: {
               Authorization: `Bearer ${localStorage.getItem('access_token')}`
           }
@@ -294,7 +291,7 @@ const editUser = () => {
   }
 }
 const RemoveOldProfile = () => {
-  axios.delete(`http://127.0.0.1:8000/api/users/profile-delete/${props.userData.id}/`,{
+  axios.delete(`${base_url}/api/users/profile-delete/${props.userData.id}/`,{
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     }
@@ -304,7 +301,7 @@ const RemoveOldProfile = () => {
     })  
 }
 const RemoveOldCover = () => {
-  axios.delete(`http://127.0.0.1:8000/api/users/cover-delete/${props.userData.id}/`,{
+  axios.delete(`${base_url}/api/users/cover-delete/${props.userData.id}/`,{
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     }
@@ -315,7 +312,7 @@ const RemoveOldCover = () => {
 }
 const fetchCountries = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
     countryOptions.value = response.data.countries
   } catch (error) {
     console.error('Error fetching countries:', error)

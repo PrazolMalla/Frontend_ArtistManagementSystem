@@ -124,6 +124,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const router = useRouter()
 const isArtist = ref(false)
@@ -156,7 +157,7 @@ const countryOptions = ref([])
 
 const fetchCountries = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
     countryOptions.value = response.data.countries
   } catch (error) {
     console.error('Error fetching countries:', error)
@@ -253,7 +254,7 @@ const addUser = () => {
     }
     formData.append('is_active', 'True')
     axios
-      .post('http://127.0.0.1:8000/api/user/post/', formData)
+      .post(`${base_url}/api/user/post/`, formData)
       .then((response) => {
         console.log('registered')
         router.push('/login')

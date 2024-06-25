@@ -6,7 +6,7 @@
     }"
   >
     <RouterLink :to="'/music/' + musicData.id">
-      <img :src="`http://127.0.0.1:8000${musicData.img_profile}`" class="w-32 h-32 rounded-lg" />
+      <img :src="musicImage" class="w-32 h-32 rounded-lg" />
     </RouterLink>
     <div class="flex justify-between w-full items-center mt-2">
       <div class="flex flex-col">
@@ -34,22 +34,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    musicData: {
-      type: Object,
-      required: true
-    },
-    user: {}
-  },
+<script setup>
+import { useStore } from 'vuex';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-  methods: {
-    playMusic() {
-      this.$store.dispatch('setMusicPlayer', this.musicData)
-      console.log(this.musicData)
-    }
-  }
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const props = defineProps({
+   musicData: {
+     type: Object,
+   },
+   user:{}
+});
+
+const musicImage = computed(() => `${base_url}${props.musicData?.img_profile}`);
+const store = useStore();
+const route = useRoute();
+
+function playMusic() {
+  store.dispatch('setMusicPlayer', props.musicData);
+  console.log(props.musicData);
 }
 </script>
 

@@ -11,13 +11,13 @@
     </div>
     <div class="flex justify-start lg:w-[30vw] w-[80vw] mt-5">
       <div class="z-20">
-        <img :src="`http://127.0.0.1:8000${music.img_profile}`" alt="" class="w-[20rem]" />
+        <img :src="`${base_url}${music.img_profile}`" alt="" class="w-[20rem]" />
       </div>
       <div class="relative z-10 lg:ml-[-12rem] lg:mt-[-3rem] mt-[-1.5rem] ml-[-7rem]">
         <div
           class="absolute lg:w-24 lg:h-24 rounded-full bg-red-50 lg:top-[9rem] lg:left-[9.5rem] lg:flex hidden overflow-hidden"
         >
-          <img :src="`http://127.0.0.1:8000${music.img_profile}`" alt="" />
+          <img :src="`${base_url}${music.img_profile}`" alt="" />
         </div>
         <img src="../../assets/images/musiccassette.png" alt="" class="w-[25rem] mt-2" />
       </div>
@@ -45,6 +45,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 import { useStore } from 'vuex'
 
+const base_url  = import.meta.env.VITE_BASE_API_URL
 const props = defineProps({
   musicId: {
     type: Number,
@@ -64,9 +65,9 @@ const fetchMusicData = async (id) => {
   try {
     let response
     if (props.type === 'music') {
-      response = await axios.get(`http://127.0.0.1:8000/api/music/get/${id}/`)
+      response = await axios.get(`${base_url}/api/music/get/${id}/`)
     } else {
-      response = await axios.get(`http://127.0.0.1:8000/api/album/get/${id}/`)
+      response = await axios.get(`${base_url}/api/album/get/${id}/`)
     }
     music.value = response.data
 
@@ -88,7 +89,7 @@ const toggleLikeMusic = async () => {
     let response
     if (props.type === 'music') {
       response = await axios.post(
-        `http://127.0.0.1:8000/api/music/likeunlike/${props.musicId}/`,
+        `${base_url}/api/music/likeunlike/${props.musicId}/`,
         {},
         {
           headers: {
@@ -99,7 +100,7 @@ const toggleLikeMusic = async () => {
       )
     } else {
       response = await axios.post(
-        `http://127.0.0.1:8000/api/album/likeunlike/${props.musicId}/`,
+        `${base_url}/api/album/likeunlike/${props.musicId}/`,
         {},
         {
           headers: {

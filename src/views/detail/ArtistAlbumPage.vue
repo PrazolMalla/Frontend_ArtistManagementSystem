@@ -13,6 +13,7 @@ import { ref, onMounted, watch, onUnmounted } from 'vue'
 import store from '@/store/store'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const user = ref({})
 
@@ -21,7 +22,7 @@ const queryParams = route.params.id
 const fetchUserData = async () => {
   console.log(queryParams)
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/get/' + queryParams, {
+    const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
       headers: {}
     })
     user.value = response.data
@@ -35,7 +36,7 @@ const albumData = ref([])
 const fetchMusicData = async () => {
   try {
     console.log(queryParams)
-    const response = await axios.get('http://127.0.0.1:8000/api/album/artist/get/' + queryParams)
+    const response = await axios.get(`${base_url}/api/album/artist/get/` + queryParams)
     albumData.value = response.data
     console.log(albumData.value)
   } catch (error) {

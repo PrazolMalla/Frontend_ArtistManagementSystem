@@ -4,15 +4,14 @@
   >
     <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] sm:w-[35vw] w-[80vw]">
       <div class="z-20">
-        <img v-if="albumDetail.img_profile" :src="`http://127.0.0.1:8000${albumDetail.img_profile}`" alt="" class="w-[10rem]" />
-        <img else :src="``" alt="" class="w-[10rem]" />
+        <img :src="albumDetailImg" alt="" class="w-[10rem]" />
         
       </div>
       <div class="relative z-10 lg:ml-[-6rem] lg:mt-[-1.5rem] mt-[-0.75rem] ml-[-3.5rem]">
         <div
           class="absolute lg:w-12 lg:h-12 rounded-full bg-red-50 lg:top-[4.5rem] lg:left-[4.75rem] lg:flex hidden overflow-hidden"
         >
-          <img :src="`http://127.0.0.1:8000${albumDetail.img_profile}`" alt="" />
+          <img :src="albumDetailImg" alt="" />
         </div>
         <img src="../../assets/images/musiccassette.png" alt="" class="w-[12.5rem]" />
       </div>
@@ -36,12 +35,21 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    albumDetail: Object,
-    linkto: ''
-  }
-}
+
+<script setup> 
+import { computed } from 'vue';
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const props = defineProps({
+    albumDetail: {
+      type:Object
+    },
+    linkto:{
+      type: String
+    }
+  })
+const albumDetailImg = computed(() => `${base_url}${props.albumDetail?.img_profile}`);
+
+ 
+
 </script>
 <style lang=""></style>

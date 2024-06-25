@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
-const URL = 'http://127.0.0.1:8000/'
+const URL = import.meta.env.VITE_BASE_API_URL
 export default createStore({
   state: {
     playerData: Object,
@@ -54,7 +54,7 @@ export default createStore({
     setLoggedInUserData({ commit }) {
       try {
         axios
-          .get('http://127.0.0.1:8000/api/user/login-user/', {
+          .get(`${URL}/api/user/login-user/`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('access_token')}`
             }

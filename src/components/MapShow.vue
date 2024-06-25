@@ -63,7 +63,7 @@
           Yemen: [15.552727, 48.516388],
       };
   
-      axios.get('http://127.0.0.1:8000/api/artist/get/')
+      axios.get(`${base_url}/api/artist/get/')
         .then(response => {
           const artistData = response.data;
   
@@ -165,7 +165,7 @@
         // Other country coordinates...
       };
   
-      axios.get('http://127.0.0.1:8000/api/artist/get/')
+      axios.get(`${base_url}/api/artist/get/')
         .then(response => {
           const artistData = response.data;
   
@@ -268,7 +268,7 @@
         // Add other country coordinates...
       };
   
-      axios.get('http://127.0.0.1:8000/api/artist/get/')
+      axios.get(`${base_url}
         .then(response => {
           const artistData = response.data;
   
@@ -341,12 +341,12 @@
   import 'leaflet/dist/leaflet.css';
   import 'leaflet.heat/dist/leaflet-heat.js';
   import axios from 'axios';
-  
+  const base_url  = import.meta.env.VITE_BASE_API_URL;
   export default {
     mounted() {
       const map = L.map('map').setView([20, 100], 3);
   
-      axios.get('http://127.0.0.1:8000/api/artist/get/')
+      axios.get(`${base_url}/api/artist/get/`)
         .then(response => {
           const artistData = response.data;
   

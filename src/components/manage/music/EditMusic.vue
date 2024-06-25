@@ -156,11 +156,11 @@ onMounted(() => {
 })
 const fetchMusics = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/${props.musicId}`)
+    const response = await axios.get(`${base_url}/api/music/get/${props.musicId}`)
     const data = response.data
     track.value = data
     profileFile.value = data.img_profile
-    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
+    backgroundImage.value =  `${base_url}/${data.img_profile}`
     musicbackgroundImage.value = "../../../src/assets/images/musiccassette.png"
     musicFile.value = data.music_file
     track.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
@@ -277,7 +277,7 @@ function editMusic() {
       formData.append('music_file', musicFile.value)
     }
     axios
-      .patch(`http://127.0.0.1:8000/api/music/edit/${props.musicId}/`, formData, {
+      .patch(`${base_url}/api/music/edit/${props.musicId}/`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

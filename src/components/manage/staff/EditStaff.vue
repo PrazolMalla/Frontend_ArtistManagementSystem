@@ -131,7 +131,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
@@ -163,7 +163,7 @@ onMounted(() => {
 
 const fetchStaff = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/staff/get/${props.staffId}`, {
+    const response = await axios.get(`${base_url}/api/staff/get/${props.staffId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
@@ -172,8 +172,8 @@ const fetchStaff = async () => {
     staff.value = data
     profileFile.value = data.img_profile
     coverFile.value = data.img_cover
-    backgroundImage.value =  `http://127.0.0.1:8000/${data.img_profile}`
-    coverbackgroundImage.value =  `http://127.0.0.1:8000/${data.img_cover}`
+    backgroundImage.value =  `${base_url}/${data.img_profile}`
+    coverbackgroundImage.value =  `${base_url}/${data.img_cover}`
     staff.value.dob = new Date(data.dob).toISOString().split('T')[0]
     if (!staff.value.country) {
       staff.value.country = ''
@@ -184,7 +184,7 @@ const fetchStaff = async () => {
 }
 const fetchCountries = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/countrylistview/')
+    const response = await axios.get(`${base_url}/api/user/countrylistview/`)
     countryOptions.value = response.data.countries
   } catch (error) {
     console.error('Error fetching countries:', error)
@@ -277,7 +277,7 @@ function editStaff() {
       formData.append('img_cover', coverFile.value)
     }
     axios
-      .patch(`http://127.0.0.1:8000/api/user/edit/${props.staffId}/`, formData, {
+      .patch(`${base_url}/api/user/edit/${props.staffId}/`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

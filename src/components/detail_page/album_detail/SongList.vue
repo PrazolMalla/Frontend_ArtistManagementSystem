@@ -30,6 +30,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
+const base_url  = import.meta.env.VITE_BASE_API_URL
 const props = defineProps({
   musicId: {
     type: Number,
@@ -39,7 +40,7 @@ const props = defineProps({
 const songs = ref([])
 const fetchMusicData = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/music/get/album/${props.musicId}`)
+    const response = await axios.get(`${base_url}/api/music/get/album/${props.musicId}`)
     songs.value = response.data
   } catch (error) {
     console.error('Failed to fetch songs data:', error)

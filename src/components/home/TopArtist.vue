@@ -10,12 +10,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import ArtistCard from '@/components/cards/ArtistCard.vue'
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 const artistData = ref([])
 
 const fetchArtists = async () => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/artist/get/')
+    const response = await fetch(`${base_url}/api/artist/get/`)
     const data = await response.json()
     artistData.value = data.map((artist) => ({
       id: artist.id,

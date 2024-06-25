@@ -65,6 +65,7 @@ import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
@@ -84,7 +85,7 @@ const userData = computed(() => store.getters.getLoggedInUserData)
 
 const getGenre = async () => {
    await axios
-      .get('http://127.0.0.1:8000/api/genre/get/')
+      .get(`${base_url}/api/genre/get/`)
       .then((response) => {
         console.log(response.data)
         genreData.value = response.data

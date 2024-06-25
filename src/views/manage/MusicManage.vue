@@ -67,7 +67,7 @@
 
               <div v-if="!is_deletedShown"  v-for="music in musics"  :key="music.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/music/${music.id}`" class="flex items-center w-3/6">
-                  <img :src="`http://127.0.0.1:8000${music.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
+                  <img :src="`${base_url}${music.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
@@ -118,7 +118,7 @@
               
               <div v-else v-for="delmusic in deletedMusics"  :key="delmusic.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
-                  <img :src="`http://127.0.0.1:8000${delmusic.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
+                  <img :src="`${base_url}${delmusic.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
@@ -181,6 +181,7 @@ const itemName=ref()
 const genreData = ref([])
 let toDeleteValue = 0
 let toRestoreValue = 0
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const editMusicId = ref(null)
 
@@ -237,7 +238,7 @@ const userData = computed(() => store.getters.getLoggedInUserData)
   const newIsHidden = !originalIsHidden
   const action = newIsHidden ? 'hide' : 'unhide'
 
-  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`
+  const requestUrl = `${base_url}/api/music/${action}/${music.id}/`
 
   try {
     await axios.delete(requestUrl, {
@@ -258,7 +259,7 @@ const toggleDisableMusic = async (music) => {
   const newIsDisabled = !originalIsDisabled
   const action = newIsDisabled ? 'disable' : 'enable'
 
-  const requestUrl = `http://127.0.0.1:8000/api/music/${action}/${music.id}/`
+  const requestUrl = `${base_url}/api/music/${action}/${music.id}/`
 
   try {
     await axios.delete(requestUrl, {
@@ -287,14 +288,14 @@ const fetchMusics = async () => {
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get('http://127.0.0.1:8000/api/music/admin/get/', {
+      const response = await axios.get(`${base_url}/api/music/admin/get/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
       data = response.data
     } else {
-      const response = await axios.get('http://127.0.0.1:8000/api/music/get/loggedin/', {
+      const response = await axios.get(`${base_url}/api/music/get/loggedin/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -312,14 +313,14 @@ const fetchDeletedMusics = async () => {
   try {
     let data
     if (!userData.value.is_staff & userData.value.is_artist) {
-      const response = await axios.get( 'http://127.0.0.1:8000/api/music/get/loggedin/deleted/', {
+      const response = await axios.get( `${base_url}/api/music/get/loggedin/deleted/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
       data = response.data
     } else {
-      const response = await axios.get('http://127.0.0.1:8000/api/music/get/deleted/', {
+      const response = await axios.get(`${base_url}/api/music/get/deleted/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -336,7 +337,7 @@ const fetchDeletedMusics = async () => {
 function confirmDelete() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/music/delete/${toDeleteValue}`,
+    url: `${base_url}/api/music/delete/${toDeleteValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'
@@ -361,7 +362,7 @@ function confirmDelete() {
 function confirmRestore() {
   axios({
     method: 'delete',
-    url: `http://127.0.0.1:8000/api/music/recover/${toRestoreValue}`,
+    url: `${base_url}/api/music/recover/${toRestoreValue}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       'Content-Type': 'application/json'
@@ -386,10 +387,10 @@ const fetchAlbums = async () => {
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get('http://127.0.0.1:8000/api/album/get/')
+      const response = await axios.get(`${base_url}/api/album/get/`)
       data = response.data
     } else {
-      const response = await axios.get('http://127.0.0.1:8000/api/album/get/loggedin/', {
+      const response = await axios.get(`${base_url}/api/album/get/loggedin/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -404,7 +405,7 @@ const fetchAlbums = async () => {
 
 const getGenre = async () => {
    await axios
-      .get('http://127.0.0.1:8000/api/genre/get/')
+      .get(`${base_url}/api/genre/get/`)
       .then((response) => {
         genreData.value = response.data
       })

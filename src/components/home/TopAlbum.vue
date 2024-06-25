@@ -68,7 +68,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import AlbumCard from '../cards/AlbumCard.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 import 'swiper/css'
 
 import 'swiper/css/pagination'
@@ -78,7 +78,7 @@ import { Autoplay, Pagination } from 'swiper/modules'
 const albumData = ref([])
 const fetchAlbums = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/album/get/')
+    const response = await axios.get(`${base_url}/api/album/get/`)
     const data = response.data.splice(0, 10)
     albumData.value = data
   } catch (error) {

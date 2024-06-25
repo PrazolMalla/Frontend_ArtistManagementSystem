@@ -14,7 +14,7 @@
         <div
           class="w-[67vw] bg-transparent h-24 rounded-md md:w-[25vw] md:h-24 p-4 flex gap-5 hover:bg-secondary-color hover:text-light-primary-color cursor-pointer"
         >
-          <img :src="imgUrl(music.img_profile)" class="w-16 h-16 rounded-md" />
+          <img :src="`${base_url}${music.img_profile}`" class="w-16 h-16 rounded-md" />
 
           <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
             <div>

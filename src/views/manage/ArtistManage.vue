@@ -54,7 +54,7 @@
               <div v-if="!is_deletedShown" v-for="artist in artists" :key="artist.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/artist/${artist.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(artist.img_profile)"
+                    :src="`${base_url}${artist.img_profile}`"
                     alt="Artist image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -87,7 +87,7 @@
                 <div v-else v-for="deletedArtist in deletedArtists" :key="deletedArtists.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(deletedArtist.img_profile)"
+                    :src="`${base_url}${deletedArtist.img_profile}`"
                     alt="Artist image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />

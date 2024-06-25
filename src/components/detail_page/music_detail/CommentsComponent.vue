@@ -5,7 +5,7 @@
     <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Comments</h1>
     <div class="flex items-center gap-5">
       <img
-        :src="imgUrl(comment.user.img_profile)"
+        :src="`${base_url}${comment.user.img_profile}`"
         alt=""
         class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
       />
@@ -28,7 +28,7 @@
     <div v-for="(comment, index) in comments" :key="index">
       <div class="flex justify-start items-center gap-2">
         <img
-          :src="imgUrl(comment.user.img_profile)"
+          :src="`${base_url}${comment.user.img_profile}`"
           alt=""
           class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
         />
@@ -72,7 +72,7 @@
           class="flex gap-2 mt-2"
         >
           <img
-            :src="imgUrl(reply.user.img_profile)"
+            :src="`${base_url}${reply.user.img_profile}`"
             alt=""
             class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           />

@@ -11,13 +11,13 @@
     </div>
     <div class="flex justify-start lg:w-[30vw] w-[80vw] mt-5">
       <div class="z-20">
-        <img :src="imgUrl(music.img_profile)" alt="" class="w-[20rem]" />
+        <img :src="`${base_url}${music.img_profile}`" alt="" class="w-[20rem]" />
       </div>
       <div class="relative z-10 lg:ml-[-12rem] lg:mt-[-3rem] mt-[-1.5rem] ml-[-7rem]">
         <div
           class="absolute lg:w-24 lg:h-24 rounded-full bg-red-50 lg:top-[9rem] lg:left-[9.5rem] lg:flex hidden overflow-hidden"
         >
-          <img :src="imgUrl(music.img_profile)" alt="" />
+          <img :src="`${base_url}${music.img_profile}`" alt="" />
         </div>
         <img src="../../assets/images/musiccassette.png" alt="" class="w-[25rem] mt-2" />
       </div>

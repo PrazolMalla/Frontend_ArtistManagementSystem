@@ -68,7 +68,7 @@
               <div v-if="!is_deletedShown" v-for="staff in staffs" :key="staff.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/staff/${staff.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(staff.img_profile)"
+                    :src="`${base_url}${staff.img_profile}`"
                     alt="Staff image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -102,7 +102,7 @@
                 <div v-else v-for="deletedStaff in deletedStaffs" :key="deletedStaffs.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(deletedStaff.img_profile)"
+                    :src="`${base_url}${deletedStaff.img_profile}`"
                     alt="Staff image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />

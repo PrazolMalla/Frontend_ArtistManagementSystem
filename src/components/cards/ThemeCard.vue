@@ -2,7 +2,7 @@
 
   <div class="border hover:border-blue-800 hover:shadow-md shadow-blue-400 border-slate-300 relative  rounded-md overflow-hidden w-[20vw] h-[20vh] cursor-pointer"  @click="select(themeData.id)">
       <div class="absolute  w-full h-full bg-cover" :style="{ 
-          backgroundImage: `url(${imgUrl(themeData.img_profile)})`, backgroundSize: 'cover' }"></div>
+          backgroundImage: `url(${base_url}${themeData.img_profile})`, backgroundSize: 'cover' }"></div>
       <div class="absolute bgThemeGlass z-10 h-full w-full opacity-90 p-2 backdrop-blur-3xl filter" :style="{ backgroundColor: themeData.darkPrimaryColor}">
       <p class="z-20 text-md" :style="{ color: themeData.secondaryColor}"> {{  themeData.name }}</p>
       </div>

@@ -78,7 +78,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/album/${album.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(album.img_profile)"
+                    :src="`${base_url}${album.img_profile}`"
                     alt="Album image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -157,7 +157,7 @@
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(deletedalbum.img_profile)"
+                    :src="`${base_url}${deletedalbum.img_profile}`"
                     alt="Album image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />

@@ -67,7 +67,7 @@
 
               <div v-if="!is_deletedShown"  v-for="music in musics"  :key="music.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/music/${music.id}`" class="flex items-center w-3/6">
-                  <img :src="imgUrl(music.img_profile)"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
+                  <img :src="`${base_url}${music.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
@@ -118,7 +118,7 @@
               
               <div v-else v-for="delmusic in deletedMusics"  :key="delmusic.name" class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
-                  <img :src="imgUrl(delmusic.img_profile)"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
+                  <img :src="`${base_url}${delmusic.img_profile}`"  alt="Music image" class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"  />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">

@@ -54,7 +54,7 @@
               <div v-if="!is_deletedShown" v-for="user in users" :key="user.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/user/${user.id}`" class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(user.img_profile)"
+                    :src="`${base_url}${user.img_profile}`"
                     alt="User image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />
@@ -87,7 +87,7 @@
                 <div v-else v-for="deletedUser in deletedUsers" :key="deletedUsers.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <div class="flex items-center w-3/6">
                   <img
-                    :src="imgUrl(deletedUser.img_profile)"
+                    :src="`${base_url}${deletedUser.img_profile}`"
                     alt="User image"
                     class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
                   />

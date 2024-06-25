@@ -12,14 +12,14 @@
     <div class="flex flex-row gap-5">
       <div class="" v-for="(recent, index) in recentSongs" :key="index">
         <!-- <img
-          :src="imgUrl(recent.img_profile})"
+          :src="`${base_url}${recent.img_profile}`"
           alt=""
           class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
         /> -->
         <RouterLink :to="'/music/' + recent.id">
           <div class="flex items-center gap-2">
             <img
-              :src="imgUrl(recent.img_profile)"
+              :src="`${base_url}${recent.img_profile}`"
               alt=""
               class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
             />

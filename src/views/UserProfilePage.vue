@@ -29,7 +29,7 @@
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <TopChartComponent :user="user" />
-          <CardsCarousel :artistId="user.id" :user="user" />
+          <CardsCarousel :artistId="user?.id" :user="user" />
         </div>
       </div>
     </template>

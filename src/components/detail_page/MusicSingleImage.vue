@@ -48,7 +48,7 @@ import { useStore } from 'vuex'
 const base_url  = import.meta.env.VITE_BASE_API_URL
 const props = defineProps({
   musicId: {
-    type: Number,
+    type: String,
     required: true
   },
   type: {

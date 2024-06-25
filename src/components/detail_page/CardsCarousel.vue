@@ -84,25 +84,20 @@ const props = defineProps({
   user: {
     type: Object,
   },
-  artistId: {}
+  artistId: {
+    type: Number
+  }
 })
 const musicData = ref([])
 const modules = [Autoplay, Pagination]
 const fetchMusicData = async (artistId) => {
   try {
-    console.log(artistId)
-    const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId)
+    const response = await axios.get(`${base_url}/api/music/artist/get/${artistId}`)
     musicData.value = response.data
-    console.log(musicData)
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }
 }
-
-onMounted(() => {
-  fetchMusicData(props.artistId)
-})
-
 function hexWithOpacity(hex, opacity) {
   const alpha = Math.round(opacity * 255)
     .toString(16)

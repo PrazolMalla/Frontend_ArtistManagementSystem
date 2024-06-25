@@ -4,7 +4,7 @@
       <div class="mt-10 text-primary-text-color flex flex-col gap-2">
         <div class="flex lg:flex-row flex-col">
           <MusicSingleImage :musicId="route.params.id" :type="type" />
-          <LyricsComponent :musicLyrics="music.lyrics" />
+          <LyricsComponent :musicLyrics="music?.lyrics" />
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />

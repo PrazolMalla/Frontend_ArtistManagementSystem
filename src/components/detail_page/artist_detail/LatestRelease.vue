@@ -68,9 +68,6 @@ const fetchMusicData = async (artistId) => {
   }
 }
 
-onMounted(() => {
-  fetchMusicData(props.user.id)
-})
 
 watch(
   () => props.user.id,

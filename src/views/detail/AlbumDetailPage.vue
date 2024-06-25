@@ -8,7 +8,7 @@
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
-          <CardsCarousel :artistId="music.artist" :user="user" />
+          <CardsCarousel :artistId="music.artist" />
         </div>
       </div>
     </template>

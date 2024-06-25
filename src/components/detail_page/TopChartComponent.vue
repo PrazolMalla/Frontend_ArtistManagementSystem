@@ -59,9 +59,7 @@ function hexWithOpacity(hex, opacity) {
   return `${hex}${alpha}`
 }
 
-onMounted(() => {
-  fetchMusicData(props.user.id)
-})
+
 
 watch(
   () => props.user.id,

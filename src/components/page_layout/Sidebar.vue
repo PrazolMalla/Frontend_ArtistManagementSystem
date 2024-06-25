@@ -100,7 +100,6 @@
 </template>
 
 <script setup>
-import { imgUrl } from '@/utils/imageProcess';
 import store from '@/store/store'
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])

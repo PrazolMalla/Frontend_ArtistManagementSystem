@@ -17,11 +17,10 @@ import MusicDetail from '@/views/detail/MusicDetailPage.vue'
 import Like from '@/views/library/Like.vue'
 import History from '@/views/library/Histore.vue'
 import Follow from '@/views/library/Follow.vue'
-import StaffStats from '@/views/stats/StaffStats.vue'
+import StaffStats from '@/views/stats/AdminStats.vue'
 import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
-import Test from '@/views/TestPage.vue'
 import ArtistMusic from '@/views/detail/ArtistMusicPage.vue'
 import ArtistHome from '@/views/detail/ArtistHomePage.vue'
 import ArtistAlbum from '@/views/detail/ArtistAlbumPage.vue'
@@ -226,7 +225,7 @@ const router = createRouter({
       name: 'MapShow',
       component: MapShow
     },
-    { path: '/test', name: 'test', component: Test, meta: { auth: false } }
+
   ]
 })
 router.beforeEach(async (to, from, next) => {

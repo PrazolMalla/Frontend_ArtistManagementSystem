@@ -1,16 +1,12 @@
 <template>
   <div class="mb-10">
     <h2 class="text-lg font-bold text-primary-text-color self-start">Top Albums</h2>
-    <div class="flex gap-4 overflow-y-hidden">
+    <div class="flex overflow-y-hidden overflow-x-visible no-scrollbar w-[100%]">
       <swiper
-        :slidesPerView="4"
+        :slidesPerView="computedSlidesPerViewLg"
         :centeredSlides="false"
         :spaceBetween="10"
         :grabCursor="true"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false
-        }"
         :pagination="{
           clickable: true
         }"
@@ -22,7 +18,7 @@
         </swiper-slide>
       </swiper>
       <swiper
-        :slidesPerView="2"
+        :slidesPerView="computedSlidesPerViewMd"
         :centeredSlides="false"
         :spaceBetween="10"
         :grabCursor="true"
@@ -41,7 +37,7 @@
         </swiper-slide>
       </swiper>
       <swiper
-        :slidesPerView="1"
+        :slidesPerView="computedSlidesPerViewSm"
         :centeredSlides="false"
         :spaceBetween="10"
         :grabCursor="true"
@@ -64,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import AlbumCard from '../cards/AlbumCard.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -88,6 +84,18 @@ const fetchAlbums = async () => {
 
 onMounted(fetchAlbums)
 const modules = [Autoplay, Pagination]
+
+const computedSlidesPerViewLg = computed(() => {
+  return Math.min(albumData.value.length, 4)
+})
+
+const computedSlidesPerViewMd = computed(() => {
+  return Math.min(albumData.value.length, 2)
+})
+
+const computedSlidesPerViewSm = computed(() => {
+  return Math.min(albumData.value.length, 1)
+})
 </script>
 <style scoped>
 /* @media (min-width: 768px) {

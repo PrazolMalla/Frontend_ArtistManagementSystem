@@ -21,6 +21,7 @@ import LyricsComponent from '@/components/detail_page/music_detail/LyricsCompone
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
 import axios from 'axios'
+import { useStore } from 'vuex'
 import { useRoute,useRouter} from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
 import { useToast } from 'vue-toast-notification'
@@ -29,6 +30,7 @@ const music = ref({})
 const type = ref('music')
 const route = useRoute()
 const router = useRouter()
+const store = useStore()
 const fetchMusicData = async (id) => {
   try {
     const response = await axios.get(`${base_url}/api/music/get/${id}`, {
@@ -36,15 +38,28 @@ const fetchMusicData = async (id) => {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
+    
+    // if (response.data.is_disabled) {
+    //   router.go(-1) 
+    //   toast.error('This music is disabled.')
+    // }
+    const userData = store.getters.getLoggedInUserData
+    console.log(userData)
     const referrer = document.referrer
-    if (referrer) {
-        router.go(-1)
-        toast.error('This music is disabled.')
-      } else {
+    if (referrer && response.data.is_disabled ) {
+          router.go(-1)
+          toast.error('This music is disabled.')
+    } else if(!referrer && response.data.is_disabled) {
         router.push('/') 
         toast.error('This music is disabled.')
-      }
-    music.value = response.data
+    }else if(!referrer && response.data.is_hidden && !userData.is_artist) {
+        router.push('/') 
+        toast.error('This page is not public')
+    }
+    else{
+      music.value = response.data
+    }
+    
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

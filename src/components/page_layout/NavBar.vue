@@ -111,12 +111,31 @@
         :style="{ fill: themeData?.textColor }"
         @click="toggleNotification"
       />
-      <v-icon
+      <RouterLink to="/user/settings" class="md:hidden">
+        <v-icon
+          name="md-settings-round"
+          fill="#302f31"
+          scale="1"
+          class="mt-5 cursor-pointer"
+          :style="{ fill: themeData?.textColor }"
+        />
+      </RouterLink>
+      <RouterLink  to="/user/profile" class="md:hidden
+       relative flex gap-2 cursor-pointer">
+        <img
+          :src="imgProfile"
+          alt=""
+          class="w-7 h-7 border-2 mt-5 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
+          :style="{ borderColor: themeData?.textColor }"
+        />
+        </RouterLink>
+        
+      <!-- <v-icon
         name="md-darkmode-round"
         scale="1.2"
         class="cursor-pointer mt-5"
         :style="{ fill: themeData?.textColor }"
-      />
+      /> -->
       <!-- <v-icon
         name="md-radio-round"
         fill="#302f31"
@@ -128,9 +147,11 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-
+const userData = ref([])
+const base_url  = import.meta.env.VITE_BASE_API_URL;
+const imgProfile =  ref(`${base_url}${userData.value.img_profile}`)
 const store = useStore()
 
 const is_showNotificationPopUp = ref(false)
@@ -145,6 +166,17 @@ const themeData = ref({
 
 const playerData = computed(() => store.state.playerData)
 const getThemeColor = computed(() => store.getters.getThemeColor)
+
+const userDataFunc = () => {
+  userData.value = store.getters.getLoggedInUserData
+  imgProfile.value = `${base_url}${userData.value.img_profile}`
+}
+const getUserData = computed(() => store.getters.getLoggedInUserData)
+watch(getUserData, (newVal) => {
+  userData.value = newVal
+  imgProfile.value = `${base_url}${userData.value.img_profile}`
+})
+
 
 watch(
   getThemeColor,
@@ -190,6 +222,11 @@ const toggleNotification = () => {
   is_showSearchPopUp.value = false
   is_showNotificationPopUp.value = !is_showNotificationPopUp.value
 }
+
+onMounted(() => {
+  store.dispatch('setLoggedInUserData')
+  userDataFunc()
+})
 </script>
 
 <style scoped>

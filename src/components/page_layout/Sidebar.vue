@@ -126,7 +126,7 @@ watch(
 )
 watch(getUserData, (newVal) => {
   userData.value = newVal
-  imgProfile.value = `${base_url}/${userData.value.img_profile}`
+  imgProfile.value = `${base_url}${userData.value.img_profile}`
 })
 
 const categories = ref([
@@ -136,7 +136,7 @@ const categories = ref([
     actions: [
       { to: '/music', icon: 'si-applemusic', text: 'Music' },
       { to: '/artist', icon: 'fa-microphone', text: 'Artist' },
-      { to: '/band', icon: 'fa-guitar', text: 'Band' },
+      // { to: '/band', icon: 'fa-guitar', text: 'Band' },
       { to: '/album', icon: 'md-album', text: 'Album' },
       { to: '/genre', icon: 'md-musicnote-round', text: 'Genre' }
     ]
@@ -155,24 +155,24 @@ const closeDropdown = () => {
 
 const showDataInSideBar = () => {
   if (userData.value.id) {
-    categories.value.push({
-      name: 'Stats',
-      icon: 'fa-chart-line',
-      actions: [{ to: '/stats/user', icon: 'fa-user-alt', text: 'User' }]
-    })
+    
     categories.value.push({
       name: 'Library',
       icon: 'md-librarymusic',
       actions: [
         { to: '/library/likes', icon: 'fa-heart', text: 'Liked' },
-        { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
-        { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
+        // { to: '/library/follow', icon: 'fa-user-check', text: 'Followed' },
+        // { to: '/library/history', icon: 'fa-user-clock', text: 'History' }
       ]
     })
-
   }
   if (userData.value.is_artist | userData.value.is_staff) {
-    
+    categories.value.push({
+      name: 'Stats',
+      icon: 'fa-chart-line',
+      actions: []
+    })
+
     categories.value.push({ name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
     const manageIndex = categories.value.findIndex((category) => category.name === 'Manage')
     const statsIndex = categories.value.findIndex((category) => category.name === 'Stats')
@@ -220,11 +220,11 @@ const showDataInSideBar = () => {
         icon: 'fa-microphone',
         text: 'Artist'
       })
-      categories.value[manageIndex].actions.push({
-        to: '/manage/user',
-        icon: 'fa-user-alt',
-        text: 'User'
-      })
+      // categories.value[manageIndex].actions.push({
+      //   to: '/manage/user',
+      //   icon: 'fa-user-alt',
+      //   text: 'User'
+      // })
       categories.value[statsIndex].actions.push({
         to: '/stats/staff',
         icon: 'fa-user-shield',

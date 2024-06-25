@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.production
+    container_name: ams_frontend_dev
+    command: serve -s dist -l tcp://0.0.0.0:5173
+    ports:
+      - '5173:5173'
+
+  db:
+    image: postgres:latest
+    volumes:
+      - ams_data:/var/lib/postgresql/data/
+    environment:
+      # POSTGRES_DB: ${DB_NAME}
+      # POSTGRES_USER: ${DB_USER}
+      # POSTGRES_PASSWORD: ${DB_PASSWORD}
+    - POSTGRES_DB=amsDB
+    - POSTGRES_USER=amsUser
+    - POSTGRES_PASSWORD=amsPassword
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.production
+    container_name: ams_backend_dev
+    command: gunicorn --bind 0.0.0.0:8080 core.wsgi:application
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+volumes:
+  ams_data:   
+
+
+

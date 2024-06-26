@@ -2,7 +2,7 @@
   <fieldset
     class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
   >
-    <legend class="ml-10">Add Theme</legend>
+    <legend class="ml-10">Edit Theme</legend>
     <v-icon
       name="fa-times"
       fill="#302f31"
@@ -54,7 +54,7 @@
           type="submit"
           @click="addTheme()"
         >
-          Add Theme
+          Edit Theme
         </button>
       </div>
     </div>
@@ -114,9 +114,11 @@ const fetchThemeData = async () => {
       }
     })
     theme.value = response.data
+    profileFile.value = `${base_url}/${data.img_profile}`
   } catch (error) {
     console.error('Error fetching theme data:', error)
   }
+
 }
 
 onMounted(() => {
@@ -137,13 +139,13 @@ const addTheme = () => {
     formData.append('img_profile', profileFile.value)
     
     axios
-      .post(`${base_url}/api/theme/create/`, formData, {
+      .patch(`${base_url}/theme/edit/${props.themeId}`, formData, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }
       })
       .then((response) => {
-        $toast.success('Theme Added', {
+        $toast.success('Theme Edited', {
           position: 'top-right'
         })
         emit('close')

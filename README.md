@@ -22,3 +22,9 @@ Step 8:  run in terminal -> make prod-up
 
 
 "In case of new package installed in backend..  RUN 'poetry export --format requirements.txt --output requirements.txt'" 
+
+"For seeding  dumpdata:  python manage.py  dumpdata  user.Users >  seed/users.json"
+
+"For seeding  loaddata:  python manage.py  loaddata  user.Users >  seed/users.json"
+
+

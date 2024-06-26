@@ -111,7 +111,7 @@
         :style="{ fill: themeData?.textColor }"
         @click="toggleNotification"
       />
-      <RouterLink to="/user/settings" class="md:hidden">
+      <RouterLink v-if="!userData.id" to="/user/settings" class="md:hidden">
         <v-icon
           name="md-settings-round"
           fill="#302f31"
@@ -120,7 +120,7 @@
           :style="{ fill: themeData?.textColor }"
         />
       </RouterLink>
-      <RouterLink  to="/user/profile" class="md:hidden
+      <RouterLink  v-if="!userData.id" to="/user/profile" class="md:hidden
        relative flex gap-2 cursor-pointer">
         <img
           :src="imgProfile"

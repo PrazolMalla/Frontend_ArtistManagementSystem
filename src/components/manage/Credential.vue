@@ -59,6 +59,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 
+const base_url  = import.meta.env.VITE_BASE_API_URL
 
 const toast = useToast()
 const user = ref({

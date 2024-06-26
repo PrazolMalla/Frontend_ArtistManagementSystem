@@ -5,13 +5,14 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.production
-    container_name: ams_frontend_dev
+    container_name: ams_frontend_prod
     command: serve -s dist -l tcp://0.0.0.0:5173
     ports:
       - '5173:5173'
 
   db:
     image: postgres:latest
+    container_name: ams_db_prod
     volumes:
       - ams_data:/var/lib/postgresql/data/
     environment:
@@ -28,12 +29,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.production
-    container_name: ams_backend_dev
-    command: gunicorn --bind 0.0.0.0:8080 core.wsgi:application
+    container_name: ams_backend_prod
+    # command: /script.sh
     ports:
       - '8080:8080'
     depends_on:
       - db
+
 
 volumes:
   ams_data:   

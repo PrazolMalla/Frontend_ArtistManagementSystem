@@ -79,6 +79,8 @@ import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const emit = defineEmits(['close'])
 const props = defineProps(['albumId'])
+
+const base_url  = import.meta.env.VITE_BASE_API_URL;
 function closeEdit() {
   emit('close')
 }

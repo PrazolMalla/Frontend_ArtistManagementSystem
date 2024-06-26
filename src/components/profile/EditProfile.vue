@@ -143,7 +143,7 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const countryOptions = ref([])
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url  = import.meta.env.VITE_BASE_API_URL
 
 const props = defineProps(['userData'])
 const user = ref({

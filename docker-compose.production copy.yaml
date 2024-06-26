@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.production
+    container_name: ams_frontend_prod
+    command: serve -s dist -l tcp://0.0.0.0:5173
+    ports:
+      - '5173:5173'
+
+  db:
+    image: postgres:latest
+    container_name: ams_db_prod
+    volumes:
+      - ams_data:/var/lib/postgresql/data/
+    environment:
+      # POSTGRES_DB: ${DB_NAME}
+      # POSTGRES_USER: ${DB_USER}
+      # POSTGRES_PASSWORD: ${DB_PASSWORD}
+    - POSTGRES_DB=amsDB
+    - POSTGRES_USER=amsUser
+    - POSTGRES_PASSWORD=amsPassword
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.production
+    container_name: ams_backend_prod
+    # command: /script.sh
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+
+volumes:
+  ams_data:   
+
+
+

@@ -1,0 +1,14 @@
+
+
+dev-build:
+	docker compose -f docker-compose.production.yaml build --no-cache
+dev-up:
+	docker compose -f docker-compose.production.yaml up
+dev-down:
+	docker compose -f docker-compose.production.yaml down
+dev-db:
+	docker-compose -f docker-compose.production.yaml up db
+dev-seed:
+		docker compose -f docker-compose.production.yaml run backend python manage.py loaddata seed/themes.json seed/users.json  seed/albums.json  seed/genres.json  seed/musics.json
+dev-super:
+		docker compose -f docker-compose.production.yaml run backend python manage.py  createsuperuser --username "superuser"  --email="superuser@gmail.com"

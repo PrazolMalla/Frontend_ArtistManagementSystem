@@ -1,21 +1,10 @@
-
-# For Development
-dev-build:
-	docker compose -f docker-compose.dev.yaml build
-dev-up:
+start-build:
+	docker compose -f docker-compose.dev.yaml build --no-cache
+start-up:
 	docker compose -f docker-compose.dev.yaml up 
-dev-down:
+start-down:
 	docker compose -f docker-compose.dev.yaml down
-dev-db:
+start-db:
 	docker-compose -f docker-compose.dev.yaml up db
 
 
-# For Production
-prod-build:
-	docker compose -f docker-compose.production.yaml build
-prod-up:
-	docker compose -f docker-compose.production.yaml up
-prod-down:
-	docker compose -f docker-compose.production.yaml down
-prod-db:
-	docker-compose -f docker-compose.production.yaml up db

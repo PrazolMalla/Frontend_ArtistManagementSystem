@@ -1,7 +1,7 @@
 
 
 
-Step 1:  copy  docker-compose.dev.yaml,  docker-compose.production.yaml Makefile.dev and Makefile     outside  the frontend folder
+Step 1:  copy  docker-compose.dev.yaml,  docker-compose.production.yaml Makefile.dev and Makefile  inside frontend/dockerfile   outside  the frontend folder
 
 Setp 2:  rename  Backend_ArtistManagementtSystem folder to backend
 

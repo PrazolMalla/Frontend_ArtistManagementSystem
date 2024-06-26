@@ -89,7 +89,7 @@
       </div>
     </div>
 
-    <div class="absolute bottom-0 p-3 w-full flex justify-between left-0">
+    <div v-if="!userData.id" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img
           :src="imgProfile"

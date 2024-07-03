@@ -1,16 +1,38 @@
 <template lang="">
-    <div :class=" { 'lg:w-[78vw]': is_ShownPlayer, 'md:w-[73vw]': is_ShownPlayer, }" class=" bggradient cursor-pointer z-50 fixed   md:ml-[26vw] lg:ml-[20vw] bottom-16 sm:bottom-5 sm:border sm:rounded-lg sm:h-16  h-16  flex px-2 justify-between items-center shadow-lg">
-        <div class="flex items-center gap-4 sm:gap-8 text-white">
-            <img @click="toggleBar"  src="https://source.unsplash.com/800x800/?portrait" alt="Album Cover" class="h-12 w-12 rounded-md">
-            <router-link v-if="is_ShownPlayer" :to="'/music/' + playerData.id" class=" flex flex-col  flex-wrap hover:underline">
-                <span  class="font-semibold">{{ playerData.name }}</span>
-                <span class="text-sm">{{ playerData.description }}</span>
-            </router-link>
-        </div>
-
-         
-        <div v-if="is_ShownPlayer" class="sm:flex hidden items-center gap-4 sm:gap-8">
-            <input type="range" min="0" max="100" v-model="playerData.volume" class="w-24 sm:w-48 h-1 bg-gray-400 rounded-lg appearance-none cursor-pointer">
+  <div
+    :class="{ 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer }"
+    class=" flex flex-col playerGradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5  sm:rounded-lg sm:h-17 h-17 "
+  >
+    <input v-if="is_ShownPlayer"
+      type="range"
+      min="0"
+      max="100"
+      v-model="playerData.volume"
+      class="sliderBar w-full hover:h-2 h-1 rounded-full appearance-none cursor-pointer thumb-edit"/>
+    <div class="flex px-2 justify-between items-center  py-2">
+      <div class="flex items-center gap-1 text-light-primary-color">
+        <v-icon v-if="is_ShownPlayer" name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
+        <img
+          @click="toggleBar"
+          :src="playerData.img_src"
+          alt="Album Cover"
+          class="h-12 w-12 rounded-md"
+        />
+        <div v-if="is_ShownPlayer" :to="'/music/' + playerData.id" class="flex flex-col flex-wrap">
+          <router-link :to="'/music/' + playerData.id" class="font-semibold hover:underline">{{
+            playerData.name
+          }}</router-link>
+          <span class="text-sm">
+            <router-link :to="'/album/' + playerData.album" class="font-semibold hover:underline">{{
+              playerData.album
+            }}</router-link>
+            ,
+            <router-link
+              :to="'/artist/' + playerData.artist"
+              class="font-semibold hover:underline"
+              >{{ playerData.artist }}</router-link
+            >
+          </span>
         </div>
 
 

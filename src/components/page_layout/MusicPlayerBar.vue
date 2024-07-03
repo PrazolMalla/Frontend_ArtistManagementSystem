@@ -34,100 +34,66 @@
             >
           </span>
         </div>
-      </div>
 
-      <div v-if="is_ShownPlayer" class="flex items-center gap-4 sm:gap-8">
-        <v-icon name="fa-angle-left" fill="#302f31" scale="1.5" class="cursor-pointer" />
-        <v-icon
-          v-if="is_playing"
-          @click="togglePlayPause"
-          name="fa-pause"
-          fill="#302f31"
-          scale="1"
-          class="cursor-pointer"
-        />
-        <v-icon
-          v-else
-          name="fa-play"
-          @click="togglePlayPause"
-          fill="#302f31"
-          scale="1"
-          class="cursor-pointer"
-        />
-        <v-icon name="fa-angle-right" fill="#302f31" scale="1.5" class="cursor-pointer" />
-        <v-icon
-          :name="volume"
-          @click="toggleVolume"
-          fill="#302f31"
-          scale="1.3"
-          class="mr-5 cursor-pointer"
-        />
-      </div>
+
+        <div v-if="is_ShownPlayer"  class="flex items-center gap-4 sm:gap-8">
+            <button @click="prevTrack" class="p-2 rounded-full hover:bg-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="sm:flex hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7" />
+                </svg>
+
+            </button>
+            <button @click="togglePlayPause" class=" p-2 rounded-full hover:bg-gray-600">
+                <svg v-if="playerData.isPlaying" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m4-6v6" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class=" h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-6.586-3.384A1 1 0 007 8.618v6.764a1 1 0 001.166.986l6.586-3.384a1 1 0 000-1.804z" />
+                </svg>
+            </button>
+            <button @click="nextTrack" class="p-2  sm:flex hidden rounded-full hover:bg-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+                </svg>
+            </button>
+        
+        </div>
     </div>
-  </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-export default {
-  data() {
-    return {
-      is_ShownPlayer: true,
-      is_playing: this.is_play,
-      volumeState: localStorage.getItem('volume')
-    }
-  },
-  computed: {
-    ...mapState(['playerData', 'is_play']),
-    volume() {
-      console.log(this.volumeState)
-      switch (this.volumeState) {
-        case 0: {
-          localStorage.setItem('volume', 0)
-          return 'md-volumemute-round'
+import { mapState } from 'vuex';
+export default{
+        data(){
+           return{
+             is_ShownPlayer: true
+           }
+        },
+     computed:{
+            ...mapState(['playerData']),
+            
+        },
+        mounted(){
+            console.log("Player MOunted")
+            // this.playMusic()
+        },
+        methods:{
+            // playMusic(){
+            //  this.$store.dispatch('setMusicPlayer', this.musicDetail)
+            // },
+            toggleBar(){
+                    console.log("CLicked")
+                    this.is_ShownPlayer = !this.is_ShownPlayer
+            }
         }
-        case 1: {
-          localStorage.setItem('volume', 1)
-          return 'md-volumedown-round'
-        }
-        case 2: {
-          localStorage.setItem('volume', 2)
-          return 'md-volumeup-round'
-        }
-        case 3: {
-          localStorage.setItem('volume', 3)
-          return 'md-volumeoff-round'
-        }
-        default: {
-          localStorage.setItem('volume', 1)
-          return 'md-volumedown-round'
-        }
-      }
-    }
-  },
-  methods: {
-    toggleBar() {
-      console.log('CLicked')
-      this.is_ShownPlayer = !this.is_ShownPlayer
-    },
-    togglePlayPause() {
-      this.is_playing = !this.is_playing
-      this.$store.dispatch('setPlayState', this.is_playing)
-    },
-    toggleVolume() {
-      this.volumeState = (this.volumeState + 1) % 4
-    },
-    toggleTimer() {}
-  }
+
+
 }
 </script>
-<style scoped>
-.playerGradient {
-  background: linear-gradient(45deg, #ff4000bb, #ece6d59d);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.sliderBar{
-  background: #ebb8a7;
-  backdrop-filter: blur(10px);
+<style>
+    .bggradient {
+        background: linear-gradient(45deg, rgba(255, 81, 109, 0.5), rgba(8, 7, 39, 0.5));    backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
 }
 </style>

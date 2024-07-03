@@ -1,9 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="mt-4 flex gap-2 flex-wrap justify-start w-[80vw] ml-[-2rem]">
-        <MusicCard v-for="music in musicData" :key="music.id" :musicData="music" linkto="music" />
-      </div>
+       <MusicTiles/>
     </template>
   </PageLayoutWithPlayer>
 </template>

@@ -25,9 +25,8 @@
             <p class="md:text-lg">{{ music.duration }}</p>
           </div>
         </div>
-      </RouterLink>
     </div>
-  </div>
+    </div>
 </template>
 <script setup>
 const base_url  = import.meta.env.VITE_BASE_API_URL;
@@ -68,4 +67,6 @@ watch(
   }
 )
 </script>
-<style lang=""></style>
+<style lang="">
+    
+</style>

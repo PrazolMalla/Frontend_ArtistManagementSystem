@@ -37,7 +37,6 @@
     </RouterLink>
   </div>
 </template>
-
 <script setup>
 import { onMounted, watch } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -61,5 +60,6 @@ watch(
   { deep: true }
 )
 </script>
-
-<style lang=""></style>
+<style lang="">
+    
+</style>

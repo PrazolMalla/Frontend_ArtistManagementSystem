@@ -1,31 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import UserProfile from '@/views/UserProfilePage.vue'
-import LoginPage from '@/views/LoginPage.vue'
-import HomePage from '@/views/HomePage.vue'
-import SignUp from '@/views/SignUpPage.vue'
-import Artist from '@/views/explore/Artist.vue'
-import Album from '@/views/explore/Album.vue'
-import Music from '@/views/explore/Music.vue'
-import Band from '@/views/explore/Band.vue'
-import Genre from '@/views/explore/Genre.vue'
-import ArtistManage from '@/views/manage/ArtistManage.vue'
-import UserManage from '@/views/manage/UserManage.vue'
-import StaffManage from '@/views/manage/StaffManage.vue'
-import MusicManage from '@/views/manage/MusicManage.vue'
-import AlbumManage from '@/views/manage/AlbumManage.vue'
-import ThemeManage from '@/views/manage/ThemeManage.vue'
-import GenreManage from '@/views/manage/GenreManage.vue'
-import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
+import LoginPage from '@/views/LoginPage.vue';
+import HomePage from '@/views/HomePage.vue';
+import SignUp from '@/views/SignUpPage.vue';
+import Artist from '@/views/explore/Artist.vue';
+import Album from '@/views/explore/Album.vue';
+import Music from '@/views/explore/Music.vue';
+import Band from '@/views/explore/Band.vue';
+import Genre from '@/views/explore/Genre.vue';
+import AddMusic from '@/views/manage/artist/AddMusic.vue';
+import AddAlbum from '@/views/manage/artist/AddAlbum.vue';
+import AddGenre from '@/views/manage/staff/AddGenre.vue';
+import AlbumDetail from '@/views/detail/AlbumDetail.vue'
 import ArtistDetail from '@/views/detail/ArtistDetail.vue'
 import MusicDetail from '@/views/detail/MusicDetailPage.vue'
 import Like from '@/views/library/Like.vue'
 import History from '@/views/library/Histore.vue'
 import Follow from '@/views/library/Follow.vue'
-import StaffStats from '@/views/stats/StaffStats.vue'
+import StaffStats from '@/views/stats/AdminStats.vue'
 import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
-import Test from '@/views/TestPage.vue'
 import ArtistMusic from '@/views/detail/ArtistMusicPage.vue'
 import ArtistHome from '@/views/detail/ArtistHomePage.vue'
 import ArtistAlbum from '@/views/detail/ArtistAlbumPage.vue'
@@ -70,12 +65,10 @@ const router = createRouter({
       meta: { auth: false }
     },
 
-    // Explore
     {
       path: '/artist',
-      name: 'artist',
-      component: Artist,
-      meta: { auth: false }
+      name: 'Artist',
+      component: Artist
     },
     {
       path: '/artist/music',
@@ -85,29 +78,26 @@ const router = createRouter({
     },
     {
       path: '/album',
-      name: 'album',
-      component: Album,
-      meta: { auth: false }
+      name: 'Album',
+      component: Album
     },
+
     {
       path: '/music',
-      name: 'music',
-      component: Music,
-      meta: { auth: false }
+      name: 'Music',
+      component: Music
     },
+
     {
       path: '/band',
-      name: 'band',
-      component: Band,
-      meta: { auth: false }
+      name: 'Band',
+      component: Band
     },
     {
       path: '/genre',
-      name: 'genre',
-      component: Genre,
-      meta: { auth: false }
+      name: 'Genre',
+      component: Genre
     },
-    // Manage
     {
       path: '/manage/music',
       name: 'manageMusic',
@@ -196,9 +186,8 @@ const router = createRouter({
       path: '/album/:id',
       name: 'albumDetail',
       component: AlbumDetail,
-      meta: { auth: false }
-    },
-    {
+      meta: { auth: true }
+    }, {
       path: '/music/:id',
       name: 'musicDetail',
       component: MusicDetail,
@@ -230,12 +219,13 @@ const router = createRouter({
         }
       ]
     },
+
     {
       path: '/mapshow',
       name: 'MapShow',
       component: MapShow
     },
-    { path: '/test', name: 'test', component: Test, meta: { auth: false } }
+
   ]
 })
 router.beforeEach(async (to, from, next) => {

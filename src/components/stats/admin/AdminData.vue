@@ -1,42 +1,29 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-dark-primary-color">
+  <div class="min-h-screen  flex flex-col bg-dark-primary-color">
     <main class="flex-1 p-6 bg-primary-color flex justify-end">
-      <div class="bg-primary-color w-[20rem] bg-opacity-75 rounded-lg ml-24">
-        <h1 class="text-3xl font-bold mb-6 mt-6 text-primary-text-color text-center">
-          Information
-        </h1>
+      <div class="bg-primary-color w-[20rem] bg-opacity-75 p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 mt-6 text-white text-center">Information</h1>
 
-        <div
-          v-if="totalArtists !== null"
-          class="p-5 rounded-md w-full bg-light-primary-color text-primary-text-color mb-8 text-center hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer"
-        >
+        <div class="p-5 rounded-md w-full bg-light-primary-color text-white mb-8 text-center hover:bg-secondary-color">
           <h2 class="text-xl font-bold mb-2">Total Artists</h2>
           <p class="text-2xl">{{ totalArtists }}</p>
         </div>
 
-        <div
-          v-if="totalUsers !== null"
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
-        >
+        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Users</h2>
           <p class="text-2xl">{{ totalUsers }}</p>
         </div>
 
-        <div
-          v-if="totalAlbums !== null"
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
-        >
+        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Albums</h2>
           <p class="text-2xl">{{ totalAlbums }}</p>
         </div>
 
-        <div
-          v-if="totalSongs !== null"
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer selection mb-10 text-center"
-        >
+        <div class="p-5 rounded-md  bg-light-primary-color text-white  hover:bg-secondary-color  mb-10 text-center">
           <h2 class="text-xl font-bold mb-2">Total Songs</h2>
           <p class="text-2xl">{{ totalSongs }}</p>
         </div>
+
       </div>
     </main>
   </div>
@@ -81,12 +68,12 @@ export default {
       totalArtists,
       totalUsers,
       totalAlbums,
-      totalSongs
+      totalSongs,
     };
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-/* Add your component-specific styles here */
+
 </style>

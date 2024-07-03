@@ -1,15 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="flex gap-4 flex-wrap flex-grow justify-start ml-[-2rem]">
-        <ArtistCard
-          v-for="artist in artistData"
-          :key="artist.id"
-          class="p-5"
-          :artistData="artist"
-          linkto="artist"
-        />
-      </div>
+       <ArtistTiles/>
     </template>
   </PageLayoutWithPlayer>
 </template>

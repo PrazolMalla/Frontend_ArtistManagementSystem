@@ -1,59 +1,90 @@
-<template>
-  <div
-    class="hidden fixed sm:flex h-[100%] justify-start flex-col sm:p-10 lg:w-[15vw] w-[25vw] text-secondary-color pt-10 sm:pt-20"
-    :style="{ backgroundColor: themeData?.sidebarBgColor }"
-  >
-    <div class="flex gap-2 mb-5">
-      <v-icon
-        name="md-home-round"
-        fill="#302f31"
-        scale="1"
-        class="cursor-pointer"
-        :style="{ fill: themeData?.textColor }"
-      />
-      <router-link
-        to="/"
-        class="text-md text-primary-text-color hover:text-secondary-color"
-        :style="{ color: themeData?.textColor }"
-        >Home</router-link
-      >
-    </div>
-    <div v-for="category in categories" :key="category.name" class="relative mb-5">
-      <button @click="toggleDropdown(category.name)" class="flex gap-2">
-        <v-icon
-          :name="category.icon"
-          fill="#302f31"
-          scale="1"
-          class="cursor-pointer"
-          :style="{ fill: themeData?.textColor }"
-        />
-        <p
-          class="text-md text-primary-text-color hover:text-secondary-color mb-2"
-          :style="{ color: themeData?.textColor }"
-        >
-          {{ category.name }}
-        </p>
-      </button>
+<!-- <template>
+    
+    <div class="hidden fixed sm:flex h-[100%] justify-start flex-col bg-light-primary-color sm: p-10  lg:w-[15vw] w-[25vw] text-white pt-10 sm:pt-20">
 
-      <div
-        v-if="isDropdownOpen === category.name"
-        class="ml-2 flex flex-col gap-2 w-full rounded-md"
-      >
-        <router-link
-          v-for="action in category.actions"
-          :key="action.text"
-          :to="action.to"
-          class="flex gap-2 text-sm text-primary-text-color hover:text-black"
-          @click="closeDropdown"
-        >
-          <v-icon
-            :name="action.icon"
-            fill="#302f31"
-            scale="1"
-            class="cursor-pointer"
-            :style="{ fill: themeData?.textColor }"
-          />
-          <p :style="{ color: themeData?.textColor }">{{ action.text }}</p>
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
+        <IconSupport  class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Home</p>
+    </router-link>
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
+        <IconSupport  class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Explore</p>
+    </router-link>
+    <router-link to="/adminpage" class="flex flex-row items-center text-xl mb-5 ">
+        <IconSupport  class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Manage</p>
+    </router-link>
+    <router-link to="/album" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAlbum class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Library</p>
+    </router-link>
+    <router-link to="/artist" class="flex flex-row items-center text-xl mb-5 ">
+        <IconArtist class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Stats</p>
+    </router-link>
+    <router-link to="/music" class="flex flex-row items-center text-xl mb-5 ">
+        <IconMusic class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Musics</p>
+    </router-link>
+    <router-link to="/band" class="flex flex-row items-center text-xl mb-5 ">
+        <IconBand class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Bands</p>
+    </router-link>
+    <p class="text-gray-text-color mb-4 text-sm">Actions:</p>
+    <router-link to="/music/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Music</p>
+    </router-link>
+    <router-link to="/album/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Album</p>
+    </router-link>
+    <router-link to="/genre/add" class="flex flex-row items-center text-xl mb-5 ">
+        <IconAdd class="mr-2"/>
+        <p class=" ml-2 text-sm text-gray-text-color hover:text-secondary-color">Add Genre</p>
+    </router-link> 
+
+
+    
+</div>
+</template>
+<script setup>
+   import IconHamBurger from    '@/components/icons/IconHamBurger.vue'
+   import IconSupport from      '@/components/icons/IconSupport.vue'
+   import IconArtist from       '@/components/icons/IconArtist.vue'
+   import IconMusic from        '@/components/icons/IconMusic.vue'
+   import IconBand from         '@/components/icons/IconBand.vue'
+   import IconAlbum from        '@/components/icons/IconAlbum.vue'
+   import IconAdd from          '@/components/icons/IconAdd.vue'
+</script> -->
+
+
+<template>
+  <div class="hidden fixed sm:flex h-[100%] justify-start flex-col bg-light-primary-color sm:p-10 lg:w-[15vw] w-[25vw] text-white pt-10 sm:pt-20">
+
+        <div class="flex  gap-2 mb-5">
+            <v-icon name="md-home-round" fill="#cbd5e1" scale="1" class=" cursor-pointer" />  
+            <router-link to="/" class=" text-md text-gray-text-color hover:text-white">Home</router-link>
+        </div>
+    <div v-for="category in categories" :key="category.name" class="relative mb-5">
+       
+       
+        
+        <button @click="toggleDropdown(category.name)"  class="flex gap-2">
+            <v-icon :name="category.icon" fill="#cbd5e1" scale="1" class=" cursor-pointer" /> 
+                <p class=" text-md text-gray-text-color hover:text-secondary-color mb-2">{{ category.name }}</p>
+        </button>
+     
+            <div v-if="isDropdownOpen === category.name" class="ml-2 text-white flex flex-col gap-2 w-full rounded-md">
+                <router-link
+                v-for="action in category.actions"
+                :key="action.text"
+                :to="action.to"
+                class="flex gap-2  text-sm text-gray-text-color hover:text-white"
+                @click="closeDropdown"
+                >
+            <v-icon :name="action.icon" fill="#cbd5e1" scale="1" class=" cursor-pointer" /> 
+          {{ action.text }}
         </router-link>
       </div>
     </div>
@@ -247,3 +278,4 @@ onMounted(() => {
   showDataInSideBar()
 })
 </script>
+

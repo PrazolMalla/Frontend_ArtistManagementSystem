@@ -1,18 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="flex flex-col gap-3">
-      <div class="text-4xl">Genre</div>
-       <div class="flex gap-2">
-          <div class="flex flex-col bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-white border border-blue-500 hover:text-blue-500 text-white" @click="getAllGenreMusic">All</div>
-          <div class="flex flex-col bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-white border border-blue-500 hover:text-blue-500 text-white" v-for="genre in genreData" @click="getGenreMusic(genre.id)">
-          {{ genre.name }}
-          </div>
-        </div>
-      </div>
-      <div class="flex gap-4 flex-wrap flex-grow justify-center">
-        <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music"/>
-      </div>
+       Genre Esma Auxaa laa.
     </template>
   </PageLayoutWithPlayer>
 </template>

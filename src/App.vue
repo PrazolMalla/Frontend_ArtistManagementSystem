@@ -2,7 +2,10 @@
   <div class="w-full bg-dark-primary-color">
     <RouterView />
   </div>
+
+ 
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -56,4 +59,9 @@ const isAccessTokenExpired = () => {
     return decodedToken.exp < currentTime;
 };
 </script>
-<style scoped></style>
+
+
+<style scoped>
+
+
+</style>

@@ -1,9 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-    <div class="flex gap-4 flex-wrap flex-grow justify-center ">
-          <AlbumCard v-for="x in albumData" class="p-5" :albumDetail="x" linkto="album"/>
-        </div>
+       <AlbumTiles/>
     </template>
   </PageLayoutWithPlayer>
 </template>
@@ -36,6 +34,7 @@ export default{
         });
     }
   }
+
 }
 
 </script>

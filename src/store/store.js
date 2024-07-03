@@ -3,43 +3,104 @@ import axios from 'axios'
 const URL = import.meta.env.VITE_BASE_API_URL
 export default createStore({
   state: {
+    userData: Object,
+    userAlbum: Object,
+    userMusic: Object,
+    musicData: Object,
+    albumData: Object,
+    artistData: Object,
+    bandData: Object,
     playerData: Object,
-    is_play: Boolean,
-    volume: Number,
-    loggedInUserData: Object,
-    themeColor: {
-      bgColor: ' #f6f3eb',
-      textColor: '#302f31',
-      sidebarBgColor: '#ECE6D5'
-    }
+    genreData: Object,
   },
   mutations: {
-    SET_THEME_COLOR(state, themeColor) {
-      state.themeColor = themeColor
+    SET_USER_DATA(state, userData) {
+      state.userData = userData;
     },
-    SET_LOGGEDIN_USER_DATA(state, loggedInUserData) {
-      state.loggedInUserData = loggedInUserData
+    SET_GENRE_DATA(state, genreData) {
+      state.genreData = genreData;
+    },
+    SET_USER_ALBUM(state, userAlbum) {
+      state.userAlbum = userAlbum;
+    },
+
+    SET_USER_MUSIC(state, userMusic) {
+      state.userMusic = userMusic;
+    },
+    SET_MUSIC_DATA(state, musicData) {
+      state.musicData = musicData;
     },
     SET_PLAYER_DATA(state, playerData) {
-      state.playerData = playerData
+      state.playerData = playerData;
+    },
+    SET_ALBUM_DATA(state, albumData) {
+      state.albumData = albumData;
     },
 
-    SET_PLAY_STATE(state, is_play) {
-      state.is_play = is_play
+    SET_BAND_DATA(state, bandData) {
+      state.bandData = bandData;
     },
 
-    SET_VOLUME_STATE(state, volume) {
-      state.volume = volume
+    SET_ARTIST_DATA(state, artistData) {
+      state.artistData = artistData;
+    },
+    ADD_MUSIC(state, newData) {
+      state.musicData.push(newData);
+    },
+    ADD_ALBUM(state, newData) {
+      state.albumData.push(newData);
     }
   },
   actions: {
-    setThemeColor({ commit }, themeColor) {
-      commit('SET_THEME_COLOR', themeColor)
+    setUserData({ commit }) {
+      const userId = localStorage.getItem("userId")
+      axios.get(`${URL}api/user/get/${userId}/`, {
+        // headers:{
+        //   Authorization: "Bearer "+localStorage.getItem('access_token'),
+        //   'Content-Type': 'application/json'
+        // }
+      }).then((response) => {
+        commit('SET_USER_DATA', response.data)
+      }
+      )
     },
+    setGenreData({ commit }) {
+      axios.get(`${URL}api/genre/get/`, {
+        // headers:{
+        //   Authorization: "Bearer "+localStorage.getItem('access_token'),
+        //   'Content-Type': 'application/json'
+        // }
+      }).then((response) => {
+        commit('SET_GENRE_DATA', response.data)
+      }
+      )
+    },
+    setUsersAlbum({ commit }) {
+      const userId = localStorage.getItem("userId")
+      axios.get(`${URL}api/album/get/user/${userId}/`, {
+        // headers:{
+        //   Authorization: "Bearer "+localStorage.getItem('access_token')
+        // }
+      }).then((response) => {
+        commit('SET_USER_ALBUM', response.data)
+      }
+      )
+    },
+    setUsersMusic({ commit }) {
+      const userId = localStorage.getItem("userId")
+      axios.get(`${URL}api/music/get/user/${userId}/`, {
+        // headers:{
+        //   Authorization: "Bearer "+localStorage.getItem('access_token')
+        // }
+      }).then((response) => {
+        commit('SET_USER_MUSIC', response.data)
+      }
+      )
+    },
+
     setMusicPlayer({ commit }, music) {
       localStorage.setItem('selectedMusic', music.name)
       localStorage.setItem('selectedMusicdes', music.description)
-      localStorage.setItem('selectedMusicImg', music.img_profile)
       commit('SET_PLAYER_DATA', music)
     },
 
@@ -64,12 +125,14 @@ export default createStore({
             console.log(response.data)
           })
       } catch (error) {
-        console.error('Failed to fetch user data:', error)
+        console.error('Error adding data:', error);
       }
     }
   },
   getters: {
-    getLoggedInUserData: (state) => state.loggedInUserData,
-    getThemeColor: (state) => state.themeColor
+    getUserData: state => state.userData
   }
-})
+});
+
+
+

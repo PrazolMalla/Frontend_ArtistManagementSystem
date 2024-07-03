@@ -1,5 +1,5 @@
 <template>
-  <PageLayoutWithPlayer>
+  <PageLayout id="display-flex">
     <template #content>
       <div
         class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full min-h-screen h-[100%]"
@@ -20,7 +20,7 @@
         <RouterView></RouterView>
       </div>
     </template>
-  </PageLayoutWithPlayer>
+  </PageLayout>
 </template>
 
 <script setup>

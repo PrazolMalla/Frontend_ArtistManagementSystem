@@ -8,13 +8,10 @@
       min="0"
       max="100"
       v-model="playerData.volume"
-      class="sliderBar w-full hover:h-2 h-1 rounded-full appearance-none cursor-pointer thumb-edit"
-    />
-
+      class="sliderBar w-full hover:h-2 h-1 rounded-full appearance-none cursor-pointer thumb-edit"/>
     <div class="flex px-2 justify-between items-center  py-2">
       <div class="flex items-center gap-1 text-light-primary-color">
         <v-icon v-if="is_ShownPlayer" name="md-playlistplay-round" fill="#f6f3eb" scale="2" class="mt-2 cursor-pointer" />
-
         <img
           @click="toggleBar"
           :src="playerData.img_src"

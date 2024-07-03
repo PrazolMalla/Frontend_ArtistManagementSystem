@@ -17,6 +17,8 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "leaflet": "^1.9.4",
+
+    "jwt-decode": "^4.0.0",
     "leaflet.heat": "^0.2.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "swiper": "^11.1.4",

@@ -31,7 +31,7 @@
             <div class="flex items-center justify-between mb-6">
 
 
-                <h1 class="text-lg sm:text-3xl font-bold">
+                <h1 class="text-lg sm:text-lg font-bold">
 
                     All
                     <span v-if="is_tabShown=='deleted'">Deleted</span>
@@ -43,27 +43,27 @@
 
               <div class="flex items-center space-x-4">
 
-                <div v-if="is_tabShown!='deleted' && userData.is_artist" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color px-2 p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
-               <div v-if="is_tabShown!='disabled' && userData.is_staff" @click="showDisabledList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Disabled</div>
-              <div v-if="is_tabShown!='hidden' && userData.is_artist" @click="showHiddenList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Hidden</div>
+                <div v-if="is_tabShown!='deleted' && userData.is_artist" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color px-2 p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
+               <div v-if="is_tabShown!='disabled' && userData.is_staff" @click="showDisabledList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Disabled</div>
+              <div v-if="is_tabShown!='hidden' && userData.is_artist" @click="showHiddenList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Hidden</div>
               
                <div v-if="is_tabShown!='all'" @click="showAllList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">All</div>
     
-                <div class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full">
+                <div class="hidden md:flex lg:w-32 h-7 my-4 justify-between border border-primary-text-color rounded-lg">
                   <input
                     type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
+                    class="text-xs border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
                     placeholder="Search Music..."
                   />
                   <v-icon
                     name="md-search"
                     fill="#302f31"
                     scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
+                    class="cursor-pointer hover:text-gray-950 p-1"
                   />
                 </div>
                 <button    v-if="userData.is_artist"
-                  class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+                  class="px-2 py-1 text-xs bg-secondary-color text-dark-primary-color rounded-lg border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
                   @click="toggleOpenAdd"
                 >
                   Add Music
@@ -91,41 +91,7 @@
                 v-for="music in musics"
                 :key="music.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                
-                <router-link v-if="!music.is_disabled" :to="`/music/${music.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${music.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ music.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ music.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex  items-center w-3/6">
-                   <img
-                    :src="`${base_url}${music.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ music.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ music.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </div>
+                <MusicDetail :music="music" :is_disabled="music.is_disabled"/>
 
                 <div
                   class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
@@ -192,41 +158,7 @@
                 v-for="hiddenmusic in hiddenMusics"
                 :key="hiddenmusic.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                
-                <router-link v-if="!hiddenmusic.is_disabled" :to="`/music/${music.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${hiddenmusic.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenmusic.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenmusic.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex  items-center w-3/6">
-                   <img
-                    :src="`${base_url}${hiddenmusic.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenmusic.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenmusic.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </div>
+                 <MusicDetail :music="hiddenmusic" :is_disabled="hiddenmusic.is_disabled"/>
                 <div class="flex w-full justify-around items-center">
                     <label
                     class="relative inline-flex cursor-pointer items-center"
@@ -252,23 +184,7 @@
                 v-for="disabledmusic in disabledMusics"
                 :key="disabledmusic.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${disabledmusic.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ disabledmusic.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ disabledmusic.artist }}</div>
-
-                      <div class="text-sm sm:text-base">{{ disabledmusic.music }}</div>
-                    </div>
-                  </div>
-                </div>
+                 <MusicDetail :music="disabledmusic" :is_disabled="true"/>
                 <div class="flex w-full justify-around items-center">
                    <label
                     class="relative inline-flex cursor-pointer items-center"
@@ -295,40 +211,7 @@
                 :key="deletedmusic.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                
-                <router-link v-if="!deletedmusic.is_disabled" :to="`/music/${deletedmusic.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${deletedmusic.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ deletedmusic.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ deletedmusic.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex  items-center w-3/6">
-                   <img
-                    :src="`${base_url}${deletedmusic.img_profile}`"
-                    alt="Music image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ deletedmusic.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ deletedmusic.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </div>
+                 <MusicDetail :music="deletedmusic" :is_disabled="true"/>
                 <div class="flex w-full justify-around items-center">
                     <div  @click="toggleOpenRestore(deletedmusic)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
@@ -347,6 +230,7 @@
 <script setup>
 import AddMusic from '@/components/manage/music/AddMusic.vue'
 import EditMusic from '@/components/manage/music/EditMusic.vue'
+import MusicDetail from '@/components/manage/music/MusicDetail.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'

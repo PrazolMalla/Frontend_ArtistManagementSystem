@@ -10,7 +10,7 @@ import MusicPlayerBar from '@/components/page_layout/MusicPlayerBar.vue'
     <div class="flex flex-col w-full">
         <NavBar />
       <div
-        class="ml-0 sm:ml-[25vw] lg:ml-[15vw] px-16 pt-20 text-primary-text-color flex flex-col mb-32"
+        class="ml-0 sm:ml-[25vw] lg:ml-[15vw] px-5 sm:px-16 pt-20 text-primary-text-color flex flex-col mb-32"
       >
         <slot name="content"> </slot>
       </div>

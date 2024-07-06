@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10">
+  <div class="mb-10 z-0">
     <h2 class="text-lg font-bold text-primary-text-color self-start">Top Albums</h2>
     <div class="flex overflow-y-hidden overflow-x-visible no-scrollbar w-[100%]">
       <swiper

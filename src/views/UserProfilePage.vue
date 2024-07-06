@@ -3,7 +3,7 @@
     <template #content>
       
       <div
-        class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full h-[100%]"
+        class="ml-[-4rem] mt-[-4rem] z-0 absolute w-full h-[100%]"
         :style="{
           backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: 'no-repeat',
@@ -11,10 +11,10 @@
         }"
       ></div>
       <div
-        class="ml-[-4rem] mt-[-4rem] absolute bgThemeGlass z-20 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
+        class="ml-[-4rem] mt-[-4rem] absolute bgThemeGlass z-0 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
         :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"
       ></div>
-      <div class="z-30">
+      <div class="z-0">
         <BannerComponent :userBanner="user.img_cover" />
         <ProfilePicComponent :userImg="user.img_profile" />
         <div

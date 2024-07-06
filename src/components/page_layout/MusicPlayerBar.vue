@@ -1,5 +1,5 @@
 <template lang="">
-  <div
+  <!-- <div
     :class="{ 'sm:w-[63vw] md:w-[73vw] lg:w-[78vw]': is_ShownPlayer }"
     class=" flex flex-col playerGradient cursor-pointer z-40 sm:ml-[30vw] fixed md:ml-[26vw] lg:ml-[18vw] bottom-16 sm:bottom-5  sm:rounded-lg sm:h-17 h-17 "
   >
@@ -58,7 +58,7 @@
             </button>
         
         </div>
-    </div>
+    </div> -->
 </template>
 <script>
 import { mapState } from 'vuex';

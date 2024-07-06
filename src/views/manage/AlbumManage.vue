@@ -31,7 +31,7 @@
             <div class="flex items-center justify-between mb-6">
 
 
-                <h1 class="text-lg sm:text-3xl font-bold">
+                <h1 class="text-md sm:text-lg font-bold">
 
                     All
                     <span v-if="is_tabShown=='deleted'">Deleted</span>
@@ -43,27 +43,27 @@
 
               <div class="flex items-center space-x-4">
 
-                <div v-if="is_tabShown!='deleted' && userData.is_artist" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color px-2 p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
-               <div v-if="is_tabShown!='disabled' && userData.is_staff" @click="showDisabledList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Disabled</div>
-              <div v-if="is_tabShown!='hidden' && userData.is_artist" @click="showHiddenList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Hidden</div>
+                <div v-if="is_tabShown!='deleted' && userData.is_artist" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color px-2 p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
+               <div v-if="is_tabShown!='disabled' && userData.is_staff" @click="showDisabledList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Disabled</div>
+              <div v-if="is_tabShown!='hidden' && userData.is_artist" @click="showHiddenList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Hidden</div>
               
                <div v-if="is_tabShown!='all'" @click="showAllList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">All</div>
     
-                <div class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full">
+                <div class="hidden md:flex lg:w-[15vw] h-7 my-4 justify-between border border-primary-text-color rounded-lg">
                   <input
                     type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
+                    class="text-xs border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
                     placeholder="Search Album..."
                   />
                   <v-icon
                     name="md-search"
                     fill="#302f31"
                     scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
+                    class="cursor-pointer hover:text-gray-950 p-1"
                   />
                 </div>
                 <button    v-if="userData.is_artist"
-                  class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+                  class="px-2 py-1 text-xs bg-secondary-color text-dark-primary-color rounded-lg border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
                   @click="toggleOpenAdd"
                 >
                   Add Album
@@ -91,40 +91,7 @@
                 v-for="album in albums"
                 :key="album.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <router-link  v-if="!album.is_disabled"  :to="`/album/${album.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ album.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex items-center w-3/6">
-                    <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ album.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </div>
+                <AlbumDetail :album="album" :is_disabled="album.is_disabled"/>
                 <div
                   class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
                 >
@@ -191,42 +158,7 @@
                 :key="hiddenalbum.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                
-
-
-                <router-link  v-if="!hiddenalbum.is_disabled"  :to="`/album/${hiddenalbum.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${hiddenalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenalbum.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex items-center w-3/6">
-                    <img
-                    :src="`${base_url}${hiddenalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenalbum.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </div>
+              <AlbumDetail :album="hiddenalbum" :is_disabled="hiddenalbum.is_disabled"/>
 
                 <div class="flex w-full justify-around items-center">
                     <label
@@ -253,23 +185,7 @@
                 v-for="disabledalbum in disabledAlbums"
                 :key="disabledalbum.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${disabledalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ disabledalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ disabledalbum.artist }}</div>
-
-                      <div class="text-sm sm:text-base">{{ disabledalbum.album }}</div>
-                    </div>
-                  </div>
-                </div>
+                <AlbumDetail :album="disabledalbum" :is_disabled="true"/>
                 <div class="flex w-full justify-around items-center">
                    <label
                     class="relative inline-flex cursor-pointer items-center"
@@ -295,23 +211,7 @@
                 v-for="deletedalbum in deletedAlbums"
                 :key="deletedalbum.name"
                 class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${deletedalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ deletedalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ deletedalbum.artist }}</div>
-
-                      <div class="text-sm sm:text-base">{{ deletedalbum.album }}</div>
-                    </div>
-                  </div>
-                </div>
+                <AlbumDetail :album="deletedalbum" :is_disabled="true"/>
                 <div class="flex w-full justify-around items-center">
                     <div  @click="toggleOpenRestore(deletedalbum)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
                       Restore
@@ -329,6 +229,7 @@
 
 <script setup>
 import AddAlbum from '@/components/manage/album/AddAlbum.vue'
+import AlbumDetail from '@/components/manage/album/AlbumDetail.vue'
 import EditAlbum from '@/components/manage/album/EditAlbum.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'

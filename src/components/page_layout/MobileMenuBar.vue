@@ -1,6 +1,7 @@
 <template>
   <div
     class="z-50 sm:hidden flex justify-evenly py-4 fixed bottom-0 left-0 right-0 bg-light-primary-color h-16 cursor-pointer"
+     :style="{ backgroundColor: themeData?.bgColor }"
   >
     <div class="flex gap-2 mb-5">
       <router-link

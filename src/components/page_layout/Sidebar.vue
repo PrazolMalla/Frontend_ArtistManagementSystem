@@ -139,7 +139,6 @@ const base_url  = import.meta.env.VITE_BASE_API_URL;
 const imgProfile =  ref(`${base_url}${userData.value.img_profile}`)
 const userDataFunc = () => {
   userData.value = store.getters.getLoggedInUserData
-  console.log(userData.value.img_profile)
   imgProfile.value = `${base_url}${userData.value.img_profile}`
 }
 const getUserData = computed(() => store.getters.getLoggedInUserData)

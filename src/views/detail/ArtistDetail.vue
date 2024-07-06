@@ -38,7 +38,7 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 const user = ref({})
 const base_url  = import.meta.env.VITE_BASE_API_URL;
-const backgroundImage =  `${base_url}/${user?.theme?.img_profile}`
+const backgroundImage =  ref({})
 
 
 const route = useRoute()
@@ -60,21 +60,27 @@ const fetchUserData = async () => {
 
 onMounted(() => {
   fetchUserData()
-  if (user.value.theme)
+  if (user.value.theme){
     store.dispatch('setThemeColor', {
       bgColor: user.value.theme.darkPrimaryColor,
       textColor: user.value.theme?.secondaryColor,
       sidebarBgColor: user.value.theme?.darkPrimaryColor
     })
+
+    backgroundImage.value = `${base_url}${user?.value.theme?.img_profile}`
+  }
 })
 
 watch(user, (newValue) => {
-  if (newValue.theme?.secondaryColor)
+  if (newValue.theme?.secondaryColor){
     store.dispatch('setThemeColor', {
       bgColor: newValue.theme?.darkPrimaryColor,
       textColor: newValue.theme?.secondaryColor,
       sidebarBgColor: newValue.theme?.darkPrimaryColor
     })
+  
+    backgroundImage.value = `${base_url}${user?.value.theme?.img_profile}`
+  }
 })
 onUnmounted(() => {
   store.dispatch('setThemeColor', {

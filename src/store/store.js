@@ -122,7 +122,7 @@ export default createStore({
           })
           .then((response) => {
             commit('SET_LOGGEDIN_USER_DATA', response.data)
-            console.log(response.data)
+
           })
       } catch (error) {
         console.error('Error adding data:', error);

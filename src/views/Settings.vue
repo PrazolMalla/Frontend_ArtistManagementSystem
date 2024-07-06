@@ -68,7 +68,6 @@ import store from '@/store/store'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 const $toast = useToast()
-const defaultTheme = ref([])
 const base_url  = import.meta.env.VITE_BASE_API_URL;
 
 const is_blur = ref(false)

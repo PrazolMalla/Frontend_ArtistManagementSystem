@@ -53,10 +53,11 @@ const fetchMusicData = async (id) => {
     } else if(!referrer && response.data.is_disabled) {
         router.push('/') 
         toast.error('This music is disabled.')
-    }else if(!referrer && response.data.is_hidden && !userData.is_artist) {
-        router.push('/') 
-        toast.error('This page is not public')
     }
+    // else if(!referrer && response.data.is_hidden && !userData.is_artist) {
+    //     router.push('/') 
+    //     toast.error('This page is not public')
+    // }
     else{
       music.value = response.data
     }

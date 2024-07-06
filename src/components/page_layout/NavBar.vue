@@ -111,6 +111,10 @@
         :style="{ fill: themeData?.textColor }"
         @click="toggleNotification"
       />
+
+      
+
+
       <RouterLink v-if="userData.id" to="/user/settings" class="md:hidden">
         <v-icon
           name="md-settings-round"
@@ -120,6 +124,7 @@
           :style="{ fill: themeData?.textColor }"
         />
       </RouterLink>
+
       <RouterLink  v-if="userData.id" to="/user/profile" class="md:hidden
        relative flex gap-2 cursor-pointer">
         <img
@@ -128,7 +133,15 @@
           class="w-7 h-7 border-2 mt-5 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           :style="{ borderColor: themeData?.textColor }"
         />
-        </RouterLink>
+
+      </RouterLink>
+        <RouterLink v-else to="/login" class="md:hidden">
+        <button
+          class="text-xsz  mt-5 bg-secondary-color text-dark-primary-color p-1 rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color"
+        >
+          Login
+        </button>
+      </RouterLink>
         
       <!-- <v-icon
         name="md-darkmode-round"

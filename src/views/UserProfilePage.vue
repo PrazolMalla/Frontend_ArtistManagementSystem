@@ -1,12 +1,13 @@
 <template>
   <PageLayoutWithPlayer>
     <template #content>
+      
       <div
         class="ml-[-4rem] mt-[-4rem] z-10 absolute w-full h-[100%]"
         :style="{
           backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
+          backgroundSize: 'cover',
         }"
       ></div>
       <div
@@ -39,18 +40,17 @@
 <script setup>
 import BannerComponent from '@/components/detail_page/user_detail/BannerComponent.vue'
 import ProfilePicComponent from '@/components/detail_page/user_detail/ProfilePicComponent.vue'
-import ProfileNav from '@/components/detail_page/user_detail/ProfileNav.vue'
 import InformationCard from '@/components/detail_page/user_detail/IntroductionCard.vue'
 import PostForm from '@/components/detail_page/user_detail/PostForm.vue'
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import TopChartComponent from '@/components/detail_page/TopChartComponent.vue'
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed} from 'vue'
 import axios from 'axios'
-import Artist from './explore/Artist.vue'
 import store from '@/store/store'
 const user = ref({})
 const base_url  = import.meta.env.VITE_BASE_API_URL;
-const backgroundImage =  `${base_url}${user?.theme?.img_profile}`
+const backgroundImage =  ref({})
+
 const fetchUserData = async () => {
   try {
     const response = await axios.get(`${base_url}/api/user/login-user/`, {
@@ -66,22 +66,27 @@ const fetchUserData = async () => {
 
 onMounted(async () => {
   await fetchUserData()
-  if (user.value.theme)
+  if (user.value.theme){
     store.dispatch('setThemeColor', {
       bgColor: user.value.theme.darkPrimaryColor,
       textColor: user.value.theme?.secondaryColor,
       sidebarBgColor: user.value.theme?.darkPrimaryColor
     })
-  console.log(user)
+    backgroundImage.value = `${base_url}${user?.value.theme?.img_profile}`
+  }
 })
 watch(user, (newValue) => {
-  if (newValue.theme?.secondaryColor)
+
+  if (newValue.theme?.secondaryColor){
     store.dispatch('setThemeColor', {
       bgColor: newValue.theme?.darkPrimaryColor,
       textColor: newValue.theme?.secondaryColor,
-      sidebarBgColor: newValue.theme?.darkPrimaryColor
+      sidebarBgColor: newValue.theme?.darkPrimaryColor,
     })
-})
+    backgroundImage.value = `${base_url}${user?.value.theme?.img_profile}`
+  }
+}
+)
 onUnmounted(() => {
   store.dispatch('setThemeColor', {
     bgColor: '#f6f3eb',

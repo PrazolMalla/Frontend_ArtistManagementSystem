@@ -10,11 +10,13 @@ export default {
         'gray-text-color': '#4e4e71',
         'primary-text-color': '#302f31'
       },
-      theme:{
-        
+      theme: {
+
       }
 
     }
   },
-  plugins: []
+  plugins: [
+    // require('@tailwindcss/aspect-ratio'),
+  ]
 }

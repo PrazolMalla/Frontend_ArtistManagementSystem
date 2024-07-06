@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10">
+  <div class="mb-10 z-0">
     <h2 class="text-lg font-bold text-primary-text-color self-start">Top Music</h2>
     <div class="flex gap-4 overflow-y-hidden">
       <MusicCard v-for="x in musicData" class="p-5" :musicData="x" />

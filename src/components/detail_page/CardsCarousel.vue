@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-5 lg:w-[46vw] h-[60vh] overflow-x-visible no-scrollbar w-[80vw] lg:h-[55vh] bg-light-primary-color p-5 rounded-sm md:w-[65vw] text-primary-text-color"
+    class="mt-5 z-0 lg:w-[46vw] h-[60vh] overflow-x-visible no-scrollbar w-[80vw] lg:h-[55vh] bg-light-primary-color p-5 rounded-sm md:w-[65vw] text-primary-text-color"
     :style="{
       backgroundColor: hexWithOpacity(`${user?.theme?.darkPrimaryColor}`, 0.5),
       boxShadow: user?.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',

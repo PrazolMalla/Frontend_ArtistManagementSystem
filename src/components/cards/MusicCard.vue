@@ -1,12 +1,12 @@
 <template>
   <div
-    class="group ml-2 lg:ml-5 w-40 h-54 border-2 border-transparent hover:bg-secondary-color rounded-2xl flex flex-col justify-start items-start p-3 gap-1 hover:transition-all cursor-pointer hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#FF516D,0_0_4px_#FF516D,0_0_15px_#FF516D] hover:border-2 hover:border-white text-primary-text-color hover:text-dark-primary-color group"
+    class=" ml-2 lg:ml-5 h-54 border-2 border-transparent hover:bg-secondary-color rounded-2xl flex flex-col justify-start items-start p-3 gap-1 hover:transition-all cursor-pointer hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#FF516D,0_0_4px_#FF516D,0_0_15px_#FF516D] hover:border-2 hover:border-white text-primary-text-color hover:text-dark-primary-color group"
     :style="{
       color: `${user?.theme?.secondaryColor}`
     }"
   >
     <RouterLink :to="'/music/' + musicData.id">
-      <img :src="musicImage" class="w-32 h-32 rounded-lg" />
+      <img :src="musicImage" class=" rounded-lg w-32 h-32" />
     </RouterLink>
     <div class="flex justify-between w-full items-center mt-2">
       <div class="flex flex-col">

@@ -12,20 +12,20 @@
             <div class="flex items-center justify-between mb-6">
               <h1 class="text-lg sm:text-3xl font-bold">All Genre</h1>
               <div class="flex items-center space-x-4">
-                <div class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full" >
+                    <div class="hidden md:flex lg:w-[15vw] h-7 my-4 justify-between border border-primary-text-color rounded-lg">
                   <input
                     type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
+                    class="text-xs border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
                     placeholder="Search Genre..."
                   />
                   <v-icon
                     name="md-search"
                     fill="#302f31"
                     scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
+                    class="cursor-pointer hover:text-gray-950 p-1"
                   />
                 </div>
-                <button class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"  @click="toggleOpenAdd" >
+                <button class="text-xs px-2 py-1 bg-secondary-color text-dark-primary-color rounded-lg border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"  @click="toggleOpenAdd" >
                   Add Genre
                 </button>
               </div>

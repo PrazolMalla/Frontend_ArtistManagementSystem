@@ -1,6 +1,6 @@
 <template>
   <div
-    class="album-card p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md"
+    class="p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md"
   >
     <div class="flex flex-col items-center gap-2">
       <RouterLink :to="'/music/' + musicData.id">

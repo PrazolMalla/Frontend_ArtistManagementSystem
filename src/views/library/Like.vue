@@ -9,8 +9,6 @@
             <div class="flex items-center justify-between mb-6">
               <h1 class="text-lg sm:text-3xl font-bold">All Liked Music</h1>
               <div class="flex items-center space-x-4">
-                <!-- <div  @click="showDeletedList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none"> Show Deleted</div>
-                  <div @click="showAllList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Show All</div> -->
               </div>
             </div>
 

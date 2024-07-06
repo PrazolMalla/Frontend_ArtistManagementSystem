@@ -61,10 +61,10 @@ export default createStore({
           })
           .then((response) => {
             commit('SET_LOGGEDIN_USER_DATA', response.data)
-            console.log(response.data)
+
           })
       } catch (error) {
-        console.error('Failed to fetch user data:', error)
+        console.error('Failed to fetch user data: from store')
       }
     }
   },

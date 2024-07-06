@@ -254,11 +254,10 @@ router.beforeEach(async (to, from, next) => {
         is_artist = response.data.is_artist
         is_staff = response.data.is_staff
         is_superuser = response.data.is_superuser
-
         store.dispatch('setLoggedInUserData')
       })
   } catch (error) {
-    console.error('Failed to fetch user data:', error)
+    console.error('Failed to fetch user data')
   }
 
   if (to.meta.auth && !isAuthenticated) {

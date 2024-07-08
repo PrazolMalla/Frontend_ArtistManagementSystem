@@ -1,57 +1,60 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div
-        v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
-      ></div>
-      <ManageConfirmDialogue
-        v-if="is_OpenDelete"
-        actionQuestion="Do you really want to delete your account?"
+      <div v-if="is_blur"
+        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center">
+      </div>
+      <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do you really want to delete your account?"
         actionConfirm="Confirm Delete"
-        notes="(You can recover your account by logging again and providing confirmation)"
-        @confirm="confirmDelete"
-        @close="toggleCloseDelete"
-      />
-      <Credential
-        v-if="is_confirm"
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-40 "
-        @confirm="confirmCredential"
-        @close="toggleCloseCredential"
-      />
+        notes="(You can recover your account by logging again and providing confirmation)" @confirm="confirmDelete"
+        @close="toggleCloseDelete" />
+      <Credential v-if="is_confirm" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-40 "
+        @confirm="confirmCredential" @close="toggleCloseCredential" />
       <EditProfile v-if="is_OpenEdit" @close="toggleCloseEdit" :userData="userData" />
-      <div class="settings-container flex flex-col gap-5 p-5">
-        <h1 class="text-3xl font-bold mb-5">Settings</h1>
 
-        <button @click="logout" class="flex gap-2 logout-button w-40 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 cursor-pointer">
-          <v-icon name="md-logout" fill="#fff" scale="1.5"></v-icon>
-          <p>Logout</p> </button>
-        <button class="px-4 py-2 flex gap-2 w-40 bg-red-500 text-white  rounded-full hover:bg-red-700 cursor-pointer"  @click="toggleOpenEdit"  >
-          <v-icon name="fa-regular-edit" fill="#fff" scale="1.5"></v-icon>
-          <p>Edit Profile</p>
-        </button>
-        <button class="px-4 py-2 flex gap-2 w-48 bg-red-500 text-white  rounded-full hover:bg-red-700 cursor-pointer"  @click="toggleOpenDelete"  >
-          <v-icon name="fa-regular-trash-alt" fill="#fff" scale="1.4"></v-icon>
-          <p>Delete Account</p>
-        </button>
-        
-        <div v-if="userData.is_artist">
-          <p class="text-xl">Select Theme:</p>
-        <div class="flex gap-5 flex-grow-0">
-          <div
-            class="border hover:border-blue-800 hover:shadow-md shadow-blue-400 border-slate-300 relative rounded-md overflow-hidden w-[20vw] h-[20vh] cursor-pointer"
-            @click="selectDefaultTheme"
-          >
-            <div class="absolute w-full h-full"></div>
-            <div
-              class="absolute bgThemeGlass z-10 h-full w-full opacity-90 p-2 backdrop-blur-3xl filter"
-            >
-              <p class="z-20 text-md" :style="{ color: themeData.secondaryColor }">Default Theme</p>
-            </div>
+
+      <div class="settings-container flex flex-col gap-5 p-5">
+        <div class="flex flex-col flex-grow-0 w-40">
+
+          <MdButton text="Logout" @action="logout" />
+          <MdButton text="Edit Account" @action="toggleOpenEdit" />
+          <MdButton text="Change Password" @action="" />
+          <MdButton text="Delete Account" @action="toggleOpenDelete" />
+
+
+        </div>
+        <div>
+          <h4 class="text-lg font-bold text-primary-text-color self-start">Switch Account:</h4>
+          <div class="flex gap-2 overflow-y-hidden">
+            <SwitchAccountCard v-for="x in artistData" class="p-5" :artistData="x" />
           </div>
-          <ThemeCard v-for="x in themeData" :themeData="x" />
         </div>
-        </div>
+
+
+
+
+        <fieldset v-if="userData.is_artist" class="border border-slate-700 rounded-md p-5">
+          <legend class="ml-5 p-2">
+            <h4 class="text-lg font-bold text-primary-text-color self-start">Select Theme</h4>
+          </legend>
+
+          <div class="flex gap-5 flex-grow-0 flex-wrap">
+
+            <div
+              class="border hover:border-secondary-color hover:shadow-md shadow-blue-400 border-slate-300 relative  rounded-md overflow-hidden w-28 h-28 cursor-pointer"
+              @click="selectDefaultTheme">
+              <div class="absolute w-full h-full"></div>
+              <div
+                class="absolute flex justify-center items-center bgThemeGlass z-10 h-full w-full opacity-90 p-2 backdrop-blur-3xl filter">
+                <p class="z-20 text-md">Default</p>
+              </div>
+            </div>
+            <ThemeCard v-for="x in themeData" :themeData="x" />
+          </div>
+
+          <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+            @action="page => handlePageChange(page, fetchThemes)" />
+        </fieldset>
 
       </div>
     </template>
@@ -59,6 +62,8 @@
 </template>
 
 <script setup>
+import PaginationCard from '@/components/cards/PaginationCard.vue'
+import MdButton from '@/components/buttons/md-button.vue'
 import EditProfile from '@/components/profile/EditProfile.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import Credential from '@/components/manage/Credential.vue'
@@ -67,22 +72,43 @@ import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import SwitchAccountCard from '@/components/cards/SwitchAccountCard.vue'
 const $toast = useToast()
-const base_url  = import.meta.env.VITE_BASE_API_URL;
-
+const base_url = import.meta.env.VITE_BASE_API_URL;
+const artistData = ref()
 const is_blur = ref(false)
 const is_OpenEdit = ref(false)
-const is_OpenDelete= ref(false)
-const is_confirm= ref(false)
+const is_OpenDelete = ref(false)
+const is_confirm = ref(false)
+const totalItems = ref([0])
+const currentPage = ref(1)
+const isLoading = ref(false)
 
+const themeData = ref([])
 
 const userData = ref([])
 
 computed(() => logout)
 
 const userDataFunc = () => {
-     userData.value = store.getters.getLoggedInUserData
-} 
+  userData.value = store.getters.getLoggedInUserData
+}
+
+const fetchArtists = async () => {
+  try {
+    const response = await fetch(`${base_url}/api/artist/get/`)
+    const data = await response.json()
+    artistData.value = data.map((artist) => ({
+      id: artist.id,
+      img_profile: artist.img_profile,
+      password: "Password"
+    }))
+  } catch (error) {
+    console.error('Error fetching artists:', error)
+  }
+}
+
+
 const logout = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
@@ -100,7 +126,7 @@ function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
 }
-function toggleOpenDelete(){
+function toggleOpenDelete() {
   is_OpenDelete.value = true
   is_blur.value = true
 }
@@ -115,8 +141,8 @@ function toggleCloseCredential() {
 
 
 function confirmDelete() {
-  is_OpenDelete.value=false
-  is_confirm.value=true
+  is_OpenDelete.value = false
+  is_confirm.value = true
 }
 function confirmCredential() {
   axios({
@@ -127,13 +153,13 @@ function confirmCredential() {
     }
   })
     .then((response) => {
-      
+
       if (response.status === 200) {
         is_confirm.value = false
         is_blur.value = false
-        
+
       }
-       $toast.success('Your account is deleted', {
+      $toast.success('Your account is deleted', {
         position: 'top-right'
       })
 
@@ -141,9 +167,9 @@ function confirmCredential() {
       localStorage.removeItem('refresh_token')
       store.dispatch('setLoggedInUserData')
       setTimeout(() => {
-          window.location.reload()
-        }, 3000);
-     
+        window.location.reload()
+      }, 3000);
+
 
     })
     .catch((err) => {
@@ -151,7 +177,6 @@ function confirmCredential() {
     })
 }
 
-const themeData = ref([])
 const selectDefaultTheme = async () => {
   try {
     const response = await axios.patch(
@@ -173,27 +198,40 @@ const selectDefaultTheme = async () => {
     console.error('Error fetching Themes:', error)
   }
 }
-const fetchTheme = async () => {
+const handlePageChange = (page, func) => {
+  currentPage.value = page
+  func(page)
+}
+
+
+
+
+const fetchThemes = async (page = 1) => {
+  isLoading.value = true
   try {
     const response = await axios.get(`${base_url}/api/theme/get/`, {
-
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
       }
     })
-    themeData.value = response.data
+    themeData.value = response.data.results
+    totalItems.value = response.data.count
   } catch (error) {
-    console.error('Error fetching Themes:', error)
+    console.error('Error fetching themes:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
 onMounted(() => {
-  fetchTheme()
+  fetchThemes(currentPage.value)
   userDataFunc()
+  fetchArtists()
 }
 )
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

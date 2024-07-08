@@ -3,8 +3,8 @@
     class="album-card transform hover:scale-105 transition-transform duration-300 bg-light-primary-color shadow-md p-2 rounded-lg flex flex-col gap-4 items-center"
   >
     <RouterLink :to="'album/' + albumDetail.id" class="flex justify-start lg:w-[15vw] sm:w-32">
-      <div class="z-0">
-        <img :src="`${base_url}${props.albumDetail?.img_profile}`" alt="" class="w-[10rem]" />
+      <div class="z-10">
+        <img :src="`${base_url}${props.albumDetail?.img_profile}`" alt="" class="w-36 h-36 rounded-md" />
         
       </div>
       <div class="relative z-0 lg:ml-[-6rem] lg:mt-[-1.5rem] mt-[-0.75rem] ml-[-3.5rem]">

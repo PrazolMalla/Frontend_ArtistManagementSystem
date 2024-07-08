@@ -1,48 +1,62 @@
 <template>
 
-                <RouterLink v-if="!is_disabled" :to="`/album/${album.id}`" class="flex items-center w-3/6">
+                <RouterLink v-if="!link" :to="`/${type}/${parseInt(id)}`" class="flex items-center w-3/6">
                   <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
+                    :src="img"
+                    alt="Item image"
                     class="w-12 h-12 rounded-md mr-4"
                   />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm  md:text-md">
-                      {{ album.name }}
+                      {{ title}}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-xs">{{ album.artist_name }}</div>
-
+                      <div class="text-xs">{{ subtitle }}</div>
                     </div>
                   </div>
                 </RouterLink>
                 <div v-else class="flex  items-center w-3/6">
                     <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
+                    :src="img"
+                    alt="Item image"
                     class="w-12 h-12 rounded-md mr-4"
                   />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm  md:text-md">
-                      {{ album.name }}
+                      {{ title }}
                     </div>
                     <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-xs">{{ album.artist_name }}</div>
+                      <div class="text-xs">{{ subtitle }}</div>
                     </div>
                   </div>
                 </div>
 </template>
 <script setup>
-
 const base_url = import.meta.env.VITE_BASE_API_URL;
+import { imgUrl } from '@/utils/imageProcess';
 const props = defineProps({
-   album: {
-     type: Object,
+   link: {
+     type: Boolean,
    },
-   is_disabled:{
-    type: Boolean
+   id:{
+    type:Number
+   },
+   image:{
+    type:String
+   },
+   title:{
+    type:String
+   },
+   subtitle:{
+    type:String
+   },
+   type:{
+    type:String
    }
+
 });
+
+const img = imgUrl(props.image)
 </script>

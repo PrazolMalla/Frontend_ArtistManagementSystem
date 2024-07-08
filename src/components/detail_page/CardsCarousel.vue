@@ -6,62 +6,34 @@
       boxShadow: user?.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
       backdropFilter: user?.theme ? 'blur(4.9px)' : 'none',
       color: `${user?.theme?.secondaryColor}`
-    }"
-  >
+    }">
     <h1 class="mb-4 text-2xl font-semibold">Top Music</h1>
-    <swiper
-      :slidesPerView="3"
-      :centeredSlides="false"
-      :spaceBetween="5"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden"
-    >
+    <swiper :slidesPerView="3" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false
+    }" :pagination="{
+      clickable: true
+    }" :modules="modules" class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden">
       <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" :user="user" />
       </swiper-slide>
     </swiper>
-    <swiper
-      :slidesPerView="1"
-      :centeredSlides="false"
-      :spaceBetween="5"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-3rem] sm:flex md:ml-0 md:hidden"
-    >
+    <swiper :slidesPerView="1" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false
+    }" :pagination="{
+      clickable: true
+    }" :modules="modules" class="mySwiper lg:ml-[-3rem] sm:flex md:ml-0 md:hidden">
       <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" :user="user" />
       </swiper-slide>
     </swiper>
-    <swiper
-      :slidesPerView="2"
-      :centeredSlides="false"
-      :spaceBetween="5"
-      :grabCursor="true"
-      :autoplay="{
-        delay: 2500,
-        disableOnInteraction: false
-      }"
-      :pagination="{
-        clickable: true
-      }"
-      :modules="modules"
-      class="mySwiper lg:ml-[-3rem] md:flex md:ml-0 hidden lg:hidden"
-    >
+    <swiper :slidesPerView="2" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false
+    }" :pagination="{
+      clickable: true
+    }" :modules="modules" class="mySwiper lg:ml-[-3rem] md:flex md:ml-0 hidden lg:hidden">
       <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in musicData">
         <MusicCard :musicData="x" :user="user" />
       </swiper-slide>
@@ -75,7 +47,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 
 import 'swiper/css/pagination'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import { Autoplay, Pagination } from 'swiper/modules'
 import MusicCard from '@/components/cards/MusicCard.vue'
 import { ref, onMounted, watch } from 'vue'

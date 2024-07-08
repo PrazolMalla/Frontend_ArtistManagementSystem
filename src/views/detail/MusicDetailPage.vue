@@ -8,7 +8,7 @@
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
-          <CardsCarousel :artistId="music.artist"  />
+          <CardsCarousel :artistId="music.artist" />
         </div>
       </div>
     </template>
@@ -22,10 +22,10 @@ import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
 import axios from 'axios'
 import { useStore } from 'vuex'
-import { useRoute,useRouter} from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
 import { useToast } from 'vue-toast-notification'
-const base_url  = import.meta.env.VITE_BASE_API_URL
+const base_url = import.meta.env.VITE_BASE_API_URL
 const toast = useToast()
 const music = ref({})
 const type = ref('music')
@@ -39,7 +39,7 @@ const fetchMusicData = async (id) => {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
-    
+
     // if (response.data.is_disabled) {
     //   router.go(-1) 
     //   toast.error('This music is disabled.')
@@ -47,21 +47,21 @@ const fetchMusicData = async (id) => {
     const userData = store.getters.getLoggedInUserData
     console.log(userData)
     const referrer = document.referrer
-    if (referrer && response.data.is_disabled ) {
-          router.go(-1)
-          toast.error('This music is disabled.')
-    } else if(!referrer && response.data.is_disabled) {
-        router.push('/') 
-        toast.error('This music is disabled.')
+    if (referrer && response.data.is_disabled) {
+      router.go(-1)
+      toast.error('This music is disabled.')
+    } else if (!referrer && response.data.is_disabled) {
+      router.push('/')
+      toast.error('This music is disabled.')
     }
     // else if(!referrer && response.data.is_hidden && !userData.is_artist) {
     //     router.push('/') 
     //     toast.error('This page is not public')
     // }
-    else{
+    else {
       music.value = response.data
     }
-    
+
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

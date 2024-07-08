@@ -3,7 +3,7 @@
     <template #content>
       
       <div
-        class="ml-[-4rem] mt-[-4rem] z-0 absolute w-full h-[100%]"
+        class="ml-[-20px]  sm:ml-[-4rem] mt-[-4rem] z-0 absolute w-screen sm:w-full h-[100%]"
         :style="{
           backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: 'no-repeat',
@@ -11,7 +11,7 @@
         }"
       ></div>
       <div
-        class="ml-[-4rem] mt-[-4rem] absolute bgThemeGlass z-0 h-[100%] w-full opacity-80 p-2 backdrop-blur-3xl filter"
+        class="ml-[-20px] sm:ml-[-4rem] mt-[-4rem] absolute bgThemeGlass z-0 h-[100%] w-[100vw] sm:w-full opacity-80 p-2 backdrop-blur-3xl filter"
         :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"
       ></div>
       <div class="z-0">
@@ -26,7 +26,7 @@
         <!-- <ProfileNav :user="user" /> -->
         <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
           <InformationCard :userData="user" />
-          <PostForm :user="user" />
+          <!-- <PostForm :user="user" /> -->
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <TopChartComponent :user="user" />

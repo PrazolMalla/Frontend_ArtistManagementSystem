@@ -118,6 +118,10 @@
 </template>
 
 <script setup>
+import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
+import SmButton from '@/components/buttons/sm-button.vue'
+import ManageDetail from '@/components/manage/ManageDetail.vue'
+import EnableDisable from '@/components/buttons/enabledisable.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()

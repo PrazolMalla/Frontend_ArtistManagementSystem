@@ -1,93 +1,58 @@
 <template>
   <div
     class="hidden fixed sm:flex h-[100%] justify-start flex-col sm:p-10 lg:w-[15vw] w-[25vw] text-secondary-color pt-10 sm:pt-20"
-    :style="{ backgroundColor: themeData?.sidebarBgColor }"
-  >
+    :style="{ backgroundColor: themeData?.sidebarBgColor }">
     <div class="flex gap-2 mb-5">
-      <v-icon
-        name="md-home-round"
-        fill="#302f31"
-        scale="1"
-        class="cursor-pointer"
-        :style="{ fill: themeData?.textColor }"
-      />
-      <router-link
-        to="/"
-        class="text-md text-primary-text-color hover:text-secondary-color"
-        :style="{ color: themeData?.textColor }"
-        >Home</router-link
-      >
+      <v-icon name="md-home-round" fill="#302f31" scale="1" class="cursor-pointer"
+        :style="{ fill: themeData?.textColor }" />
+      <router-link to="/" class="text-md text-primary-text-color hover:text-secondary-color"
+        :style="{ color: themeData?.textColor }">Home</router-link>
     </div>
     <div v-for="category in categories" :key="category.name" class="relative mb-5">
       <button @click="toggleDropdown(category.name)" class="flex gap-2">
-        <v-icon
-          :name="category.icon"
-          fill="#302f31"
-          scale="1"
-          class="cursor-pointer"
-          :style="{ fill: themeData?.textColor }"
-        />
-        <p
-          class="text-md text-primary-text-color hover:text-secondary-color mb-2"
-          :style="{ color: themeData?.textColor }"
-        >
+        <v-icon :name="category.icon" fill="#302f31" scale="1" class="cursor-pointer"
+          :style="{ fill: themeData?.textColor }" />
+        <p class="text-md text-primary-text-color hover:text-secondary-color mb-2"
+          :style="{ color: themeData?.textColor }">
           {{ category.name }}
         </p>
       </button>
 
-      <div
-        v-if="isDropdownOpen === category.name"
-        class="ml-2 flex flex-col gap-2 w-full rounded-md"
-      >
-        <router-link
-          v-for="action in category.actions"
-          :key="action.text"
-          :to="action.to"
-          class="flex gap-2 text-sm text-primary-text-color hover:text-black"
-          @click="closeDropdown"
-        >
-          <v-icon
-            :name="action.icon"
-            fill="#302f31"
-            scale="1"
-            class="cursor-pointer"
-            :style="{ fill: themeData?.textColor }"
-          />
+      <div v-if="isDropdownOpen === category.name" class="ml-2 flex flex-col gap-2 w-full rounded-md">
+        <router-link v-for="action in category.actions" :key="action.text" :to="action.to"
+          class="flex gap-2 text-sm text-primary-text-color hover:text-black" @click="closeDropdown">
+          <v-icon :name="action.icon" fill="#302f31" scale="1" class="cursor-pointer"
+            :style="{ fill: themeData?.textColor }" />
           <p :style="{ color: themeData?.textColor }">{{ action.text }}</p>
         </router-link>
       </div>
     </div>
 
-    <div v-if="userData.id" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
+    <div v-if="userData.id && !userData.is_superuser" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
-        <img
-          :src="imgProfile"
-          alt=""
+        <img :src="imgProfile" alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
-          :style="{ borderColor: themeData?.textColor }"
-        />
-        <h2
-          class="font-medium text-primary-text-color text-md mt-2"
-          :style="{ color: themeData?.textColor }"
-        >
+          :style="{ borderColor: themeData?.textColor }" />
+        <h2 class="font-medium text-primary-text-color text-md mt-2" :style="{ color: themeData?.textColor }">
           {{ userData.firstname }}
         </h2>
       </RouterLink>
       <RouterLink to="/user/settings">
-        <v-icon
-          name="md-settings-round"
-          fill="#302f31"
-          scale="1"
-          class="mt-2 cursor-pointer"
-          :style="{ fill: themeData?.textColor }"
-        />
+        <v-icon name="md-settings-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer"
+          :style="{ fill: themeData?.textColor }" />
       </RouterLink>
+    </div>
+    <div v-if="userData.is_superuser" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
+      <h2 class="font-medium text-primary-text-color text-md mt-2 select-none" :style="{ color: themeData?.textColor }">
+        SuperUser
+      </h2>
+      <v-icon name="md-logout-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer"
+        :style="{ fill: themeData?.textColor }" @click="logout()" />
     </div>
     <div v-if="!userData.id" class="mt-1 py-2 flex gap-2 items-center">
       <router-link to="/login">
         <button
-          class="text-sm bg-secondary-color text-dark-primary-color p-2 rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color"
-        >
+          class="text-sm bg-secondary-color text-dark-primary-color p-2 rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color">
           Login
         </button>
       </router-link>
@@ -101,11 +66,14 @@
 
 <script setup>
 import store from '@/store/store'
+
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])
 const themeData = ref([])
-const base_url  = import.meta.env.VITE_BASE_API_URL;
-const imgProfile =  ref(`${base_url}${userData.value.img_profile}`)
+const base_url = import.meta.env.VITE_BASE_API_URL;
+const imgProfile = ref(`${base_url}${userData.value.img_profile}`)
 const userDataFunc = () => {
   userData.value = store.getters.getLoggedInUserData
   imgProfile.value = `${base_url}${userData.value.img_profile}`
@@ -113,6 +81,17 @@ const userDataFunc = () => {
 const getUserData = computed(() => store.getters.getLoggedInUserData)
 
 const getThemeColor = computed(() => store.getters.getThemeColor)
+
+const logout = () => {
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
+  store.dispatch('setLoggedInUserData')
+  $toast.success('Logout sucess', {
+    position: 'top-right'
+  })
+  window.location.reload()
+}
+
 
 watch(
   getThemeColor,
@@ -154,7 +133,7 @@ const closeDropdown = () => {
 
 const showDataInSideBar = () => {
   if (userData.value.id) {
-    
+
     categories.value.push({
       name: 'Library',
       icon: 'md-librarymusic',

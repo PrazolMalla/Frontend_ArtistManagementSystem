@@ -2,7 +2,7 @@
   <div class="mb-10">
     <h4 class="text-lg font-bold text-primary-text-color self-start">Top Artists</h4>
     <div class="flex overflow-y-hidden">
-      <ArtistCard v-for="x in artistData" class="p-5" :artistData="x" />
+      <ArtistCard v-for="x in artistData"  :artistData="x" />
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@ onMounted(fetchArtists)
   -webkit-backdrop-filter: blur(10px);
 }
 .artistPic {
-  width: 102px;
+  width:20px;
   height: 1/1;
 }
 

@@ -130,6 +130,10 @@
 </template>
 
 <script setup>
+import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
+import SmButton from '@/components/buttons/sm-button.vue'
+import ManageDetail from '@/components/manage/ManageDetail.vue'
+import EnableDisable from '@/components/buttons/enabledisable.vue'
 import AddStaff from '@/components/manage/staff/AddStaff.vue'
 import EditStaff from '@/components/manage/staff/EditStaff.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'

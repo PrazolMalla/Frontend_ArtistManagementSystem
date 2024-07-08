@@ -1,56 +1,33 @@
 <template>
   <div class="mb-10 z-0">
     <h2 class="text-lg font-bold text-primary-text-color self-start">Top Albums</h2>
-    <div class="flex overflow-y-hidden overflow-x-visible no-scrollbar w-[100%]">
-      <swiper
-        :slidesPerView="computedSlidesPerViewLg"
-        :centeredSlides="false"
-        :spaceBetween="10"
-        :grabCursor="true"
+    <div class="flex overflow-y-hidden flex-grow-0 flex-shrink-0 overflow-x-visible no-scrollbar w-[100%]">
+      <swiper :slidesPerView="computedSlidesPerViewLg" :centeredSlides="false" :spaceBetween="10" :grabCursor="true"
         :pagination="{
           clickable: true
-        }"
-        :modules="modules"
-        class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden"
-      >
+        }" :modules="modules" class="mySwiper lg:ml-[-1rem] lg:flex md:ml-0 hidden">
         <swiper-slide class="lg:mb-14 mb-4 mt-1" v-for="x in albumData">
           <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
         </swiper-slide>
       </swiper>
-      <swiper
-        :slidesPerView="computedSlidesPerViewMd"
-        :centeredSlides="false"
-        :spaceBetween="10"
-        :grabCursor="true"
+      <swiper :slidesPerView="computedSlidesPerViewMd" :centeredSlides="false" :spaceBetween="10" :grabCursor="true"
         :autoplay="{
           delay: 2500,
           disableOnInteraction: false
-        }"
-        :pagination="{
+        }" :pagination="{
           clickable: true
-        }"
-        :modules="modules"
-        class="mySwiper lg:ml-[-1rem] md:flex md:ml-0 lg:hidden hidden"
-      >
+        }" :modules="modules" class="mySwiper lg:ml-[-1rem] md:flex md:ml-0 lg:hidden hidden">
         <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData">
           <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
         </swiper-slide>
       </swiper>
-      <swiper
-        :slidesPerView="computedSlidesPerViewSm"
-        :centeredSlides="false"
-        :spaceBetween="10"
-        :grabCursor="true"
+      <swiper :slidesPerView="computedSlidesPerViewSm" :centeredSlides="false" :spaceBetween="10" :grabCursor="true"
         :autoplay="{
           delay: 2500,
           disableOnInteraction: false
-        }"
-        :pagination="{
+        }" :pagination="{
           clickable: true
-        }"
-        :modules="modules"
-        class="mySwiper lg:ml-[-1rem] flex md:ml-0 lg:hidden md:hidden"
-      >
+        }" :modules="modules" class="mySwiper lg:ml-[-1rem] flex md:ml-0 lg:hidden md:hidden">
         <swiper-slide class="lg:mb-14 mb-8 mt-1" v-for="x in albumData">
           <AlbumCard class="p-5" :albumDetail="x" linkto="album" />
         </swiper-slide>
@@ -64,7 +41,7 @@ import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import AlbumCard from '../cards/AlbumCard.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import 'swiper/css'
 
 import 'swiper/css/pagination'

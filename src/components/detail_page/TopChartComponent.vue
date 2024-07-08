@@ -19,10 +19,9 @@
           <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
             <div>
               <p class="md:text-lg font-semibold">{{ music.name }}</p>
-              <p class="md:text-lg">{{ music.artist }}</p>
+              <p class="md:text-lg">{{ music.artist_name }}</p>
             </div>
 
-            <p class="md:text-lg">{{ music.duration }}</p>
           </div>
         </div>
       </RouterLink>

@@ -57,7 +57,7 @@ const closeAdd = () => {
   emit('close');
 };
 
-  const fetchWeather = async (weatherMain) =>{
+  const fetchWeather = async () =>{
           await axios
             .get(`${base_url}/api/genre/get/weather/`)
             .then((response) => {

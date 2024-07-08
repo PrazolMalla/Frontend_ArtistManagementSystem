@@ -1,92 +1,52 @@
 <template>
   <fieldset
-    class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto"
-  >
+    class="border border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto">
     <legend class="ml-10">Edit Music</legend>
-    <v-icon
-      name="fa-times"
-      fill="#302f31"
-      scale="1"
-      @click="closeEdit"
-      class="absolute right-3 cursor-pointer"
-    />
+    <v-icon name="fa-times" fill="#302f31" scale="1" @click="closeEdit" class="absolute right-3 cursor-pointer" />
     <div class="form-container w-full p-10 h-full flex flex-wrap justify-center gap-5 align-middle">
-      <div
-        v-for="item in musicInputField"
-        :key="item.id"
-        class="w-full sm:w-5/12 text-secondary-color"
-      >
+      <div v-for="item in musicInputField" :key="item.id" class="w-full sm:w-5/12 text-secondary-color">
         <label :for="item.name" class="text-sm font-helvetica text-primary-text-color pl-3">
           {{ item.label }}
         </label>
-        <input
-          :type="item.type"
-          :name="item.name"
-          @blur="validateField(item.name)"
-          v-model="track[item.name]"
-          class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
-        />
+        <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="track[item.name]"
+          class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" />
         <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
           formErrors[item.name]
-        }}</span>
+          }}</span>
       </div>
       <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
-        <label
-          for="profile"
+        <label for="profile"
           class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-36 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
-          >
+          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }">
           <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select Profile
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removeProfile"
-              class="absolute right-3 cursor-pointer"
-              v-if="profileFile"/>
+            <v-icon name="fa-times" fill="#ffffff" scale="1" @click="removeProfile"
+              class="absolute right-3 cursor-pointer" v-if="profileFile" />
           </p>
-          
-       </label>
-        <input
-          type="file"
-          id="profile"
-          name="profile"
-          @change="handleProfileChange"
-         class="hidden"
-        />
+
+        </label>
+        <input type="file" id="profile" name="profile" @change="handleProfileChange" class="hidden" />
         <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{
           formErrors.profile
-        }}</span>
+          }}</span>
       </div>
       <div class="w-full sm:w-[22%] text-secondary-color flex flex-col mt-2">
-        <label
-          for="music"
+        <label for="music"
           class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-36 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${musicbackgroundImage})`, backgroundSize: 'cover' ,backgroundPosition: 'center' }"
-          
-          ><p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select File(mp3/mp4)
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removefile"
-              class="absolute right-1 cursor-pointer"
-              v-if="musicFile"/>
-          </p></label
-        >
+          :style="{ backgroundImage: `url(${musicbackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Select File(mp3/mp4)
+            <v-icon name="fa-times" fill="#ffffff" scale="1" @click="removefile" class="absolute right-1 cursor-pointer"
+              v-if="musicFile" />
+          </p>
+        </label>
         <input type="file" id="music" name="track" @change="handleFileChange" class="hidden" />
         <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
           formErrors.file
-        }}</span>
+          }}</span>
       </div>
 
       <div class="w-full sm:w-2/12 flex flex-col">
-        <select
-          v-model="track.album"
-          id="gender"
-          name="album"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
+        <select v-model="track.album" id="gender" name="album"
+          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
           <option value="" disabled>Album</option>
           <option v-for="item in albums" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
@@ -94,30 +54,26 @@
       </div>
 
       <div class="w-full sm:w-2/12 flex flex-col">
-        <select
-          v-model="track.genre"
-          id="gender"
-          name="genre"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
+        <select v-model="track.genre" id="gender" name="genre"
+          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
           <option value="" disabled>Genre</option>
           <option v-for="item in genreData" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
         <span v-if="formErrors.genre" class="text-orange-300">{{ formErrors.genre }}</span>
       </div>
       <div class="w-full flex flex-col sm:w-10/12">
-          <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
-            Lyrics
-          </label>
-          <textarea name="lyrics" id="lyrics" class="resize-none px-8 py-4 h-96 focus:outline-none mb rounded-lg border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black" v-model="track.lyrics"></textarea>
+        <label for="lyrics" class="text-sm font-helvetica text-primary-text-color pl-3">
+          Lyrics
+        </label>
+        <textarea name="lyrics" id="lyrics"
+          class="resize-none px-8 py-4 h-96 focus:outline-none mb rounded-lg border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+          v-model="track.lyrics"></textarea>
 
       </div>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
-          type="submit"
-          @click="editMusic"
-        >
+          type="submit" @click="editMusic">
           Edit Music
         </button>
       </div>
@@ -132,9 +88,8 @@ import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 const emit = defineEmits(['close'])
-// const props = defineProps(['musicId'])
 
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 function closeEdit() {
   emit('close')
 }
@@ -143,8 +98,8 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  genreData:{
-    type:Object,
+  genreData: {
+    type: Object,
     required: true
   },
   musicId: {
@@ -162,7 +117,7 @@ const fetchMusics = async () => {
     const data = response.data
     track.value = data
     profileFile.value = data.img_profile
-    backgroundImage.value =  `${base_url}/${data.img_profile}`
+    backgroundImage.value = `${base_url}${data.img_profile}`
     musicbackgroundImage.value = "../../../src/assets/images/musiccassette.png"
     musicFile.value = data.music_file
     track.value.release_at = new Date(data.release_at).toISOString().split('T')[0]
@@ -235,6 +190,8 @@ function validateField(fieldName) {
   formErrors.value[fieldName] = ''
 }
 
+
+
 function editMusic() {
   formErrors.value = {}
   if (!track.value.name) {
@@ -275,7 +232,7 @@ function editMusic() {
     if (profileFile.value && profileFile.value instanceof File) {
       formData.append('img_profile', profileFile.value)
     }
-    if (musicFile.value) {
+    if (musicFile.value && musicFile.value instanceof File) {
       formData.append('music_file', musicFile.value)
     }
     axios

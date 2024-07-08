@@ -1,323 +1,158 @@
 <template>
   <PageLayout>
     <template #content>
-      <div
-        v-if="is_blur"
-        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center"
-      ></div>
+      <div v-if="is_blur"
+        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center">
+      </div>
       <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
-      <ManageConfirmDialogue
-        v-if="is_OpenDelete"
-        :actionQuestion="`Do yoy want to delete ${itemName}?`"
-        actionConfirm="Confirm Delete"
-        @close="toggleCloseDelete"
-        @confirm="confirmDelete"
-      />
+      <ManageConfirmDialogue v-if="is_OpenDelete" :actionQuestion="`Do yoy want to delete ${itemName}?`"
+        actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
       <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
-      <ManageConfirmDialogue
-        v-if="is_OpenRestore"
-        :actionQuestion="`Do you want to restore ${itemName}?`"
-        actionConfirm="Confirm Restore"
-        @close="toggleCloseRestore"
-
-        @confirm="confirmRestore"
-      />
-      <!-- <ManageConfirmDialogue v-if="is_OpenHide" actionQuestion="Do yo want to Hide XYZ?" actionConfirm="Confirm Hide" @close="toggleCloseHide" />
-       <ManageConfirmDialogue v-if="is_OpenDisable" actionQuestion="Do yo want to Disable XYZ?" actionConfirm="Confirm Disable" @close="toggleCloseDisable" /> -->
-
+      <ManageConfirmDialogue v-if="is_OpenRestore" :actionQuestion="`Do you want to restore ${itemName}?`"
+        actionConfirm="Confirm Restore" @close="toggleCloseRestore" @confirm="confirmRestore" />
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
-
-
-                <h1 class="text-lg sm:text-3xl font-bold">
-
-                    All
-                    <span v-if="is_tabShown=='deleted'">Deleted</span>
-                    <span  v-if="is_tabShown=='disabled'">Disabled</span>
-                    <span v-if="is_tabShown=='hidden'">Hidden</span>
-                    Albums
+              <div class="flex flex-col">
+                <h1 class="text-lg font-bold">
+                  All
+                  <span v-if="is_tabShown == 'deleted'">Deleted</span>
+                  <span v-if="is_tabShown == 'disabled'">Disabled</span>
+                  <span v-if="is_tabShown == 'hidden'">Hidden</span>
+                  Albums
                 </h1>
-
-
+                <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
+              </div>
               <div class="flex items-center space-x-4">
-
-                <div v-if="is_tabShown!='deleted' && userData.is_artist" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color px-2 p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
-               <div v-if="is_tabShown!='disabled' && userData.is_staff" @click="showDisabledList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Disabled</div>
-              <div v-if="is_tabShown!='hidden' && userData.is_artist" @click="showHiddenList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Hidden</div>
-              
-               <div v-if="is_tabShown!='all'" @click="showAllList" class="border text-xs bg-secondary-color text-dark-primary-color px-2  p-1 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">All</div>
-    
-                <div class="hidden md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full">
-                  <input
-                    type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
-                    placeholder="Search Album..."
-                  />
-                  <v-icon
-                    name="md-search"
-                    fill="#302f31"
-                    scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
-                  />
-                </div>
-                <button    v-if="userData.is_artist"
-                  class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
-                  @click="toggleOpenAdd"
-                >
-                  Add Album
-                </button>
+                <SmButton v-if="is_tabShown != 'deleted' && userData.is_artist" text="Deleted"
+                  @action="showDeletedList" />
+                <SmButton v-if="is_tabShown != 'disabled' && userData.is_staff" text="Disabled"
+                  @action="showDisabledList" />
+                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden" @action="showHiddenList" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="showAllList" />
+                <SmSearchbar text="Search Album..." />
+                <SmButton v-if="userData.is_artist" text="Add Album" @action="toggleOpenAdd" />
               </div>
             </div>
 
             <div class="flex flex-col justify-between">
-              <div
-                class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color"
-              >
+              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
-                  <div class="font-semibold" v-if="userData.is_artist   & is_tabShown=='all'">Hide</div>
-                  <div class="font-semibold" v-if="userData.is_staff   & is_tabShown=='all'">Disable</div>
-                  <div class="font-semibold" v-if="is_tabShown=='deleted'">Restore</div>
-                  <div class="font-semibold" v-if="is_tabShown=='disabled'">Disable</div>
-                  <div class="font-semibold" v-if="is_tabShown=='hidden'">Hide</div>
-                  <div class="font-semibold" v-if="userData.is_artist   & is_tabShown=='all'">Edit</div>
-                  <div class="font-semibold" v-if="userData.is_artist   & is_tabShown=='all'">Delete</div>
+                  <div class="font-semibold" v-if="userData.is_artist & is_tabShown == 'all'">Hide</div>
+                  <div class="font-semibold" v-if="userData.is_staff & is_tabShown == 'all'">Disable</div>
+                  <div class="font-semibold" v-if="is_tabShown == 'deleted'">Restore</div>
+                  <div class="font-semibold" v-if="is_tabShown == 'disabled'">Disable</div>
+                  <div class="font-semibold" v-if="is_tabShown == 'hidden'">Hide</div>
+                  <div class="font-semibold" v-if="userData.is_artist & is_tabShown == 'all'">Edit</div>
+                  <div class="font-semibold" v-if="userData.is_artist & is_tabShown == 'all'">Delete</div>
                 </div>
               </div>
-
-              <div v-if="is_tabShown=='all'"
-                v-for="album in albums"
-                :key="album.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <router-link  v-if="!album.is_disabled"  :to="`/album/${album.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ album.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
-
-                    </div>
+              <div v-if="is_tabShown == 'all'">
+                <div v-for="album in albums" :key="album.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+                  <ManageDetail :link="album.is_disabled" :id="album.id" :image="album.img_profile" :title="album.name"
+                    :subtitle="album.artist_name" type="album" />
+                  <div
+                    class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
+                    <p v-if="userData.is_artist">Hide</p>
+                    <p v-if="userData.is_staff">Disable</p>
+                    <p v-if="userData.is_artist">Edit</p>
+                    <p v-if="userData.is_artist">Delete</p>
                   </div>
-                </router-link>
-                <div v-else class="flex items-center w-3/6">
-                    <img
-                    :src="`${base_url}${album.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
+                  <div class="flex w-full  justify-around items-center">
 
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ album.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ album.artist_name }}</div>
+                    <EnableDisable v-if="userData.is_artist" mode="hide" :item="album"
+                      @action="toggleHideAlbum(album)" />
+                    <EnableDisable v-if="userData.is_staff" mode="disable" :item="album"
+                      @action="toggleDisableAlbum(album)" />
 
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color"
-                >
-                  <p v-if="userData.is_artist">Hide</p>
-                  <p v-if="userData.is_staff">Disable</p>
-                  <p v-if="userData.is_artist">Edit</p>
-                  <p v-if="userData.is_artist">Delete</p>
-                </div>
-                <div class="flex w-full  justify-around items-center">
-                  <label
-                    v-if="userData.is_artist"
-                    class="relative inline-flex cursor-pointer items-center"
-                  >
-                    <input
-                      :id="'hideswitch-' + album.id"
-                      type="checkbox"
-                      v-model="album.is_hidden"
-                      @change="toggleHideAlbum(album)"
-                      class="peer sr-only"
-                    />
-                    <label :for="'hideswitch-' + album.id" class="hidden"></label>
-                    <div
-                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                    ></div>
-                  </label>
-                  <label
-                    v-if="userData.is_staff"
-                    class="relative inline-flex cursor-pointer items-center"
-                  >
-                    <input
-                      :id="'disableswitch-' + album.id"
-                      type="checkbox"
-                      v-model="album.is_disabled"
-                      @change="toggleDisableAlbum(album)"
-                      class="peer sr-only"
-                    />
-                    <label :for="'disableswitch-' + album.id" class="hidden"></label>
-                    <div
-                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                    ></div>
-                  </label>
-                  <v-icon v-if="userData.is_artist"
-                    class="cursor-pointer"
-                    @click="toggleOpenEdit(album)"
-                    name="fa-regular-edit"
-                    fill="#00b166"
-                    scale="1.5"
-                  ></v-icon>
-                  <v-icon v-if="userData.is_artist"
-                    class="cursor-pointer"
-                    @click="toggleOpenDelete(album)"
-                    name="fa-regular-trash-alt"
-                    fill="#ff4000"
-                    scale="1.5"
-                  ></v-icon>
-                </div>
-               </div>
-
-
-
-
-               <div v-if="is_tabShown=='hidden'"
-                v-for="hiddenalbum in hiddenAlbums"
-                :key="hiddenalbum.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-               
-
-
-                <router-link  v-if="!hiddenalbum.is_disabled"  :to="`/album/${hiddenalbum.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${hiddenalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenalbum.artist_name }}</div>
-
-                    </div>
-                  </div>
-                </router-link>
-                <div v-else class="flex items-center w-3/6">
-                    <img
-                    :src="`${base_url}${hiddenalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ hiddenalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ hiddenalbum.artist_name }}</div>
-
-                    </div>
+                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenEdit(album)"
+                      name="fa-regular-edit" fill="#00b166" scale="1.5"></v-icon>
+                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenDelete(album)"
+                      name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
                   </div>
                 </div>
 
-                <div class="flex w-full justify-around items-center">
-                    <label
-                    class="relative inline-flex cursor-pointer items-center"
-                  >
-                    <input
-                      :id="'hideswitch-' + hiddenalbum.id"
-                      type="checkbox"
-                      v-model="hiddenalbum.is_hidden"
-                      @change="toggleHideAlbum(hiddenalbum)"
-                      class="peer sr-only"
-                    />
-                    <label :for="'hideswitch-' + hiddenalbum.id" class="hidden"></label>
-                    <div
-                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                    ></div>
-                  </label>
-                </div>
-               </div>
+
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchAlbum)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  Album Found</div>
+              </div>
 
 
 
-               <div v-if="is_tabShown=='disabled'"
-                v-for="disabledalbum in disabledAlbums"
-                :key="disabledalbum.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${disabledalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ disabledalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ disabledalbum.artist }}</div>
 
-                      <div class="text-sm sm:text-base">{{ disabledalbum.album }}</div>
-                    </div>
+              <div v-if="is_tabShown == 'hidden'">
+                <div v-for="hiddenalbum in hiddenAlbums" :key="hiddenalbum.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+                  <ManageDetail :link="hiddenalbum.is_disabled" :id="hiddenalbum.id" :image="hiddenalbum.img_profile"
+                    :title="hiddenalbum.name" :subtitle="hiddenalbum.artist_name" type="album" />
+
+                  <div class="flex w-full justify-around items-center">
+                    <EnableDisable mode="hide" :item="hiddenalbum" @action="toggleHideAlbum(hiddenalbum)" />
                   </div>
                 </div>
-                <div class="flex w-full justify-around items-center">
-                   <label
-                    class="relative inline-flex cursor-pointer items-center"
-                  >
-                    <input
-                      :id="'disableswitch-' + disabledalbum.id"
-                      type="checkbox"
-                      v-model="disabledalbum.is_disabled"
-                      @change="toggleDisableAlbum(disabledalbum)"
-                      class="peer sr-only"
-                    />
-                    <label :for="'disableswitch-' + disabledalbum.id" class="hidden"></label>
-                    <div
-                      class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                    ></div>
-                  </label>
+
+
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchHiddenAlbum)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  Album Found</div>
+              </div>
+
+
+
+
+
+
+              <div v-if="is_tabShown == 'disabled'">
+
+                <div v-for="disabledalbum in disabledAlbums" :key="disabledalbum.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+
+                  <ManageDetail :link="true" :id="disabledalbum.id" :image="disabledalbum.img_profile"
+                    :title="disabledalbum.name" :subtitle="disabledalbum.artist_name" type="album" />
+                  <div class="flex w-full justify-around items-center">
+                    <EnableDisable mode="disable" :item="disabledalbum" @action="toggleDisableAlbum(disabledalbum)" />
+
+                  </div>
+
                 </div>
-               </div>
+
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchDisabledAlbum)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  Album Found</div>
+              </div>
 
 
 
-               <div v-if="is_tabShown=='deleted'"
-                v-for="deletedalbum in deletedAlbums"
-                :key="deletedalbum.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${deletedalbum.img_profile}`"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ deletedalbum.name }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ deletedalbum.artist }}</div>
+              <div v-if="is_tabShown == 'deleted'">
+                <div v-for="deletedalbum in deletedAlbums" :key="deletedalbum.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
 
-                      <div class="text-sm sm:text-base">{{ deletedalbum.album }}</div>
-                    </div>
+                  <ManageDetail :link="true" :id="deletedalbum.id" :image="deletedalbum.img_profile"
+                    :title="deletedalbum.name" :subtitle="deletedalbum.artist_name" type="album" />
+
+                  <div class="flex w-full justify-around items-center">
+                    <SmButton text="Restore" @action="toggleOpenRestore(deletedalbum)" />
                   </div>
                 </div>
-                <div class="flex w-full justify-around items-center">
-                    <div  @click="toggleOpenRestore(deletedalbum)" class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color" >
-                      Restore
-                    </div>
-                </div>
-               </div>
+
+
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchDeletedAlbum)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  Album Found</div>
+              </div>
+              <div class="mb-32"></div>
 
             </div>
           </div>
@@ -328,13 +163,17 @@
 </template>
 
 <script setup>
+import PaginationCard from '@/components/cards/PaginationCard.vue'
+import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
+import SmButton from '@/components/buttons/sm-button.vue'
 import AddAlbum from '@/components/manage/album/AddAlbum.vue'
+import EnableDisable from '@/components/buttons/enabledisable.vue'
+import ManageDetail from '@/components/manage/ManageDetail.vue'
 import EditAlbum from '@/components/manage/album/EditAlbum.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
-
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 const $toast = useToast()
@@ -350,9 +189,18 @@ const is_OpenAdd = ref(false)
 const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
 const is_OpenRestore = ref(false)
+const isLoading = ref(false)
+const totalItems = ref([0])
+const currentPage = ref([1])
 let toDeleteValue = 0
 let toRestoreValue = 0
-const itemName=ref()
+const itemName = ref()
+
+const handlePageChange = (page, func) => {
+  currentPage.value = page
+  func(page)
+}
+
 
 const editAlbumId = ref(null)
 function toggleOpenAdd() {
@@ -362,26 +210,26 @@ function toggleOpenAdd() {
 function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
-  fetchAlbums()
+  fetchAlbum()
 }
 function toggleOpenEdit(album) {
   is_OpenEdit.value = true
   is_blur.value = true
   editAlbumId.value = album.id
-  
+
 }
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
-  fetchAlbums()
+  fetchAlbum()
 }
 function toggleOpenDelete(deletevalue) {
   is_OpenDelete.value = true
   is_blur.value = true
   toDeleteValue = deletevalue.id
-  itemName.value=deletevalue.name
+  itemName.value = deletevalue.name
   fetchDeletedAlbum()
-  
+
 }
 function toggleCloseDelete() {
   is_OpenDelete.value = false
@@ -392,93 +240,137 @@ function toggleOpenRestore(restore) {
   is_OpenRestore.value = true
   is_blur.value = true
   toRestoreValue = restore.id
-  itemName.value=restore.name
+  itemName.value = restore.name
 }
 function toggleCloseRestore() {
   is_OpenRestore.value = false
   is_blur.value = false
 }
 
-const showDeletedList =  () => {
+const showDeletedList = () => {
+  currentPage.value = 1
+  fetchDeletedAlbum(currentPage.value)
   is_tabShown.value = "deleted"
-  fetchDeletedAlbum()
 }
 
-const showDisabledList =  () => {
+const showDisabledList = () => {
+  currentPage.value = 1
+  fetchDisabledAlbum(currentPage.value)
   is_tabShown.value = "disabled"
-  fetchDisabledAlbum()
 }
-const showAllList =  () => {
+const showAllList = () => {
+  currentPage.value = 1
+  fetchAlbum(currentPage.value)
   is_tabShown.value = "all"
-  fetchAlbums()
 }
 
 
-const showHiddenList =  () => {
-
+const showHiddenList = () => {
+  currentPage.value = 1
+  fetchHiddenAlbum(currentPage.value)
   is_tabShown.value = "hidden"
-  fetchHiddenAlbum()
 }
 
-const fetchAlbums = async () => {
+const fetchAlbum = async (page = 1) => {
+  isLoading.value = true
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get(`${base_url}/api/album/get/`)
-      data = response.data
-    } else {
-      const response = await axios.get(`${base_url}/api/album/get/loggedin/`, {
+      const response = await axios.get(`${base_url}/api/album/get/manage/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        },
+        params: {
+          page: page,
+          page_size: 10
         }
       })
-      data = response.data
+      data = response.data.results
+      totalItems.value = response.data.count
+    } else {
+      const response = await axios.get(`${base_url}/api/album/get/loggedin/manage/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        },
+        params: {
+          page: page,
+          page_size: 10
+        }
+      })
+      data = response.data.results
+      totalItems.value = response.data.count
     }
     albums.value = data
   } catch (error) {
-    console.error('Error fetching albums:', error)
+    console.error('Error fetching Albums:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
 
-const fetchDeletedAlbum = async () => {
+const fetchDeletedAlbum = async (page = 1) => {
+  isLoading.value = true
   try {
-      const response = await axios.get( `${base_url}/api/album/get/deleted/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-    deletedAlbums.value = response.data
+    const response = await axios.get(`${base_url}/api/album/get/deleted/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
+      }
+    })
+    deletedAlbums.value = response.data.results
+    totalItems.value = response.data.count
   } catch (error) {
     console.error('Error fetching Album:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
 
 
-const fetchDisabledAlbum = async () => {
+const fetchDisabledAlbum = async (page = 1) => {
+  isLoading.value = true
   try {
-      const response = await axios.get(`${base_url}/api/album/get/disabled/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-    disabledAlbums.value = response.data
+    const response = await axios.get(`${base_url}/api/album/get/disabled/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
+      }
+    })
+    disabledAlbums.value = response.data.results
+    totalItems.value = response.data.count
   } catch (error) {
     console.error('Error fetching Album:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
-const fetchHiddenAlbum = async () => {
+const fetchHiddenAlbum = async (page = 1) => {
+  isLoading.value = true
   try {
-      const response = await axios.get(`${base_url}/api/album/get/hidden/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-    hiddenAlbums.value = response.data
+    const response = await axios.get(`${base_url}/api/album/get/hidden/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
+      }
+    })
+    hiddenAlbums.value = response.data.results
+    totalItems.value = response.data.count
   } catch (error) {
     console.error('Error fetching Album:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -499,6 +391,7 @@ const toggleHideAlbum = async (album) => {
         Authorization: `Bearer ${access_token}`
       }
     })
+
     $toast.success(`Album will be ${newIsHidden ? 'hidden' : 'visible'} to public`)
   } catch (error) {
     console.error(error)
@@ -506,6 +399,8 @@ const toggleHideAlbum = async (album) => {
     album.is_hidden = originalIsHidden
   }
 }
+
+
 const toggleDisableAlbum = async (album) => {
   const originalIsDisabled = !album.is_disabled
   const newIsDisabled = !originalIsDisabled
@@ -577,11 +472,9 @@ function confirmRestore() {
     })
 }
 
-onMounted(() =>{
-  fetchAlbums()
+onMounted(() => {
+  fetchAlbum(currentPage.value)
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

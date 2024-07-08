@@ -27,29 +27,26 @@
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
-              <h1 class="text-lg sm:text-3xl font-bold"  v-if="!is_deletedShown">All Staffs</h1>
-              <h1 class="text-lg sm:text-3xl font-bold" v-else>All Deleted Staffs</h1>
+              <h1 class="text-lg sm:text-md font-bold"  v-if="!is_deletedShown">All Staffs</h1>
+              <h1 class="text-lg sm:text-md font-bold" v-else>All Deleted Staffs</h1>
               <div class="flex items-center gap-3">
-                 <div v-if="!is_deletedShown" @click="showDeletedList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none"> Show Deleted</div>
-               <div v-if="is_deletedShown" @click="showAllList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Show All</div>
+                 <div v-if="!is_deletedShown" @click="showDeletedList" class="border text-xs bg-secondary-color text-dark-primary-color  py-1 px-2 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Deleted</div>
+               <div v-if="is_deletedShown" @click="showAllList" class="border text-xs bg-secondary-color text-dark-primary-color  py-1 px-2 rounded-lg hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">All</div>
                 
-                <div
-                  class="md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full"
-                >
-                
+                 <div class="hidden md:flex lg:w-[15vw] h-7 my-4 justify-between border border-primary-text-color rounded-lg">
                   <input
                     type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
+                    class="text-xs border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
                     placeholder="Search Staff..."
                   />
                   <v-icon
                     name="md-search"
                     fill="#302f31"
                     scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
+                    class="cursor-pointer hover:text-gray-950 p-1"
                   />
                 </div>
-                <button class="px-4 py-2 bg-secondary-color text-dark-primary-color rounded-full border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"  @click="toggleOpenAdd" >
+                <button class="px-2 py-1 text-xs bg-secondary-color text-dark-primary-color rounded-lg border-2 hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"  @click="toggleOpenAdd" >
                   Add Staff
                 </button>
               </div>
@@ -133,6 +130,10 @@
 </template>
 
 <script setup>
+import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
+import SmButton from '@/components/buttons/sm-button.vue'
+import ManageDetail from '@/components/manage/ManageDetail.vue'
+import EnableDisable from '@/components/buttons/enabledisable.vue'
 import AddStaff from '@/components/manage/staff/AddStaff.vue'
 import EditStaff from '@/components/manage/staff/EditStaff.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'

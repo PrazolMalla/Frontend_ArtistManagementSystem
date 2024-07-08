@@ -1,9 +1,19 @@
+
+const base_url = import.meta.env.VITE_BASE_API_URL
 export const imgUrl = (image) => {
-    const base_url = import.meta.env.VITE_API_BASE_URL
     if (image) {
+        if (image.includes(base_url))
+            return image
+        return `${base_url}/${image}`;
+    }
+    else
+        return "/public/favicon.png";
+};
 
-        console.log(base_url)
-
+export const userimgUrl = (image) => {
+    if (image) {
+        if (image.includes(base_url))
+            return image
         return `${base_url}/${image}`;
     }
     else

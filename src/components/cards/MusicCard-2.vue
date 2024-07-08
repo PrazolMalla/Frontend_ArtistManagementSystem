@@ -1,41 +1,24 @@
 <template>
   <div
-    class="album-card p-2 transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md"
-  >
+    class="p-2 w-48  transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md">
     <div class="flex flex-col items-center gap-2">
       <RouterLink :to="'/music/' + musicData.id">
-        <img :src="musicImage" alt="" class="rounded-lg sm:w-64 h-16 sm:h-48"
-      /></RouterLink>
+        <img :src="musicImage" alt="" class="rounded-lg w-48 h-36" />
+      </RouterLink>
       <div class="flex justify-between w-full items-center">
-        <div class="flex flex-col">
-          <RouterLink
-            :to="'/music/' + musicData.id"
-            class="text-md text-primary-text-color font-semibold text-center"
-            >{{ musicData.name }}</RouterLink
-          >
-
-          <div class="flex flex-col gap-2">
-            <RouterLink
-              :to="'/artist/' + musicData.artist"
-              class="text-sm text-primary-text-color opacity-50 hover:underline"
-              >{{ musicData.artist_name }}</RouterLink
-            >
-
-            <RouterLink
-              :to="'/album/' + musicData.album"
-              class="text-sm text-primary-text-color opacity-50 hover:underline"
-              >{{ musicData.album_name }}</RouterLink
-            >
+        <div class="flex flex-col ">
+          <RouterLink :to="'/music/' + musicData.id" class="text-sm font-semibold text-center hover:underline">
+            {{ musicData.name }}
+          </RouterLink>
+          <div class="flex gap-2">
+            <RouterLink :to="'/artist/' + musicData.artist" class="text-xs opacity-50 hover:underline">
+              {{ musicData.artist_name }}
+            </RouterLink>
+            <RouterLink :to="'/album/' + musicData.album" class="text-xs opacity-50 hover:underline">
+              {{ musicData.album_name }}
+            </RouterLink>
           </div>
         </div>
-
-        <!-- <v-icon
-          name="md-playcircleoutline-round"
-          @click="playMusic"
-          fill="#302f31"
-          scale="1.5"
-          class="cursor-pointer"
-        /> -->
       </div>
     </div>
   </div>
@@ -43,12 +26,12 @@
 
 <script setup>
 import { computed } from 'vue';
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 const props = defineProps({
-   musicData:{
-    type:Object,
-   } 
-  })
+  musicData: {
+    type: Object,
+  }
+})
 
 const musicImage = computed(() => `${base_url}${props.musicData?.img_profile}`);
 function playMusic() {

@@ -17,15 +17,16 @@
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
 
-
-              <h1 class="text-lg sm:text-lg font-bold">
-
-                All
-                <span v-if="is_tabShown == 'deleted'">Deleted</span>
-                <span v-if="is_tabShown == 'disabled'">Disabled</span>
-                <span v-if="is_tabShown == 'hidden'">Hidden</span>
-                Musics
-              </h1>
+              <div class="flex flex-col">
+                <h1 class="text-lg font-bold">
+                  All
+                  <span v-if="is_tabShown == 'deleted'">Deleted</span>
+                  <span v-if="is_tabShown == 'disabled'">Disabled</span>
+                  <span v-if="is_tabShown == 'hidden'">Hidden</span>
+                  Musics
+                </h1>
+                <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
+              </div>
 
 
               <div class="flex items-center space-x-4">

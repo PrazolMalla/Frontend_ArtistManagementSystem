@@ -1,209 +1,204 @@
 <template>
   <PageLayout>
     <template #content>
-      <div
-        v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center"
-      ></div>
-      <ManageConfirmDialogue
-        v-if="is_OpenRestore"
-        actionQuestion="Do yo want to restore XYZ?"
-        actionConfirm="Confirm Restore"
-        @close="toggleCloseRestore"
-        @confirm="confirmRestore"
-      />
+      <div v-if="is_blur"
+        class="fixed top-16 bggradientpopup sm:ml-[-3rem] w-screen h-screen z-0 flex flex-col justify-between gap-10 items-center">
+      </div>
 
-      <div class="text-primary-text-color flex flex-col gap-2 w-full p-2">
+      <div class="text-primary-text-color flex flex-col gap-2 w-full  ">
         <div class="flex h-screen">
           <div class="flex-1 mt-5">
             <div class="flex items-center justify-between mb-6">
-              <h1 class="text-lg sm:text-3xl font-bold"  v-if="!is_deletedShown">All Users</h1>
-              <h1 class="text-lg sm:text-3xl font-bold" v-else>All Deleted Users</h1>
-              <div class="flex items-center gap-3">
-                 <div v-if="!is_deletedShown" @click="showDeletedList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none"> Show Deleted</div>
-               <div v-if="is_deletedShown" @click="showAllList" class="border text-sm bg-secondary-color text-dark-primary-color  p-2 rounded-md hover:text-secondary-color hover:bg-dark-primary-color border-secondary-color cursor-pointer select-none">Show All</div>
-                
-                <div
-                  class="md:flex lg:w-[15vw] h-10 my-4 justify-between border border-primary-text-color rounded-full"
-                >
-                
-                  <input
-                    type="text"
-                    class="text-sm border-none w-full p-2 bg-transparent focus:outline-none text-xsm text-primary-text-color placeholder:text-primary-text-color hidden sm:flex"
-                    placeholder="Search User..."
-                  />
-                  <v-icon
-                    name="md-search"
-                    fill="#302f31"
-                    scale="1.5"
-                    class="cursor-pointer hover:text-gray-950 mt-1 p-1"
-                  />
-                </div>
+              <div class="flex flex-col">
+                <h1 class="text-lg font-bold">
+                  All
+                  <span v-if="is_tabShown == 'deleted'">Deleted</span>
+                  <span v-if="is_tabShown == 'disabled'">Disabled</span>
+                  User
+                </h1>
+                <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
+              </div>
+
+              <div class="flex items-center space-x-4">
+                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                  @action="toggleList('deleted', fetchDeletedUser)" />
+                <SmButton v-if="is_tabShown != 'disabled'" text="Disabled"
+                  @action="toggleList('disabled', fetchDisabledUser)" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchUser)" />
+                <SmSearchbar text="Search User..." />
               </div>
             </div>
 
             <div class="flex flex-col justify-between">
-              <div class="hidden sm:flex flex-row bg-transparent">
+
+              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
-                <div class="flex w-full justify-around items-center">
-                  <div class="font-semibold" v-if="!is_deletedShown">Disable</div>
-                  <div class="font-semibold" v-else>Restore</div>
+                <div class="flex w-full justify-around items-center font-semibold ">
+                  <div v-if="is_tabShown == 'all' || is_tabShown == 'disabled'">Disable</div>
                 </div>
               </div>
 
-              <div v-if="!is_deletedShown" v-for="user in users" :key="user.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <router-link :to="`/user/${user.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${user.img_profile}`"
-                    alt="User image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
+              <div v-if="is_tabShown == 'all'">
+                <div v-for=" user in users" :key="user.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
 
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ user.firstname }} {{ user.lastname }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ user.username }}</div>
-                    </div>
+                  <ManageDetail :link="true" :id="user.id" :image="user.img_profile"
+                    :title="`${user.firstname} ${user.lastname}`" :subtitle="`@${user.username}`" type="user" />
+
+                  <div
+                    class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
+                    <p>Disable</p>
                   </div>
-                </router-link>
-                
-                <div class="flex w-full justify-around items-center">
-                
-                    <label class="relative inline-flex cursor-pointer items-center">
-                      <input :id="'disableswitch-'+ user.id" type="checkbox" v-model="user.is_disabled" @change="toggleDisableUser(user)" class="peer sr-only" />
-                            <label :for="'disableswitch-'+ user.id" class="hidden"></label>
-                      <div
-                        class="peer h-4 w-11 rounded-full border bg-primary-text-color after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-full after:border after:border-primary-text-color after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary-color peer-checked:after:translate-x-full"
-                      ></div>
-                    </label>
+                  <div class="flex w-full  justify-around items-center">
+                    <EnableDisable mode="disable" :item="user" @action="toggleDisableUser(user)" />
+
                   </div>
                 </div>
-
-
-
-
-                <div v-else v-for="deletedUser in deletedUsers" :key="deletedUsers.name"  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
-                <div class="flex items-center w-3/6">
-                  <img
-                    :src="`${base_url}${deletedUser.img_profile}`"
-                    alt="User image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
-
-                  <div class="w-1-6">
-                    <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
-                      {{ deletedUser.firstname }} {{ deletedUser.lastname }}
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:gap-2">
-                      <div class="text-sm sm:text-base">{{ deletedUser.username }}</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="flex w-full justify-around items-center">
-                  <div @click="toggleOpenRestore(deletedUser.id)" v-if="true" class="border border-secondary-color  rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">Restore</div>
-                  </div>
-                </div>
-
-
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchUser)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  User Found</div>
               </div>
+              <div v-if="is_tabShown == 'disabled'">
+                <div v-for="disableduser in disabledUsers" :key="disableduser.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+
+
+                  <ManageDetail :link="true" :id="disableduser.id" :image="disableduser.img_profile"
+                    :title="`${disableduser.firstname} ${disableduser.lastname}`"
+                    :subtitle="`@${disableduser.username}`" type="user" />
+                  <div class="flex w-full justify-around items-center">
+                    <EnableDisable mode="disable" :item="disableduser" @action="toggleDisableUser(disableduser)" />
+                  </div>
+                </div>
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchDisabledUser)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  Album Found</div>
+              </div>
+
+              <div v-if="is_tabShown == 'deleted'">
+                <div v-for="deleteduser in deletedUsers" :key="deleteduser.name"
+                  class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
+                  <div class="flex items-center w-3/6">
+
+                    <ManageDetail :link="true" :id="deleteduser.id" :image="deleteduser.img_profile"
+                      :title="`${deleteduser.firstname} ${deleteduser.lastname}`" :subtitle="`@${deleteduser.username}`"
+                      type="user" />
+                  </div>
+                </div>
+                <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
+                  @action="page => handlePageChange(page, fetchDeletedUser)" />
+                <div v-else
+                  class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
+                  User Found</div>
+              </div>
+              <div class="mb-32"></div>
             </div>
           </div>
         </div>
-  
+      </div>
     </template>
   </PageLayout>
 </template>
 
 <script setup>
-import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
-import SmButton from '@/components/buttons/sm-button.vue'
-import ManageDetail from '@/components/manage/ManageDetail.vue'
 import EnableDisable from '@/components/buttons/enabledisable.vue'
-import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
+import PaginationCard from '@/components/cards/PaginationCard.vue'
+import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
+import ManageDetail from '@/components/manage/ManageDetail.vue'
+import SmButton from '@/components/buttons/sm-button.vue'
 import { useToast } from 'vue-toast-notification'
-const $toast = useToast()
-const access_token = localStorage.getItem('access_token');
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+
+const access_token = localStorage.getItem('access_token')
+const $toast = useToast()
 const users = ref([])
+const totalItems = ref(0)
+const currentPage = ref(1)
+const isLoading = ref(false)
+const is_tabShown = ref("all")
 const deletedUsers = ref([])
-const is_deletedShown = ref(false)
+const disabledUsers = ref([])
 const is_blur = ref(false)
-const is_OpenRestore = ref(false)
-let toRestoreValue = 0 
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL
 
-function toggleCloseRestore() {
-  is_OpenRestore.value = false
-  is_blur.value = false
+
+const handlePageChange = (page, func) => {
+  currentPage.value = page
+  func(page)
 }
 
-function toggleOpenRestore(id) {
-  is_OpenRestore.value = true
-  is_blur.value = true
-  toRestoreValue = id
+const toggleList = async (tabShown, func) => {
+  is_tabShown.value = tabShown
+  currentPage.value = 1
+  func(currentPage.value)
 }
 
-const showDeletedList = async () => {
-    is_deletedShown.value = true
-}
-const showAllList = async () => {
- is_deletedShown.value = false
-}
-
-
-const fetchUser = async () => {
+const fetchUser = async (page = 1) => {
+  isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/user/get/`)
-    const data = response.data
-    users.value = data
+    const response = await axios.get(`${base_url}/api/user/get/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
+      }
+    })
+    users.value = response.data.results
+    totalItems.value = response.data.count
+  } catch (error) {
+    console.error('Error fetching users:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+
+const fetchDeletedUser = async (page = 1) => {
+  try {
+    const response = await axios.get(`${base_url}/api/user/get/deleted/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
+      }
+    })
+    deletedUsers.value = response.data.results
+    totalItems.value = response.data.count
   } catch (error) {
     console.error('Error fetching users:', error)
   }
 }
 
-const fetchDeletedUser = async () => {
+const fetchDisabledUser = async (page = 1) => {
+  isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/user/get/deleted/`)
-    const data = response.data
-    deletedUsers.value = data
-  } catch (error) {
-    console.error('Error fetching Deleted users:', error)
-  }
-}
-    
-
-function confirmRestore() {
-  axios({
-    method: 'delete',
-    url: `${base_url}/api/user/recover/${toRestoreValue}`,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      'Content-Type': 'application/json'
-    }
-  }).then((response) => {
-      deletedUser.value = deletedArdeletedUsertists.value.filter((deletedUser) => deletedUser.id !== toRestoreValue)
-      $toast.success('Artist is Restored', {
-        position: 'top-right'
-      })
-      console.log(response)
-      if (response.status === 200) {
-        is_OpenRestore.value = false
-        is_blur.value = false
+    const response = await axios.get(`${base_url}/api/user/get/disabled/manage/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      },
+      params: {
+        page: page,
+        page_size: 10
       }
     })
-    .catch((err) => {
-      console.log(err.response.data)
-    })
+    disabledUsers.value = response.data.results
+    totalItems.value = response.data.count
+  } catch (error) {
+    console.error('Error fetching User:', error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
-onMounted(() =>{
-  fetchUser()
-  fetchDeletedUser()
-})
 
 const toggleDisableUser = async (user) => {
   const originalIsDisabled = !user.is_disabled;
@@ -225,19 +220,7 @@ const toggleDisableUser = async (user) => {
     user.is_disabled = originalIsDisabled;
   }
 }
+onMounted(() => {
+  fetchUser(currentPage.value)
+})
 </script>
-
-<style scoped>
-
-</style>
-
-
-
-
-
-
-
-
-
-
-

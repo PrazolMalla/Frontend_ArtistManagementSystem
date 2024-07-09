@@ -107,6 +107,13 @@ const router = createRouter({
       component: Genre,
       meta: { auth: false }
     },
+    {
+      path: '/genre/:id',
+      name: 'genrewithID',
+      component: Genre,
+      meta: { auth: false }
+    },
+
     // Manage
     {
       path: '/manage/music',

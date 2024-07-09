@@ -18,15 +18,16 @@
               <div class="flex flex-col">
                 <h1 class="text-lg font-bold">
                   All
-                  <span v-if="is_deletedShown">Deleted</span>
+                  <span v-if="is_tabShown == 'deleted'">Deleted</span>
                   Theme
                 </h1>
                 <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
               </div>
 
               <div class="flex items-center space-x-4">
-                <SmButton v-if="is_deletedShown" text="All" @action="showAllList" />
-                <SmButton v-else text="Deleted" @action="showDeletedList" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchTheme)" />
+                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                  @action="toggleList('deleted', fetchDeletedTheme)" />
                 <SmSearchbar text="Search Theme..." />
                 <SmButton text="Add Theme" @action="toggleOpenAdd" />
 
@@ -38,13 +39,13 @@
               <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center font-semibold ">
-                  <div v-if="is_deletedShown">Restore</div>
-                  <div v-if="!is_deletedShown">Edit</div>
-                  <div v-if="!is_deletedShown">Delete</div>
+                  <div v-if="is_tabShown == 'deleted'">Restore</div>
+                  <div v-if="is_tabShown == 'all'">Edit</div>
+                  <div v-if="is_tabShown == 'all'">Delete</div>
                 </div>
               </div>
 
-              <div v-if="!is_deletedShown">
+              <div v-if="is_tabShown == 'all'">
 
                 <div v-for="theme in themes" :key="theme.name"
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
@@ -67,12 +68,12 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems > 1" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchThemes)" />
+                  @action="page => handlePageChange(page, fetchTheme)" />
                 <div v-if="totalItems == 0"
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Theme Found</div>
               </div>
-              <div v-else>
+              <div v-if="is_tabShown == 'deleted'">
                 <div v-for="deletedtheme in deletedThemes" :key="deletedtheme.name"
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
@@ -116,7 +117,7 @@ const themes = ref([])
 const totalItems = ref([0])
 const currentPage = ref(1)
 const isLoading = ref(false)
-const is_deletedShown = ref(false)
+const is_tabShown = ref('all')
 const deletedThemes = ref([])
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
@@ -136,7 +137,7 @@ function toggleOpenAdd() {
 function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
-  fetchThemes(currentPage.value)
+  fetchTheme(currentPage.value)
 }
 
 function toggleOpenEdit(theme) {
@@ -148,7 +149,7 @@ function toggleOpenEdit(theme) {
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
-  fetchThemes(currentPage.value)
+  fetchTheme(currentPage.value)
 }
 
 function toggleOpenDelete(deletevalue) {
@@ -161,7 +162,7 @@ function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
   console.log(currentPage.value)
-  fetchThemes(currentPage.value)
+  fetchTheme(currentPage.value)
 }
 
 function toggleOpenRestore(restoreId) {
@@ -178,16 +179,12 @@ function toggleCloseRestore() {
 
 
 
-const showDeletedList = async () => {
-  currentPage.value = 1
-  fetchDeletedTheme(currentPage.value)
-  is_deletedShown.value = true
-}
 
-const showAllList = async () => {
+
+const toggleList = async (tabShown, func) => {
+  is_tabShown.value = tabShown
   currentPage.value = 1
-  fetchThemes(currentPage.value)
-  is_deletedShown.value = false
+  func(currentPage.value)
 }
 
 
@@ -198,7 +195,7 @@ const handlePageChange = (page, func) => {
 
 
 
-const fetchThemes = async (page = 1) => {
+const fetchTheme = async (page = 1) => {
   isLoading.value = true
   try {
     const response = await axios.get(`${base_url}/api/theme/get/`, {
@@ -287,6 +284,6 @@ function confirmRestore() {
 }
 
 onMounted(() => {
-  fetchThemes(currentPage.value)
+  fetchTheme(currentPage.value)
 })
 </script>

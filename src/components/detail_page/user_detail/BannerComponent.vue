@@ -4,14 +4,12 @@
     </div>
 </template>
 <script setup>
-import axios from 'axios'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
-
 const props = defineProps({
   userBanner: {
-    type:String,
-    required:true
-  }})
+    type: String,
+    required: true
+  }
+})
 
 </script>
 <style lang=""></style>

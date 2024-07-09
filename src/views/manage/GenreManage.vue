@@ -18,15 +18,16 @@
               <div class="flex flex-col">
                 <h1 class="text-lg font-bold">
                   All
-                  <span v-if="is_deletedShown">Deleted</span>
+                  <span v-if="is_tabShown == 'deleted'">Deleted</span>
                   Genre
                 </h1>
                 <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
               </div>
 
               <div class="flex items-center space-x-4">
-                <SmButton v-if="is_deletedShown" text="All" @action="showAllList" />
-                <SmButton v-else text="Deleted" @action="showDeletedList" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchGenre)" />
+                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                  @action="toggleList('deleted', fetchDeletedGenre)" />
                 <SmSearchbar text="Search Genre..." />
                 <SmButton text="Add Genre" @action="toggleOpenAdd" />
 
@@ -38,13 +39,13 @@
               <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center font-semibold ">
-                  <div v-if="is_deletedShown">Restore</div>
-                  <div v-if="!is_deletedShown">Edit</div>
-                  <div v-if="!is_deletedShown">Delete</div>
+                  <div v-if="is_tabShown == 'deleted'">Restore</div>
+                  <div v-if="is_tabShown == 'all'">Edit</div>
+                  <div v-if="is_tabShown == 'all'">Delete</div>
                 </div>
               </div>
 
-              <div v-if="!is_deletedShown">
+              <div v-if="is_tabShown == 'all'">
 
                 <div v-for="genre in genres" :key="genre.name"
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
@@ -54,8 +55,8 @@
 
                   <div
                     class="flex w-full justify-around flex-row bg-transparent sm:hidden border-b border-b-primary-text-color">
-                    <p v-if="userData">Edit</p>
-                    <p v-if="userData">Delete</p>
+                    <p>Edit</p>
+                    <p>Delete</p>
                   </div>
                   <div class="flex w-full  justify-around items-center">
 
@@ -66,12 +67,12 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchGenres)" />
+                  @action="page => handlePageChange(page, fetchGenre)" />
                 <div v-else
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Genre Found</div>
               </div>
-              <div v-else>
+              <div v-if="is_tabShown == 'deleted'">
                 <div v-for="deletedgenre in deletedGenres" :key="deletedgenre.name"
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <div class="flex items-center w-3/6">
@@ -107,16 +108,14 @@ import AddGenre from '@/components/manage/genre/AddGenre.vue'
 import EditGenre from '@/components/manage/genre/EditGenre.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
-import store from '@/store/store'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 const $toast = useToast()
-const userData = computed(() => store.getters.getLoggedInUserData)
 const genres = ref([])
 const totalItems = ref([0])
 const currentPage = ref([1])
 const isLoading = ref(false)
-const is_deletedShown = ref(false)
+const is_tabShown = ref("all")
 const deletedGenres = ref([])
 const is_blur = ref(false)
 const is_OpenAdd = ref(false)
@@ -128,6 +127,13 @@ let toRestoreValue = 0
 const base_url = import.meta.env.VITE_BASE_API_URL
 const editGenreId = ref(null)
 
+
+const handlePageChange = (page, func) => {
+  currentPage.value = page
+  func(page)
+}
+
+
 function toggleOpenAdd() {
   is_OpenAdd.value = true
   is_blur.value = true
@@ -136,7 +142,7 @@ function toggleOpenAdd() {
 function toggleCloseAdd() {
   is_OpenAdd.value = false
   is_blur.value = false
-  fetchGenres(currentPage.value)
+  fetchGenre(currentPage.value)
 }
 
 function toggleOpenEdit(genre) {
@@ -148,7 +154,7 @@ function toggleOpenEdit(genre) {
 function toggleCloseEdit() {
   is_OpenEdit.value = false
   is_blur.value = false
-  fetchGenres(currentPage.value)
+  fetchGenre(currentPage.value)
 }
 
 function toggleOpenDelete(deletevalue) {
@@ -161,7 +167,7 @@ function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
   console.log(currentPage.value)
-  fetchGenres(currentPage.value)
+  fetchGenre(currentPage.value)
 }
 
 function toggleOpenRestore(restoreId) {
@@ -178,27 +184,14 @@ function toggleCloseRestore() {
 
 
 
-const showDeletedList = async () => {
+const toggleList = async (tabShown, func) => {
+  is_tabShown.value = tabShown
   currentPage.value = 1
-  fetchDeletedGenre(currentPage.value)
-  is_deletedShown.value = true
-}
-
-const showAllList = async () => {
-  currentPage.value = 1
-  fetchGenres(currentPage.value)
-  is_deletedShown.value = false
+  func(currentPage.value)
 }
 
 
-const handlePageChange = (page, func) => {
-  currentPage.value = page
-  func(page)
-}
-
-
-
-const fetchGenres = async (page = 1) => {
+const fetchGenre = async (page = 1) => {
   isLoading.value = true
   try {
     const response = await axios.get(`${base_url}/api/genre/get/manage/`, {
@@ -211,7 +204,6 @@ const fetchGenres = async (page = 1) => {
       }
     })
     genres.value = response.data.results
-    console.log(response.data)
     totalItems.value = response.data.count
   } catch (error) {
     console.error('Error fetching genres:', error)
@@ -288,6 +280,6 @@ function confirmRestore() {
 }
 
 onMounted(() => {
-  fetchGenres(currentPage.value)
+  fetchGenre(currentPage.value)
 })
 </script>

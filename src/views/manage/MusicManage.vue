@@ -32,11 +32,12 @@
               <div class="flex items-center space-x-4">
 
                 <SmButton v-if="is_tabShown != 'deleted' && userData.is_artist" text=" Deleted"
-                  @action="showDeletedList" />
+                  @action="toggleList('deleted', fetchDeletedMusic)" />
                 <SmButton v-if="is_tabShown != 'disabled' && userData.is_staff" text="Disabled"
-                  @action="showDisabledList" />
-                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden" @action="showHiddenList" />
-                <SmButton v-if="is_tabShown != 'all'" text=" All" @action="showAllList" />
+                  @action="toggleList('disabled', fetchDisabledMusic)" />
+                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden"
+                  @action="toggleList('hidden', fetchHiddenMusic)" />
+                <SmButton v-if="is_tabShown != 'all'" text=" All" @action="toggleList('all', fetchMusic)" />
                 <SmSearchbar text="Search Music..." />
                 <SmButton v-if="userData.is_artist" text=" Add Music" @action="toggleOpenAdd" />
 
@@ -81,7 +82,7 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchAlbum)" />
+                  @action="page => handlePageChange(page, fetchMusic)" />
                 <div v-else
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Album Found</div>
@@ -96,7 +97,7 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchAlbum)" />
+                  @action="page => handlePageChange(page, fetchHiddenMusic)" />
                 <div v-else
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Album Found</div>
@@ -112,7 +113,7 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchAlbum)" />
+                  @action="page => handlePageChange(page, fetchDisabledMusic)" />
                 <div v-else
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Album Found</div>
@@ -130,7 +131,7 @@
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
-                  @action="page => handlePageChange(page, fetchAlbum)" />
+                  @action="page => handlePageChange(page, fetchDeletedMusic)" />
                 <div v-else
                   class="font-bold text-lg text-primary-text-color opacity-50 p-5 flex justify-center items-center">No
                   Album Found</div>
@@ -187,6 +188,14 @@ const handlePageChange = (page, func) => {
   func(page)
 }
 
+
+const toggleList = async (tabShown, func) => {
+  is_tabShown.value = tabShown
+  currentPage.value = 1
+  func(currentPage.value)
+}
+
+
 const editMusicId = ref(null)
 function toggleOpenAdd() {
   fetchAlbums()
@@ -236,36 +245,14 @@ function toggleCloseRestore() {
   is_blur.value = false
 }
 
-const showDeletedList = () => {
-  currentPage.value = 1
-  fetchDeletedMusic(currentPage.value)
-  is_tabShown.value = "deleted"
-}
 
-const showDisabledList = () => {
-  currentPage.value = 1
-  fetchDisabledMusic(currentPage.value)
-  is_tabShown.value = "disabled"
-}
-const showAllList = () => {
-  currentPage.value = 1
-  fetchMusic(currentPage.value)
-  is_tabShown.value = "all"
-}
-
-
-const showHiddenList = () => {
-  currentPage.value = 1
-  fetchHiddenMusic(currentPage.value)
-  is_tabShown.value = "hidden"
-}
 
 const fetchMusic = async (page = 1) => {
   isLoading.value = true
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get(`${base_url}/api/music/admin/get/manage/`, {
+      const response = await axios.get(`${base_url}/api/music/get/manage/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
@@ -493,5 +480,3 @@ onMounted(() => {
   fetchMusic()
 })
 </script>
-
-<style scoped></style>

@@ -198,11 +198,11 @@ const showDataInSideBar = () => {
         icon: 'fa-microphone',
         text: 'Artist'
       })
-      // categories.value[manageIndex].actions.push({
-      //   to: '/manage/user',
-      //   icon: 'fa-user-alt',
-      //   text: 'User'
-      // })
+      categories.value[manageIndex].actions.push({
+        to: '/manage/user',
+        icon: 'fa-user-alt',
+        text: 'User'
+      })
       categories.value[statsIndex].actions.push({
         to: '/stats/staff',
         icon: 'fa-user-shield',

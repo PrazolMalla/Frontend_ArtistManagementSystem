@@ -26,11 +26,12 @@
               </div>
               <div class="flex items-center space-x-4">
                 <SmButton v-if="is_tabShown != 'deleted' && userData.is_artist" text="Deleted"
-                  @action="showDeletedList" />
+                  @action="toggleList('deleted', fetchDeletedAlbum)" />
                 <SmButton v-if="is_tabShown != 'disabled' && userData.is_staff" text="Disabled"
-                  @action="showDisabledList" />
-                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden" @action="showHiddenList" />
-                <SmButton v-if="is_tabShown != 'all'" text="All" @action="showAllList" />
+                  @action="toggleList('disabled', fetchDisabledAlbum)" />
+                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden"
+                  @action="toggleList('hidden', fetchHiddenAlbum)" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchAlbum)" />
                 <SmSearchbar text="Search Album..." />
                 <SmButton v-if="userData.is_artist" text="Add Album" @action="toggleOpenAdd" />
               </div>
@@ -247,28 +248,10 @@ function toggleCloseRestore() {
   is_blur.value = false
 }
 
-const showDeletedList = () => {
+const toggleList = async (tabShown, func) => {
+  is_tabShown.value = tabShown
   currentPage.value = 1
-  fetchDeletedAlbum(currentPage.value)
-  is_tabShown.value = "deleted"
-}
-
-const showDisabledList = () => {
-  currentPage.value = 1
-  fetchDisabledAlbum(currentPage.value)
-  is_tabShown.value = "disabled"
-}
-const showAllList = () => {
-  currentPage.value = 1
-  fetchAlbum(currentPage.value)
-  is_tabShown.value = "all"
-}
-
-
-const showHiddenList = () => {
-  currentPage.value = 1
-  fetchHiddenAlbum(currentPage.value)
-  is_tabShown.value = "hidden"
+  func(currentPage.value)
 }
 
 const fetchAlbum = async (page = 1) => {

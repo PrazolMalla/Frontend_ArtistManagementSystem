@@ -23,11 +23,12 @@
               </div>
 
               <div class="flex items-center space-x-4">
-                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchGenre)" />
-                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                <IconButton v-if="is_tabShown != 'deleted'" state="danger" name="fa-trash"
                   @action="toggleList('deleted', fetchDeletedGenre)" />
-                <SmSearchbar text="Search Genre..." />
-                <SmButton text="Add Genre" @action="toggleOpenAdd" />
+                <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchGenre)" />
+
+                <SmSearchbar text="Search Genre..." @action="searchGenre" />
+                <IconButton @action="toggleOpenAdd" state="success" name="fa-plus" />
 
               </div>
             </div>
@@ -58,10 +59,8 @@
                   </div>
                   <div class="flex w-full  justify-around items-center">
 
-                    <v-icon class="cursor-pointer" @click="toggleOpenEdit(genre)" name="fa-regular-edit" fill="#00b166"
-                      scale="1.5"></v-icon>
-                    <v-icon class="cursor-pointer" @click="toggleOpenDelete(genre.id)" name="fa-regular-trash-alt"
-                      fill="#ff4000" scale="1.5"></v-icon>
+                    <IconButton @action="toggleOpenEdit(genre)" name="fa-regular-edit" state="success" />
+                    <IconButton @action="toggleOpenDelete(genre.id)" name="fa-regular-trash-alt" state="danger" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
@@ -79,7 +78,7 @@
                       :subtitle="deletedgenre.weather" type="genre" />
                   </div>
                   <div class="flex w-full justify-around items-center">
-                    <SmButton text="Restore" @action="toggleOpenRestore(deletedgenre.id)" />
+                    <IconButton @action="toggleOpenRestore(deletedgenre.id)" name="fa-trash-restore" state="success" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
@@ -98,6 +97,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
@@ -131,6 +131,10 @@ const handlePageChange = (page, func) => {
   func(page)
 }
 
+const searchGenre = (text) => {
+  if (is_tabShown.value == "all") fetchGenre(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedGenre(1, text)
+}
 
 function toggleOpenAdd() {
   is_OpenAdd.value = true
@@ -189,10 +193,10 @@ const toggleList = async (tabShown, func) => {
 }
 
 
-const fetchGenre = async (page = 1) => {
+const fetchGenre = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/genre/get/manage/`, {
+    const response = await axios.get(`${base_url}/api/genre/get/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -211,9 +215,9 @@ const fetchGenre = async (page = 1) => {
 }
 
 
-const fetchDeletedGenre = async (page = 1) => {
+const fetchDeletedGenre = async (page = 1, text = '') => {
   try {
-    const response = await axios.get(`${base_url}/api/genre/get/deleted/manage/`, {
+    const response = await axios.get(`${base_url}/api/genre/get/deleted/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

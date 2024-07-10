@@ -25,10 +25,10 @@
 
               <div class="flex items-center space-x-4">
                 <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchTheme)" />
-                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
-                  @action="toggleList('deleted', fetchDeletedTheme)" />
-                <SmSearchbar text="Search Theme..." />
-                <SmButton text="Add Theme" @action="toggleOpenAdd" />
+                <IconButton v-if="is_tabShown != 'deleted'" @action="toggleList('deleted', fetchDeletedTheme)"
+                  state="danger" name="fa-trash" />
+                <SmSearchbar text="Search Theme..." @action="searchTheme" />
+                <IconButton name="fa-plus" state="success" @action="toggleOpenAdd" />
 
               </div>
             </div>
@@ -58,10 +58,8 @@
                   </div>
                   <div class="flex w-full  justify-around items-center">
 
-                    <v-icon class="cursor-pointer" @click="toggleOpenEdit(theme)" name="fa-regular-edit" fill="#00b166"
-                      scale="1.5"></v-icon>
-                    <v-icon class="cursor-pointer" @click="toggleOpenDelete(theme.id)" name="fa-regular-trash-alt"
-                      fill="#ff4000" scale="1.5"></v-icon>
+                    <IconButton @action="toggleOpenEdit(theme)" name="fa-regular-edit" state="success" />
+                    <IconButton @action="toggleOpenDelete(theme.id)" name="fa-regular-trash-alt" state="danger" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems > 1" :totalItems="totalItems" :currentPage="currentPage"
@@ -78,7 +76,7 @@
                       :title="deletedtheme.name" :subtitle="deletedtheme.darkPrimaryColor" type="theme" />
                   </div>
                   <div class="flex w-full justify-around items-center">
-                    <SmButton text="Restore" @action="toggleOpenRestore(deletedtheme.id)" />
+                    <IconButton @action="toggleOpenRestore(deletedtheme.id)" name="fa-trash-restore" state="success" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems > 1" :totalItems="totalItems" :currentPage="currentPage"
@@ -97,6 +95,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import ThemeForm from '@/components/manage/ThemeForm.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
@@ -129,6 +128,11 @@ const editThemeId = ref(null)
 function toggleOpenAdd() {
   is_OpenAdd.value = true
   is_blur.value = true
+}
+
+const searchTheme = (text) => {
+  if (is_tabShown.value == "all") fetchTheme(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedTheme(1, text)
 }
 
 function toggleCloseAdd() {
@@ -192,10 +196,10 @@ const handlePageChange = (page, func) => {
 
 
 
-const fetchTheme = async (page = 1) => {
+const fetchTheme = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/theme/get/`, {
+    const response = await axios.get(`${base_url}/api/theme/get/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -214,9 +218,9 @@ const fetchTheme = async (page = 1) => {
 }
 
 
-const fetchDeletedTheme = async (page = 1) => {
+const fetchDeletedTheme = async (page = 1, text = '') => {
   try {
-    const response = await axios.get(`${base_url}/api/theme/get/deleted/`, {
+    const response = await axios.get(`${base_url}/api/theme/get/deleted/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

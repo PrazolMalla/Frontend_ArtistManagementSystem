@@ -24,13 +24,13 @@
               </div>
 
               <div class="flex items-center space-x-4">
-                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                <IconButton v-if="is_tabShown != 'deleted'" state="danger" name="fa-trash"
                   @action="toggleList('deleted', fetchDeletedStaff)" />
-                <SmButton v-if="is_tabShown != 'disabled'" text="Disabled"
-                  @action="toggleList('disabled', fetchDisabledStaff)" />
+                <IconButton v-if="is_tabShown != 'disabled'" @action="toggleList('disabled', fetchDisabledStaff)"
+                  state="danger" name="md-disabledvisible-sharp" />
                 <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchStaff)" />
-                <SmSearchbar text="Search Staff..." />
-                <SmButton text="Add Staff" @action="toggleOpenAdd" />
+                <SmSearchbar text="Search Staff..." @action="searchStaff" />
+                <IconButton @action="toggleOpenAdd" state="success" name="fa-plus" />
 
               </div>
             </div>
@@ -63,10 +63,8 @@
                   </div>
                   <div class="flex w-full  justify-around items-center">
                     <EnableDisable mode="disable" :item="staff" @action="toggleDisableStaff(staff)" />
-                    <v-icon class="cursor-pointer" @click="toggleOpenEdit(staff)" name="fa-regular-edit" fill="#00b166"
-                      scale="1.5"></v-icon>
-                    <v-icon class="cursor-pointer" @click="toggleOpenDelete(staff.id)" name="fa-regular-trash-alt"
-                      fill="#ff4000" scale="1.5"></v-icon>
+                    <IconButton @click="toggleOpenEdit(staff)" name="fa-regular-edit" state="success" />
+                    <IconButton @click="toggleOpenDelete(staff.id)" name="fa-regular-trash-alt" state="danger" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
@@ -104,7 +102,7 @@
                       :subtitle="`@${deletedstaff.username}`" type="staff" />
                   </div>
                   <div class="flex w-full justify-around items-center">
-                    <SmButton text="Restore" @action="toggleOpenRestore(deletedstaff.id)" />
+                    <IconButton @action="toggleOpenRestore(deletedstaff.id)" name="fa-trash-restore" state="success" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
@@ -123,6 +121,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import StaffForm from '@/components/manage/StaffForm.vue'
 import EnableDisable from '@/components/buttons/enabledisable.vue'
@@ -160,6 +159,11 @@ const handlePageChange = (page, func) => {
   func(page)
 }
 
+const searchStaff = (text) => {
+  if (is_tabShown.value == "all") fetchStaff(1, text)
+  else if (is_tabShown.value == "disabled") fetchDisabledStaff(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedStaff(1, text)
+}
 
 
 const toggleList = async (tabShown, func) => {
@@ -218,10 +222,10 @@ function toggleCloseRestore() {
 
 
 
-const fetchStaff = async (page = 1) => {
+const fetchStaff = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/staff/get/manage/`, {
+    const response = await axios.get(`${base_url}/api/staff/get/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -240,9 +244,9 @@ const fetchStaff = async (page = 1) => {
 }
 
 
-const fetchDeletedStaff = async (page = 1) => {
+const fetchDeletedStaff = async (page = 1, text = '') => {
   try {
-    const response = await axios.get(`${base_url}/api/staff/get/deleted/manage/`, {
+    const response = await axios.get(`${base_url}/api/staff/get/deleted/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -258,10 +262,10 @@ const fetchDeletedStaff = async (page = 1) => {
   }
 }
 
-const fetchDisabledStaff = async (page = 1) => {
+const fetchDisabledStaff = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/staff/get/disabled/manage/`, {
+    const response = await axios.get(`${base_url}/api/staff/get/disabled/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

@@ -23,15 +23,16 @@
                 <div class="text-sm font-bold opacity-70">Total: {{ totalItems }}</div>
               </div>
               <div class="flex items-center space-x-4">
-                <SmButton v-if="is_tabShown != 'deleted' && userData.is_artist" text="Deleted"
+                <IconButton v-if="is_tabShown != 'deleted' && userData.is_artist" state="danger" name="fa-trash"
                   @action="toggleList('deleted', fetchDeletedAlbum)" />
-                <SmButton v-if="is_tabShown != 'disabled' && userData.is_staff" text="Disabled"
-                  @action="toggleList('disabled', fetchDisabledAlbum)" />
-                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden"
-                  @action="toggleList('hidden', fetchHiddenAlbum)" />
+
+                <IconButton v-if="is_tabShown != 'disabled' && userData.is_staff" state="danger"
+                  name="md-disabledvisible-sharp" @action="toggleList('disabled', fetchDisabledAlbum)" />
+                <IconButton v-if="is_tabShown != 'hidden' && userData.is_artist" state="success"
+                  name="fa-regular-eye-slash" @action="toggleList('hidden', fetchHiddenAlbum)" />
                 <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchAlbum)" />
-                <SmSearchbar text="Search Album..." />
-                <SmButton v-if="userData.is_artist" text="Add Album" @action="toggleOpenAdd" />
+                <SmSearchbar text="Search Album..." @action="searchAlbum" />
+                <IconButton v-if="userData.is_artist" state="success" name="fa-plus" @action="toggleOpenAdd" />
               </div>
             </div>
 
@@ -67,10 +68,10 @@
                     <EnableDisable v-if="userData.is_staff" mode="disable" :item="album"
                       @action="toggleDisableAlbum(album)" />
 
-                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenEdit(album)"
-                      name="fa-regular-edit" fill="#00b166" scale="1.5"></v-icon>
-                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenDelete(album)"
-                      name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
+                    <IconButton v-if="userData.is_artist" state="success" @action="toggleOpenEdit(album)"
+                      name="fa-regular-edit" />
+                    <IconButton v-if="userData.is_artist" @action="toggleOpenDelete(album)" name="fa-regular-trash-alt"
+                      state="danger" />
                   </div>
                 </div>
 
@@ -140,7 +141,7 @@
                     :title="deletedalbum.name" :subtitle="deletedalbum.artist_name" type="album" />
 
                   <div class="flex w-full justify-around items-center">
-                    <SmButton text="Restore" @action="toggleOpenRestore(deletedalbum)" />
+                    <IconButton @action="toggleOpenRestore(deletedalbum)" name="fa-trash-restore" state="success" />
                   </div>
                 </div>
 
@@ -162,6 +163,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
@@ -200,7 +202,12 @@ const handlePageChange = (page, func) => {
   func(page)
 }
 
-
+const searchAlbum = (text) => {
+  if (is_tabShown.value == "all") fetchAlbum(1, text)
+  else if (is_tabShown.value == "disabled") fetchDisabledAlbum(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedAlbum(1, text)
+  else if (is_tabShown.value == "hidden") fetchHiddenAlbum(1, text)
+}
 const editAlbumId = ref(null)
 function toggleOpenAdd() {
   is_OpenAdd.value = true
@@ -252,12 +259,12 @@ const toggleList = async (tabShown, func) => {
   func(currentPage.value)
 }
 
-const fetchAlbum = async (page = 1) => {
+const fetchAlbum = async (page = 1, text = '') => {
   isLoading.value = true
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get(`${base_url}/api/album/get/manage/`, {
+      const response = await axios.get(`${base_url}/api/album/get/manage/?search=${text}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
@@ -269,7 +276,7 @@ const fetchAlbum = async (page = 1) => {
       data = response.data.results
       totalItems.value = response.data.count
     } else {
-      const response = await axios.get(`${base_url}/api/album/get/loggedin/manage/`, {
+      const response = await axios.get(`${base_url}/api/album/get/loggedin/manage/?search=${text}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
@@ -290,10 +297,10 @@ const fetchAlbum = async (page = 1) => {
 }
 
 
-const fetchDeletedAlbum = async (page = 1) => {
+const fetchDeletedAlbum = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/album/get/deleted/manage/`, {
+    const response = await axios.get(`${base_url}/api/album/get/deleted/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -313,10 +320,10 @@ const fetchDeletedAlbum = async (page = 1) => {
 
 
 
-const fetchDisabledAlbum = async (page = 1) => {
+const fetchDisabledAlbum = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/album/get/disabled/manage/`, {
+    const response = await axios.get(`${base_url}/api/album/get/disabled/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -334,10 +341,10 @@ const fetchDisabledAlbum = async (page = 1) => {
   }
 }
 
-const fetchHiddenAlbum = async (page = 1) => {
+const fetchHiddenAlbum = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/album/get/hidden/manage/`, {
+    const response = await axios.get(`${base_url}/api/album/get/hidden/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

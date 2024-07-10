@@ -9,7 +9,7 @@
           class="px-2 p-1 focus:outline-none w-full text-xs  rounded-3xl border border-border-color focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 primary-text-color" />
         <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
           formErrors[item.name]
-        }}</span>
+          }}</span>
       </div>
 
 

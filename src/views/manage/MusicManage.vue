@@ -30,15 +30,15 @@
 
               <div class="flex items-center space-x-4">
 
-                <SmButton v-if="is_tabShown != 'deleted' && userData.is_artist" text=" Deleted"
+                <IconButton v-if="is_tabShown != 'deleted' && userData.is_artist" state="danger" name="fa-trash"
                   @action="toggleList('deleted', fetchDeletedMusic)" />
-                <SmButton v-if="is_tabShown != 'disabled' && userData.is_staff" text="Disabled"
-                  @action="toggleList('disabled', fetchDisabledMusic)" />
-                <SmButton v-if="is_tabShown != 'hidden' && userData.is_artist" text="Hidden"
-                  @action="toggleList('hidden', fetchHiddenMusic)" />
+                <IconButton v-if="is_tabShown != 'disabled' && userData.is_staff" state="danger"
+                  name="md-disabledvisible-sharp" @action="toggleList('disabled', fetchDisabledMusic)" />
+                <IconButton v-if="is_tabShown != 'hidden' && userData.is_artist" state="success"
+                  name="fa-regular-eye-slash" @action="toggleList('hidden', fetchHiddenMusic)" />
                 <SmButton v-if="is_tabShown != 'all'" text=" All" @action="toggleList('all', fetchMusic)" />
-                <SmSearchbar text="Search Music..." />
-                <SmButton v-if="userData.is_artist" text=" Add Music" @action="toggleOpenAdd" />
+                <SmSearchbar text="Search Music..." @action="searchMusic" />
+                <IconButton v-if="userData.is_artist" @action="toggleOpenAdd" state="success" name="fa-plus" />
 
               </div>
             </div>
@@ -122,12 +122,8 @@
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <ManageDetail :link="true" :id="deletedmusic.id" :image="deletedmusic.img_profile"
                     :title="deletedmusic.name" :subtitle="deletedmusic.artist_name" type="music" />
-                  <div class="flex w-full justify-around items-center">
-                    <div @click="toggleOpenRestore(deletedmusic)"
-                      class="border border-secondary-color rounded bg-secondary-color hover:text-secondary-color hover:bg-transparent text-sm p-1 text-dark-primary-color">
-                      Restore
-                    </div>
-                  </div>
+                  <IconButton @action="toggleOpenRestore(deletedmusic)" name="fa-trash-restore" state="success" />
+
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
                   @action="page => handlePageChange(page, fetchDeletedMusic)" />
@@ -145,6 +141,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import MusicForm from '@/components/manage/MusicForm.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
@@ -194,6 +191,13 @@ const toggleList = async (tabShown, func) => {
   func(currentPage.value)
 }
 
+const searchMusic = (text) => {
+  console.log(text)
+  if (is_tabShown.value == "all") fetchMusic(1, text)
+  else if (is_tabShown.value == "disabled") fetchDisabledMusic(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedMusic(1, text)
+  else if (is_tabShown.value == "hidden") fetchHiddenMusic(1, text)
+}
 
 const editMusicId = ref(null)
 function toggleOpenAdd() {
@@ -246,12 +250,12 @@ function toggleCloseRestore() {
 
 
 
-const fetchMusic = async (page = 1) => {
+const fetchMusic = async (page = 1, text = '') => {
   isLoading.value = true
   try {
     let data
     if (!userData.value.is_artist) {
-      const response = await axios.get(`${base_url}/api/music/get/manage/`, {
+      const response = await axios.get(`${base_url}/api/music/get/manage/?search=${text}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
@@ -263,7 +267,7 @@ const fetchMusic = async (page = 1) => {
       data = response.data.results
       totalItems.value = response.data.count
     } else {
-      const response = await axios.get(`${base_url}/api/music/get/loggedin/manage/`, {
+      const response = await axios.get(`${base_url}/api/music/get/loggedin/manage/?search=${text}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         },
@@ -284,10 +288,10 @@ const fetchMusic = async (page = 1) => {
 }
 
 
-const fetchDeletedMusic = async (page = 1) => {
+const fetchDeletedMusic = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/music/get/deleted/manage/`, {
+    const response = await axios.get(`${base_url}/api/music/get/deleted/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -307,10 +311,10 @@ const fetchDeletedMusic = async (page = 1) => {
 
 
 
-const fetchDisabledMusic = async (page = 1) => {
+const fetchDisabledMusic = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/music/get/disabled/manage/`, {
+    const response = await axios.get(`${base_url}/api/music/get/disabled/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -328,10 +332,10 @@ const fetchDisabledMusic = async (page = 1) => {
   }
 }
 
-const fetchHiddenMusic = async (page = 1) => {
+const fetchHiddenMusic = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/music/get/hidden/manage/`, {
+    const response = await axios.get(`${base_url}/api/music/get/hidden/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

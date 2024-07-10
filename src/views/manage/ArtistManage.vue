@@ -19,12 +19,12 @@
               </div>
 
               <div class="flex items-center gap-3 ">
-                <SmButton v-if="is_tabShown != 'disabled'" text="Disable"
-                  @action="toggleList('disabled', fetchDisabledArtist)" />
-                <SmButton v-if="is_tabShown != 'deleted'" text="Deleted"
+                <IconButton v-if="is_tabShown != 'deleted'" state="danger" name="fa-trash"
                   @action="toggleList('deleted', fetchDeletedArtist)" />
+                <IconButton v-if="is_tabShown != 'disabled'" state="danger" name="md-disabledvisible-sharp"
+                  @action="toggleList('disabled', fetchDisabledArtist)" />
                 <SmButton v-if="is_tabShown != 'all'" text="All" @action="toggleList('all', fetchArtist)" />
-                <SmSearchbar text="Search Artist..." />
+                <SmSearchbar text="Search Artist..." @action="searchArtist" />
               </div>
             </div>
 
@@ -117,6 +117,7 @@
 </template>
 
 <script setup>
+import IconButton from '@/components/buttons/icon-button.vue'
 import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
@@ -144,7 +145,11 @@ const handlePageChange = (page, func) => {
   func(page)
 }
 
-
+const searchArtist = (text) => {
+  if (is_tabShown.value == "all") fetchArtist(1, text)
+  else if (is_tabShown.value == "disabled") fetchDisabledArtist(1, text)
+  else if (is_tabShown.value == "deleted") fetchDeletedArtist(1, text)
+}
 
 const toggleList = async (tabShown, func) => {
   is_tabShown.value = tabShown
@@ -153,10 +158,10 @@ const toggleList = async (tabShown, func) => {
 }
 
 
-const fetchArtist = async (page = 1) => {
+const fetchArtist = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/artist/get/manage/`, {
+    const response = await axios.get(`${base_url}/api/artist/get/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -173,10 +178,10 @@ const fetchArtist = async (page = 1) => {
 
   isLoading.value = false
 }
-const fetchDisabledArtist = async (page = 1) => {
+const fetchDisabledArtist = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/artist/get/disabled/manage/`, {
+    const response = await axios.get(`${base_url}/api/artist/get/disabled/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },
@@ -194,10 +199,10 @@ const fetchDisabledArtist = async (page = 1) => {
   isLoading.value = false
 }
 
-const fetchDeletedArtist = async (page = 1) => {
+const fetchDeletedArtist = async (page = 1, text = '') => {
   isLoading.value = true
   try {
-    const response = await axios.get(`${base_url}/api/artist/get/deleted/manage/`, {
+    const response = await axios.get(`${base_url}/api/artist/get/deleted/manage/?search=${text}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       },

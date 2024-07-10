@@ -1,56 +1,62 @@
 <template>
   <div
-    class="p-2 w-48  transform hover:scale-105 transition-transform duration-300 bg-light-primary-color rounded-lg shadow-md">
-    <div class="flex flex-col items-center gap-2">
-      <RouterLink :to="'/music/' + musicData.id">
-        <img :src="musicImage" alt="" class="rounded-lg w-48 h-36" />
-      </RouterLink>
-      <div class="flex justify-between w-full items-center">
-        <div class="flex flex-col ">
-          <RouterLink :to="'/music/' + musicData.id" class="text-sm font-semibold text-center hover:underline">
-            {{ musicData.name }}
+    class=" ml-2 lg:ml-5 h-54 border-2 border-transparent hover:bg-secondary-color rounded-2xl flex flex-col justify-start items-start p-3 gap-1 hover:transition-all cursor-pointer hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#FF516D,0_0_4px_#FF516D,0_0_15px_#FF516D] hover:border-2 hover:border-white text-primary-text-color hover:text-dark-primary-color group"
+    :style="{
+      color: `${user?.theme?.secondaryColor}`
+    }">
+    <RouterLink :to="'/music/' + musicData.id">
+      <img :src="musicImage" class=" rounded-lg w-32 h-32" />
+    </RouterLink>
+    <div class="flex justify-between w-full items-center">
+      <div class="flex flex-col text-primary-text-color items-start">
+        <RouterLink :to="'/music/' + musicData.id" class="text-sm font-semibold text-center hover:underline">
+          {{ musicData.name }}
+        </RouterLink>
+        <div class="flex gap-2">
+          <RouterLink :to="'/artist/' + musicData.artist" class="text-xs opacity-100 hover:underline">
+            {{ musicData.artist_name }}
           </RouterLink>
-          <div class="flex gap-2">
-            <RouterLink :to="'/artist/' + musicData.artist" class="text-xs opacity-50 hover:underline">
-              {{ musicData.artist_name }}
-            </RouterLink>
-            <RouterLink :to="'/album/' + musicData.album" class="text-xs opacity-50 hover:underline">
-              {{ musicData.album_name }}
-            </RouterLink>
-          </div>
+          <div v-if="musicData.album" class="text-xs">|</div>
+          <RouterLink :to="'/album/' + musicData.album" class="text-xs opacity-50 hover:underline">
+            {{ musicData.album_name }}
+          </RouterLink>
         </div>
       </div>
+      <!-- <v-icon
+        name="md-playcircleoutline-round"
+        @click="playMusic"
+        fill="#302f31"
+        scale="1.5"
+        class="cursor-pointer"
+      /> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+
 const base_url = import.meta.env.VITE_BASE_API_URL;
 const props = defineProps({
   musicData: {
     type: Object,
-  }
-})
+  },
+  user: {}
+});
 
 const musicImage = computed(() => `${base_url}${props.musicData?.img_profile}`);
+const store = useStore();
+const route = useRoute();
 function playMusic() {
-  this.$store.dispatch('setMusicPlayer', this.musicData)
-  console.log(this.musicData)
+  store.dispatch('setMusicPlayer', props.musicData);
+  console.log(props.musicData);
 }
-
-
 </script>
-<style scoped>
-@media (min-width: 768px) {
-  .album-card {
-    width: calc(33.33% - 1rem);
-  }
-}
 
-@media (min-width: 1024px) {
-  .album-card {
-    width: calc(25% - 1rem);
-  }
+<style scoped>
+.group:hover {
+  color: white !important;
 }
 </style>

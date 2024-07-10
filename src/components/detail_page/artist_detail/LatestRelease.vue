@@ -1,6 +1,6 @@
 <template lang="">
   <div
-    class="mt-10 w-[80vw] h-24 bg-light-primary-color border-none px-5 pt-2 md:w-[22rem] md:h-[7rem] md:mt-20 lg:mt-24 lg:w-[50vw] lg:h-[10rem] lg:p-4 rounded-md"
+    class="bg-light-primary-color border-none p-5  rounded-md flex-grow flex-shrink"
     :style="{
       backgroundColor: hexWithOpacity(`${user?.theme?.darkPrimaryColor}`, 0.5),
       boxShadow: user.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
@@ -8,34 +8,24 @@
       color: `${user?.theme?.secondaryColor}`
     }"
   >
-    <h1 class="font-semibold lg:text-lg">Latest Release</h1>
-    <div class="flex flex-row gap-5">
-      <div class="" v-for="(recent, index) in recentSongs" :key="index">
-        <!-- <img
-          :src="`${base_url}${recent.img_profile}`"
-          alt=""
-          class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
-        /> -->
-        <RouterLink :to="'/music/' + recent.id">
-          <div class="flex items-center gap-2">
-            <img
-              :src="`${base_url}${recent.img_profile}`"
-              alt=""
-              class="lg:w-20 lg:h-20 sm:w-16 sm:h-16 h-20 w-20 hover:border-4 mt-4 hover:cursor-pointer hover:border-secondary-color rounded-md"
-            />
+    <h1 class="font-semibold text-md my-2">Latest Release</h1>
+    <div class="flex flex-row flex-wrap gap-5 flex-shrink-0">
+      <RouterLink v-for="(music, index) in recentSongs" :key="index" :to="'/music/' + music.id" class="  bg-transparent rounded-md p-2 flex  gap-2 flex-shrink-0 hover:bg-secondary-color hover:text-light-primary-color cursor-pointer ">
+       
+          <img :src="`${base_url}${music.img_profile}`" class="w-12 h-12 rounded-md" />
 
-            <div class="mt-6">
-              <h1 class="text-lg font-semibold">{{ recent.name }}</h1>
-              <h1 class="text-sm">{{ recent.release_at }}</h1>
+          <div class="flex flex-col md:flex-row md:justify-center gap-5 md:items-center">
+            <div>
+              <p class="text-sm font-semibold">{{ music.name }}</p>
+              <p class="text-xs">{{ music.release_at }}</p>
             </div>
-          </div>
-        </RouterLink>
-      </div>
-    </div>
+        </div>
+      </RouterLink>
+  </div>
   </div>
 </template>
 <script setup>
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({

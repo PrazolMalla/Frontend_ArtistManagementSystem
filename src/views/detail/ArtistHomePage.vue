@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col-reverse sm:flex-row gap-5 w-[77vw]">
+  <div class="flex items-start justify-between mt-16 w-full flex-wrap sm:flex-row gap-5 ">
     <InformationCard :userData="user" />
     <LatestRelease :user="user" />
   </div>
-  <div class="flex flex-col-reverse lg:flex-row gap-5">
+  <div class="mt-5 flex flex-col-reverse lg:flex-row gap-5">
     <TopChartComponent :user="user" />
     <CardsCarousel :artistId="user.id" :user="user" />
   </div>
@@ -21,7 +21,7 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 
 const user = ref({})
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const route = useRoute()
 const queryParams = route.params.id

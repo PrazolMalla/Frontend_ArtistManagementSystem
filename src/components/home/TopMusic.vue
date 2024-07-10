@@ -10,7 +10,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import MusicCard from '@/components/cards/MusicCard-2.vue'
+import MusicCard from '@/components/cards/MusicCard.vue'
 const base_url = import.meta.env.VITE_BASE_API_URL;
 const musicData = ref([])
 

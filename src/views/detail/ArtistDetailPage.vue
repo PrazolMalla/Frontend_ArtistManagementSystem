@@ -6,15 +6,15 @@
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover'
       }"></div>
-      <div
-        class="ml-[-20px] sm:ml-[-4rem] mt-[-4rem] absolute bgThemeGlass z-0 h-[100%] w-[100vw] sm:w-full opacity-80 p-2 backdrop-blur-3xl filter"
+      <div class="ml-[-20px] sm:ml-[-4rem] mt-[-4rem] absolute z-0 h-[100%] w-[100vw] sm:w-full opacity-80 p-2"
         :style="{ backgroundColor: user?.theme?.darkPrimaryColor, opacity: user?.theme?.opacity }"></div>
-      <div class="z-0">
-        <BannerComponent :userBanner="user.img_cover" />
+      <div class="relative z-0  h-auto">
         <ProfilePicComponent :userImg="user.img_profile" />
+        <BannerComponent :userBanner="user.img_cover" />
         <ProfileNav :user="user" />
-        <RouterView></RouterView>
       </div>
+
+      <RouterView></RouterView>
     </template>
   </PageLayoutWithPlayer>
 </template>

@@ -1,6 +1,6 @@
 <template lang="">
   <div
-    class="mt-5 bg-light-primary-color h-[50vh] w-[80vw] p-6 lg:w-[30vw] md:h-[55vh] mb-5"
+    class="rounded-md  bg-light-primary-color p-6 lg:w-[30vw]  mb-5"
     :style="{
       backgroundColor: hexWithOpacity(`${user?.theme?.darkPrimaryColor}`, 0.5),
       boxShadow: user.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
@@ -8,28 +8,24 @@
       color: `${user?.theme?.secondaryColor}`
     }"
   >
-    <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Top Chart</h1>
-    <div v-for="(music, index) in musicData" :key="index">
-      <RouterLink :to="'/music/' + music.id">
-        <div
-          class="w-[67vw] bg-transparent h-24 rounded-md md:w-[25vw] md:h-24 p-4 flex gap-5 hover:bg-secondary-color hover:text-light-primary-color cursor-pointer"
-        >
-          <img :src="`${base_url}${music.img_profile}`" class="w-16 h-16 rounded-md" />
+    <h1 class="text-md font-semibold">Top Chart</h1>
+    <div class="flex flex-row flex-wrap gap-5 flex-shrink-0">
+      <RouterLink v-for="(music, index) in musicData" :key="index" :to="'/music/' + music.id" class="flex-grow lg:w-full bg-transparent rounded-md p-2 flex  gap-2  hover:bg-secondary-color hover:text-light-primary-color cursor-pointer ">
+       
+          <img :src="`${base_url}${music.img_profile}`" class="w-12 h-12 rounded-md" />
 
-          <div class="flex flex-col md:flex-row md:justify-center md:gap-20 md:items-center">
+          <div class="flex flex-col md:flex-row md:justify-center gap-5 md:items-center">
             <div>
-              <p class="md:text-lg font-semibold">{{ music.name }}</p>
-              <p class="md:text-lg">{{ music.artist_name }}</p>
+              <p class="text-sm font-semibold">{{ music.name }}</p>
+              <p class="text-xs">{{ music.artist_name }}</p>
             </div>
-
-          </div>
         </div>
       </RouterLink>
-    </div>
+  </div>
   </div>
 </template>
 <script setup>
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 const props = defineProps({

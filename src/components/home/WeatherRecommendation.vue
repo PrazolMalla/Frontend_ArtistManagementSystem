@@ -18,18 +18,19 @@
         <div class="flex flex-col gap-5">
           <div class="flex flex-col  gap-2 items-start flex-wrap">
             <p class="text-lg text-white" v-if="genreData?.length">Recommended Genre</p>
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap">
               <RouterLink :to="`/genre/` + genre.id"
-                class="flex flex-col bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-white border-blue-500 hover:text-blue-500 text-white"
+                class="px-2 py-1 text-xs bg-secondary-color text-dark-primary-color rounded-full border hover:bg-transparent "
                 v-for="genre in genreData">
                 {{ genre.name }}
               </RouterLink>
+
             </div>
           </div>
 
           <div class="flex flex-col  gap-2 items-start flex-wrap">
             <p class="text-lg text-white" v-if="musicData?.length">Recommended Music</p>
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap">
               <MusicCard v-for="music in musicData" :key="music.id" class="p-5" :musicData="music" linkto="music" />
             </div>
           </div>
@@ -41,7 +42,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import MusicCard from '../cards/MusicCard-2.vue';
+import MusicCard from '../cards/MusicCard.vue';
 import axios from 'axios';
 const location = ref(null);
 const error = ref(null);
@@ -57,6 +58,7 @@ const getLocation = () => {
     error.value = "Geolocation is not supported by this browser.";
   }
 };
+
 
 const successCallback = (position) => {
   location.value = {

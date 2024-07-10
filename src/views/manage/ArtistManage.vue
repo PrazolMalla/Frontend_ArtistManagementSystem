@@ -1,9 +1,7 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-center gap-10 items-center">
-      </div>
+      <BackgroundBlur v-if="is_blur" />
 
 
       <div class="text-primary-text-color flex flex-col gap-2 w-full p-2">
@@ -119,6 +117,7 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import SmButton from '@/components/buttons/sm-button.vue'

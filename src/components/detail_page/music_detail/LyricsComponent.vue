@@ -1,10 +1,10 @@
 <template lang="">
   <div>
     <div class=" h-[24rem] flex flex-col gap-2 items-start ">
-      <h1 class="text-2xl font-semibold mb-4">Lyrics</h1>
+      <h1 class="text-md font-semibold  mb-4">Lyrics</h1>
       <div class="overflow-y-scroll">
         <pre
-          class="lg:w-[45vw] text-justify lg:text-lg w-[90vw] lg:mb-0 mb-40 md:w-[65vw] overflow-scroll"
+          class="lg:w-[45vw] text-justify text-sm w-[90vw] lg:mb-0 mb-40 md:w-[65vw] overflow-scroll"
           >{{ musicLyrics }}
           </pre
         >

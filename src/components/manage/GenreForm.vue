@@ -1,25 +1,24 @@
 <template>
     <fieldset
-        class="border mt-20 border-slate-700 rounded-md absolute sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-40 m-auto">
-        <legend class="ml-10">Edit Genre</legend>
-        <v-icon name="fa-times" fill="#302f31" scale="1" @click="closeAdd" class="absolute right-3 cursor-pointer" />
+        class="border border-border-color rounded-md absolute z-10 ml-[5vw] w-[90vw] sm:w-[60vw] sm:ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden  m-auto px-5 pb-5">
+        <CloseButton @action="emit('close')" />
         <div
             class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-3 align-middle">
 
 
             <input type="text" placeholder="Name" v-model="genre.name"
-                class="px-5 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
+                class="px-2 p-1 focus:outline-none w-full text-xs mb rounded-3xl border border-border-color focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-primary-text-color"
                 required />
             <select v-model="genre.weather"
-                class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
+                class="rounded-3xl p-1 border border-border-color text-xs primary-text-colo focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
                 <option value="" disabled>Select Weather</option>
                 <option v-for="weather in weatherData" :key="weather" :value="weather">
                     {{ weather }}
                 </option>
             </select>
             <button
-                class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color m-1"
-                type="submit" @click="editGenre">
+                class="bg-btn-yellow h-7 w-2/6 text-sm hover:text-secondary-color text-light-primary-color rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
+                type="submit" @click="confirm">
                 Edit Genre
             </button>
         </div>
@@ -27,6 +26,7 @@
 </template>
 
 <script setup>
+import CloseButton from '@/components/buttons/CloseButton.vue'
 import { ref, reactive, onMounted } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
@@ -45,9 +45,6 @@ const props = defineProps({
         required: true
     }
 })
-const closeAdd = () => {
-    emit('close');
-};
 
 const fetchWeather = async () => {
     await axios
@@ -75,29 +72,43 @@ const fetchGenreData = async () => {
 
 }
 
-const editGenre = () => {
-    axios
-        .patch(`${base_url}/api/genre/edit/${props.genreId}/`, genre.value, {
+const confirm = () => {
+    if (props.genreId) {
+        axios.patch(`${base_url}/api/genre/edit/${props.genreId}/`, genre.value, {
             headers: {
                 Authorization: `Bearer ${access_token}`
             }
         })
-        .then((response) => {
-            $toast.success('Genre Updated', {
+            .then((response) => {
+                $toast.success('Genre Updated', {
+                    position: 'top-right'
+                })
+                emit('close')
+            })
+            .catch((error) => {
+                $toast.error('Error Updating Genre')
+            })
+    }
+    else {
+        axios.post(`${base_url}/api/genre/add/`, genre.value, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        }).then((response) => {
+            $toast.success('Genre Added', {
                 position: 'top-right'
             })
             emit('close')
+        }).catch((error) => {
+            $toast.error('Error Adding Genre')
         })
-        .catch((error) => {
-            $toast.error('Error occur while Updating  Genre')
-        })
+    }
 }
-
 
 
 onMounted(() => {
     fetchWeather()
-    fetchGenreData()
+    if (props.genreId) fetchGenreData()
 })
 
 </script>

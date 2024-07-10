@@ -1,31 +1,17 @@
 <template>
   <div
-    class="z-50 sm:hidden flex justify-evenly py-4 fixed bottom-0 left-0 right-0 bg-light-primary-color h-16 cursor-pointer"
-     :style="{ backgroundColor: themeData?.bgColor }"
-  >
+    class="z-60 sm:hidden flex justify-evenly py-4 fixed bottom-0 left-0 right-0 bg-light-primary-color h-16 cursor-pointer"
+    :style="{ backgroundColor: themeData?.bgColor }">
     <div class="flex gap-2 mb-5">
-      <router-link
-        to="/"
-        class="text-md text-primary-text-color hover:text-secondary-color"
-        :style="{ color: themeData?.textColor }"
-      >
-        <v-icon
-          name="md-home-round"
-          fill="#302f31"
-          scale="1.5"
-          class="cursor-pointer"
-          :style="{ fill: themeData?.textColor }"
-      /></router-link>
+      <router-link to="/" class="text-md text-primary-text-color hover:text-secondary-color"
+        :style="{ color: themeData?.textColor }">
+        <v-icon name="md-home-round" fill="#302f31" scale="1.5" class="cursor-pointer"
+          :style="{ fill: themeData?.textColor }" /></router-link>
     </div>
     <div v-for="category in categories" :key="category.name" class="relative mb-5">
       <button @click="toggleDropdown(category.name)" class="flex gap-2">
-        <v-icon
-          :name="category.icon"
-          fill="#302f31"
-          scale="1.5"
-          class="cursor-pointer"
-          :style="{ fill: themeData?.textColor }"
-        />
+        <v-icon :name="category.icon" fill="#302f31" scale="1.5" class="cursor-pointer"
+          :style="{ fill: themeData?.textColor }" />
         <!-- <p
           class="text-md text-primary-text-color hover:text-secondary-color mb-2"
           :style="{ color: themeData?.textColor }"
@@ -34,24 +20,12 @@
         </p> -->
       </button>
 
-      <div
-        v-if="isDropdownOpen === category.name"
-        class="absolute bottom-10 right-2 ml-2 flex flex-col gap-2 w-28 p-4 rounded-md bg-light-primary-color"
-      >
-        <router-link
-          v-for="action in category.actions"
-          :key="action.text"
-          :to="action.to"
-          class="flex gap-2 text-sm text-primary-text-color hover:text-black"
-          @click="closeDropdown"
-        >
-          <v-icon
-            :name="action.icon"
-            fill="#302f31"
-            scale="1.2"
-            class="cursor-pointer"
-            :style="{ fill: themeData?.textColor }"
-          />
+      <div v-if="isDropdownOpen === category.name"
+        class="absolute bottom-10 right-2 ml-2 flex flex-col gap-2 w-28 p-4 rounded-md bg-light-primary-color">
+        <router-link v-for="action in category.actions" :key="action.text" :to="action.to"
+          class="flex gap-2 text-sm text-primary-text-color hover:text-black" @click="closeDropdown">
+          <v-icon :name="action.icon" fill="#302f31" scale="1.2" class="cursor-pointer"
+            :style="{ fill: themeData?.textColor }" />
           <p :style="{ color: themeData?.textColor }">{{ action.text }}</p>
         </router-link>
       </div>
@@ -59,11 +33,6 @@
   </div>
 </template>
 <script setup>
-import IconHome from '@/components/icons/IconHome.vue'
-import IconExplore from '@/components/icons/IconExplore.vue'
-import IconAdd from '@/components/icons/IconAdd.vue'
-import IconLibrary from '@/components/icons/IconLibrary.vue'
-import IconStat from '@/components/icons/IconStat.vue'
 import store from '@/store/store'
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])
@@ -114,8 +83,8 @@ const closeDropdown = () => {
 }
 
 const showDataInSideBar = () => {
-  if (userData.value.id) {
-    
+  if (userData?.value.id) {
+
     categories.value.push({
       name: 'Library',
       icon: 'md-librarymusic',
@@ -126,7 +95,7 @@ const showDataInSideBar = () => {
       ]
     })
   }
-  if (userData.value.is_artist | userData.value.is_staff) {
+  if (userData?.value.is_artist | userData.value.is_staff) {
     categories.value.push({
       name: 'Stats',
       icon: 'fa-chart-line',
@@ -180,11 +149,11 @@ const showDataInSideBar = () => {
         icon: 'fa-microphone',
         text: 'Artist'
       })
-      // categories.value[manageIndex].actions.push({
-      //   to: '/manage/user',
-      //   icon: 'fa-user-alt',
-      //   text: 'User'
-      // })
+      categories.value[manageIndex].actions.push({
+        to: '/manage/user',
+        icon: 'fa-user-alt',
+        text: 'User'
+      })
       categories.value[statsIndex].actions.push({
         to: '/stats/staff',
         icon: 'fa-user-shield',

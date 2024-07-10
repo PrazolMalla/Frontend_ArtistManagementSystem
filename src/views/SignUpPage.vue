@@ -1,113 +1,92 @@
 <template>
   <div class="flex justify-evenly items-center min-h-screen w-full bg-dark-primary-color p-5">
-    <div class="form-container w-full p-10 h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle">
-      <div
-        v-for="item in userInputField"
-        :key="item.id"
-        class="w-full sm:w-5/12 text-secondary-color"
-      >
-        <label :for="item.name" class="text-sm font-helvetica text-primary-text-color pl-3">
+    <div class="form-container w-full h-full bg-dark-primary-color flex flex-wrap justify-start gap-5 align-middle">
+      <div v-for="item in userInputField" :key="item.id" class="w-full sm:w-5/12 text-secondary-color">
+        <label :for="item.name" class="text-xs font-helvetica text-primary-text-color pl-3">
           {{ item.label }}
         </label>
-        <input
-          :type="item.type"
-          :name="item.name"
-          @blur="validateField(item.name)"
-          v-model="user[item.name]"
-          class="p-2 focus:outline-none w-full h-10 mb rounded-3xl border border-black focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-black"
-        />
-        <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{ formErrors[item.name] }}</span>
-      </div>
-      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
-        <label
-          for="profile"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
-          >
-          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Profile Picture
-            <v-icon name="fa-times" fill="#ffffff" scale="1" @click="removeProfile" class="absolute right-3 cursor-pointer" v-if="profileFile"/>
-          </p>
-          
-       </label>
-        <input
-          type="file"
-          id="profile"
-          name="profile"
-          @change="handleProfileChange"
-          class="hidden"
-        />
-        <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile }}</span>
-      </div>
-      <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
-        <label
-          for="cover"
-          class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-40 items-center  text-sm text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
-          :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat:'no-repeat', backgroundPosition: 'center'}"
-          >
-          <p class="bottom-0 w-full bg-secondary-color text-white absolute ">Cover Picture
-            <v-icon
-              name="fa-times"
-              fill="#ffffff"
-              scale="1"
-              @click="removeCover"
-              class="absolute right-3 cursor-pointer"
-              v-if="coverFile"/>
-          </p>
-          
-       </label>
-        <input
-          type="file"
-          id="cover"
-          name="cover"
-          @change="handleCoverChange"
-          class="hidden"
-        />
-        <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
+        <input :type="item.type" :name="item.name" @blur="validateField(item.name)" v-model="user[item.name]"
+          class="px-2 p-1 focus:outline-none w-full text-xs  rounded-3xl border border-border-color focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 primary-text-color" />
+        <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
+          formErrors[item.name]
+        }}</span>
       </div>
 
-      <div class="flex flex-col w-full sm:w-3/12">
-        <label for="country" class="text-sm font-helvetica text-primary-text-color pl-3">
-          Country
-        </label>
-        <select
-          v-model="user.country"
-          id="country"
-          name="country"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
-          <option value="" disabled>Select Country</option>
-          <option v-for="country in countryOptions" :key="country" :value="country">
-            {{ country }}
-          </option>
-        </select>
-        <span v-if="formErrors.country" class="text-orange-300">{{ formErrors.country }}</span>
+
+      <div class="flex gap-3">
+
+        <div class="w-full flex flex-col">
+          <label for="gender" class="text-xs font-helvetica text-primary-text-color pl-3">Gender</label>
+          <select v-model="user.gender" id="gender" name="gender"
+            class="rounded-3xl p-1 border border-border-color text-xs primary-text-colo focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
+            <option value="" disabled>Select Gender</option>
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+            <option value="2">Other</option>
+          </select>
+          <span v-if="formErrors.gender" class="text-orange-300">{{ formErrors.gender }}</span>
+        </div>
+
+        <div class="w-full flex flex-col ">
+          <label for="country" class="text-xs font-helvetica text-primary-text-color pl-3">
+            Country
+          </label>
+          <select v-model="user.country" id="country" name="country"
+            class="rounded-3xl p-1 border border-border-color text-xs primary-text-colo focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50">
+            <option value="" disabled>Select Country</option>
+            <option v-for="country in countryOptions" :key="country" :value="country">
+              {{ country }}
+            </option>
+          </select>
+          <span v-if="formErrors.country" class="text-orange-300">{{ formErrors.country }}</span>
+        </div>
       </div>
 
-      <div class="flex flex-col w-full sm:w-3/12">
-        <label for="gender" class="text-sm font-helvetica text-primary-text-color pl-3">Gender</label>
-        <select
-          v-model="user.gender"
-          id="gender"
-          name="gender"
-          class="rounded-3xl px-3 py-2 mt-2 border border-black text-black focus:outline-none focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50"
-        >
-          <option value="" disabled>Select Gender</option>
-          <option value="0">Male</option>
-          <option value="1">Female</option>
-          <option value="2">Other</option>
-        </select>
-        <span v-if="formErrors.gender" class="text-orange-300">{{ formErrors.gender }}</span>
+      <div class="flex gap-5 justify-evenly w-full">
+        <div class="w-full sm:w-[20%] text-secondary-color flex flex-col">
+          <label for="profile"
+            class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-24 w-24 items-center  text-xs text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+            :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }">
+            <p class="bottom-0 w-full bg-secondary-color text-white absolute text-xs ">Profile Picture
+
+            </p>
+            <div @click="removeProfile"
+              class="group flex  flex-col justify-center  items-center w-5 h-5 rounded-bl-lg top-0 right-0  absolute bg-secondary-color hover:w-full hover:h-full hover:bg-dark-primary-color hover:bg-opacity-80 ">
+              <v-icon name="fa-times" scale="0.75"
+                class="cursor-pointer fill-dark-primary-color group-hover:fill-secondary-color" />
+            </div>
+
+          </label>
+          <input type="file" id="profile" name="profile" @change="handleProfileChange" class="hidden" />
+          <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.profile
+            }}</span>
+        </div>
+        <div class="w-full sm:w-[20%] text-secondary-color flex flex-col mt-2">
+          <label for="cover"
+            class="border text-center relative  border-slate-600 overflow-hidden cursor-pointer h-24 w-24 items-center  text-xs text-gray-900 bg-transparent rounded-md focus-within:outline-none focus-within:border-hover-yellow focus-within:ring focus-within:ring-btn-yellow focus-within:ring-opacity-50"
+            :style="{ backgroundImage: `url(${coverbackgroundImage})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }">
+            <p class="bottom-0 w-full bg-secondary-color text-white text-sm absolute ">Cover Picture
+            </p>
+            <div @click="removeCover"
+              class="group flex  flex-col justify-center  items-center w-5 h-5 rounded-bl-lg top-0 right-0  absolute bg-secondary-color hover:w-full hover:h-full hover:bg-dark-primary-color hover:bg-opacity-80 ">
+              <v-icon name="fa-times" scale="0.75"
+                class="cursor-pointer fill-dark-primary-color group-hover:fill-secondary-color" />
+            </div>
+
+          </label>
+          <input type="file" id="cover" name="cover" @change="handleCoverChange" class="hidden" />
+          <span v-if="formErrors.cover" class="text-orange-300 mt-1 pl-3 block text-sm">{{ formErrors.cover }}</span>
+        </div>
       </div>
       <div class="w-full text-center">
         <input type="checkbox" class="w-5" v-model="isArtist" />
-        <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color">Are you signing as an Artist?</label>
+        <label for="isArtist" class="p-2 text-primary-text-color hover:text-secondary-color">Are you signing as an
+          Artist?</label>
       </div>
       <div class="w-full flex justify-center gap-2 align-middle">
         <button
           class="bg-btn-yellow h-10 w-2/6 hover:text-secondary-color text-slate-200 text-md rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
-          type="submit"
-          @click="addUser"
-        >
+          type="submit" @click="addUser">
           Sign Up
         </button>
         <div class="text-primary-text-color mt-2">
@@ -124,7 +103,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const router = useRouter()
 const isArtist = ref(false)
@@ -180,8 +159,8 @@ const validateField = (fieldName) => {
 
 const profileFile = ref(null)
 const coverFile = ref(null)
-const backgroundImage=ref(null)
-const coverbackgroundImage=ref(null)
+const backgroundImage = ref(null)
+const coverbackgroundImage = ref(null)
 const handleProfileChange = (event) => {
   profileFile.value = event.target.files[0]
   const reader = new FileReader()
@@ -192,8 +171,8 @@ const handleProfileChange = (event) => {
 }
 
 const handleCoverChange = (event) => {
- coverFile.value = event.target.files[0]
- const reader = new FileReader()
+  coverFile.value = event.target.files[0]
+  const reader = new FileReader()
   reader.onload = (e) => {
     coverbackgroundImage.value = e.target.result
   }
@@ -243,7 +222,7 @@ const addUser = () => {
       formData.append('dob', user.value.dob)
     }
     formData.append('gender', user.value
-    .gender)
+      .gender)
     formData.append('country', user.value.country)
     formData.append('is_artist', isArtist.value)
     if (profileFile.value) {

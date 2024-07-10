@@ -15,9 +15,9 @@ import MusicManage from '@/views/manage/MusicManage.vue'
 import AlbumManage from '@/views/manage/AlbumManage.vue'
 import ThemeManage from '@/views/manage/ThemeManage.vue'
 import GenreManage from '@/views/manage/GenreManage.vue'
-import AlbumDetail from '@/views/detail/AlbumDetailPage.vue'
-import ArtistDetail from '@/views/detail/ArtistDetail.vue'
-import MusicDetail from '@/views/detail/MusicDetailPage.vue'
+import AlbumDetailPage from '@/views/detail/AlbumDetailPage.vue'
+import ArtistDetailPage from '@/views/detail/ArtistDetailPage.vue'
+import MusicDetailPage from '@/views/detail/MusicDetailPage.vue'
 import Like from '@/views/library/Like.vue'
 import History from '@/views/library/Histore.vue'
 import Follow from '@/views/library/Follow.vue'
@@ -26,9 +26,9 @@ import ArtistStats from '@/views/stats/ArtistStats.vue'
 import UserStats from '@/views/stats/UserStats.vue'
 import Settings from '@/views/Settings.vue'
 import Test from '@/views/TestPage.vue'
-import ArtistMusic from '@/views/detail/ArtistMusicPage.vue'
-import ArtistHome from '@/views/detail/ArtistHomePage.vue'
-import ArtistAlbum from '@/views/detail/ArtistAlbumPage.vue'
+import ArtistMusicPage from '@/views/detail/ArtistMusicPage.vue'
+import ArtistHomePage from '@/views/detail/ArtistHomePage.vue'
+import ArtistAlbumPage from '@/views/detail/ArtistAlbumPage.vue'
 
 import axios from 'axios'
 import MapShow from '@/components/MapShow.vue'
@@ -80,7 +80,7 @@ const router = createRouter({
     {
       path: '/artist/music',
       name: 'artistMusic',
-      component: ArtistMusic,
+      component: ArtistMusicPage,
       meta: { auth: false }
     },
     {
@@ -202,37 +202,37 @@ const router = createRouter({
     {
       path: '/album/:id',
       name: 'albumDetail',
-      component: AlbumDetail,
+      component: AlbumDetailPage,
       meta: { auth: false }
     },
     {
       path: '/music/:id',
       name: 'musicDetail',
-      component: MusicDetail,
+      component: MusicDetailPage,
       meta: { auth: false },
     },
     {
       path: '/artist/:id/',
       name: 'artistDetail',
-      component: ArtistDetail,
+      component: ArtistDetailPage,
       meta: { auth: false },
       children: [
         {
           path: 'music',
           name: 'artistMusic',
-          component: ArtistMusic,
+          component: ArtistMusicPage,
           meta: { auth: false }
         },
         {
           path: '',
           name: 'artistHome',
-          component: ArtistHome,
+          component: ArtistHomePage,
           meta: { auth: false }
         },
         {
           path: 'album',
           name: 'artistAlbum',
-          component: ArtistAlbum,
+          component: ArtistAlbumPage,
           meta: { auth: false }
         }
       ]

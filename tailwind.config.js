@@ -5,9 +5,11 @@ export default {
     extend: {
       colors: {
         'secondary-color': '#ff4000',
+        'error-text-color': '#ff4000',
         'dark-primary-color': '#f6f3eb',
         'light-primary-color': '#ECE6D5 ',
         'gray-text-color': '#4e4e71',
+        'border-color': 'grey',
         'primary-text-color': '#302f31'
       },
       theme: {

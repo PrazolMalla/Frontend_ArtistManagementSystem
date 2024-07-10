@@ -1,12 +1,12 @@
 <template lang="">
   <div v-if="music">
-    <h1 class="font-semibold text-2xl">{{ music.name }}</h1>
+    <h1 class="font-semibold text-lg text-primary-text-color">{{ music.name }}</h1>
     <div class="flex gap-10 mb-4">
       <router-link :to="`/artist/${music.artist}`" v-if="music.artist"
-        ><p>Artist : {{ music.artist_name }}</p></router-link
+        ><p class="text-primary-text-color text-sm">Artist : <span class="hover:underline">{{ music.artist_name }}</span></p></router-link
       >
       <router-link :to="`/album/${music.album}`" v-if="music.album"
-        ><p>Album : {{ music.album_name }}</p></router-link
+        ><p class="text-primary-text-color text-sm">Album :  <span class="hover:underline">{{ music.album_name }}</span></p></router-link
       >
     </div>
     <div class="flex justify-start lg:w-[30vw] w-[80vw]">
@@ -114,13 +114,8 @@ const toggleLikeMusic = async () => {
     music.value.liked = !music.value.liked
     music.value.total_likes += music.value.liked ? 1 : -1
 
-    $toast.success(response.data.message, {
-      position: 'top-right'
-    })
   } catch (error) {
-    $toast.error('Failed to like/unlike music', {
-      position: 'top-right'
-    })
+    console.log(error)
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="mt-4 flex gap-2 flex-wrap justify-center items-center  w-full">
+      <div class="mt-4 flex gap-3 flex-grow-0 flex-wrap justify-center items-center  w-full">
         <MusicCard v-for="music in musicData" :key="music.id" :musicData="music" linkto="music" />
       </div>
     </template>
@@ -11,7 +11,7 @@
 <script>
 import MusicCard from '@/components/cards/MusicCard.vue'
 import axios from 'axios'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   components: {

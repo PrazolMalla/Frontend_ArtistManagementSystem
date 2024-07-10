@@ -1,12 +1,6 @@
 <template>
-  <div class="mt-12 flex gap-2 flex-wrap justify-start w-[80vw] ml-[-2rem]">
-    <MusicCard
-      v-for="music in musicData"
-      :key="music.id"
-      :musicData="music"
-      :user="user"
-      linkto="music"
-    />
+  <div class="mt-12 border border-black flex gap-2 flex-wrap justify-start flex-grow-0">
+    <MusicCard v-for="music in musicData" :key="music.id" :musicData="music" :user="user" linkto="music" />
   </div>
 </template>
 
@@ -19,7 +13,7 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 
 const user = ref({})
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const route = useRoute()
 const queryParams = route.params.id

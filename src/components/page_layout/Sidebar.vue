@@ -28,13 +28,14 @@
       </div>
     </div>
 
-    <div v-if="userData.id && !userData.is_superuser" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
+    <div v-if="userData?.id && !userData?.is_superuser"
+      class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <RouterLink to="/user/profile" class="relative flex gap-2 cursor-pointer">
         <img :src="imgProfile" alt=""
           class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
           :style="{ borderColor: themeData?.textColor }" />
         <h2 class="font-medium text-primary-text-color text-md mt-2" :style="{ color: themeData?.textColor }">
-          {{ userData.firstname }}
+          {{ userData?.firstname }}
         </h2>
       </RouterLink>
       <RouterLink to="/user/settings">
@@ -42,14 +43,14 @@
           :style="{ fill: themeData?.textColor }" />
       </RouterLink>
     </div>
-    <div v-if="userData.is_superuser" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
+    <div v-if="userData?.is_superuser" class="absolute bottom-0 p-3 w-full flex justify-between left-0">
       <h2 class="font-medium text-primary-text-color text-md mt-2 select-none" :style="{ color: themeData?.textColor }">
         SuperUser
       </h2>
       <v-icon name="md-logout-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer"
         :style="{ fill: themeData?.textColor }" @click="logout()" />
     </div>
-    <div v-if="!userData.id" class="mt-1 py-2 flex gap-2 items-center">
+    <div v-if="!userData?.id" class="mt-1 py-2 flex gap-2 items-center">
       <router-link to="/login">
         <button
           class="text-sm bg-secondary-color text-dark-primary-color p-2 rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color">
@@ -66,17 +67,16 @@
 
 <script setup>
 import store from '@/store/store'
-
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
 import { ref, onMounted, computed, watch } from 'vue'
 const userData = ref([])
 const themeData = ref([])
 const base_url = import.meta.env.VITE_BASE_API_URL;
-const imgProfile = ref(`${base_url}${userData.value.img_profile}`)
+const imgProfile = ref(`${base_url}${userData?.value.img_profile}`)
 const userDataFunc = () => {
   userData.value = store.getters.getLoggedInUserData
-  imgProfile.value = `${base_url}${userData.value.img_profile}`
+  imgProfile.value = `${base_url}${userData?.value.img_profile}`
 }
 const getUserData = computed(() => store.getters.getLoggedInUserData)
 
@@ -104,7 +104,7 @@ watch(
 )
 watch(getUserData, (newVal) => {
   userData.value = newVal
-  imgProfile.value = `${base_url}${userData.value.img_profile}`
+  imgProfile.value = `${base_url}${userData?.value.img_profile}`
 })
 
 const categories = ref([
@@ -132,7 +132,7 @@ const closeDropdown = () => {
 }
 
 const showDataInSideBar = () => {
-  if (userData.value.id) {
+  if (userData?.value.id) {
 
     categories.value.push({
       name: 'Library',
@@ -144,7 +144,7 @@ const showDataInSideBar = () => {
       ]
     })
   }
-  if (userData.value.is_artist | userData.value.is_staff) {
+  if (userData?.value.is_artist | userData?.value.is_staff) {
     categories.value.push({
       name: 'Stats',
       icon: 'fa-chart-line',
@@ -154,7 +154,7 @@ const showDataInSideBar = () => {
     categories.value.push({ name: 'Manage', icon: 'md-manageaccounts-round', actions: [] })
     const manageIndex = categories.value.findIndex((category) => category.name === 'Manage')
     const statsIndex = categories.value.findIndex((category) => category.name === 'Stats')
-    if (userData.value.is_artist) {
+    if (userData?.value.is_artist) {
       categories.value[manageIndex].actions.push({
         to: '/manage/album',
         icon: 'md-album',
@@ -171,7 +171,7 @@ const showDataInSideBar = () => {
         text: 'Artist'
       })
     }
-    if (userData.value.is_staff) {
+    if (userData?.value.is_staff) {
       categories.value[manageIndex].actions.push({
         to: '/manage/album',
         icon: 'md-album',
@@ -209,7 +209,7 @@ const showDataInSideBar = () => {
         text: 'Staff'
       })
     }
-    if (userData.value.is_superuser) {
+    if (userData?.value.is_superuser) {
       categories.value[manageIndex].actions.push({
         to: '/manage/staff',
         icon: 'fa-user-shield',

@@ -1,13 +1,12 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup sm:ml-[-3rem] w-screen h-screen z-0 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <AddTheme v-if="is_OpenAdd" @close="toggleCloseAdd" />
+
+      <BackgroundBlur v-if="is_blur" />
+      <ThemeForm v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?"
         actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
-      <EditTheme v-if="is_OpenEdit" :themeId="editThemeId" @close="toggleCloseEdit" />
+      <ThemeForm v-if="is_OpenEdit" :themeId="editThemeId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?"
         actionConfirm="Confirm Restore" @close="toggleCloseRestore" @confirm="confirmRestore" />
 
@@ -44,9 +43,7 @@
                   <div v-if="is_tabShown == 'all'">Delete</div>
                 </div>
               </div>
-
               <div v-if="is_tabShown == 'all'">
-
                 <div v-for="theme in themes" :key="theme.name"
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
 
@@ -100,12 +97,12 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
+import ThemeForm from '@/components/manage/ThemeForm.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import ManageDetail from '@/components/manage/ManageDetail.vue'
 import SmButton from '@/components/buttons/sm-button.vue'
-import AddTheme from '@/components/manage/theme/AddTheme.vue'
-import EditTheme from '@/components/manage/theme/EditTheme.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'

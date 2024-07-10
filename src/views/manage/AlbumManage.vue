@@ -1,13 +1,11 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <AddAlbum v-if="is_OpenAdd" @close="toggleCloseAdd" />
+      <BackgroundBlur v-if="is_blur" />
+      <AlbumForm v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue v-if="is_OpenDelete" :actionQuestion="`Do yoy want to delete ${itemName}?`"
         actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
-      <EditAlbum v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
+      <AlbumForm v-if="is_OpenEdit" :albumId="editAlbumId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue v-if="is_OpenRestore" :actionQuestion="`Do you want to restore ${itemName}?`"
         actionConfirm="Confirm Restore" @close="toggleCloseRestore" @confirm="confirmRestore" />
       <div class="text-primary-text-color flex flex-col gap-2 w-full">
@@ -164,13 +162,13 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import SmButton from '@/components/buttons/sm-button.vue'
-import AddAlbum from '@/components/manage/album/AddAlbum.vue'
+import AlbumForm from '@/components/manage/AlbumForm.vue'
 import EnableDisable from '@/components/buttons/enabledisable.vue'
 import ManageDetail from '@/components/manage/ManageDetail.vue'
-import EditAlbum from '@/components/manage/album/EditAlbum.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'

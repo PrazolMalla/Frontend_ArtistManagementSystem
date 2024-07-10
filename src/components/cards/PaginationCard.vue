@@ -1,10 +1,10 @@
 <template>
     <div class="w-full flex justify-center items-center mt-5 gap-2 ">
 
-        <v-icon @click="prevPage" :disabled="currentPage === 1" name="fa-chevron-left" scale="1.75"
+        <v-icon @click="prevPage" :disabled="currentPage === 1" name="fa-chevron-left" scale="1.5"
             class="cursor-pointer hover:fill-secondary-color text-sm p-2 fill-light-primary-color rounded-l-full border bg-secondary-color hover:bg-light-primary-color hover:border-secondary-color" />
-        <span class="text-md">Page {{ currentPage }} of {{ totalPages }}</span>
-        <v-icon @click="nextPage" :disabled="currentPage === 1" name="fa-chevron-right" scale="1.75"
+        <span class="text-sm text-primary-text-color font-semibold">Page {{ currentPage }} of {{ totalPages }}</span>
+        <v-icon @click="nextPage" :disabled="currentPage === 1" name="fa-chevron-right" scale="1.5"
             class="cursor-pointer hover:fill-secondary-color text-sm p-2 fill-light-primary-color rounded-r-full border bg-secondary-color hover:bg-light-primary-color hover:border-secondary-color" />
 
     </div>

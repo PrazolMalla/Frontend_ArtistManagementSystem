@@ -1,14 +1,14 @@
 <template>
   <div
-    class="mt-5 z-0 lg:w-[46vw] h-[60vh] overflow-x-visible no-scrollbar w-[80vw] lg:h-[55vh] bg-light-primary-color p-5 rounded-sm md:w-[65vw] text-primary-text-color"
+    class="rounded-md z-0 lg:w-1/2 flex-grow overflow-x-visible no-scrollbar   bg-light-primary-color p-5  text-primary-text-color"
     :style="{
       backgroundColor: hexWithOpacity(`${user?.theme?.darkPrimaryColor}`, 0.5),
       boxShadow: user?.theme ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
       backdropFilter: user?.theme ? 'blur(4.9px)' : 'none',
       color: `${user?.theme?.secondaryColor}`
     }">
-    <h1 class="mb-4 text-2xl font-semibold">Top Music</h1>
-    <swiper :slidesPerView="3" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+    <h1 class="mb-4 text-md font-semibold">Top Music</h1>
+    <swiper :slidesPerView="3" :centeredSlides="false" :spaceBetween="7" :grabCursor="true" :autoplay="{
       delay: 2500,
       disableOnInteraction: false
     }" :pagination="{
@@ -18,7 +18,7 @@
         <MusicCard :musicData="x" :user="user" />
       </swiper-slide>
     </swiper>
-    <swiper :slidesPerView="1" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+    <swiper :slidesPerView="2" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
       delay: 2500,
       disableOnInteraction: false
     }" :pagination="{
@@ -28,7 +28,7 @@
         <MusicCard :musicData="x" :user="user" />
       </swiper-slide>
     </swiper>
-    <swiper :slidesPerView="2" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
+    <swiper :slidesPerView="3" :centeredSlides="false" :spaceBetween="5" :grabCursor="true" :autoplay="{
       delay: 2500,
       disableOnInteraction: false
     }" :pagination="{

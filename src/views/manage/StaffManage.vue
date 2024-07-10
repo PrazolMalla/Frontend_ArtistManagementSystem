@@ -1,13 +1,11 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup sm:ml-[-3rem] w-screen h-screen z-0 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <AddStaff v-if="is_OpenAdd" @close="toggleCloseAdd" />
+      <BackgroundBlur v-if="is_blur" />
+      <StaffForm v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?"
         actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
-      <EditStaff v-if="is_OpenEdit" :staffId="editStaffId" @close="toggleCloseEdit" />
+      <StaffForm v-if="is_OpenEdit" :staffId="editStaffId" @close="toggleCloseEdit" />
       <ManageConfirmDialogue v-if="is_OpenRestore" actionQuestion="Do yo want to restore XYZ?"
         actionConfirm="Confirm Restore" @close="toggleCloseRestore" @confirm="confirmRestore" />
 
@@ -125,13 +123,13 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
+import StaffForm from '@/components/manage/StaffForm.vue'
 import EnableDisable from '@/components/buttons/enabledisable.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import ManageDetail from '@/components/manage/ManageDetail.vue'
 import SmButton from '@/components/buttons/sm-button.vue'
-import AddStaff from '@/components/manage/staff/AddStaff.vue'
-import EditStaff from '@/components/manage/staff/EditStaff.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'

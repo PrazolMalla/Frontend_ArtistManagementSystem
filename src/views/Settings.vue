@@ -1,15 +1,12 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do you really want to delete your account?"
-        actionConfirm="Confirm Delete"
-        notes="(You can recover your account by logging again and providing confirmation)" @confirm="confirmDelete"
+      <BackgroundBlur v-if="is_blur" />
+      <ManageConfirmDialogue v-if="is_OpenDelete" :email="userData.email"
+        actionQuestion="Do you really want to delete your account?" actionConfirm="Confirm Delete"
+        notes="(You can recover your account by logging again and providing confirmation)" @confirm="deleteUser"
         @close="toggleCloseDelete" />
-      <Credential v-if="is_confirm" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-40 "
-        @confirm="confirmCredential" @close="toggleCloseCredential" />
+
       <EditProfile v-if="is_OpenEdit" @close="toggleCloseEdit" :userData="userData" />
 
 
@@ -45,7 +42,7 @@
               @click="selectDefaultTheme">
               <div class="absolute w-full h-full"></div>
               <div
-                class="absolute flex justify-center items-center bgThemeGlass z-10 h-full w-full opacity-90 p-2 backdrop-blur-3xl filter">
+                class="absolute flex justify-center items-center bgThemeGlass  h-full w-full opacity-90 p-2 backdrop-blur-3xl filter">
                 <p class="z-20 text-md">Default</p>
               </div>
             </div>
@@ -62,11 +59,11 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import MdButton from '@/components/buttons/md-button.vue'
 import EditProfile from '@/components/profile/EditProfile.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
-import Credential from '@/components/manage/Credential.vue'
 import ThemeCard from '@/components/cards/ThemeCard.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'
@@ -79,14 +76,16 @@ const artistData = ref()
 const is_blur = ref(false)
 const is_OpenEdit = ref(false)
 const is_OpenDelete = ref(false)
-const is_confirm = ref(false)
 const totalItems = ref([0])
 const currentPage = ref(1)
 const isLoading = ref(false)
+const accessToken = ref()
+const refreshToken = ref()
 
 const themeData = ref([])
 
 const userData = ref([])
+
 
 computed(() => logout)
 
@@ -134,17 +133,8 @@ function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
 }
-function toggleCloseCredential() {
-  is_confirm.value = false
-  is_blur.value = false
-}
 
-
-function confirmDelete() {
-  is_OpenDelete.value = false
-  is_confirm.value = true
-}
-function confirmCredential() {
+function deleteUser() {
   axios({
     method: 'delete',
     url: `${base_url}/api/user/delete/${userData.value.id}/`,
@@ -153,24 +143,15 @@ function confirmCredential() {
     }
   })
     .then((response) => {
-
-      if (response.status === 200) {
-        is_confirm.value = false
-        is_blur.value = false
-
-      }
       $toast.success('Your account is deleted', {
         position: 'top-right'
       })
-
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
       store.dispatch('setLoggedInUserData')
       setTimeout(() => {
         window.location.reload()
       }, 3000);
-
-
     })
     .catch((err) => {
       console.log(err.response.data)
@@ -226,6 +207,55 @@ const fetchThemes = async (page = 1) => {
     isLoading.value = false
   }
 }
+
+const login = (email, password) => {
+  axios
+    .post(`${base_url}/api/login/`, {
+      email: email,
+      password: password
+    })
+    .then((response) => {
+      accessToken.value = response.data.access_token
+      refreshToken.value = response.data.refresh_token
+      const disabled = response.data.user.is_disabled
+      const deleted = response.data.user.is_deleted
+      const id = response.data.user.id
+      if (disabled) {
+        $toast.error('Your account has been disabled', {
+          position: 'top-left'
+        })
+      }
+      else if (deleted) {
+        $toast.error('Your account has been Deleted', {
+          position: 'top-left'
+        })
+      }
+      else {
+        setToken()
+      }
+
+    })
+    .catch((error) => {
+      console.error('Error logging in:', error)
+
+      $toast.error('Invalid Username or password', {
+        position: 'top-left'
+      })
+    })
+}
+const setToken = () => {
+
+  localStorage.setItem('access_token', accessToken.value)
+  localStorage.setItem('refresh_token', refreshToken.value)
+  $toast.success('Login success', {
+    position: 'top-right'
+  })
+
+  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken.value}`
+  store.dispatch('setLoggedInUserData')
+  router.push('/')
+}
+
 
 onMounted(() => {
   fetchThemes(currentPage.value)

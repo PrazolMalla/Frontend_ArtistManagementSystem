@@ -6,7 +6,7 @@
           <MusicSingleImage :musicId="route.params.id" type="album" />
           <SongList :musicId="parseInt(route.params.id)" />
         </div>
-        <div class="flex flex-col-reverse lg:flex-row gap-5">
+        <div class="mt-5 flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
           <CardsCarousel :artistId="album.artist" />
         </div>
@@ -23,7 +23,7 @@ import CommentComponent from '@/components/detail_page/music_detail/CommentsComp
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const album = ref({})
 const route = useRoute()
@@ -32,19 +32,19 @@ const router = useRouter()
 const fetchAlbumData = async (id) => {
   try {
     const response = await axios.get(`${base_url}/api/album/get/${id}`)
-    
+
     const referrer = document.referrer
-    if (referrer && response.data.is_disabled ) {
-          router.go(-1)
-          toast.error('This album is disabled.')
-    } else if(!referrer && response.data.is_disabled) {
-        router.push('/') 
-        toast.error('This album is disabled.')
+    if (referrer && response.data.is_disabled) {
+      router.go(-1)
+      toast.error('This album is disabled.')
+    } else if (!referrer && response.data.is_disabled) {
+      router.push('/')
+      toast.error('This album is disabled.')
     }
-    else{
+    else {
       album.value = response.data
     }
-    
+
   } catch (error) {
     console.error('Failed to fetch album data:', error)
   }

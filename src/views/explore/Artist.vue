@@ -1,14 +1,8 @@
 <template>
   <PageLayoutWithPlayer id="display-flex">
     <template #content>
-      <div class="flex gap-4 flex-wrap flex-grow justify-start ml-[-2rem]">
-        <ArtistCard
-          v-for="artist in artistData"
-          :key="artist.id"
-          class="p-5"
-          :artistData="artist"
-          linkto="artist"
-        />
+      <div class="flex flex-wrap flex-grow justify-start ml-[-2rem]">
+        <ArtistCard v-for="artist in artistData" :key="artist.id" class="p-5" :artistData="artist" linkto="artist" />
       </div>
     </template>
   </PageLayoutWithPlayer>
@@ -17,7 +11,7 @@
 <script>
 import ArtistCard from '@/components/cards/ArtistCard.vue'
 import axios from 'axios'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 export default {
   components: {

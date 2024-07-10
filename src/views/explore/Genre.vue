@@ -17,7 +17,7 @@
 import GenreCard from '@/components/cards/GenreCard.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import MusicCard from '@/components/cards/MusicCard-2.vue';
+import MusicCard from '@/components/cards/MusicCard.vue';
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const musicData = ref([]);

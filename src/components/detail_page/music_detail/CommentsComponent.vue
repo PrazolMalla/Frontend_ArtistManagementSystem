@@ -1,126 +1,116 @@
 <template lang="">
   <div
-    class="mt-5 bg-light-primary-color h-[50vh] w-[80vw] p-6 lg:w-[30vw] md:h-[55vh] overflow-y-scroll overflow-x-hidden mb-20 md:w-[65vw] custom-scrollbar"
+    class="lg:w-1/2 rounded-lg bg-light-primary-color  p-6 h-full md:h-[60vh] overflow-y-scroll  custom-scrollbar"
   >
-    <h1 class="mb-4 text-2xl font-semibold md:w-[60vw]">Comments</h1>
+    <h1 class="mb-4 text-md font-semibold ">Comments</h1>
     <div class="flex items-center gap-5">
-      <img
-        :src="`${base_url}${userData.img_profile}`"
-        alt=""
-        class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
-      />
-      <div class="flex flex-col gap-2">
+     
+      <div class="flex w-full flex-col gap-2">
         <input
           type="text"
           v-model="commentBody"
-          class="h-9 lg:w-[20vw] w-[40vw] bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-primary-text-color"
+          class="text-sm bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-primary-text-color"
           :placeholder="`Comment as ${userData.firstname}`"
         />
         <button
           @click="commentOnMusic(route.params.id)"
-          class="bg-secondary-color rounded-md w-20 h-8 text-sm text-light-primary-color hover:border hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+          class="bg-secondary-color p-1 rounded-full w-20 text-xs text-light-primary-color border hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
         >
           Comment
         </button>
       </div>
     </div>
+    <div class="flex flex-col gap-3 mt-3">
+    <div v-for="(comment, index) in comments" :key="index" class="flex flex-col items-center w-full">
+     
 
-    <div v-for="(comment, index) in comments" :key="index">
-      <div class="flex justify-start items-center gap-2">
-        <img
-          :src="`${base_url}${comment?.user?.img_profile}`"
-          alt=""
-          class="w-14 h-14 border-4 rounded-full border-primary-text-color mt-4 hover:cursor-pointer hover:border-secondary-color"
-        />
-        <div class="flex flex-col justify-center mt-4 h-24 text-wrap">
-          <h2 class="text-lg font-medium">{{ comment.user.firstname }}</h2>
-          <p class="">{{ comment.body }}</p>
-        </div>
-        <div class="flex items-center gap-2 mt-8">
-          <button
-            @click="toggleLike(comment.id, index)"
-            class="flex items-center gap-1 mt-4 text-sm text-secondary-color hover:underline"
-          >
-            <v-icon
-              :name="comment.liked ? 'bi-suit-heart-fill' : 'bi-suit-heart'"
-              :fill="comment.liked ? '#ff4000' : '#302f31'"
-              scale="1"
-              class="cursor-pointer"
-            />
-            {{ comment.total_likes }}
-          </button>
-        </div>
-        <div v-if="comment.user.id === userData.id" class="flex items-center gap-2">
-          <button
-            @click="deleteComment(comment.id)"
-            class="mt-12 text-sm text-red-600 hover:underline"
-          >
-            Delete
-          </button>
-        </div>
-        <button
-          @click="toggleReplies(index)"
-          class="mt-12 text-sm text-secondary-color hover:underline"
-        >
-          {{ showReplies[index] ? 'Hide Replies' : 'Show Replies' }}
-        </button>
-      </div>
-      <div v-if="showReplies[index]" class="pl-10 mt-2">
-        <div
-          v-for="(reply, replyIndex) in comment.music_comment_replies"
-          :key="replyIndex"
-          class="flex gap-2 mt-2"
-        >
-          <img
-            :src="`${base_url}${reply.user.img_profile}`"
-            alt=""
-            class="w-10 h-10 border-4 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
-          />
-          <div class="flex flex-col justify-center text-wrap">
-            <h2 class="text-md font-medium">{{ reply.user.firstname }}</h2>
-            <p class="">{{ reply.body }}</p>
-          </div>
-          <div class="flex items-center gap-2 mt-2">
-            <button
-              @click="toggleReplyLike(reply.id, index, replyIndex)"
-              class="flex items-center gap-1 mt-4 text-sm text-secondary-color hover:underline"
-            >
-              <v-icon
-                :name="reply.liked ? 'bi-suit-heart-fill' : 'bi-suit-heart'"
-                :fill="reply.liked ? '#ff4000' : '#302f31'"
-                scale="1"
-                class="cursor-pointer"
-              />
-              {{ reply.total_likes }}
-            </button>
-          </div>
-          <div v-if="reply.user.id === userData.id" class="flex items-center gap-2 mt-6">
-            <button @click="deleteReply(reply.id)" class="text-sm text-red-600 hover:underline">
-              Delete
-            </button>
-          </div>
+         <div class="flex justify-between items-center gap-2 w-full">
+            <div class="flex gap-2 items-center  k w-full ">
+
+                <img :src="`${base_url}${comment?.user?.img_profile}`" alt=""  class="w-8 h-8 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color" />
+                <div class="flex flex-col justify-center text-wrap">
+                  <TextTruncate  :text="comment.body" length="25"/>
+                  <h2 class="text-xs font-medium">{{ comment.user.firstname }}  <span v-if="comment.total_likes"> - {{ comment.total_likes }} Likes</span></h2>
+                </div>
+            </div>
+
+            <div class="flex gap-2 ">
+              
+                <v-icon @click="toggleLike(comment.id, index)"
+                  :name="comment.liked ? 'fa-heart' : 'fa-regular-heart'"
+                  :fill="comment.liked ? '#ff4000' : '#302f31'"
+                  scale="1"
+                  class="cursor-pointer"
+                />
+                <v-icon v-if="comment.user.id === userData.id" @click="deleteComment(comment.id)"
+                  name="fa-trash"
+                  fill="#302f31"
+                  scale="1"
+                  class="cursor-pointer"
+                />
+
+                <v-icon @click="toggleReplies(index)"
+                  :name="showReplies[index] ? 'md-cancel' : 'fa-reply'"
+                  fill="#302f31"
+                  scale="1"
+                  class="cursor-pointer"
+                />
+            </div>
+         </div>
+          
+      <div v-if="showReplies[index]" class="flex flex-col items-center w-full mt-3 pl-10 gap-3">
+        <div  v-for="(reply, replyIndex) in comment.music_comment_replies"  :key="replyIndex" class="flex justify-between items-center gap-2 w-full" >
+          
+            <div class="flex gap-2 items-center  k w-full ">
+
+                <img :src="`${base_url}${reply?.user?.img_profile}`" alt=""  class="w-8 h-8 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color" />
+                <div class="flex flex-col justify-center text-wrap">
+                  <TextTruncate  :text="reply.body" length="25"/>
+                  <h2 class="text-xs font-medium">{{ reply.user.firstname }}  <span v-if="reply.total_likes"> - {{ reply.total_likes }} Likes</span></h2>
+                </div>
+            </div>
+
+            <div class="flex gap-2 ">
+              
+                <v-icon @click="toggleReplyLike(reply.id, index, replyIndex)"
+                  :name="reply.liked ? 'fa-heart' : 'fa-regular-heart'"
+                  :fill="reply.liked ? '#ff4000' : '#302f31'"
+                  scale="1"
+                  class="cursor-pointer"
+                />
+                <v-icon v-if="comment.user.id === userData.id" @click="deleteReply(reply.id)"
+                  name="fa-trash"
+                  fill="#302f31"
+                  scale="1"
+                  class="cursor-pointer"
+                />
+            </div>
+         
         </div>
 
-        <div class="flex items-center gap-2 mt-2">
+
+        <div class="flex w-full flex-col gap-2">
           <input
             type="text"
             v-model="replies[index].replyBody"
-            class="h-8 w-[35vw] bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-primary-text-color"
+            class="text-sm bg-transparent border-b-2 border-secondary-color focus:outline-none placeholder:text-primary-text-color"
             :placeholder="`Reply as ${userData.firstname}`"
           />
           <button
             @click="replyToComment(route.params.id, comment.id, index)"
-            class="bg-secondary-color rounded-md w-20 h-7 text-sm text-light-primary-color hover:border hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
+            class="bg-secondary-color p-1 rounded-full w-20 text-xs text-light-primary-color border hover:bg-transparent hover:border-secondary-color hover:text-secondary-color"
           >
             Reply
           </button>
-        </div>
+      </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
 <script setup>
+import TextTruncate from '../../buttons/TextTruncate.vue'
 import { ref, onMounted, watch, computed } from 'vue'
 import store from '@/store/store'
 import axios from 'axios'
@@ -129,7 +119,7 @@ const comments = ref([])
 let commentBody = ''
 const replies = ref([])
 const showReplies = ref([])
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toast-notification'
 
@@ -190,9 +180,6 @@ const commentOnMusic = async (id) => {
       }
     )
     commentBody = ''
-    $toast.success('Comment Added', {
-      position: 'top-right'
-    })
     fetchCommentData(id)
   } catch (error) {
     console.error('Failed to Comment:', error)
@@ -215,9 +202,6 @@ const replyToComment = async (musicId, commentId, index) => {
       }
     )
     replies.value[index].replyBody = ''
-    $toast.success('Reply Added', {
-      position: 'top-right'
-    })
     fetchCommentData(musicId)
   } catch (error) {
     console.error('Failed to Reply:', error)

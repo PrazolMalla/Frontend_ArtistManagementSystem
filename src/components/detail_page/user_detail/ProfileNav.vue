@@ -1,39 +1,17 @@
 <template>
-  <div
-    class="absolute top-44 w-[80vw] h-12 md:w-[60vw] bg-light-primary-color lg:top-[22rem] lg:h-20 lg:w-[77vw] flex gap-5 justify-center items-center lg:justify-start lg:pl-64"
-    :style="{
-      backgroundColor: `${user?.theme?.darkPrimaryColor}`
-    }"
-  >
-    <RouterLink :to="'/artist/' + user.id" class="flex flex-row items-center text-sm">
-      <p
-        class="text-sm text-primary-text-color hover:text-secondary-color md:text-xl"
-        :style="{
+  <div class="realtive  bg-light-primary-color flex gap-3 justify-center sm:justify-end items-center lg:pl-64 text-md font-semibold
+        text-primary-text-color rounded-b-lg " :style="{
+          backgroundColor: `${user?.theme?.darkPrimaryColor}`,
           color: `${user?.theme?.secondaryColor}`
-        }"
-      >
-        Home
-      </p>
+        }">
+    <RouterLink :to="'/artist/' + user.id" class=" p-3 ">
+      Home
     </RouterLink>
-    <RouterLink :to="'/artist/' + user.id + '/music/'" class="flex flex-row items-center text-sm">
-      <p
-        class="text-sm text-primary-text-color hover:text-secondary-color md:text-xl"
-        :style="{
-          color: `${user?.theme?.secondaryColor}`
-        }"
-      >
-        Music
-      </p>
+    <RouterLink :to="'/artist/' + user.id + '/music/'" class=" p-3  ">
+      Music
     </RouterLink>
-    <RouterLink :to="'/artist/' + user.id + '/album/'" class="flex flex-row items-center text-sm">
-      <p
-        class="text-sm text-primary-text-color hover:text-secondary-color md:text-xl"
-        :style="{
-          color: `${user?.theme?.secondaryColor}`
-        }"
-      >
-        Albums
-      </p>
+    <RouterLink :to="'/artist/' + user.id + '/album/'" class=" p-3  ">
+      Albums
     </RouterLink>
   </div>
 </template>

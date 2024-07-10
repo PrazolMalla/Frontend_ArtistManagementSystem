@@ -1,13 +1,12 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup ml-[-3rem] w-screen h-screen z-40 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <AddMusic v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
+      <BackgroundBlur v-if="is_blur" />
+
+      <MusicForm v-if="is_OpenAdd" @close="toggleCloseAdd" :albums="albums" :genreData="genreData" />
       <ManageConfirmDialogue v-if="is_OpenDelete" :actionQuestion="`Do yoy want to delete ${itemName}?`"
         actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
-      <EditMusic v-if="is_OpenEdit" :musicId="editMusicId" :albums="albums" :genreData="genreData"
+      <MusicForm v-if="is_OpenEdit" :musicId="editMusicId" :albums="albums" :genreData="genreData"
         @close="toggleCloseEdit" />
       <ManageConfirmDialogue v-if="is_OpenRestore" :actionQuestion="`Do you want to restore ${itemName}?`"
         actionConfirm="Confirm Restore" @close="toggleCloseRestore" @confirm="confirmRestore" />
@@ -146,13 +145,13 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
+import MusicForm from '@/components/manage/MusicForm.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import SmButton from '@/components/buttons/sm-button.vue'
 import ManageDetail from '@/components/manage/ManageDetail.vue'
-import AddMusic from '@/components/manage/music/AddMusic.vue'
 import EnableDisable from '@/components/buttons/enabledisable.vue'
-import EditMusic from '@/components/manage/music/EditMusic.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import store from '@/store/store'

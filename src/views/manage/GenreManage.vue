@@ -1,10 +1,8 @@
 <template>
   <PageLayout>
     <template #content>
-      <div v-if="is_blur"
-        class="fixed top-16 bggradientpopup sm:ml-[-3rem] w-screen h-screen z-0 flex flex-col justify-between gap-10 items-center">
-      </div>
-      <AddGenre v-if="is_OpenAdd" @close="toggleCloseAdd" />
+      <BackgroundBlur v-if="is_blur" />
+      <EditGenre v-if="is_OpenAdd" @close="toggleCloseAdd" />
       <ManageConfirmDialogue v-if="is_OpenDelete" actionQuestion="Do yo want to delete XYZ?"
         actionConfirm="Confirm Delete" @close="toggleCloseDelete" @confirm="confirmDelete" />
       <EditGenre v-if="is_OpenEdit" :genreId="editGenreId" @close="toggleCloseEdit" />
@@ -100,12 +98,12 @@
 </template>
 
 <script setup>
+import BackgroundBlur from '@/components/cards/BackgroundBlur.vue'
 import PaginationCard from '@/components/cards/PaginationCard.vue'
 import SmSearchbar from '@/components/buttons/sm-searchbar.vue'
 import ManageDetail from '@/components/manage/ManageDetail.vue'
 import SmButton from '@/components/buttons/sm-button.vue'
-import AddGenre from '@/components/manage/genre/AddGenre.vue'
-import EditGenre from '@/components/manage/genre/EditGenre.vue'
+import EditGenre from '@/components/manage/GenreForm.vue'
 import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue'
 import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'

@@ -1,8 +1,7 @@
 <template>
   <fieldset
-    class="border border-slate-700 z-0 rounded-md absolute w-full sm:w-[60vw] ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden  m-auto">
-    <legend class="ml-10">Edit Theme</legend>
-    <v-icon name="fa-times" fill="#302f31" scale="1" @click="closeAdd" class="absolute right-3 cursor-pointer" />
+    class="border border-border-color rounded-md absolute ml-[5vw] w-[90vw] sm:w-[60vw] sm:ml-0 lg:ml-10 bg-dark-primary-color overflow-hidden z-10  m-auto px-5 pb-5">
+    <CloseButton @action="emit('close')" />
     <div
       class="form-container  flex flex-col-reverse sm:flex-row flex-wrap justify-start items-center gap-5 p-5 align-middle">
       <div class="flex flex-col w-full sm:w-5/12 gap-2">
@@ -18,7 +17,6 @@
             {{ formErrors[item.name] }}
           </span>
         </div>
-
         <div class="text-secondary-color">
           <label for="opacity" class="text-xs font-helvetica text-primary-text-color pl-3">
             Opacity :{{ theme.opacity }}
@@ -40,8 +38,10 @@
         <div class="flex justify-center align-middle">
           <button
             class="bg-btn-yellow px-3 h-8 hover:text-secondary-color text-slate-200 text-xs rounded-full hover:border hover:bg-transparent border-secondary-color bg-secondary-color"
-            type="submit" @click="editTheme()">
-            Edit Theme
+            type="submit" @click="confirm()">
+            <p v-if="props.themeId">
+              Edit Theme</p>
+            <p v-else>Add Theme</p>
           </button>
         </div>
       </div>
@@ -49,9 +49,9 @@
         class="border  flex justify-center items-center border-slate-500 relative rounded-md overflow-hidden w-full sm:w-6/12 h-64">
         <div class="absolute w-full h-full bg-cover"
           :style="{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }"></div>
-        <div class="absolute bgThemeGlass z-10 h-full w-full"
+        <div class="absolute bgThemeGlass h-full w-full"
           :style="{ backgroundColor: theme.darkPrimaryColor, opacity: theme.opacity }"></div>
-        <p class="absolute z-20 text-3xl " :style="{ color: theme.secondaryColor }">
+        <p class="absolute text-md font-bold " :style="{ color: theme.secondaryColor }">
           {{ theme.name }}
         </p>
       </div>
@@ -60,6 +60,7 @@
 </template>
 
 <script setup>
+import CloseButton from '@/components/buttons/CloseButton.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
@@ -81,9 +82,6 @@ const theme = ref({
 
 const emit = defineEmits(['close'])
 
-function closeAdd() {
-  emit('close')
-}
 
 const themeInputField = ref([
   { id: '1', name: 'name', type: 'text', label: 'Name' },
@@ -127,10 +125,10 @@ const fetchThemeData = async () => {
 }
 
 onMounted(() => {
-  fetchThemeData()
+  if (props.themeId) fetchThemeData()
 })
 
-const editTheme = () => {
+const confirm = () => {
   formErrors.value = {}
   if (!theme.value.name) {
     formErrors.value.name = 'Please provide a name.'
@@ -145,21 +143,42 @@ const editTheme = () => {
     if (profileFile.value && profileFile.value instanceof File) {
       formData.append('img_profile', profileFile.value)
     }
-    axios
-      .patch(`${base_url}/api/theme/edit/${props.themeId}/`, formData, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      })
-      .then((response) => {
-        $toast.success('Theme Updated', {
-          position: 'top-right'
+    if (props.themeId) {
+      axios
+        .patch(`${base_url}/api/theme/edit/${props.themeId}/`, formData, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
         })
-        emit('close')
-      })
-      .catch((error) => {
-        $toast.error('Error occur while Updating Theme')
-      })
+        .then((response) => {
+          $toast.success('Theme Updated', {
+            position: 'top-right'
+          })
+          emit('close')
+        })
+        .catch((error) => {
+          $toast.error('Error occur while Updating Theme')
+        })
+    }
+    else {
+      axios
+        .post(`${base_url}/api/theme/create/`, formData, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        })
+        .then((response) => {
+          $toast.success('Theme Added', {
+            position: 'top-right'
+          })
+          emit('close')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+
   }
 }
+
 </script>

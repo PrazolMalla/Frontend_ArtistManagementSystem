@@ -82,18 +82,20 @@
     <v-icon name="md-notifications-outlined" scale="1.2" class="cursor-pointer " :style="{ fill: themeData?.textColor }"
       @click="toggleNotification" />
 
-    <RouterLink v-if="userData.id" to="/user/settings" class="md:hidden">
+    <RouterLink v-if="userData.id & !userData?.is_superuser" to="/user/settings" class="md:hidden">
       <v-icon name="md-settings-round" fill="#302f31" scale="1" class="cursor-pointer"
         :style="{ fill: themeData?.textColor }" />
     </RouterLink>
 
-    <RouterLink v-if="userData.id" to="/user/profile" class="md:hidden
+    <RouterLink v-if="userData.id & !userData?.is_superuser" to="/user/profile" class="md:hidden
        relative flex gap-2 cursor-pointer">
       <img :src="imgProfile" alt=""
         class="w-7 h-7 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
         :style="{ borderColor: themeData?.textColor }" />
 
     </RouterLink>
+    <v-icon v-if="userData?.is_superuser" name="md-logout-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer"
+      :style="{ fill: themeData?.textColor }" @click="logout()" />
     <div v-else class="flex flex-col gap-3 justify-center items-center">
       <RouterLink to="/login" class="md:hidden">
         <button
@@ -129,6 +131,8 @@
 
 </template>
 <script setup>
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
 import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 const userData = ref([])
@@ -244,6 +248,18 @@ const toggleNotification = () => {
   is_openPopupSideBar.value = false
   is_showNotificationPopUp.value = !is_showNotificationPopUp.value
 }
+
+const logout = () => {
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
+  store.dispatch('setLoggedInUserData')
+  $toast.success('Logout sucess', {
+    position: 'top-right'
+  })
+  window.location.reload()
+}
+
+
 
 onMounted(() => {
   store.dispatch('setLoggedInUserData')

@@ -52,6 +52,7 @@ export default createStore({
       commit('SET_PLAY_STATE', state)
     },
     setLoggedInUserData({ commit }) {
+
       try {
         axios
           .get(`${URL}/api/user/login-user/`, {
@@ -63,9 +64,17 @@ export default createStore({
             commit('SET_LOGGEDIN_USER_DATA', response.data)
 
           })
+
       } catch (error) {
         console.error('Failed to fetch user data: from store')
       }
+    },
+
+    removeLoggedInUserData({ commit }) {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      commit('SET_LOGGEDIN_USER_DATA', '')
+
     }
   },
   getters: {

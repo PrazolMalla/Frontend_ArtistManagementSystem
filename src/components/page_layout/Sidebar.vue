@@ -83,9 +83,7 @@ const getUserData = computed(() => store.getters.getLoggedInUserData)
 const getThemeColor = computed(() => store.getters.getThemeColor)
 
 const logout = () => {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  store.dispatch('setLoggedInUserData')
+  store.dispatch('removeLoggedInUserData')
   $toast.success('Logout sucess', {
     position: 'top-right'
   })
@@ -220,7 +218,7 @@ const showDataInSideBar = () => {
 }
 
 onMounted(() => {
-  store.dispatch('setLoggedInUserData')
+  // store.dispatch('setLoggedInUserData')
   userDataFunc()
   showDataInSideBar()
 })

@@ -105,7 +105,6 @@ const login = () => {
       else {
         setToken()
       }
-
     })
     .catch((error) => {
       console.error('Error logging in:', error)
@@ -122,9 +121,8 @@ const setToken = () => {
   $toast.success('Login success', {
     position: 'top-right'
   })
-
   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken.value}`
-  store.dispatch('setLoggedInUserData')
+  window.location.reload()
   router.push('/')
 }
 const is_blur = ref(false)

@@ -82,12 +82,12 @@
     <v-icon name="md-notifications-outlined" scale="1.2" class="cursor-pointer " :style="{ fill: themeData?.textColor }"
       @click="toggleNotification" />
 
-    <RouterLink v-if="userData.id & !userData?.is_superuser" to="/user/settings" class="md:hidden">
+    <RouterLink v-if="userData.id && !userData?.is_superuser" to="/user/settings" class="md:hidden">
       <v-icon name="md-settings-round" fill="#302f31" scale="1" class="cursor-pointer"
         :style="{ fill: themeData?.textColor }" />
     </RouterLink>
 
-    <RouterLink v-if="userData.id & !userData?.is_superuser" to="/user/profile" class="md:hidden
+    <RouterLink v-if="userData.id && !userData?.is_superuser" to="/user/profile" class="md:hidden
        relative flex gap-2 cursor-pointer">
       <img :src="imgProfile" alt=""
         class="w-7 h-7 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color"
@@ -97,14 +97,14 @@
     <v-icon v-if="userData?.is_superuser" name="md-logout-round" fill="#302f31" scale="1" class="mt-2 cursor-pointer"
       :style="{ fill: themeData?.textColor }" @click="logout()" />
     <div v-else class="flex flex-col gap-3 justify-center items-center">
-      <RouterLink to="/login" class="md:hidden">
+      <RouterLink v-if="!userData.id" to=" /login" class="md:hidden">
         <button
           class="text-xs  bg-secondary-color text-dark-primary-color p-1  px-2  rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color">
           Login
         </button>
       </RouterLink>
 
-      <RouterLink to="/signup" class="md:hidden">
+      <RouterLink v-if="!userData.id" to=" /signup" class="md:hidden">
         <button
           class="text-xs  bg-secondary-color text-dark-primary-color p-1 px-2 rounded-full hover:text-secondary-color hover:bg-dark-primary-color border border-secondary-color">
           SignUp
@@ -252,7 +252,7 @@ const toggleNotification = () => {
 const logout = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
-  store.dispatch('setLoggedInUserData')
+  store.dispatch('removeLoggedInUserData')
   $toast.success('Logout sucess', {
     position: 'top-right'
   })
@@ -262,7 +262,7 @@ const logout = () => {
 
 
 onMounted(() => {
-  store.dispatch('setLoggedInUserData')
+  // store.dispatch('setLoggedInUserData')
   userDataFunc()
 })
 </script>

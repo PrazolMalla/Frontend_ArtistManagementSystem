@@ -171,7 +171,6 @@ const showDataInSideBar = () => {
 }
 
 onMounted(() => {
-  store.dispatch('setLoggedInUserData')
   userDataFunc()
   showDataInSideBar()
 })

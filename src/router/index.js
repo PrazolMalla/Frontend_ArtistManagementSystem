@@ -35,7 +35,7 @@ import MapShow from '@/components/MapShow.vue'
 import store from '@/store/store'
 
 const base_url = import.meta.env.VITE_BASE_API_URL
-
+let flag = true
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -250,21 +250,23 @@ router.beforeEach(async (to, from, next) => {
   let is_staff
   let is_superuser
   const isAuthenticated = !!localStorage.getItem('access_token')
-  try {
-    await axios
-      .get(`${base_url}/api/user/login-user/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-      .then((response) => {
-        is_artist = response.data.is_artist
-        is_staff = response.data.is_staff
-        is_superuser = response.data.is_superuser
-        store.dispatch('setLoggedInUserData')
-      })
-  } catch (error) {
-    console.error('Failed to fetch user data')
+  if (flag) {
+    try {
+      await axios
+        .get(`${base_url}/api/user/login-user/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+        .then((response) => {
+          flag = false
+          is_artist = response.data.is_artist
+          is_staff = response.data.is_staff
+          is_superuser = response.data.is_superuser
+        })
+    } catch (error) {
+      console.error('Failed to fetch user data')
+    }
   }
 
   if (to.meta.auth && !isAuthenticated) {

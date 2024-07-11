@@ -109,9 +109,7 @@ const fetchArtists = async () => {
 
 
 const logout = () => {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  store.dispatch('setLoggedInUserData')
+  store.dispatch('removeLoggedInUserData')
   $toast.success('Logout sucess', {
     position: 'top-right'
   })
@@ -146,12 +144,9 @@ function deleteUser() {
       $toast.success('Your account is deleted', {
         position: 'top-right'
       })
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-      store.dispatch('setLoggedInUserData')
-      setTimeout(() => {
-        window.location.reload()
-      }, 3000);
+      store.dispatch('removeLoggedInUserData')
+      window.location.reload()
+
     })
     .catch((err) => {
       console.log(err.response.data)
@@ -252,7 +247,6 @@ const setToken = () => {
   })
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken.value}`
-  store.dispatch('setLoggedInUserData')
   router.push('/')
 }
 

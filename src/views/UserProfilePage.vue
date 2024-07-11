@@ -8,7 +8,7 @@
         backgroundSize: 'cover',
       }"></div>
       <div class="  ml-[-20px] sm:ml-[-4rem] mt-[-4rem] absolute  z-0 h-[100%] w-[100vw] sm:w-full opacity-80 p-2 "
-        :style="{ backgroundColor: user?.theme?.darkPrimaryColor }"></div>
+        :style="{ backgroundColor: user?.theme?.darkPrimaryColor, opacity: user?.theme?.opacity }"></div>
       <div class="relative z-0  h-auto">
         <ProfilePicComponent :userImg="user.img_profile" />
         <BannerComponent :userBanner="user.img_cover" />

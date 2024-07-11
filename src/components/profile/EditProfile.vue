@@ -14,7 +14,7 @@
             class="px-2 p-1 focus:outline-none w-full text-xs mb rounded-3xl border border-border-color focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 primary-text-color" />
           <span v-if="formErrors[item.name]" class=" text-xs text-error-text-color pl-3">{{
             formErrors[item.name]
-            }}</span>
+          }}</span>
         </div>
 
         <div class="flex gap-3">
@@ -65,7 +65,7 @@
           <input type="file" id="profile" name="profile" @change="handleProfileChange" class="hidden" />
           <span v-if="formErrors.profile" class="text-error-text-color mt-1 pl-3 block text-sm">{{
             formErrors.profile
-            }}</span>
+          }}</span>
         </div>
         <div class="w-full  text-secondary-color flex flex-col mt-2 items-center justify-center">
           <label for="cover"
@@ -84,7 +84,7 @@
 
           <span v-if="formErrors.file" class="text-error-text-color mt-1 pl-3 block text-sm">{{
             formErrors.file
-            }}</span>
+          }}</span>
         </div>
       </div>
 
@@ -104,7 +104,6 @@
 <script setup>
 import CloseButton from '@/components/buttons/CloseButton.vue'
 import { ref, onMounted } from 'vue'
-import Credential from '@/components/manage/Credential.vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
 const $toast = useToast()
@@ -114,6 +113,7 @@ const base_url = import.meta.env.VITE_BASE_API_URL
 const props = defineProps(['userData'])
 const user = ref({
   firstname: props.userData.firstname,
+  bio: props.userData.bio,
   lastname: props.userData.lastname,
   username: props.userData.username,
   email: props.userData.email,
@@ -132,11 +132,12 @@ function closeAdd() {
 
 const userInputField = ref([
   { id: '1', name: 'firstname', type: 'text', label: 'First Name' },
-  { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
-  { id: '3', name: 'username', type: 'text', label: 'Username' },
-  { id: '4', name: 'email', type: 'email', label: 'Email' },
-  { id: '5', name: 'dob', type: 'date', label: 'Date of Birth' },
-  { id: '6', name: 'password', type: 'password', label: 'Provide your Credentials' }
+  { id: '2', name: 'bio', type: 'text', label: 'Bio' },
+  { id: '3', name: 'lastname', type: 'text', label: 'Last Name' },
+  { id: '4', name: 'username', type: 'text', label: 'Username' },
+  { id: '5', name: 'email', type: 'email', label: 'Email' },
+  { id: '6', name: 'dob', type: 'date', label: 'Date of Birth' },
+  { id: '7', name: 'password', type: 'password', label: 'Provide your Credentials' }
 ])
 
 const formErrors = ref({})
@@ -194,13 +195,11 @@ const removeCover = (event) => {
   }
 };
 
-function confirmEdit() {
-  console.log("coverFile=", coverFile.value)
-}
 
 const editUser = () => {
   const formData = new FormData()
   formData.append('email', user.value.email)
+  formData.append('bio', user.value.bio)
   formData.append('firstname', user.value.firstname)
   formData.append('lastname', user.value.lastname)
   formData.append('username', user.value.username)
@@ -235,7 +234,7 @@ const editUser = () => {
     })
     .catch((error) => {
       console.error(error)
-      $toast.error("Error while editing profile")
+      $toast.error(error.response.data)
     })
 }
 
@@ -255,6 +254,9 @@ const confirm = () => {
   if (!user.value.password) {
     formErrors.value.password = 'Please provide your Credential.'
   }
+  if (!user.value.bio) {
+    formErrors.value.bio = 'Please provide your Bio.'
+  }
   if (Object.keys(formErrors.value).length === 0) {
     axios
       .post(`${base_url}/api/credential/`, { email: user.value.email, password: user.value.password }, {
@@ -268,9 +270,9 @@ const confirm = () => {
       .catch((error) => {
         console.error('Error logging in:', error)
         if (error.response && error.response.data && error.response.data.msg) {
-          formErrors.value.password = error.response.data.msg
+          formErrors.value.password = error.response.data
         } else {
-          $toast.error("An error occurred while checking credential.")
+          $toast.error(error.response.data)
         }
       })
 

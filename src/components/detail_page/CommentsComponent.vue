@@ -29,7 +29,7 @@
 
                 <img :src="`${base_url}${comment?.user?.img_profile}`" alt=""  class="w-8 h-8 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color" />
                 <div class="flex flex-col justify-center text-wrap">
-                  <TextTruncate  :text="comment.body" length="25"/>
+                  <TextTruncate  :text="comment.body" length="25" class="text-sm"/>
                   <h2 class="text-xs font-medium">{{ comment.user.firstname }}  <span v-if="comment.total_likes"> - {{ comment.total_likes }} Likes</span></h2>
                 </div>
             </div>
@@ -65,7 +65,7 @@
 
                 <img :src="`${base_url}${reply?.user?.img_profile}`" alt=""  class="w-8 h-8 border-2 rounded-full border-primary-text-color hover:cursor-pointer hover:border-secondary-color" />
                 <div class="flex flex-col justify-center text-wrap">
-                  <TextTruncate  :text="reply.body" length="25"/>
+                  <TextTruncate  :text="reply.body" length="25" class="text-sm" />
                   <h2 class="text-xs font-medium">{{ reply.user.firstname }}  <span v-if="reply.total_likes"> - {{ reply.total_likes }} Likes</span></h2>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import TextTruncate from '../../buttons/TextTruncate.vue'
+import TextTruncate from '@/components/buttons/TextTruncate.vue'
 import { ref, onMounted, watch, computed } from 'vue'
 import store from '@/store/store'
 import axios from 'axios'
@@ -265,7 +265,6 @@ const toggleLike = async (commentId, index) => {
     comments.value[index].liked = !comments.value[index].liked
     comments.value[index].total_likes += comments.value[index].liked ? 1 : -1
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -290,7 +289,6 @@ const toggleReplyLike = async (replyId, commentIndex, replyIndex) => {
       ? 1
       : -1
   } catch (error) {
-    console.log(error)
   }
 }
 </script>

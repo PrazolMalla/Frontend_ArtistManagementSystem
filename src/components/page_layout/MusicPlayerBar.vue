@@ -82,7 +82,6 @@ export default {
   computed: {
     ...mapState(['playerData', 'is_play']),
     volume() {
-      console.log(this.volumeState)
       switch (this.volumeState) {
         case 0: {
           localStorage.setItem('volume', 0)
@@ -109,7 +108,6 @@ export default {
   },
   methods: {
     toggleBar() {
-      console.log('CLicked')
       this.is_ShownPlayer = !this.is_ShownPlayer
     },
     togglePlayPause() {
@@ -119,7 +117,7 @@ export default {
     toggleVolume() {
       this.volumeState = (this.volumeState + 1) % 4
     },
-    toggleTimer() {}
+    toggleTimer() { }
   }
 }
 </script>
@@ -129,7 +127,8 @@ export default {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-.sliderBar{
+
+.sliderBar {
   background: #ebb8a7;
   backdrop-filter: blur(10px);
 }

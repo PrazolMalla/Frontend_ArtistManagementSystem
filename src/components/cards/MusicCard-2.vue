@@ -51,7 +51,6 @@ const store = useStore();
 const route = useRoute();
 function playMusic() {
   store.dispatch('setMusicPlayer', props.musicData);
-  console.log(props.musicData);
 }
 </script>
 

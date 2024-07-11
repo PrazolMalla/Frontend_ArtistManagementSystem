@@ -62,7 +62,6 @@ const confirm = () => {
     error.value = 'Please provide your Credential'
   }
   if (!error.value) {
-    console.log({ email: props.email, password: password.value })
     axios
       .post(`${base_url}/api/credential/`, { email: props.email, password: password.value }, {
         headers: {
@@ -76,9 +75,9 @@ const confirm = () => {
       .catch((err) => {
         console.error('Error logging in:', err)
         if (err.response && err.response.data && err.response.data.msg) {
-          error.value = err.response.data.msg
+          error.value = err.response.data
         } else {
-          $toast.error("An error occurred while checking credential.")
+          $toast.error(err.response.data)
         }
       })
   }

@@ -108,6 +108,7 @@ import ManageConfirmDialogue from '@/components/manage/ManageConfirmDialogue.vue
 import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { FaBullseye } from 'oh-vue-icons/icons/fa'
 const $toast = useToast()
 const genres = ref([])
 const totalItems = ref([0])
@@ -167,8 +168,7 @@ function toggleOpenDelete(deletevalue) {
 
 function toggleCloseDelete() {
   is_OpenDelete.value = false
-  is_blur.value = false
-  console.log(currentPage.value)
+  is_blur.value = FaBullseye
   fetchGenre(currentPage.value)
 }
 

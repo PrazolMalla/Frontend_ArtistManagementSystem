@@ -18,13 +18,11 @@ const base_url = import.meta.env.VITE_BASE_API_URL;
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
-  console.log(queryParams)
   try {
     const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
       headers: {}
     })
     user.value = response.data
-    console.log(user.value)
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   }
@@ -33,10 +31,8 @@ const fetchUserData = async () => {
 const musicData = ref([])
 const fetchMusicData = async () => {
   try {
-    console.log(queryParams)
     const response = await axios.get(`${base_url}/api/music/artist/get/` + queryParams)
     musicData.value = response.data
-    console.log(musicData.value)
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

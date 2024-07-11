@@ -191,16 +191,12 @@ watch(
 
 watch(searchName, (newVal) => {
   is_showSearchPopUp.value = newVal !== ''
-  if (newVal !== '') {
-    console.log(newVal)
-  }
+
 })
 
 watch(hiddenSearchName, (newVal) => {
   is_showHiddenSearchPopUp.value = newVal !== ''
-  if (newVal !== '') {
-    console.log(newVal)
-  }
+
 })
 
 const closeRadioMode = () => {

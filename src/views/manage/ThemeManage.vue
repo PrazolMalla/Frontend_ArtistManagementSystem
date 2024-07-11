@@ -162,7 +162,6 @@ function toggleOpenDelete(deletevalue) {
 function toggleCloseDelete() {
   is_OpenDelete.value = false
   is_blur.value = false
-  console.log(currentPage.value)
   fetchTheme(currentPage.value)
 }
 

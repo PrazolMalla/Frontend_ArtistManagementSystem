@@ -169,9 +169,10 @@ const formErrors = ref('')
 const staffInputField = ref([
   { id: '1', name: 'firstname', type: 'text', label: 'First Name' },
   { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
-  { id: '3', name: 'username', type: 'text', label: 'Username' },
-  { id: '4', name: 'email', type: 'email', label: 'Email' },
-  { id: '5', name: 'dob', type: 'date', label: 'Date of Birth' }
+  { id: '3', name: 'bio', type: 'text', label: 'Bio' },
+  { id: '4', name: 'username', type: 'text', label: 'Username' },
+  { id: '5', name: 'email', type: 'email', label: 'Email' },
+  { id: '6', name: 'dob', type: 'date', label: 'Date of Birth' }
 ])
 const addPasswordField = () => {
   staffInputField.value.push({ id: '5', name: 'password', type: 'password', label: 'Password' })
@@ -179,6 +180,7 @@ const addPasswordField = () => {
 }
 const staff = ref({
   firstname: '',
+  bio: '',
   lastname: '',
   username: '',
   email: '',
@@ -229,10 +231,13 @@ function confirm() {
     formErrors.value.username = 'Username should be at least 5 characters long.'
   }
   if (!staff.value.email) {
-    formErrors.value.email = 'Please provide an email.'
+    formErrors.value.email = 'Please provide an Email.'
+  }
+  if (!staff.value.bio) {
+    formErrors.value.bio = 'Please provide the Bio'
   }
   if (!staff.value.country) {
-    formErrors.value.country = 'Please provide your country.'
+    formErrors.value.country = 'Please provide Country.'
   }
   if (!props.staffId) {
     if (staff.value.password.length < 8) {
@@ -249,6 +254,7 @@ function confirm() {
   if (Object.keys(formErrors.value).length === 0) {
     const formData = new FormData()
     formData.append('email', staff.value.email)
+    formData.append('bio', staff.value.bio)
     formData.append('firstname', staff.value.firstname)
     formData.append('lastname', staff.value.lastname)
     formData.append('username', staff.value.username)
@@ -275,7 +281,7 @@ function confirm() {
         })
         .catch((error) => {
           console.error(error)
-          $toast.error('Error occur while updating staff')
+          $toast.error(error.response.data)
         })
     }
     else {
@@ -286,13 +292,12 @@ function confirm() {
           },
         })
         .then((response) => {
-          console.log('registered')
           $toast.success("Staff added successfully");
           emit('close')
         })
         .catch((error) => {
           console.error(error)
-          $toast.error("Error while adding staff")
+          $toast.error(error.response.data)
         })
     }
 

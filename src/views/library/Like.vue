@@ -13,25 +13,17 @@
             </div>
 
             <div class="flex flex-col justify-between">
-              <div
-                class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color"
-              >
+              <div class="hidden sm:flex flex-row bg-transparent border-b border-b-primary-text-color">
                 <div class="w-3/6 font-semibold">Name</div>
                 <div class="flex w-full justify-around items-center">
                   <div class="font-semibold">Like</div>
                 </div>
               </div>
-              <div
-                v-for="(likedmusic, index) in likedMusics"
-                :key="likedmusic.name"
-                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2"
-              >
+              <div v-for="(likedmusic, index) in likedMusics" :key="likedmusic.name"
+                class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                 <router-link :to="`/music/${likedmusic.id}`" class="flex items-center w-3/6">
-                  <img
-                    :src="likedmusic.img_profile"
-                    alt="Album image"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4"
-                  />
+                  <img :src="likedmusic.img_profile" alt="Album image"
+                    class="w-12 h-12 md:w-16 md:h-16 rounded-lg mr-4" />
 
                   <div class="w-1-6">
                     <div class="font-bold text-secondary-color text-sm sm:text-base md:text-md">
@@ -43,16 +35,10 @@
                   </div>
                 </router-link>
                 <div class="items-center mt-[-1rem] ml-[11.5rem]">
-                  <button
-                    @click="toggleLikeMusic(likedmusic.id, index)"
-                    class="flex items-center gap-1 mt-4 text-sm text-secondary-color hover:underline"
-                  >
-                    <v-icon
-                      :name="likedmusic.liked ? 'bi-suit-heart-fill' : 'bi-suit-heart'"
-                      :fill="likedmusic.liked ? '#ff4000' : '#302f31'"
-                      scale="1.5"
-                      class="cursor-pointer"
-                    />
+                  <button @click="toggleLikeMusic(likedmusic.id, index)"
+                    class="flex items-center gap-1 mt-4 text-sm text-secondary-color hover:underline">
+                    <v-icon :name="likedmusic.liked ? 'bi-suit-heart-fill' : 'bi-suit-heart'"
+                      :fill="likedmusic.liked ? '#ff4000' : '#302f31'" scale="1.5" class="cursor-pointer" />
                     {{ likedmusic.total_likes }}
                   </button>
                 </div>
@@ -70,7 +56,7 @@ import { useToast } from 'vue-toast-notification'
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { useStore } from 'vuex'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const $toast = useToast()
 const store = useStore()
@@ -83,7 +69,6 @@ const fetchLikedSongs = async () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     })
-    console.log(response.data)
     const userData = store.getters.getLoggedInUserData
 
     likedMusics.value = response.data.map((music) => {

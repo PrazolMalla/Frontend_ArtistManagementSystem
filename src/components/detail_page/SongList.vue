@@ -1,9 +1,14 @@
 <template lang="">
   <div>
     <div class="w-[50vw] h-[24rem] flex flex-col gap-2 items-start">
-     <div>
-       <h1 class="text-lg text-primary-text-color font-semibold ml-4">Musics</h1>
-      <p class="text-xs text-primary-text-color  ml-4 opacity-95">{{ songs.length }} Musics</p>
+        <div v-if="description">
+          <h1 class="text-md font-semibold  mb">Description</h1>
+          <TextTruncate :text="description" class="text-xs"  length="100"/>
+        </div>
+      
+     <div class="mt-4">
+       <h1 class="text-lg text-primary-text-color font-semibold ">Musics</h1>
+        <p class="text-xs text-primary-text-color  opacity-95">{{ songs.length }} Musics</p>
      </div>
 
       <div class="overflow-y-scroll w-[40vw] h-[40vh]">
@@ -34,6 +39,7 @@
   </div>
 </template>
 <script setup>
+import TextTruncate from '@/components/buttons/TextTruncate.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
@@ -42,6 +48,10 @@ const props = defineProps({
   musicId: {
     type: Number,
     required: true
+  },
+  description: {
+    type: String
+
   }
 })
 const songs = ref([])

@@ -4,7 +4,7 @@
       <div class="mt-10 text-primary-text-color flex flex-col gap-2">
         <div class="flex lg:flex-row flex-col">
           <MusicSingleImage :musicId="route.params.id" :type="type" />
-          <LyricsComponent :musicLyrics="music?.lyrics" />
+          <LyricsComponent :musicLyrics="music?.lyrics" :description="music.description" />
         </div>
         <div class="flex flex-col-reverse lg:flex-row gap-5">
           <CommentComponent />
@@ -17,9 +17,9 @@
 
 <script setup>
 import MusicSingleImage from '@/components/detail_page/MusicSingleImage.vue'
-import LyricsComponent from '@/components/detail_page/music_detail/LyricsComponent.vue'
+import LyricsComponent from '@/components/detail_page/LyricsComponent.vue'
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
-import CommentComponent from '@/components/detail_page/music_detail/CommentsComponent.vue'
+import CommentComponent from '@/components/detail_page/CommentsComponent.vue'
 import axios from 'axios'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
@@ -45,7 +45,6 @@ const fetchMusicData = async (id) => {
     //   toast.error('This music is disabled.')
     // }
     const userData = store.getters.getLoggedInUserData
-    console.log(userData)
     const referrer = document.referrer
     if (referrer && response.data.is_disabled) {
       router.go(-1)

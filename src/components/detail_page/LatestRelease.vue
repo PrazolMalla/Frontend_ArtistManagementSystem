@@ -37,7 +37,6 @@ const props = defineProps({
 const recentSongs = ref([])
 const fetchMusicData = async (artistId) => {
   try {
-    console.log(artistId)
     const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId, {
       headers: {
         // Authorization: `Bearer ${localStorage.getItem('access_token')}`

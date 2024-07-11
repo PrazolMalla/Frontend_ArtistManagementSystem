@@ -13,20 +13,18 @@ import { ref, onMounted, watch, onUnmounted } from 'vue'
 import store from '@/store/store'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-const base_url  = import.meta.env.VITE_BASE_API_URL;
+const base_url = import.meta.env.VITE_BASE_API_URL;
 
 const user = ref({})
 
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
-  console.log(queryParams)
   try {
     const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
       headers: {}
     })
     user.value = response.data
-    console.log(user.value)
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   }
@@ -35,10 +33,8 @@ const fetchUserData = async () => {
 const albumData = ref([])
 const fetchMusicData = async () => {
   try {
-    console.log(queryParams)
     const response = await axios.get(`${base_url}/api/album/artist/get/` + queryParams)
     albumData.value = response.data
-    console.log(albumData.value)
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

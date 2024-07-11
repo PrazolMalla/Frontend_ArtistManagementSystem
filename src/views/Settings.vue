@@ -169,7 +169,6 @@ const selectDefaultTheme = async () => {
     $toast.success(response.data.message, {
       position: 'top-right'
     })
-    console.log('default selected')
   } catch (error) {
     console.error('Error fetching Themes:', error)
   }

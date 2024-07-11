@@ -28,13 +28,11 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  console.log('Component mounted with user:', props.user)
 })
 
 watch(
   () => props.user,
   (newTheme) => {
-    console.log('Theme changed:', newTheme)
   },
   { deep: true }
 )

@@ -268,6 +268,12 @@ router.beforeEach(async (to, from, next) => {
       console.error('Failed to fetch user data')
     }
   }
+  else {
+    const userData = store.getters.getLoggedInUserData
+    is_artist = userData.is_artist
+    is_staff = userData.is_staff
+    is_superuser = userData.is_superuser
+  }
 
   if (to.meta.auth && !isAuthenticated) {
     next('/login')

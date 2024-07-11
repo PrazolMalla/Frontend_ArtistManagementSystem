@@ -74,10 +74,10 @@
                       @action="toggleHideMusic(music)" />
                     <EnableDisable v-if="userData.is_staff" mode="disable" :item="music"
                       @action="toggleDisableMusic(music)" />
-                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenEdit(music)"
-                      name="fa-regular-edit" fill="#00b166" scale="1.5"></v-icon>
-                    <v-icon v-if="userData.is_artist" class="cursor-pointer" @click="toggleOpenDelete(music)"
-                      name="fa-regular-trash-alt" fill="#ff4000" scale="1.5"></v-icon>
+                    <IconButton v-if="userData.is_artist" @click="toggleOpenEdit(music)" name="fa-regular-edit"
+                      status="success" />
+                    <IconButton v-if="userData.is_artist" @click="toggleOpenDelete(music)" name="fa-regular-trash-alt"
+                      status="success" />
                   </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
@@ -122,8 +122,9 @@
                   class="flex sm:flex-row flex-col items-center border-b border-b-primary-text-color cursor-pointer hover:bg-light-primary-color py-2">
                   <ManageDetail :link="true" :id="deletedmusic.id" :image="deletedmusic.img_profile"
                     :title="deletedmusic.name" :subtitle="deletedmusic.artist_name" type="music" />
-                  <IconButton @action="toggleOpenRestore(deletedmusic)" name="fa-trash-restore" state="success" />
-
+                  <div class="flex w-full justify-around items-center">
+                    <IconButton @action="toggleOpenRestore(deletedmusic)" name="fa-trash-restore" state="success" />
+                  </div>
                 </div>
                 <PaginationCard v-if="totalItems" :totalItems="totalItems" :currentPage="currentPage"
                   @action="page => handlePageChange(page, fetchDeletedMusic)" />
@@ -192,7 +193,6 @@ const toggleList = async (tabShown, func) => {
 }
 
 const searchMusic = (text) => {
-  console.log(text)
   if (is_tabShown.value == "all") fetchMusic(1, text)
   else if (is_tabShown.value == "disabled") fetchDisabledMusic(1, text)
   else if (is_tabShown.value == "deleted") fetchDeletedMusic(1, text)
@@ -442,7 +442,6 @@ function confirmDelete() {
       $toast.success('Music is deleted', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenDelete.value = false
         is_blur.value = false
@@ -468,7 +467,6 @@ function confirmRestore() {
       $toast.success('Music is Restored', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenRestore.value = false
         is_blur.value = false

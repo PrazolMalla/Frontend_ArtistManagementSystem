@@ -37,7 +37,7 @@ const props = defineProps({
 const musicImage = computed(() => `${base_url}${props.musicData?.img_profile}`);
 function playMusic() {
   this.$store.dispatch('setMusicPlayer', this.musicData)
-  console.log(this.musicData)
+
 }
 
 

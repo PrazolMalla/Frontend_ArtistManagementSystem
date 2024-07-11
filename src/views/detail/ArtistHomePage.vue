@@ -13,7 +13,7 @@
 import InformationCard from '@/components/detail_page/user_detail/IntroductionCard.vue'
 import CardsCarousel from '@/components/detail_page/CardsCarousel.vue'
 import TopChartComponent from '@/components/detail_page/TopChartComponent.vue'
-import LatestRelease from '@/components/detail_page/artist_detail/LatestRelease.vue'
+import LatestRelease from '@/components/detail_page/LatestRelease.vue'
 import { ref, onMounted, watch, onUnmounted } from 'vue'
 
 import store from '@/store/store'
@@ -26,15 +26,9 @@ const base_url = import.meta.env.VITE_BASE_API_URL;
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
-  console.log(queryParams)
   try {
-    const response = await axios.get(`${base_url}/api/user/get/` + queryParams, {
-      headers: {
-        // Authorization: `Bearer ${localStorage.getItem('access_token')}`
-      }
-    })
+    const response = await axios.get(`${base_url}/api/user/get/` + queryParams)
     user.value = response.data
-    console.log(user.value)
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   }

@@ -423,7 +423,6 @@ function confirmDelete() {
       $toast.success('Album is deleted', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenDelete.value = false
         is_blur.value = false
@@ -449,7 +448,6 @@ function confirmRestore() {
       $toast.success('Album is Restored', {
         position: 'top-right'
       })
-      console.log(response)
       if (response.status === 200) {
         is_OpenRestore.value = false
         is_blur.value = false

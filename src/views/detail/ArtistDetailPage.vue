@@ -36,11 +36,9 @@ const backgroundImage = ref({})
 const route = useRoute()
 const queryParams = route.params.id
 const fetchUserData = async () => {
-  console.log(queryParams)
   try {
     const response = await axios.get(`${base_url}/api/user/get/` + queryParams)
     user.value = response.data
-    console.log(user.value)
   } catch (error) {
     console.error('Failed to fetch user data:', error)
   }

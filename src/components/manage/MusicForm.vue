@@ -12,7 +12,7 @@
             class="px-2 p-1 focus:outline-none w-full text-xs mb rounded-3xl border border-border-color focus:border-hover-yellow focus:ring focus:ring-btn-yellow focus:ring-opacity-50 text-primary-text-color" />
           <span v-if="formErrors[item.name]" class="text-orange-300 pl-3 text-sm">{{
             formErrors[item.name]
-          }}</span>
+            }}</span>
         </div>
         <div class="flex justify-around">
           <div class="w-full sm:w-[20%]  flex flex-col mt-2">
@@ -34,7 +34,7 @@
             <input type="file" id="profile" name="profile" @change="handleProfileChange" class="hidden" />
             <span v-if="formErrors.profile" class="text-orange-300 mt-1 pl-3 block text-sm">{{
               formErrors.profile
-            }}</span>
+              }}</span>
           </div>
           <div class="w-full sm:w-[22%] text-primary-text-color flex flex-col mt-2">
             <label for="music"
@@ -51,7 +51,7 @@
             <input type="file" id="music" name="track" @change="handleFileChange" class="hidden" />
             <span v-if="formErrors.file" class="text-orange-300 mt-1 pl-3 block text-sm">{{
               formErrors.file
-            }}</span>
+              }}</span>
           </div>
         </div>
         <div class="flex gap-2 flex-grow  mt-5">
@@ -240,7 +240,8 @@ const confirm = () => {
     if (track.value.album) {
       formData.append('album', track.value.album)
     }
-    formData.append('artist', track.value.artist)
+    if (props.musicId)
+      formData.append('artist', track.value.artist)
     if (track.value.band) {
       formData.append('band', track.value.band)
     }

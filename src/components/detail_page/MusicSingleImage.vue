@@ -3,10 +3,14 @@
     <h1 class="font-semibold text-lg text-primary-text-color">{{ music.name }}</h1>
     <div class="flex gap-10 mb-4">
       <router-link :to="`/artist/${music.artist}`" v-if="music.artist"
-        ><p class="text-primary-text-color text-sm">Artist : <span class="hover:underline">{{ music.artist_name }}</span></p></router-link
+        ><p class="text-primary-text-color text-xs">Artist : <span class="hover:underline font-medium"><TextTruncate :text="music.artist_name" length="10" class="hover:underline font-medium" /></span></p></router-link
       >
       <router-link :to="`/album/${music.album}`" v-if="music.album"
-        ><p class="text-primary-text-color text-sm">Album :  <span class="hover:underline">{{ music.album_name }}</span></p></router-link
+        ><p class="text-primary-text-color text-xs">Album :  <span class="hover:underline font-medium"><TextTruncate :text="music.album_name" length="10" class="hover:underline font-medium" /></span></p></router-link
+      >
+
+      <router-link  v-if="music.genre" :to="`/genre/${music.genre}`"
+        ><p class="text-primary-text-color text-xs">Genre : <TextTruncate :text="music.genre_name" length="10" class="hover:underline font-medium" /></p></router-link
       >
     </div>
     <div class="flex justify-start lg:w-[30vw] w-[80vw]">
@@ -40,6 +44,7 @@
 </template>
 
 <script setup>
+import TextTruncate from '@/components/buttons/TextTruncate.vue'
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toast-notification'
@@ -115,7 +120,6 @@ const toggleLikeMusic = async () => {
     music.value.total_likes += music.value.liked ? 1 : -1
 
   } catch (error) {
-    console.log(error)
   }
 }
 

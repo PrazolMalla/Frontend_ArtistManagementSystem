@@ -37,10 +37,8 @@ const props = defineProps({
 const musicData = ref([])
 const fetchMusicData = async (artistId) => {
   try {
-    console.log(artistId)
     const response = await axios.get(`${base_url}/api/music/artist/get/` + artistId)
     musicData.value = response.data.splice(0, 3)
-    console.log(musicData)
   } catch (error) {
     console.error('Failed to fetch music data:', error)
   }

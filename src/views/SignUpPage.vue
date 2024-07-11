@@ -104,12 +104,15 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 const base_url = import.meta.env.VITE_BASE_API_URL;
+import { useToast } from 'vue-toast-notification'
+const $toast = useToast()
 
 const router = useRouter()
 const isArtist = ref(false)
 const user = ref({
   firstname: '',
   lastname: '',
+  bio: '',
   username: '',
   email: '',
   dob: '',
@@ -123,11 +126,12 @@ const user = ref({
 const userInputField = ref([
   { id: '1', name: 'firstname', type: 'text', label: 'First Name' },
   { id: '2', name: 'lastname', type: 'text', label: 'Last Name' },
-  { id: '3', name: 'username', type: 'text', label: 'Username' },
-  { id: '4', name: 'email', type: 'email', label: 'Email' },
-  { id: '5', name: 'password', type: 'password', label: 'Password' },
-  { id: '6', name: 'Repassword', type: 'password', label: 'Confirm Password' },
-  { id: '7', name: 'dob', type: 'date', label: 'Date of Birth' }
+  { id: '3', name: 'bio', type: 'text', label: 'Bio' },
+  { id: '4', name: 'username', type: 'text', label: 'Username' },
+  { id: '5', name: 'email', type: 'email', label: 'Email' },
+  { id: '6', name: 'password', type: 'password', label: 'Password' },
+  { id: '7', name: 'Repassword', type: 'password', label: 'Confirm Password' },
+  { id: '8', name: 'dob', type: 'date', label: 'Date of Birth' }
 ])
 
 const formErrors = ref({})
@@ -205,16 +209,20 @@ const addUser = () => {
     formErrors.value.username = 'Username should be at least 5 characters long.'
   }
   if (!user.value.email) {
-    formErrors.value.email = 'Please provide an email.'
+    formErrors.value.email = 'Please provide your Email.'
+  }
+  if (!user.value.bio) {
+    formErrors.value.bio = 'Please provide your Bio'
   }
   if (!user.value.country) {
-    formErrors.value.country = 'Please provide your country.'
+    formErrors.value.country = 'Please provide your Country.'
   }
 
   if (Object.keys(formErrors.value).length === 0) {
     const formData = new FormData()
     formData.append('email', user.value.email)
     formData.append('password', user.value.password)
+    formData.append('bio', user.value.bio)
     formData.append('firstname', user.value.firstname)
     formData.append('lastname', user.value.lastname)
     formData.append('username', user.value.username)
@@ -235,11 +243,11 @@ const addUser = () => {
     axios
       .post(`${base_url}/api/user/post/`, formData)
       .then((response) => {
-        console.log('registered')
+        $toast.success("Account Created")
         router.push('/login')
       })
       .catch((error) => {
-        console.error(error)
+        $toast.error(error.response.data)
       })
   }
 }

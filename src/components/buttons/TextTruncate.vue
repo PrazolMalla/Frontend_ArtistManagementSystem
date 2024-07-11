@@ -1,8 +1,8 @@
 <template>
-    <div class="relative inline-block cursor-pointer text-sm" @mouseover="showFullText" @mouseleave="hideFullText">
+    <div class="relative inline-block cursor-pointer" @mouseover="showFullText" @mouseleave="hideFullText">
         <span>{{ displayedText }}</span>
         <div v-if="isHovered"
-            class="absolute left-0 top-full mt-1 bg-light-primary-color border border-gray-300 p-2 z-10 text-xs">
+            class="absolute left-0 top-full mt-1 bg-light-primary-color  border border-gray-700 p-2 z-10 text-xs">
             {{ text }}
         </div>
     </div>
@@ -25,9 +25,10 @@ const props = defineProps({
 const isHovered = ref(false);
 
 const displayedText = computed(() => {
-    return props.text.length > props.length
-        ? props.text.substring(0, props.length) + "..."
-        : props.text;
+    if (props.text)
+        return props.text.length > props.length
+            ? props.text.substring(0, props.length) + "..."
+            : props.text;
 });
 
 const showFullText = () => {
